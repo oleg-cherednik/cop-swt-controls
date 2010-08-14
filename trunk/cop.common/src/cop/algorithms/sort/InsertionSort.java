@@ -1,5 +1,5 @@
 /**
- * @licence GNU Leser General Public License
+ * <b>Licence</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
  *
  * $Id$
  * $HeadURL$
@@ -26,7 +26,7 @@ import static cop.common.extensions.CollectionExtension.isEmpty;
  * <li>Online, i.e. can sort a list as it receives it
  * </ul>
  * 
- * @author cop (Cherednik, Oleg)
+ * @author <a href="mailto:abba-bestl@mail.ru">Cherednik, Oleg</a>
  */
 public final class InsertionSort
 {
