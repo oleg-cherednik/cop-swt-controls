@@ -5,7 +5,9 @@ Bundle-SymbolicName: cop.common
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: plugin.cop.common.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.junit,
+ org.junit4
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: cop.algorithms.sort,

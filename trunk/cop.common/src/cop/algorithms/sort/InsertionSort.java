@@ -2,12 +2,18 @@
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
  * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * 
- * $Id:$
- * $HeadURL:$
+ * $Id$
+ * $HeadURL$
  */
 package cop.algorithms.sort;
 
 import static cop.common.extensions.CollectionExtension.isEmpty;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Insertion sort is a simple sorting algorithm, a comparison sort in which the sorted array (or list) is built one
@@ -41,12 +47,14 @@ public final class InsertionSort
 	 * Sort given array using insertion sort algorithm.<br>
 	 * If array is null or empty then do not anything.
 	 * 
-	 * @param arr array to sort
+	 * @param arr
+	 *            array to sort
+	 * @return just return <tt>arr</tt> parameter
 	 */
-	public static void insertionSort(int[] arr)
+	public static int[] insertionSort(int[] arr)
 	{
 		if(isEmpty(arr))
-			return;
+			return arr;
 
 		int tmp = 0;
 		int j = 0;
@@ -67,6 +75,51 @@ public final class InsertionSort
 				arr[k] = arr[k - 1];
 
 			arr[j] = tmp;
+		}
+
+		return arr;
+	}
+
+	public static void main(String[] args)
+	{
+		BufferedReader in = null;
+		final int TOTAL = -1;
+
+		try
+		{
+			in = new BufferedReader(new FileReader("c:\\numbers.txt"));
+
+			List<Integer> unsortedArray = new ArrayList<Integer>();
+			// Set<Integer> sortedArray = new TreeSet<Integer>();
+			String str = in.readLine();
+			int i = 0;
+
+			while(str != null || (i > 0 && i++ < TOTAL))
+			{
+				unsortedArray.add(Integer.parseInt(str));
+				str = in.readLine();
+			}
+
+			int a = 0;
+			a++;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(in != null)
+			{
+				try
+				{
+					in.close();
+				}
+				catch(IOException e)
+				{}
+
+				in = null;
+			}
 		}
 	}
 }
