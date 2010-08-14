@@ -26,7 +26,7 @@ import static cop.common.extensions.CollectionExtension.isEmpty;
  * <li>Online, i.e. can sort a list as it receives it
  * </ul>
  * 
- * @author <a href="mailto:abba-bestl@mail.ru">Cherednik, Oleg</a>
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  */
 public final class InsertionSort
 {
