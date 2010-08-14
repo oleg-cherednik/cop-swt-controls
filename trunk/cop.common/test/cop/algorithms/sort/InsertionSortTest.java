@@ -34,6 +34,9 @@ public class InsertionSortTest
 		assertTrue(unsortedArray.length > 0);
 
 		sortedArray = sortArray(unsortedArray);
+
+		assertNotNull(sortedArray);
+		assertTrue(sortedArray.length == unsortedArray.length);
 	}
 
 	protected static int[] readDataFile() throws Exception
