@@ -8,12 +8,12 @@
 package cop.algorithms.sort;
 
 import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.CommonExtension.isNull;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+
+import cop.common.predicates.LessOrEqual;
+import cop.common.predicates.MoreOrEqual;
 
 /**
  * Insertion sort is a simple sorting algorithm, a comparison sort in which the sorted array (or list) is built one
@@ -26,8 +26,8 @@ import java.util.List;
  * <li>Efficient for (quite) small data sets
  * <li>Adaptive, i.e. efficient for data sets that are already substantially sorted: the time complexity is O(n + d),
  * where d is the number of inversions
- * <li>More efficient in practice than most other simple quadratic, i.e. O(n2) algorithms such as selection sort or
- * bubble sort; the best case (nearly sorted input) is O(n)
+ * <li>More efficient in practice than most other simple quadratic, i.e. O(n<sup>2</sup>) algorithms such as selection
+ * sort or bubble sort; the best case (nearly sorted input) is O(n)
  * <li>Stable, i.e. does not change the relative order of elements with equal keys
  * <li>In-place, i.e. only requires a constant amount O(1) of additional memory space
  * <li>Online, i.e. can sort a list as it receives it
@@ -45,11 +45,11 @@ public final class InsertionSort
 
 	/**
 	 * Sort given array using insertion sort algorithm.<br>
-	 * If array is null or empty then do not anything.
+	 * If array is <tt>null</tt> or empty then do not anything.
 	 * 
 	 * @param arr
 	 *            array to sort
-	 * @return just return <tt>arr</tt> parameter
+	 * @return just return <b>arr</b> parameter
 	 */
 	public static int[] insertionSort(int[] arr)
 	{
@@ -60,7 +60,7 @@ public final class InsertionSort
 		int j = 0;
 		int k = 0;
 
-		for(int i = 1, size = arr.length; i < size; i++)
+		for(int i = 1; i < arr.length; i++)
 		{
 			if(arr[i] >= arr[i - 1])
 				continue;
@@ -80,46 +80,45 @@ public final class InsertionSort
 		return arr;
 	}
 
-	public static void main(String[] args)
+	/**
+	 * Sort given array using insertion sort algorithm and giving comparator.<br>
+	 * If array or comparator is <tt>null</tt> or empty then do not anything.
+	 * 
+	 * @param arr
+	 *            array to sort
+	 * @param cmp
+	 *            comparator
+	 * @return just return <b>arr</b> parameter
+	 */
+	public static <T> T[] insertionSort(T[] arr, Comparator<T> cmp)
 	{
-		BufferedReader in = null;
-		final int TOTAL = -1;
+		if(isEmpty(arr) || isNull(cmp))
+			return arr;
 
-		try
+		int j = 0;
+		int k = 0;
+		T tmp = null;
+
+		MoreOrEqual<T> moreOrEqual = new MoreOrEqual<T>(cmp);
+		LessOrEqual<T> lessOrEqual = new LessOrEqual<T>(cmp);
+
+		for(int i = 1; i < arr.length; i++)
 		{
-			in = new BufferedReader(new FileReader("c:\\numbers.txt"));
+			if(moreOrEqual.check(arr[i], arr[i - 1]))
+				continue;
 
-			List<Integer> unsortedArray = new ArrayList<Integer>();
-			// Set<Integer> sortedArray = new TreeSet<Integer>();
-			String str = in.readLine();
-			int i = 0;
+			for(j = i; j > 0; j--)
+				if(lessOrEqual.check(arr[j - 1], arr[i]))
+					break;
 
-			while(str != null || (i > 0 && i++ < TOTAL))
-			{
-				unsortedArray.add(Integer.parseInt(str));
-				str = in.readLine();
-			}
+			tmp = arr[i];
 
-			int a = 0;
-			a++;
+			for(k = i; k > j; k--)
+				arr[k] = arr[k - 1];
+
+			arr[j] = tmp;
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if(in != null)
-			{
-				try
-				{
-					in.close();
-				}
-				catch(IOException e)
-				{}
 
-				in = null;
-			}
-		}
+		return arr;
 	}
 }
