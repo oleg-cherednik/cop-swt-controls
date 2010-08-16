@@ -42,6 +42,7 @@ public class SelectionSortTest
 		arr = Arrays.copyOf(unsortedIntArray, unsortedIntArray.length);
 		arr1 = convertToIntegerArray(arr);
 
+		assertNotNull(cmp);
 		assertNotNull(arr);
 		assertNotNull(arr1);
 		assertEquals(arr.length, unsortedIntArray.length);
