@@ -58,7 +58,7 @@ public final class InsertionSort
 
 	/**
 	 * Sort given array using insertion sort algorithm.<br>
-	 * If array is <tt>null</tt> or empty then do not anything.
+	 * If array is <tt>null</tt> or empty then do nothing.
 	 * 
 	 * @param arr
 	 *            array to sort
@@ -95,7 +95,7 @@ public final class InsertionSort
 
 	/**
 	 * Sort given array using insertion sort algorithm and giving comparator.<br>
-	 * If array or comparator is <tt>null</tt> or empty then do not anything.
+	 * If array or comparator is <tt>null</tt> or empty then do nothing.
 	 * 
 	 * @param arr
 	 *            array to sort
