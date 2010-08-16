@@ -2,7 +2,6 @@ package cop.common.predicates.comparators;
 
 import java.util.Comparator;
 
-
 public abstract class AbstractComparatorPredicate<T> implements ComparatorPredicate<T>
 {
 	protected final Comparator<T> cmp;
@@ -19,6 +18,7 @@ public abstract class AbstractComparatorPredicate<T> implements ComparatorPredic
 	 * Predicate
 	 */
 
+	@Override
 	public String getName()
 	{
 		return toString();
@@ -28,6 +28,7 @@ public abstract class AbstractComparatorPredicate<T> implements ComparatorPredic
 	 * Object
 	 */
 
+	@Override
 	public String toString()
 	{
 		return "Predicate: " + getClass().getSimpleName();
