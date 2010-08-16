@@ -43,6 +43,7 @@ public class BubbleSortTest
 		arr = Arrays.copyOf(unsortedIntArray, unsortedIntArray.length);
 		arr1 = convertToIntegerArray(arr);
 
+		assertNotNull(moreOrEqual);
 		assertNotNull(arr);
 		assertNotNull(arr1);
 		assertEquals(arr.length, unsortedIntArray.length);
