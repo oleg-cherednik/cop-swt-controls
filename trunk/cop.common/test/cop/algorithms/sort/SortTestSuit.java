@@ -27,7 +27,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses( { InsertionSortTest.class, SelectionSortTest.class, BubbleSortTest.class, ShakerSortTest.class })
-public class SortTests
+public class SortTestSuit
 {
 	protected static final String FILENAME = "numbers.txt";
 	protected static final String FILEPATH = "test/resources";

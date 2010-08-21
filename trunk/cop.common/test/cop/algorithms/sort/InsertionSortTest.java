@@ -8,8 +8,8 @@
 package cop.algorithms.sort;
 
 import static cop.algorithms.sort.InsertionSort.insertionSort;
-import static cop.algorithms.sort.SortTests.sortedIntArray;
-import static cop.algorithms.sort.SortTests.unsortedIntArray;
+import static cop.algorithms.sort.SortTestSuit.sortedIntArray;
+import static cop.algorithms.sort.SortTestSuit.unsortedIntArray;
 import static cop.common.extensions.CollectionExtension.convertToIntegerArray;
 import static cop.common.extensions.ComparatorExtension.createComparator;
 import static org.junit.Assert.assertArrayEquals;
