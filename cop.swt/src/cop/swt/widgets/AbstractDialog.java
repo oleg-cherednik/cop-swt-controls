@@ -1,6 +1,6 @@
 /**
- * $Id: AbstractDialog.java 51 2010-08-16 12:25:56Z oleg.cherednik $
- * $HeadURL: https://cop-swt-controls.googlecode.com/svn/trunk/cop.swt/cop.swt/src/cop/swt/widgets/AbstractDialog.java $
+ * $Id$
+ * $HeadURL$
  */
 package cop.swt.widgets;
 

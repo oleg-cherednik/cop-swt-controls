@@ -2,8 +2,8 @@
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
  * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * 
- * $Id: InsertionSortTest.java 47 2010-08-16 12:19:28Z oleg.cherednik $
- * $HeadURL: https://cop-swt-controls.googlecode.com/svn/trunk/cop.common/cop.common/test/cop/algorithms/sort/InsertionSortTest.java $
+ * $Id$
+ * $HeadURL$
  */
 package cop.algorithms.sort;
 

@@ -1,8 +1,8 @@
 /**
  * @licence GNU Leser General Public License
  *
- * $Id: ReflectionExtension.java 47 2010-08-16 12:19:28Z oleg.cherednik $
- * $HeadURL: https://cop-swt-controls.googlecode.com/svn/trunk/cop.common/cop.common/src/cop/common/extensions/ReflectionExtension.java $
+ * $Id$
+ * $HeadURL$
  */
 package cop.common.extensions;
 
