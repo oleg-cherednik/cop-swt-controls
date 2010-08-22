@@ -1,6 +1,5 @@
 package cop.swt.enums;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.StringExtension.isNotEmpty;
 
 import org.eclipse.core.runtime.Assert;
@@ -12,7 +11,7 @@ public enum CaseSensitivityEnum
 		@Override
 		public boolean matches(String str, String regex)
 		{
-			Assert.isLegal(isNotNull(str));
+			Assert.isNotNull(str);
 			Assert.isLegal(isNotEmpty(regex));
 
 			return isNotEmpty(str) ? str.matches(regex) : false;
@@ -23,7 +22,7 @@ public enum CaseSensitivityEnum
 		@Override
 		public boolean matches(String str, String regex)
 		{
-			Assert.isLegal(isNotNull(str));
+			Assert.isNotNull(str);
 			Assert.isLegal(isNotEmpty(regex));
 
 			return isNotEmpty(str) ? str.toLowerCase().matches(regex.toLowerCase()) : false;

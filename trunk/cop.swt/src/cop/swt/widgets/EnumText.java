@@ -1,5 +1,5 @@
 /**
- * $Id: EnumText.java 51 2010-08-16 12:25:56Z oleg.cherednik $ $HeadURL:
+ * $Id$ $HeadURL:
  * https://swtdatetimecontrol.googlecode.com/svn/trunk
  * /com.marathon.datetimecontrol/src/com/marathon/controls/EnumText.java $
  */
