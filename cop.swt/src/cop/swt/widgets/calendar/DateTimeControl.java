@@ -11,7 +11,6 @@ import static org.eclipse.swt.SWT.CHECK;
 import static org.eclipse.swt.SWT.COLOR_BLACK;
 import static org.eclipse.swt.SWT.COLOR_WHITE;
 import static org.eclipse.swt.SWT.CTRL;
-import static org.eclipse.swt.SWT.DROP_DOWN;
 import static org.eclipse.swt.SWT.FILL;
 import static org.eclipse.swt.SWT.FLAT;
 import static org.eclipse.swt.SWT.NONE;

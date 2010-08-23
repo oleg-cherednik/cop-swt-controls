@@ -125,12 +125,12 @@ public class TimeControl extends DateTimeControl
 
 	private void createAmPmControl(int length)
 	{
-//		String am = getProperty(keyTimeAM);
-//		String pm = getProperty(keyTimePM);
-//		String[] ampms = new String[] { am, pm };
+		// String am = getProperty(keyTimeAM);
+		// String pm = getProperty(keyTimePM);
+		// String[] ampms = new String[] { am, pm };
 
-//		EnumText ctrl = new EnumText(this, NONE, ampms, length);
-//		addControl(AMPM_PART, ctrl);
+		// EnumText ctrl = new EnumText(this, NONE, ampms, length);
+		// addControl(AMPM_PART, ctrl);
 	}
 
 	private void setHour(int hour)
@@ -171,18 +171,18 @@ public class TimeControl extends DateTimeControl
 
 	private void setAmPm(AmPmEnum amPm)
 	{
-//		String val = getProperty((amPm == AM) ? keyTimeAM : keyTimePM);
+		// String val = getProperty((amPm == AM) ? keyTimeAM : keyTimePM);
 
-//		for(Control ctrl : getControl(AMPM_PART))
-//			if(ctrl instanceof EnumText)
-//				((EnumText)ctrl).setText(val);
+		// for(Control ctrl : getControl(AMPM_PART))
+		// if(ctrl instanceof EnumText)
+		// ((EnumText)ctrl).setText(val);
 	}
 
 	private AmPmEnum getAmPm()
 	{
-//		for(Control ctrl : getControl(AMPM_PART))
-//			if(ctrl instanceof EnumText)
-//				parseAmPmEnum(((EnumText)ctrl).getValue());
+		// for(Control ctrl : getControl(AMPM_PART))
+		// if(ctrl instanceof EnumText)
+		// parseAmPmEnum(((EnumText)ctrl).getValue());
 
 		return AM;
 	}
@@ -486,7 +486,7 @@ public class TimeControl extends DateTimeControl
 			return getSecond();
 
 		if(field == AM_PM)
-			return getAmPm().getVal();
+			return getAmPm().ordinal();
 
 		return -1;
 	}
