@@ -67,8 +67,7 @@ public abstract class AbstractSegment implements ISegment
 	{
 		return (scale <= 1) ? 2 : (3 + (scale - 2) * 2);
 	}
-	
-	//@Override
+
 	protected int getWidth()
 	{
 		if(isHorizontalOrientation())
@@ -77,7 +76,6 @@ public abstract class AbstractSegment implements ISegment
 		return getDefaultWidth();
 	}
 
-	//@Override
 	protected int getHeight()
 	{
 		if(isHorizontalOrientation())
@@ -87,7 +85,7 @@ public abstract class AbstractSegment implements ISegment
 	}
 
 	protected abstract int getDefaultOrientation();
-	
+
 	protected abstract boolean isHorizontalOrientation();
 
 	/*
