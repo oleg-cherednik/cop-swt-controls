@@ -1,8 +1,5 @@
 package cop.swt.widgets.segments.seven;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +65,7 @@ public abstract class NumericSevenSegment extends SevenSegmentIndicator
 	@Override
 	public void setValue(Character value)
 	{
-		if(isNotNull(this.value) && this.value.equals(value))
+		if(this.value != null && this.value.equals(value))
 			return;
 
 		this.value = value;
@@ -82,7 +79,7 @@ public abstract class NumericSevenSegment extends SevenSegmentIndicator
 	@Override
 	public void redraw()
 	{
-		if(isNull(value))
+		if(value == null)
 			super.clear();
 		else
 			_setValue(numbers.get(value));
