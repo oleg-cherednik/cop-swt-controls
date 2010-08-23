@@ -23,13 +23,13 @@ public class View extends ViewPart
 	@Override
 	public void createPartControl(Composite _parent)
 	{
-		new TableViewerExample().run(_parent);
+		//new TableViewerExample().run(_parent);
 		//new NumericExample().run(_parent);
 		//new VogelTableViewerExample().run(_parent);
 		//new HtmlViewerExample().run(_parent);
 		//new CalendarDialogExample().run(_parent);
 		//new WelcomeExample().run(_parent);
-		//new CanvasExample().run(_parent);
+		new CanvasExample().run(_parent);
 	}
 //
 //	private void createChangeable()
