@@ -5,7 +5,7 @@ import static cop.swt.extensions.ColorExtension.BLACK;
 import static cop.swt.extensions.ColorExtension.CYAN;
 import static cop.swt.extensions.ColorExtension.MAGENTA;
 import static cop.swt.extensions.ColorExtension.RED;
-import static cop.swt.widgets.segments.ByteNumber.createPositiveByteNumber;
+import static cop.swt.widgets.segments.ByteNumber.*;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -36,8 +36,8 @@ public class CanvasExample implements IExample
 	private Shell shell;
 	private GC gc;
 	//private List<SegmentedIndicator> digits = new ArrayList<SegmentedIndicator>();
-	private SimpleSegment seg;
-	private SegmentContainer digits;
+	//private SimpleSegment seg;
+	private SegmentContainer<Byte> digits;
 
 	private Color[] colors = new Color[] { BLACK, RED, CYAN, MAGENTA };
 	int currColor = 0;
@@ -124,7 +124,7 @@ public class CanvasExample implements IExample
 		//		num.setValue(7);
 
 		//		digits.add(num);
-		digits = createPositiveByteNumber(shell, SWT.DEFAULT);
+		digits = createNegativeByteNumber(shell, SWT.DEFAULT);
 		//		digits.add(new DigitalNumericSevenSegment(shell, 16, 5, 2));
 		//		digits.add(new DigitalNumericSevenSegment(shell, 27, 5, 2));
 		//		digits.add(new DigitalNumericSevenSegment(shell, 38, 5, 2));
@@ -185,7 +185,7 @@ public class CanvasExample implements IExample
 			@Override
 			public void modifyText(ModifyEvent e)
 			{
-				digits.setValue(spinner.getSelection());
+				digits.setValue((byte)spinner.getSelection());
 				//				for(SegmentedIndicator segment : digits)
 				//					((NumericSevenSegment)segment).setValue(spinner.getSelection());
 			}

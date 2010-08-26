@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="cop.common" default="build-project">
+	<description>
+		ANT build script for cop.common project
+	</description>
+	
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="test" location="test" />
+	
+	<target name="build-project">
+		<echo>build-project...</echo>
+	</target>
+	
+	<target name="auto-build-project">
+		<echo>auto-build-project...</echo>
+	</target>
+	
+	<target name="clean">
+		<echo>clean...</echo>
+	</target>
+	
+	<target name="post-clean">
+		<echo>post-clean...</echo>
+	</target>
+	
+	<target name="init">
+	    <!-- Create the time stamp -->
+	    <tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+	    <mkdir dir="${build}"/>
+	</target>
+	
+	<target name="compile" depends="init" description="compile the source " >
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}/cop" destdir="${build}"/>
+  	</target>
+</project>
