@@ -32,7 +32,14 @@
 
 	<path id="classpath.core">
 		<fileset dir="${eclipse.plugins}">
-			<include name="*.jar" />
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<path id="classpath.test">
+		<pathelement location="${bin.dir}" />
+		<fileset dir="C:\Programs\apache-ant-1.8.1\lib">
+			<include name="hamcrest-all-1.3.0RC1.jar" />
 		</fileset>
 	</path>
 
@@ -84,7 +91,7 @@
 	<!-- Build -->
 
 	<target name="compile" depends="create-binary-dir, clean-binary-dir" description="Compile source">
-		<javac srcdir="${src.dir}" destdir="${bin.dir}">
+		<javac srcdir="${src.dir}" destdir="${bin.dir}" includeantruntime="false">
 			<classpath refid="classpath.core" />
 		</javac>
 	</target>
@@ -107,5 +114,21 @@
 		</jar>
 	</target>
 
-	<target name="build-project-release" depends="clean, build-binary, build-source" description="Build release version" />
+	<target name="build-project-release" depends="clean, build-binary, build-source, run-tests" description="Build release version" />
+
+	<!-- JUnit -->
+
+	<target name="compile-tests" depends="create-binary-dir">
+		<javac srcdir="${test.dir}" destdir="${bin.dir}" includeantruntime="false">
+			<classpath refid="classpath.core" />
+		</javac>
+	</target>
+
+	<target name="run-tests" depends="compile, compile-tests" description="Run tests">
+		<junit printsummary="no" fork="yes" haltonfailure="yes">
+			<test name="cop.TestSuit" />
+			<formatter type="plain" />
+			<classpath refid="classpath.test" />
+		</junit>
+	</target>
 </project>
