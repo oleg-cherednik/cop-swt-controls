@@ -1,18 +1,32 @@
 <?xml version="1.0"?>
-<project name="cop.common" default="build-project" basedir=".">
+<project name="cop.common" default="build-binary" basedir=".">
 	<description>
 		ANT build script for cop.common project
 	</description>
 
 	<!-- PROPERTIES -->
 
-	<property name="src.dir" location="src" />
-	<property name="bin.dir" location="bin" />
-	<property name="test.dir" location="test" />
 	<property name="manifest.path" location="./META-INF/MANIFEST.MF" />
+	<property file="${manifest.path}" />
+
+	<tstamp prefix="start">
+		<format property="curr.time" pattern="yyyyMMdd-HHmm" />
+	</tstamp>
 
 	<property name="eclipse.home" location="${eclipse_home}" />
 	<property name="eclipse.plugins" location="${eclipse.home}/plugins" />
+
+	<property name="src.dir" location="src" />
+	<property name="bin.dir" location="bin" />
+	<property name="test.dir" location="test" />
+	<property name="dest.dir" location="build" />
+
+	<property name="dest.head" value="${Bundle-Name}" />
+	<property name="dest.src.head" value="${dest.head}.source" />
+	<property name="dest.teil" value="${Bundle-Version}.v${start.curr.time}" />
+
+	<property name="dest.name" value="${dest.head}_${dest.teil}" />
+	<property name="dest.src.name" value="${dest.src.head}_${dest.teil}" />
 
 	<!-- CLASSPATH CORE -->
 
@@ -24,41 +38,74 @@
 
 	<!-- TARGETS -->
 
-	<target name="build-project">
-		<echo>build-project...</echo>
-	</target>
+	<!-- Check folder exists -->
 
-	<target name="auto-build-project">
-		<echo>auto-build-project...</echo>
-	</target>
+	<available file="${dest.dir}" type="dir" property="dest.dir.exsists" description="Check id destination directory exists" />
+	<available file="${bin.dir}" type="dir" property="bin.dir.exsists" description="Check id binary directory exists" />
 
-	<target name="clean" description="Destroys all generated files and dirs">
-		<delete dir="${bin.dir}" />
-	</target>
+	<!-- Create folder -->
 
-	<target name="post-clean">
-		<echo>post-clean...</echo>
-	</target>
-
-	<target name="init">
-		<!-- Create the time stamp -->
-		<tstamp />
-		<!-- Create the build directory structure used by compile -->
+	<target name="create-binary-dir" unless="${bin.dir.exsists}">
 		<mkdir dir="${bin.dir}" />
 	</target>
 
-	<target name="compile" depends="init" description="compile the source">
-		<!-- Compile the java code from ${src.dir} into ${build.dir} -->
-		<!-- echo>eclipse.home: ${eclipse.home}</echo -->
+	<target name="create-destination-dir" unless="${dest.dir.exsists}">
+		<mkdir dir="${dest.dir}" />
+	</target>
+
+	<!-- Remove -->
+
+	<target name="remove" depends="remove-binary-dir, remove-destination-dir" description="Remove binary and destination folders" />
+
+	<target name="remove-binary-dir" unless="${bin.dir.exsists}" description="Remove binary folder">
+		<delete dir="${bin.dir}" />
+	</target>
+
+	<target name="remove-destination-dir" unless="${dest.dir.exsists}" description="Remove destination folder">
+		<delete dir="${dest.dir}" />
+	</target>
+
+	<!-- Clean -->
+
+	<target name="clean" depends="clean-binary-dir, clean-destination-dir" description="Clean binary and destination folders" />
+
+	<target name="clean-binary-dir" if="${bin.dir.exsists}" description="Remove all binary files">
+		<delete includeemptydirs="true">
+			<fileset dir="${bin.dir}" includes="**/*" />
+		</delete>
+	</target>
+
+	<target name="clean-destination-dir" if="${dest.dir.exsists}" description="Remove all destination files">
+		<delete includeemptydirs="true">
+			<fileset dir="${dest.dir}" includes="**/*" />
+		</delete>
+	</target>
+
+	<!-- Build -->
+
+	<target name="compile" depends="create-binary-dir, clean-binary-dir" description="Compile source">
 		<javac srcdir="${src.dir}" destdir="${bin.dir}">
 			<classpath refid="classpath.core" />
 		</javac>
 	</target>
 
-	<target name="create-jar" depends="compile">
-		<!--property file="${web.inf.dir}/config.properties"/-->
-		<jar jarfile="${bin.dir}/${ant.project.name}.jar" manifest="${manifest.path}">
-			<fileset dir="${bin.dir}" excludes="**/${ant.project.name}.jar"/>
+	<target name="build-binary" depends="compile, create-destination-dir" description="Create binary *.jar archive">
+		<jar jarfile="${dest.dir}\${dest.name}.jar" manifest="${manifest.path}">
+			<fileset dir="${bin.dir}">
+				<exclude name="**/${dest.head}_*.jar" />
+				<exclude name="**/.svn" />
+			</fileset>
 		</jar>
 	</target>
+
+	<target name="build-source" depends="create-destination-dir" description="Create source *.jar archive">
+		<jar jarfile="${dest.dir}\${dest.src.name}.jar" manifest="${manifest.path}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.jar" />
+				<exclude name="**/.svn" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="build-project-release" depends="clean, build-binary, build-source" description="Build release version" />
 </project>
