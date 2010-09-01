@@ -1,6 +1,6 @@
 package cop.common.predicates.comparators;
 
-import cop.common.predicates.interfaces.Predicate;
+import cop.common.predicates.Predicate;
 
 public interface ComparatorPredicate<T> extends Predicate
 {

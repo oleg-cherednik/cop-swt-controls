@@ -1,4 +1,4 @@
-package cop.common.predicates.interfaces;
+package cop.common.predicates;
 
 public interface Predicate
 {
