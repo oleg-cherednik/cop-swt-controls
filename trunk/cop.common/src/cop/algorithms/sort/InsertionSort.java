@@ -47,6 +47,7 @@ import cop.common.predicates.comparators.MoreOrEqual;
  * </ul>
  * 
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 16.08.2010
  */
 public final class InsertionSort
 {
@@ -60,8 +61,7 @@ public final class InsertionSort
 	 * Sort given array using insertion sort algorithm.<br>
 	 * If array is <tt>null</tt> or empty then do nothing.
 	 * 
-	 * @param arr
-	 *            array to sort
+	 * @param arr array to sort
 	 * @return just return <b>arr</b> parameter
 	 */
 	public static int[] insertionSort(int[] arr)
@@ -97,10 +97,8 @@ public final class InsertionSort
 	 * Sort given array using insertion sort algorithm and giving comparator.<br>
 	 * If array or comparator is <tt>null</tt> or empty then do nothing.
 	 * 
-	 * @param arr
-	 *            array to sort
-	 * @param cmp
-	 *            comparator
+	 * @param arr array to sort
+	 * @param cmp comparator
 	 * @return just return <b>arr</b> parameter
 	 */
 	public static <T> T[] insertionSort(T[] arr, Comparator<T> cmp)

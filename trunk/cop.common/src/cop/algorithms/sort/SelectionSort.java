@@ -36,6 +36,7 @@ import cop.common.predicates.comparators.NotEqual;
  * </ul>
  * 
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 16.08.2010
  */
 public final class SelectionSort
 {
