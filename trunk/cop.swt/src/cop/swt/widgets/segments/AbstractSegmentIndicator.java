@@ -158,8 +158,10 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder(super.toString());
+
 		builder.append(", value=");
 		builder.append(value);
+
 		return builder.toString();
 	}
 }
