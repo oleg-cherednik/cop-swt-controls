@@ -5,7 +5,6 @@ import static cop.swt.extensions.ColorExtension.BLACK;
 import static cop.swt.extensions.ColorExtension.CYAN;
 import static cop.swt.extensions.ColorExtension.MAGENTA;
 import static cop.swt.extensions.ColorExtension.RED;
-import static cop.swt.widgets.segments.ByteNumber.*;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -25,10 +24,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
+import cop.swt.extensions.ColorExtension;
+import cop.swt.widgets.segments.ByteNumber;
 import cop.swt.widgets.segments.SegmentContainer;
+import cop.swt.widgets.segments.SegmentedIndicator;
+import cop.swt.widgets.segments.SignSegment;
 import cop.swt.widgets.segments.interfaces.ISegment;
-import cop.swt.widgets.segments.primitives.PlusSegment;
-import cop.swt.widgets.segments.primitives.SimpleSegment;
+import cop.swt.widgets.segments.seven.DigitalNumericSevenSegment;
 
 public class CanvasExample implements IExample
 {
@@ -38,6 +40,11 @@ public class CanvasExample implements IExample
 	//private List<SegmentedIndicator> digits = new ArrayList<SegmentedIndicator>();
 	//private SimpleSegment seg;
 	private SegmentContainer<Byte> digits;
+	private SegmentedIndicator segment; 
+	private SegmentedIndicator plus1;
+//	private ISegment plus2;
+//	private ISegment plus3;
+//	private ISegment plus4;
 
 	private Color[] colors = new Color[] { BLACK, RED, CYAN, MAGENTA };
 	int currColor = 0;
@@ -124,7 +131,7 @@ public class CanvasExample implements IExample
 		//		num.setValue(7);
 
 		//		digits.add(num);
-		digits = createNegativeByteNumber(shell, SWT.DEFAULT);
+		digits = ByteNumber.createByteNumber(shell, SWT.DEFAULT);
 		//		digits.add(new DigitalNumericSevenSegment(shell, 16, 5, 2));
 		//		digits.add(new DigitalNumericSevenSegment(shell, 27, 5, 2));
 		//		digits.add(new DigitalNumericSevenSegment(shell, 38, 5, 2));
@@ -140,7 +147,19 @@ public class CanvasExample implements IExample
 
 		//		num.build(x, y, 5);
 		//		num.setValue(0);
-
+		
+		plus1 = new SignSegment();
+		segment = new DigitalNumericSevenSegment();
+//		plus2 = new MinusSegment();
+//		plus3 = new MinusSegment();
+//		plus4 = new MinusSegment();
+//		
+		plus1.setBounds(0, 0, 2);
+		segment.setBounds(10, 0, 2);
+//		plus2.setBounds(0, 10, 2);
+//		plus3.setBounds(0, 25, 3);
+//		plus4.setBounds(0, 40, 4);
+		
 		shell.setLayout(new GridLayout());
 		shell.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -300,13 +319,29 @@ public class CanvasExample implements IExample
 				int orientation = digits.getOrientation();
 
 				if(isBitSet(orientation, SWT.UP))
+				{
 					digits.setOrientation(SWT.RIGHT);
+					segment.setOrientation(SWT.RIGHT);
+					plus1.setOrientation(SWT.RIGHT);
+				}
 				else if(isBitSet(orientation, SWT.RIGHT))
+				{
 					digits.setOrientation(SWT.DOWN);
+					segment.setOrientation(SWT.DOWN);
+					plus1.setOrientation(SWT.DOWN);
+				}
 				else if(isBitSet(orientation, SWT.DOWN))
+				{
 					digits.setOrientation(SWT.LEFT);
+					segment.setOrientation(SWT.LEFT);
+					plus1.setOrientation(SWT.LEFT);
+				}
 				else if(isBitSet(orientation, SWT.LEFT))
+				{
 					digits.setOrientation(SWT.UP);
+					segment.setOrientation(SWT.LEFT);
+					plus1.setOrientation(SWT.LEFT);
+				}
 
 				//				for(SegmentedIndicator segment : digits)
 				//				{
@@ -368,16 +403,24 @@ public class CanvasExample implements IExample
 		shell.setBackground(colors[currColor]);
 
 		digits.redraw(e.x, e.y, e.width, e.height);
+//		plus1.draw(gc, ColorExtension.WHITE);
+//		segment.draw(gc, ColorExtension.WHITE);
+		
+		System.out.println("segment: " + digits);
+//		plus2.draw(gc, ColorExtension.WHITE);
+//		plus3.draw(gc, ColorExtension.WHITE);
+//		plus4.draw(gc, ColorExtension.WHITE);
+		
 
 		//		int[] arr0 = ShapeBasics.createPlus(20, 20, 6);
 		//		int[] arr1 = ShapeBasics.createTriangle(20, 30, 10, 3, SWT.DOWN);
 
-		ISegment s1 = new PlusSegment();
+		//ISegment s1 = new PlusSegment();
 		//		ISegment s2 = new PlusSegment();
 		//		ISegment s3 = new PlusSegment();
 		//		ISegment s4 = new PlusSegment();
 
-		s1.setBounds(0, 0, 1);
+		//s1.setBounds(0, 20, 2);
 		//		s2.setBounds(10, 0, 2);
 		//		s3.setBounds(25, 0, 3);
 		//		s4.setBounds(40, 0, 4);
