@@ -13,7 +13,7 @@ public abstract class AbstractSegment implements ISegment
 	protected int y;
 	protected int width;
 	protected int height;
-	protected int scale;
+	protected int scale = 1;
 	protected int orientation;
 
 	public AbstractSegment(int orientation)

@@ -72,7 +72,7 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 	@Override
 	protected void buildVerticalOrientatedIndicator(boolean invert)
 	{
-		int center = width - 1;
+		int center = height >> 1;
 		int _x = 0, _y = 0, _yy = 0;
 
 		_y = y + height - 1;

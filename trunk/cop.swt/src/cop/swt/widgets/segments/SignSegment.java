@@ -67,25 +67,33 @@ public class SignSegment extends SegmentedIndicator
 	 */
 
 	@Override
+	protected int getDefaultWidth()
+	{
+		return (scale <= 1) ? BASE_LENGTH : (BASE_LENGTH * scale - scale + 1);
+	}
+
+	@Override
+	protected int getDefaultHeight()
+	{
+		return super.getDefaultWidth() * 2 - 1;
+	}
+
+	@Override
 	protected void buildVerticalOrientatedIndicator(boolean invert)
 	{
-		int center = width - 1;
+		int _y = (scale <= 1) ? 2 : (3 + (scale - 2) * 2);
 
-		segments[PLUS].setBounds(x, invert ? (center + 1) : (y + 2), scale);
-		segments[MINUS].setBounds(x, invert ? (y + 6) : (center + 5), scale);
-
-		//		segments[PLUS].setBounds(x, invert ? _y : y, scale);
-		//		segments[MINUS].setBounds(x, invert ? y : _y, scale);
+		segments[PLUS].setBounds(x, invert ? _y : y + _y, scale);
+		segments[MINUS].setBounds(x, invert ? _y : height - _y, scale);
 	}
 
 	@Override
 	protected void buildHorizontalOrientatedIndicator(boolean invert)
 	{
-		segments[PLUS].setBounds(x, 10, scale);
-		segments[MINUS].setBounds(x, 0, scale);
+		int _y = (scale <= 1) ? 2 : (3 + (scale - 2) * 2);
 
-		//		segments[PLUS].setBounds(x + 1, invert ? _y : y, scale);
-		//		segments[MINUS].setBounds(x + 1, invert ? y : _y, scale);
+		segments[PLUS].setBounds(x, invert ? _y : y + _y, scale);
+		segments[MINUS].setBounds(x, invert ? y : height - _y - 1, scale);
 	}
 
 	@Override
