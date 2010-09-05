@@ -12,19 +12,20 @@ import cop.swt.widgets.segments.primitives.LeftSegment;
 import cop.swt.widgets.segments.primitives.RightSegment;
 import cop.swt.widgets.segments.primitives.SimpleSegment;
 import cop.swt.widgets.segments.primitives.TopSegment;
+import cop.swt.widgets.segments.tmp.factories.BasicSegmentSymbolFactory;
+import cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory;
 
 public abstract class SevenSegmentIndicator extends SegmentedIndicator
 {
-	protected static final int SEG_NONE = 0;
-	protected static final int SEG_ALL = 0x7F;
+	protected static final int TOP = 0;
+	protected static final int TOP_SIDE_RIGHT = 1;
+	protected static final int BOTTOM_SIDE_RIGHT = 2;
+	protected static final int BOTTOM = 3;
+	protected static final int BOTTOM_SIDE_LEFT = 4;
+	protected static final int TOP_SIDE_LEFT = 5;
+	protected static final int CENTER = 6;
 
-	protected static final int SEG_TOP = 0x1;
-	protected static final int SEG_TOP_RIGHT = 0x2;
-	protected static final int SEG_BOTTOM_RIGHT = 0x4;
-	protected static final int SEG_BOTTOM = 0x8;
-	protected static final int SEG_BOTTOM_LEFT = 0x10;
-	protected static final int SEG_TOP_LEFT = 0x20;
-	protected static final int SEG_CENTER = 0x40;
+	protected static final SevenSegmentSymbolFactory factory = SevenSegmentSymbolFactory.getInstance();
 
 	public SevenSegmentIndicator(Shell shell, int orientation)
 	{
@@ -33,13 +34,13 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 
 	protected void _setValue(int value)
 	{
-		drawPart(value, TOP, SEG_TOP);
-		drawPart(value, TOP_RIGHT, SEG_TOP_RIGHT);
-		drawPart(value, BOTTOM_RIGHT, SEG_BOTTOM_RIGHT);
-		drawPart(value, BOTTOM, SEG_BOTTOM);
-		drawPart(value, BOTTOM_LEFT, SEG_BOTTOM_LEFT);
-		drawPart(value, TOP_LEFT, SEG_TOP_LEFT);
-		drawPart(value, CENTER, SEG_CENTER);
+		drawPart(value, TOP, SevenSegmentSymbolFactory.SEG_TOP);
+		drawPart(value, TOP_SIDE_RIGHT, BasicSegmentSymbolFactory.SEG_TOP_SIDE_RIGHT);
+		drawPart(value, BOTTOM_SIDE_RIGHT, BasicSegmentSymbolFactory.SEG_BOTTOM_SIDE_RIGHT);
+		drawPart(value, BOTTOM, SevenSegmentSymbolFactory.SEG_BOTTOM);
+		drawPart(value, BOTTOM_SIDE_LEFT, BasicSegmentSymbolFactory.SEG_BOTTOM_SIDE_LEFT);
+		drawPart(value, TOP_SIDE_LEFT, BasicSegmentSymbolFactory.SEG_TOP_SIDE_LEFT);
+		drawPart(value, CENTER, SevenSegmentSymbolFactory.SEG_CENTER);
 	}
 
 	/*
@@ -81,10 +82,10 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 		_x = x + width - 1;
 		_y = y + center + 1;
 		_yy = y + 1;
-		segments[TOP_RIGHT].setBounds(invert ? x : _x, invert ? _y : _yy, scale);
-		segments[BOTTOM_LEFT].setBounds(invert ? _x : x, invert ? _yy : _y, scale);
-		segments[TOP_LEFT].setBounds(invert ? _x : x, invert ? _y : _yy, scale);
-		segments[BOTTOM_RIGHT].setBounds(invert ? x : _x, invert ? _yy : _y, scale);
+		segments[TOP_SIDE_RIGHT].setBounds(invert ? x : _x, invert ? _y : _yy, scale);
+		segments[BOTTOM_SIDE_LEFT].setBounds(invert ? _x : x, invert ? _yy : _y, scale);
+		segments[TOP_SIDE_LEFT].setBounds(invert ? _x : x, invert ? _y : _yy, scale);
+		segments[BOTTOM_SIDE_RIGHT].setBounds(invert ? x : _x, invert ? _yy : _y, scale);
 
 		segments[CENTER].setBounds(x + 1, y + center, scale);
 	}
@@ -102,10 +103,10 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 		_x = x + center + 1;
 		_y = y + height - 1;
 		_xx = x + 1;
-		segments[TOP_RIGHT].setBounds(invert ? _xx : _x, invert ? y : _y, scale);
-		segments[BOTTOM_LEFT].setBounds(invert ? _x : _xx, invert ? _y : y, scale);
-		segments[TOP_LEFT].setBounds(invert ? _xx : _x, invert ? _y : y, scale);
-		segments[BOTTOM_RIGHT].setBounds(invert ? _x : _xx, invert ? y : _y, scale);
+		segments[TOP_SIDE_RIGHT].setBounds(invert ? _xx : _x, invert ? y : _y, scale);
+		segments[BOTTOM_SIDE_LEFT].setBounds(invert ? _x : _xx, invert ? _y : y, scale);
+		segments[TOP_SIDE_LEFT].setBounds(invert ? _xx : _x, invert ? _y : y, scale);
+		segments[BOTTOM_SIDE_RIGHT].setBounds(invert ? _x : _xx, invert ? y : _y, scale);
 
 		segments[CENTER].setBounds(x + center, y + 1, scale);
 	}
@@ -117,10 +118,10 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 
 		segments[TOP] = invert ? new LeftSegment() : new RightSegment();
 		segments[BOTTOM] = invert ? new RightSegment() : new LeftSegment();
-		segments[TOP_RIGHT] = invert ? new TopSegment() : new BottomSegment();
-		segments[TOP_LEFT] = invert ? new BottomSegment() : new TopSegment();
-		segments[BOTTOM_RIGHT] = invert ? new TopSegment() : new BottomSegment();
-		segments[BOTTOM_LEFT] = invert ? new BottomSegment() : new TopSegment();
+		segments[TOP_SIDE_RIGHT] = invert ? new TopSegment() : new BottomSegment();
+		segments[TOP_SIDE_LEFT] = invert ? new BottomSegment() : new TopSegment();
+		segments[BOTTOM_SIDE_RIGHT] = invert ? new TopSegment() : new BottomSegment();
+		segments[BOTTOM_SIDE_LEFT] = invert ? new BottomSegment() : new TopSegment();
 		segments[CENTER] = new CenterSegment(VERTICAL);
 	}
 
@@ -131,10 +132,10 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 
 		segments[TOP] = invert ? new BottomSegment() : new TopSegment();
 		segments[BOTTOM] = invert ? new TopSegment() : new BottomSegment();
-		segments[TOP_RIGHT] = invert ? new LeftSegment() : new RightSegment();
-		segments[TOP_LEFT] = invert ? new RightSegment() : new LeftSegment();
-		segments[BOTTOM_RIGHT] = invert ? new LeftSegment() : new RightSegment();
-		segments[BOTTOM_LEFT] = invert ? new RightSegment() : new LeftSegment();
+		segments[TOP_SIDE_RIGHT] = invert ? new LeftSegment() : new RightSegment();
+		segments[TOP_SIDE_LEFT] = invert ? new RightSegment() : new LeftSegment();
+		segments[BOTTOM_SIDE_RIGHT] = invert ? new LeftSegment() : new RightSegment();
+		segments[BOTTOM_SIDE_LEFT] = invert ? new RightSegment() : new LeftSegment();
 		segments[CENTER] = new CenterSegment();
 	}
 }

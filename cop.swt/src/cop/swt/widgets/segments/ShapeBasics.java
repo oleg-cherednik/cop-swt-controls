@@ -16,7 +16,7 @@ public final class ShapeBasics
 		int[] arr = new int[8];
 		int i = 0;
 		int _x = x + width;
-		int _y = y + width;
+		int _y = y + height;
 
 		i = addPoint(arr, i, x, y); // A
 		i = addPoint(arr, i, _x, y); // B
@@ -68,49 +68,12 @@ public final class ShapeBasics
 		return createHorizontalRhombus(x, y, width, height);
 	}
 
-	public static int[] createPlus(int x, int y, int width)
+	public static int[] createPlus(int x, int y, int width, int height, int orientation)
 	{
-		int[] arr = new int[24];
-		int step = width / 4;
+		if(isBitSet(orientation, VERTICAL))
+			return createVerticalPlus(x, y, width, height);
 
-		if(width <= 4)
-		{
-			width = 3;
-			step = 1;
-		}
-
-		
-		int i = 0;
-
-		int x1 = x + step;
-		int x2 = width - step;
-		int x3 = x + width;
-
-		
-		
-		int y1 = x1;
-		int y2 = x2;
-		int y3 = x3;
-		
-		
-
-
-
-
-		i = addPoint(arr, i, x, y1); // A
-		i = addPoint(arr, i, x1, y1); // B
-		i = addPoint(arr, i, x1, y); // C
-		i = addPoint(arr, i, x2, y); // D
-		i = addPoint(arr, i, x2, y1); // E
-		i = addPoint(arr, i, x3, y1); // F
-		i = addPoint(arr, i, x3, y2); // G
-		i = addPoint(arr, i, x2, y2); // H
-		i = addPoint(arr, i, x2, y3); // I
-		i = addPoint(arr, i, x1, y3); // J
-		i = addPoint(arr, i, x1, y2); // K
-		i = addPoint(arr, i, x, y2); // L
-
-		return arr;
+		return createHorizontalPlus(x, y, width, height);
 	}
 
 	private static int addPoint(int[] arr, int offs, int x, int y)
@@ -128,10 +91,8 @@ public final class ShapeBasics
 
 		for(int i = 0, j = 0; i < size; j++)
 		{
-			arr[i++] = x + j;
-			arr[i++] = y + j;
-			arr[i++] = x + j;
-			arr[i++] = y + height - 1 - j;
+			i = addPoint(arr, i, x + j, y + j);
+			i = addPoint(arr, i, x + j, y + height - 1 - j);
 		}
 
 		return arr;
@@ -144,10 +105,8 @@ public final class ShapeBasics
 
 		for(int i = 0, j = 0; i < size; j++)
 		{
-			arr[i++] = x - j;
-			arr[i++] = y + j;
-			arr[i++] = x - j;
-			arr[i++] = y + height - 1 - j;
+			i = addPoint(arr, i, x - j, y + j);
+			i = addPoint(arr, i, x - j, y + height - 1 - j);
 		}
 
 		return arr;
@@ -160,10 +119,8 @@ public final class ShapeBasics
 
 		for(int i = 0, j = 0; i < size; j++)
 		{
-			arr[i++] = x + j;
-			arr[i++] = y + j;
-			arr[i++] = x + width - 1 - j;
-			arr[i++] = y + j;
+			i = addPoint(arr, i, x + j, y + j);
+			i = addPoint(arr, i, x + width - 1 - j, y + j);
 		}
 
 		return arr;
@@ -176,10 +133,8 @@ public final class ShapeBasics
 
 		for(int i = 0, j = 0; i < size; j++)
 		{
-			arr[i++] = x + j;
-			arr[i++] = y - j;
-			arr[i++] = x + width - 1 - j;
-			arr[i++] = y - j;
+			i = addPoint(arr, i, x + j, y - j);
+			i = addPoint(arr, i, x + width - 1 - j, y - j);
 		}
 
 		return arr;
@@ -194,23 +149,17 @@ public final class ShapeBasics
 
 		for(int j = k, lim = k << 2; i < lim; j--)
 		{
-			arr[i++] = x - j;
-			arr[i++] = y + j;
-			arr[i++] = x - j;
-			arr[i++] = y + height - 1 - j;
+			i = addPoint(arr, i, x - j, y + j);
+			i = addPoint(arr, i, x - j, y + height - 1 - j);
 		}
 
-		arr[i++] = x;
-		arr[i++] = y;
-		arr[i++] = x;
-		arr[i++] = y + height - 1;
+		i = addPoint(arr, i, x, y);
+		i = addPoint(arr, i, x, y + height - 1);
 
 		for(int j = 1; i < size; j++)
 		{
-			arr[i++] = x + j;
-			arr[i++] = y + j;
-			arr[i++] = x + j;
-			arr[i++] = y + height - 1 - j;
+			i = addPoint(arr, i, x + j, y + j);
+			i = addPoint(arr, i, x + j, y + height - 1 - j);
 		}
 
 		return arr;
@@ -225,24 +174,80 @@ public final class ShapeBasics
 
 		for(int j = k, lim = k << 2; i < lim; j--)
 		{
-			arr[i++] = x + j;
-			arr[i++] = y - j;
-			arr[i++] = x + width - 1 - j;
-			arr[i++] = y - j;
+			i = addPoint(arr, i, x + j, y - j);
+			i = addPoint(arr, i, x + width - 1 - j, y - j);
 		}
 
-		arr[i++] = x;
-		arr[i++] = y;
-		arr[i++] = x + width - 1;
-		arr[i++] = y;
+		i = addPoint(arr, i, x, y);
+		i = addPoint(arr, i, x + width - 1, y);
 
 		for(int j = 1; i < size; j++)
 		{
-			arr[i++] = x + j;
-			arr[i++] = y + j;
-			arr[i++] = x + width - 1 - j;
-			arr[i++] = y + j;
+			i = addPoint(arr, i, x + j, y + j);
+			i = addPoint(arr, i, x + width - 1 - j, y + j);
 		}
+
+		return arr;
+	}
+
+	private static int[] createVerticalPlus(int x, int y, int width, int height)
+	{
+		int[] arr = new int[24];
+		int step = width / 3;
+
+		int i = 0;
+
+		int x1 = x + step;
+		int x3 = x + width;
+		int x2 = x3 - step;
+
+		int y1 = y + step;
+		int y3 = y + height;
+		int y2 = y3 - step;
+
+		i = addPoint(arr, i, x, y1);
+		i = addPoint(arr, i, x1, y1);
+		i = addPoint(arr, i, x1, y);
+		i = addPoint(arr, i, x2, y);
+		i = addPoint(arr, i, x2, y1);
+		i = addPoint(arr, i, x3, y1);
+		i = addPoint(arr, i, x3, y2);
+		i = addPoint(arr, i, x2, y2);
+		i = addPoint(arr, i, x2, y3);
+		i = addPoint(arr, i, x1, y3);
+		i = addPoint(arr, i, x1, y2);
+		i = addPoint(arr, i, x, y2);
+
+		return arr;
+	}
+
+	private static int[] createHorizontalPlus(int x, int y, int width, int height)
+	{
+		int[] arr = new int[24];
+		int step = width / 3;
+
+		int i = 0;
+
+		int x1 = x + step;
+		int x3 = x + width;
+		int x2 = x3 - step;
+
+		int y1 = y + step;
+		int y3 = y + height;
+		int y2 = y3 - step;
+
+		i = addPoint(arr, i, x, y1);
+		i = addPoint(arr, i, x1, y1);
+		i = addPoint(arr, i, x1, y);
+		i = addPoint(arr, i, x2, y);
+		i = addPoint(arr, i, x2, y1);
+		i = addPoint(arr, i, x3, y1);
+		i = addPoint(arr, i, x3, y2);
+		i = addPoint(arr, i, x2, y2);
+		i = addPoint(arr, i, x2, y3);
+		i = addPoint(arr, i, x1, y3);
+		i = addPoint(arr, i, x1, y2);
+		i = addPoint(arr, i, x, y2);
 
 		return arr;
 	}

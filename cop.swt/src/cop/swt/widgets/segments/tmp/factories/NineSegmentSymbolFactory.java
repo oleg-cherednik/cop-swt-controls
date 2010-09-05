@@ -2,8 +2,8 @@ package cop.swt.widgets.segments.tmp.factories;
 
 public class NineSegmentSymbolFactory extends SevenSegmentSymbolFactory
 {
-	protected static final int SEG_TOP_SLASH = 0x80;
-	protected static final int SEG_BOTTOM_SLASH = 0x100;
+	public static final int SEG_TOP_SLASH = 0x80;
+	public static final int SEG_BOTTOM_SLASH = 0x100;
 
 	static
 	{

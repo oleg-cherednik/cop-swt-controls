@@ -2,9 +2,11 @@ package cop.swt.widgets.segments.tmp.factories;
 
 public class SevenSegmentSymbolFactory extends BasicSegmentSymbolFactory
 {
-	protected static final int SEG_TOP = 0x10;
-	protected static final int SEG_BOTTOM = 0x20;
-	protected static final int SEG_CENTER = 0x40;
+	public static final int SEG_TOP = 0x10;
+	public static final int SEG_BOTTOM = 0x20;
+	public static final int SEG_CENTER = 0x40;
+
+	private static SevenSegmentSymbolFactory obj;
 
 	static
 	{
@@ -23,6 +25,23 @@ public class SevenSegmentSymbolFactory extends BasicSegmentSymbolFactory
 		symbols.put('9', SEG_CENTER | SEG_TOP_SIDE_LEFT | SEG_TOP | SEG_TOP_SIDE_RIGHT | SEG_BOTTOM_SIDE_RIGHT);
 		symbols.put('-', SEG_CENTER);
 	}
+
+	public static SevenSegmentSymbolFactory getInstance()
+	{
+		if(obj != null)
+			return obj;
+
+		synchronized(SevenSegmentSymbolFactory.class)
+		{
+			if(obj != null)
+				return obj;
+
+			return obj = new SevenSegmentSymbolFactory();
+		}
+	}
+
+	protected SevenSegmentSymbolFactory()
+	{}
 
 	/*
 	 * BasicSegmentSymbolFactory

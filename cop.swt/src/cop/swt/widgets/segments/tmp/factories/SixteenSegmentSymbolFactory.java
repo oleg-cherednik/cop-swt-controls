@@ -2,8 +2,8 @@ package cop.swt.widgets.segments.tmp.factories;
 
 public class SixteenSegmentSymbolFactory extends FourteenSegmentSymbolFactory
 {
-	protected static final int SEG_TOP_CENTER = 0x4000;
-	protected static final int SEG_BOTTOM_CENTER = 0x8000;
+	public static final int SEG_TOP_CENTER = 0x4000;
+	public static final int SEG_BOTTOM_CENTER = 0x8000;
 
 	static
 	{

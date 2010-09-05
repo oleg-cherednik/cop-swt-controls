@@ -60,7 +60,7 @@ public abstract class AbstractSegment implements ISegment
 
 	protected int getDefaultWidth()
 	{
-		return (scale < 2) ? BASE_LENGTH : (BASE_LENGTH * (2 << (scale - 2)));
+		return (scale <= 1) ? BASE_LENGTH : (BASE_LENGTH * (2 << (scale - 2)));
 	}
 
 	protected int getDefaultHeight()
@@ -70,18 +70,12 @@ public abstract class AbstractSegment implements ISegment
 
 	protected int getWidth()
 	{
-		if(isHorizontalOrientation())
-			return getDefaultHeight();
-
-		return getDefaultWidth();
+		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
 	}
 
 	protected int getHeight()
 	{
-		if(isHorizontalOrientation())
-			return getDefaultWidth();
-
-		return getDefaultHeight();
+		return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
 	}
 
 	protected abstract int getDefaultOrientation();

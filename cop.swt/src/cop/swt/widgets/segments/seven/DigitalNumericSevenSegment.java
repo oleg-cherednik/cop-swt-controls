@@ -9,7 +9,7 @@ public class DigitalNumericSevenSegment extends NumericSevenSegment
 
 	public DigitalNumericSevenSegment(Shell shell)
 	{
-		super(shell, DEF_ORIENTATION);
+		super(shell, DEFAULT_ORIENTATION);
 	}
 
 	public DigitalNumericSevenSegment(Shell shell, int orientation)
@@ -19,17 +19,17 @@ public class DigitalNumericSevenSegment extends NumericSevenSegment
 
 	public DigitalNumericSevenSegment(int x, int y, int scale)
 	{
-		this(null, DEF_ORIENTATION, x, y, scale);
+		this(null, DEFAULT_ORIENTATION, x, y, scale);
 	}
 	
 	public DigitalNumericSevenSegment(Shell shell, int x, int y, int scale)
 	{
-		this(shell, DEF_ORIENTATION, x, y, scale);
+		this(shell, DEFAULT_ORIENTATION, x, y, scale);
 	}
 
 	public DigitalNumericSevenSegment(Shell shell, int orientation, int x, int y, int scale)
 	{
-		super(shell, DEF_ORIENTATION);
+		super(shell, DEFAULT_ORIENTATION);
 
 		setBounds(x, y, scale);
 	}
