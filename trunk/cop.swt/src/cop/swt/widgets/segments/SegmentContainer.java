@@ -69,7 +69,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	/*
 	 * AbstractSegmentIndicator
 	 */
-	
+
 	@Override
 	protected boolean isInverted(boolean horizontal)
 	{
@@ -149,6 +149,18 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	/*
 	 * AbstractSegment
 	 */
+
+//	@Override
+//	protected int getWidth()
+//	{
+//		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
+//	}
+//
+//	@Override
+//	protected int getHeight()
+//	{
+//		return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
+//	}
 
 	@Override
 	protected int getDefaultWidth()

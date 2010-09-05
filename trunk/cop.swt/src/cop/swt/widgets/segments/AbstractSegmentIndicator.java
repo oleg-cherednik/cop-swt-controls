@@ -120,18 +120,6 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	//	}
 
 	@Override
-	protected int getWidth()
-	{
-		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
-	}
-
-	@Override
-	protected int getHeight()
-	{
-		return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
-	}
-
-	@Override
 	protected void build()
 	{
 		super.build();
