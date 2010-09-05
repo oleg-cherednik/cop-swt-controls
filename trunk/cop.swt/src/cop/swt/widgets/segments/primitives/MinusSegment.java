@@ -1,11 +1,11 @@
 package cop.swt.widgets.segments.primitives;
 
-import static cop.swt.widgets.segments.ShapeBasics.createPlus;
+import static cop.swt.widgets.segments.ShapeBasics.createRectangle;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 
-public final class PlusSegment extends FillableSegment
+public final class MinusSegment extends FillableSegment
 {
-	public PlusSegment()
+	public MinusSegment()
 	{
 		super(HORIZONTAL);
 	}
@@ -23,7 +23,7 @@ public final class PlusSegment extends FillableSegment
 	@Override
 	protected int getDefaultHeight()
 	{
-		return (scale <= 1) ? (BASE_LENGTH - 1) : ((BASE_LENGTH - 1) * scale);
+		return scale;
 	}
 
 	/*
@@ -33,6 +33,6 @@ public final class PlusSegment extends FillableSegment
 	@Override
 	protected int[] getPointArray()
 	{
-		return createPlus(x, y, width, height, orientation);
+		return createRectangle(x, y, width, height);
 	}
 }

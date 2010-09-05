@@ -2,18 +2,18 @@ package cop.swt.widgets.segments.tmp.factories;
 
 public class FourteenSegmentSymbolFactory extends BasicSegmentSymbolFactory
 {
-	protected static final int SEG_TOP_LEFT = 0x10;
-	protected static final int SEG_TOP_RIGHT = 0x20;
-	protected static final int SEG_TOP_SLASH_LEFT = 0x40;
-	protected static final int SEG_TOP_SLASH_RIGHT = 0x80;
+	public static final int SEG_TOP_LEFT = 0x10;
+	public static final int SEG_TOP_RIGHT = 0x20;
+	public static final int SEG_TOP_SLASH_LEFT = 0x40;
+	public static final int SEG_TOP_SLASH_RIGHT = 0x80;
 
-	protected static final int SEG_BOTTOM_LEFT = 0x100;
-	protected static final int SEG_BOTTOM_RIGHT = 0x200;
-	protected static final int SEG_BOTTOM_SLASH_LEFT = 0x400;
-	protected static final int SEG_BOTTOM_SLASH_RIGHT = 0x800;
+	public static final int SEG_BOTTOM_LEFT = 0x100;
+	public static final int SEG_BOTTOM_RIGHT = 0x200;
+	public static final int SEG_BOTTOM_SLASH_LEFT = 0x400;
+	public static final int SEG_BOTTOM_SLASH_RIGHT = 0x800;
 
-	protected static final int SEG_CENTER_LEFT = 0x1000;
-	protected static final int SEG_CENTER_RIGHT = 0x2000;
+	public static final int SEG_CENTER_LEFT = 0x1000;
+	public static final int SEG_CENTER_RIGHT = 0x2000;
 
 	static
 	{

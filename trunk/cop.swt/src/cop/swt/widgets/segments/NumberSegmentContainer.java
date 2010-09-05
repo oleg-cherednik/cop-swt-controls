@@ -8,6 +8,8 @@ import static cop.common.extensions.NumericExtension.toInvertedCharArray;
 
 import org.eclipse.swt.widgets.Shell;
 
+import cop.swt.widgets.segments.seven.DigitalNumericSevenSegment;
+
 public abstract class NumberSegmentContainer<T extends Number> extends SegmentContainer<T>
 {
 	private boolean leadingZero = false;
@@ -22,6 +24,26 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	/*
 	 * AbstractSegmentIndicator
 	 */
+
+	@Override
+	protected void createHorizontalOrientatedParts(boolean invert)
+	{
+		segments = new SegmentedIndicator[totalSegments + 1];
+
+		segments[0] = new SignSegment(x, y, scale);
+
+		for(int i = 1; i <= totalSegments; i++)
+			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
+	}
+
+	@Override
+	protected void createVerticalOrientatedParts(boolean invert)
+	{
+		segments = new DigitalNumericSevenSegment[totalSegments];
+
+		for(int i = 0; i < totalSegments; i++)
+			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
+	}
 
 	@Override
 	public void setValue(T value)

@@ -26,10 +26,10 @@ import cop.swt.widgets.segments.seven.DigitalNumericSevenSegment;
 
 public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<SegmentedIndicator, T>
 {
-	protected static final int DEF_ORIENTATION = HORIZONTAL | UP;
+	protected static final int DEF_ORIENTATION = VERTICAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
 
-	private final int totalSegments;
+	protected final int totalSegments;
 	private int space = 1;
 
 	public SegmentContainer(Shell shell, int orientation, int totalSegments)
@@ -106,23 +106,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 			segment.setShell(shell);
 	}
 
-	@Override
-	protected void createHorizontalOrientatedParts(boolean invert)
-	{
-		segments = new DigitalNumericSevenSegment[totalSegments];
 
-		for(int i = 0; i < totalSegments; i++)
-			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
-	}
-
-	@Override
-	protected void createVerticalOrientatedParts(boolean invert)
-	{
-		segments = new DigitalNumericSevenSegment[totalSegments];
-
-		for(int i = 0; i < totalSegments; i++)
-			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
-	}
 
 	@Override
 	protected void buildVerticalOrientatedIndicator(boolean invert)
@@ -150,7 +134,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		for(ISegment segment : invert ? invertArray(segments) : segments)
 		{
 			segment.setBounds(x + offs, y, scale);
-			offs += segment.getBounds().width + space;
+			offs += segment.getBounds().width + 0;
 		}
 	}
 
@@ -193,9 +177,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		int height = 0;
 
 		for(ISegment segment : segments)
-			height += segment.getBounds().height;
-
-		height += space * (segments.length - 1);
+			height = Math.max(height, segment.getBounds().height);
 
 		return height;
 	}

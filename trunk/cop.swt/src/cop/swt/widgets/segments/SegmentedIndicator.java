@@ -20,16 +20,8 @@ import cop.swt.widgets.segments.primitives.SimpleSegment;
 
 public abstract class SegmentedIndicator extends AbstractSegmentIndicator<SimpleSegment, Character>
 {
-	protected static final int DEF_ORIENTATION = VERTICAL | UP;
+	protected static final int DEFAULT_ORIENTATION = VERTICAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = LEFT | RIGHT | HORIZONTAL;
-
-	protected static final int TOP = 0;
-	protected static final int TOP_RIGHT = 1;
-	protected static final int BOTTOM_RIGHT = 2;
-	protected static final int BOTTOM = 3;
-	protected static final int BOTTOM_LEFT = 4;
-	protected static final int TOP_LEFT = 5;
-	protected static final int CENTER = 6;
 
 	private boolean transparent;
 	private GC gc;
@@ -73,10 +65,10 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 
 		if(isBitSet(mask, bit))
 			segments[i].draw(gc, onColor);
-		else if(!transparent)
-			segments[i].draw(gc, offColor);
-		else
+		else if(transparent)
 			segments[i].draw(gc, shell.getBackground());
+		else
+			segments[i].draw(gc, offColor);
 	}
 
 	/*
@@ -158,7 +150,7 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	@Override
 	protected int getDefaultOrientation()
 	{
-		return DEF_ORIENTATION;
+		return DEFAULT_ORIENTATION;
 	}
 
 	@Override

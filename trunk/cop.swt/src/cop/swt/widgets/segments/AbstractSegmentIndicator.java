@@ -143,7 +143,7 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	@Override
 	public void draw(GC gc, Color color)
 	{
-		if(isNull(gc) || isNull(color) || gc.isDisposed() || isEmpty(segments))
+		if(gc == null || color == null || gc.isDisposed() || isEmpty(segments))
 			return;
 
 		for(ISegment segment : segments)
