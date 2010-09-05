@@ -21,6 +21,6 @@ public abstract class DrawableSegment extends SimpleSegment
 			return;
 
 		gc.setForeground(color);
-		gc.drawPolygon(pointArray);
+		gc.drawPolygon(points);
 	}
 }

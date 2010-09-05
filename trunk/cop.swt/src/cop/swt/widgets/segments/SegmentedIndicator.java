@@ -129,6 +129,18 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	 */
 
 	@Override
+	protected int getWidth()
+	{
+		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
+	}
+
+	@Override
+	protected int getHeight()
+	{
+		return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
+	}
+
+	@Override
 	protected boolean isHorizontalOrientation()
 	{
 		return isAnyBitSet(orientation, HORIZONTAL_ORIENTATION);

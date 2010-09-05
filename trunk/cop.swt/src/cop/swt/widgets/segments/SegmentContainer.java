@@ -6,6 +6,7 @@ import static cop.common.extensions.CollectionExtension.convertToIntArray;
 import static cop.common.extensions.CollectionExtension.invertArray;
 import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.toCollection;
+import static java.lang.Math.max;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.LEFT;
@@ -22,11 +23,10 @@ import org.eclipse.swt.widgets.Shell;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.segments.interfaces.IControl;
 import cop.swt.widgets.segments.interfaces.ISegment;
-import cop.swt.widgets.segments.seven.DigitalNumericSevenSegment;
 
 public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<SegmentedIndicator, T>
 {
-	protected static final int DEF_ORIENTATION = VERTICAL | UP;
+	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
 
 	protected final int totalSegments;
@@ -69,7 +69,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	/*
 	 * AbstractSegmentIndicator
 	 */
-
+	
 	@Override
 	protected boolean isInverted(boolean horizontal)
 	{
@@ -105,8 +105,6 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		for(SegmentedIndicator segment : segments)
 			segment.setShell(shell);
 	}
-
-
 
 	@Override
 	protected void buildVerticalOrientatedIndicator(boolean invert)
@@ -177,7 +175,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		int height = 0;
 
 		for(ISegment segment : segments)
-			height = Math.max(height, segment.getBounds().height);
+			height = max(height, segment.getBounds().height);
 
 		return height;
 	}
@@ -213,7 +211,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	@Override
 	protected int getDefaultOrientation()
 	{
-		return HORIZONTAL | UP;
+		return DEFAULT_ORIENTATION;
 	}
 
 	@Override

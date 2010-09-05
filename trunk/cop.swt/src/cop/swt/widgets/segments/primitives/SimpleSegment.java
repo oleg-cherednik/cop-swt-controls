@@ -7,7 +7,6 @@ import static cop.common.extensions.CommonExtension.isNull;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.UP;
-import static org.eclipse.swt.SWT.VERTICAL;
 
 import java.util.Arrays;
 
@@ -17,14 +16,14 @@ import cop.swt.widgets.segments.AbstractSegment;
 
 public abstract class SimpleSegment extends AbstractSegment
 {
-	protected static final int DEF_ORIENTATION = VERTICAL | UP;
+	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
 
-	protected int[] pointArray;
+	protected int[] points;
 
 	protected SimpleSegment()
 	{
-		this(DEF_ORIENTATION);
+		this(DEFAULT_ORIENTATION);
 	}
 
 	public SimpleSegment(int orientation)
@@ -47,33 +46,14 @@ public abstract class SimpleSegment extends AbstractSegment
 	@Override
 	protected int getDefaultOrientation()
 	{
-		return DEF_ORIENTATION;
-	}
-
-	@Override
-	protected int getWidth()
-	{
-		if(isHorizontalOrientation())
-			return getDefaultWidth();
-
-		return getDefaultHeight();
-	}
-
-	@Override
-	protected int getHeight()
-	{
-		if(isHorizontalOrientation())
-			return getDefaultHeight();
-
-		return getDefaultWidth();
-
+		return DEFAULT_ORIENTATION;
 	}
 
 	@Override
 	protected final void build()
 	{
 		super.build();
-		pointArray = getPointArray();
+		points = getPointArray();
 	}
 
 	/*
@@ -83,25 +63,25 @@ public abstract class SimpleSegment extends AbstractSegment
 	@Override
 	public int[] getShape()
 	{
-		return isNotEmpty(pointArray) ? pointArray.clone() : new int[0];
+		return isNotEmpty(points) ? points.clone() : new int[0];
 	}
 
 	@Override
 	public int[] getShape(Rectangle rect)
 	{
-		if(isNull(rect) || isEmpty(pointArray))
+		if(isNull(rect) || isEmpty(points))
 			return new int[0];
 
-		int[] arr = new int[pointArray.length];
+		int[] arr = new int[points.length];
 		int len = 0;
 
-		for(int i = 0, size = pointArray.length; i < size; i += 2)
+		for(int i = 0, size = points.length; i < size; i += 2)
 		{
-			if(!rect.contains(pointArray[i], pointArray[i + 1]))
+			if(!rect.contains(points[i], points[i + 1]))
 				continue;
 
-			arr[len++] = pointArray[i];
-			arr[len++] = pointArray[i + 1];
+			arr[len++] = points[i];
+			arr[len++] = points[i + 1];
 		}
 
 		return Arrays.copyOf(arr, len);
