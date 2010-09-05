@@ -21,7 +21,7 @@ public abstract class FillableSegment extends SimpleSegment
 			return;
 
 		gc.setBackground(color);
-		gc.fillPolygon(pointArray);
+		gc.fillPolygon(points);
 	}
 
 }
