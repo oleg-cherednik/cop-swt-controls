@@ -7,6 +7,10 @@
  */
 package cop.algorithms.strings;
 
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 07.09.2010
+ */
 public final class StringPattern
 {
 	/**
