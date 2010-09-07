@@ -22,6 +22,7 @@ public final class StringPattern
 
 		final String template = "\"\r\n\\\'";
 		final char[][] prefix = { { '\\', '\"' }, { '\\', 'r' }, { '\\', 'n' }, { '\\', '\\' }, { '\\', '\'' } };
+
 		int total = 0;
 		int size = str.length();
 
@@ -38,7 +39,7 @@ public final class StringPattern
 			k = template.indexOf(ch);
 
 			if(k >= 0)
-				for(int kk = 0; kk < prefix[k].length; kk++)
+				for(int kk = 0, length = prefix[k].length; kk < length; kk++)
 					buf[j++] = prefix[k][kk];
 			else
 				buf[j++] = ch;
