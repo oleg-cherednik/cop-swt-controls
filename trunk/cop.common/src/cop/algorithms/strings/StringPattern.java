@@ -26,7 +26,6 @@ public final class StringPattern
 
 		final String template = "\"\r\n\\\'";
 		final char[][] prefix = { { '\\', '\"' }, { '\\', 'r' }, { '\\', 'n' }, { '\\', '\\' }, { '\\', '\'' } };
-
 		int total = 0;
 		int size = str.length();
 
@@ -34,19 +33,33 @@ public final class StringPattern
 			if(template.indexOf(str.charAt(i)) >= 0)
 				total++;
 
+		if(total == 0)
+			return str;
+
 		char[] buf = new char[total * 2 + size - total];
 		char ch;
+		int tmpl_i;
 
-		for(int i = 0, j = 0, k = 0; i < size; i++)
+		for(int i = 0, buf_i = 0; i < size; i++)
 		{
 			ch = str.charAt(i);
-			k = template.indexOf(ch);
 
-			if(k >= 0)
-				for(int kk = 0, length = prefix[k].length; kk < length; kk++)
-					buf[j++] = prefix[k][kk];
+			if(total == 0)
+				buf[buf_i++] = ch;
 			else
-				buf[j++] = ch;
+			{
+				tmpl_i = template.indexOf(ch);
+
+				if(tmpl_i >= 0)
+				{
+					for(int j = 0; j < prefix[tmpl_i].length; j++)
+						buf[buf_i++] = prefix[tmpl_i][j];
+
+					total--;
+				}
+				else
+					buf[buf_i++] = ch;
+			}
 		}
 
 		return String.copyValueOf(buf);
