@@ -47,50 +47,49 @@
 
 	<!-- TARGETS -->
 
-	<!-- Check folder exists -->
-
-	<available file="${dest.dir}" type="dir" property="dest.dir.exsists" description="Check id destination directory exists" />
-	<available file="${bin.dir}" type="dir" property="bin.dir.exsists" description="Check id binary directory exists" />
-
-	<!-- Create folder -->
-
+	<!-- create binary directory -->
 	<target name="create-binary-dir" unless="${bin.dir.exsists}">
 		<mkdir dir="${bin.dir}" />
 	</target>
 
+	<!-- remove destination directory -->
 	<target name="create-destination-dir" unless="${dest.dir.exsists}">
 		<mkdir dir="${dest.dir}" />
 	</target>
 
-	<!-- Remove -->
+	<!-- REMOVE -->
 
 	<target name="remove" depends="remove-binary-dir, remove-destination-dir" description="Remove binary and destination folders" />
 
-	<target name="remove-binary-dir" unless="${bin.dir.exsists}" description="Remove binary folder">
+	<!-- remove binary folder -->
+	<target name="remove-binary-dir" unless="${bin.dir.exsists}">
 		<delete dir="${bin.dir}" />
 	</target>
 
-	<target name="remove-destination-dir" unless="${dest.dir.exsists}" description="Remove destination folder">
+	<!-- remove destination folder -->
+	<target name="remove-destination-dir" unless="${dest.dir.exsists}">
 		<delete dir="${dest.dir}" />
 	</target>
 
-	<!-- Clean -->
+	<!-- CLEAN -->
 
 	<target name="clean" depends="clean-binary-dir, clean-destination-dir" description="Clean binary and destination folders" />
 
-	<target name="clean-binary-dir" if="${bin.dir.exsists}" description="Remove all binary files">
+	<!-- clean binary folder -->
+	<target name="clean-binary-dir" if="${bin.dir.exsists}">
 		<delete includeemptydirs="true">
 			<fileset dir="${bin.dir}" includes="**/*" />
 		</delete>
 	</target>
 
-	<target name="clean-destination-dir" if="${dest.dir.exsists}" description="Remove all destination files">
+	<!-- clean destination folder -->
+	<target name="clean-destination-dir" if="${dest.dir.exsists}">
 		<delete includeemptydirs="true">
 			<fileset dir="${dest.dir}" includes="**/*" />
 		</delete>
 	</target>
 
-	<!-- Build -->
+	<!-- BUILD -->
 
 	<target name="compile" depends="create-binary-dir, clean-binary-dir" description="Compile source">
 		<javac srcdir="${src.dir}" destdir="${bin.dir}" includeantruntime="false">
@@ -116,9 +115,9 @@
 		</jar>
 	</target>
 
-	<target name="build-project-release" depends="clean, build-binary, build-source, run-tests" description="Build release version" />
+	<target name="build-release" depends="clean, build-binary, build-source, run-tests" description="Build release version" />
 
-	<!-- JUnit -->
+	<!-- JUNIT -->
 
 	<target name="compile-tests" depends="create-binary-dir">
 		<javac srcdir="${test.dir}" destdir="${bin.dir}" includeantruntime="false">
@@ -132,4 +131,5 @@
 			<classpath refid="classpath.test" />
 		</junit>
 	</target>
+
 </project>
