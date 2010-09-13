@@ -1,16 +1,15 @@
 package cop.swt.widgets.segments.primitives;
 
 import static cop.swt.widgets.segments.ShapeBasics.createRhombus;
-import static org.eclipse.swt.SWT.HORIZONTAL;
 
 public final class CenterSegment extends DrawableSegment
 {
-	public CenterSegment()
+	public static SimpleSegment createSegment(int orientation)
 	{
-		this(HORIZONTAL);
+		return new CenterSegment(orientation);
 	}
 
-	public CenterSegment(int orientation)
+	CenterSegment(int orientation)
 	{
 		super(orientation);
 	}

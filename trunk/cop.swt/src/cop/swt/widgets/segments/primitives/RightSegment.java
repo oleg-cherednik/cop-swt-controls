@@ -5,7 +5,17 @@ import static org.eclipse.swt.SWT.LEFT;
 
 public final class RightSegment extends DrawableSegment
 {
-	public RightSegment()
+	public static SimpleSegment createSegment()
+	{
+		return createSegment(false);
+	}
+
+	public static SimpleSegment createSegment(boolean invert)
+	{
+		return invert ? new LeftSegment() : new RightSegment();
+	}
+
+	RightSegment()
 	{
 		super(LEFT);
 	}

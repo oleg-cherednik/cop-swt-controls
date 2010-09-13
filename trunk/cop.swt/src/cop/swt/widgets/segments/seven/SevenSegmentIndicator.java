@@ -1,5 +1,6 @@
 package cop.swt.widgets.segments.seven;
 
+import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.VERTICAL;
 
 import org.eclipse.swt.graphics.Rectangle;
@@ -116,13 +117,13 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 	{
 		segments = new SimpleSegment[7];
 
-		segments[TOP] = invert ? new LeftSegment() : new RightSegment();
-		segments[BOTTOM] = invert ? new RightSegment() : new LeftSegment();
-		segments[TOP_SIDE_RIGHT] = invert ? new TopSegment() : new BottomSegment();
-		segments[TOP_SIDE_LEFT] = invert ? new BottomSegment() : new TopSegment();
-		segments[BOTTOM_SIDE_RIGHT] = invert ? new TopSegment() : new BottomSegment();
-		segments[BOTTOM_SIDE_LEFT] = invert ? new BottomSegment() : new TopSegment();
-		segments[CENTER] = new CenterSegment(VERTICAL);
+		segments[TOP] = RightSegment.createSegment(invert);
+		segments[BOTTOM] = LeftSegment.createSegment(invert);
+		segments[TOP_SIDE_RIGHT] = BottomSegment.createSegment(invert);
+		segments[TOP_SIDE_LEFT] = TopSegment.createSegment(invert);
+		segments[BOTTOM_SIDE_RIGHT] = BottomSegment.createSegment(invert);
+		segments[BOTTOM_SIDE_LEFT] = TopSegment.createSegment(invert);
+		segments[CENTER] = CenterSegment.createSegment(VERTICAL);
 	}
 
 	@Override
@@ -130,12 +131,12 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 	{
 		segments = new SimpleSegment[7];
 
-		segments[TOP] = invert ? new BottomSegment() : new TopSegment();
-		segments[BOTTOM] = invert ? new TopSegment() : new BottomSegment();
-		segments[TOP_SIDE_RIGHT] = invert ? new LeftSegment() : new RightSegment();
-		segments[TOP_SIDE_LEFT] = invert ? new RightSegment() : new LeftSegment();
-		segments[BOTTOM_SIDE_RIGHT] = invert ? new LeftSegment() : new RightSegment();
-		segments[BOTTOM_SIDE_LEFT] = invert ? new RightSegment() : new LeftSegment();
-		segments[CENTER] = new CenterSegment();
+		segments[TOP] = TopSegment.createSegment(invert);
+		segments[BOTTOM] = BottomSegment.createSegment(invert);
+		segments[TOP_SIDE_RIGHT] = RightSegment.createSegment(invert);
+		segments[TOP_SIDE_LEFT] = LeftSegment.createSegment(invert);
+		segments[BOTTOM_SIDE_RIGHT] = RightSegment.createSegment(invert);
+		segments[BOTTOM_SIDE_LEFT] = LeftSegment.createSegment(invert);
+		segments[CENTER] = CenterSegment.createSegment(HORIZONTAL);
 	}
 }

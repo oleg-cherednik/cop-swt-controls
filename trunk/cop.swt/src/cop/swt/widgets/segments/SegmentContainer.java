@@ -29,6 +29,8 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
 
+	private static final int BETWEEN_SEGMENT = 1;
+
 	protected final int totalSegments;
 	private int space = 1;
 
@@ -132,7 +134,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		for(ISegment segment : invert ? invertArray(segments) : segments)
 		{
 			segment.setBounds(x + offs, y, scale);
-			offs += segment.getBounds().width + 0;
+			offs += segment.getBounds().width + BETWEEN_SEGMENT;
 		}
 	}
 
@@ -150,17 +152,17 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	 * AbstractSegment
 	 */
 
-//	@Override
-//	protected int getWidth()
-//	{
-//		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
-//	}
-//
-//	@Override
-//	protected int getHeight()
-//	{
-//		return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
-//	}
+	// @Override
+	// protected int getWidth()
+	// {
+	// return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
+	// }
+	//
+	// @Override
+	// protected int getHeight()
+	// {
+	// return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
+	// }
 
 	@Override
 	protected int getDefaultWidth()
