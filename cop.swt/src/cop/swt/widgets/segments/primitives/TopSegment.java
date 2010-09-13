@@ -5,7 +5,17 @@ import static org.eclipse.swt.SWT.DOWN;
 
 public final class TopSegment extends DrawableSegment
 {
-	public TopSegment()
+	public static SimpleSegment createSegment()
+	{
+		return createSegment(false);
+	}
+
+	public static SimpleSegment createSegment(boolean invert)
+	{
+		return invert ? new BottomSegment() : new TopSegment();
+	}
+
+	TopSegment()
 	{
 		super(DOWN);
 	}

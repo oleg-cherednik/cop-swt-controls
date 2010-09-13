@@ -15,8 +15,14 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	private boolean leadingZero = false;
 	protected T minimum;
 	protected T maximum;
+	protected final boolean signSegment = true; // separate sign segment
 
 	public NumberSegmentContainer(Shell shell, int orientation, int totalSegments)
+	{
+		this(shell, orientation, totalSegments, false);
+	}
+	
+	public NumberSegmentContainer(Shell shell, int orientation, int totalSegments, boolean signSegment)
 	{
 		super(shell, orientation, totalSegments);
 	}
@@ -28,11 +34,17 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	@Override
 	protected void createHorizontalOrientatedParts(boolean invert)
 	{
-		segments = new SegmentedIndicator[totalSegments + 1];
+		int i = 0;
 
-		segments[0] = new SignSegment(x, y, scale);
+		if(signSegment)
+		{
+			segments = new SegmentedIndicator[totalSegments + 1];
+			segments[i++] = new SignSegment(x, y, scale);
+		}
+		else
+			segments = new SegmentedIndicator[totalSegments];
 
-		for(int i = 1; i <= totalSegments; i++)
+		for(; i <= totalSegments; i++)
 			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
 	}
 
@@ -76,6 +88,8 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 		super.setValue(value);
 
 		boolean negative = false;
+		
+		segments[0].setValue('-');
 
 		if(isInverted(isHorizontalOrientation()))
 		{
@@ -143,13 +157,13 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 				{
 					segments[i--].setValue('-');
 
-					for(; i >= 0; i--)
+					for(; i > 0; i--)
 						segments[i].setValue(null);
 				}
 			}
 			else
 			{
-				for(; i >= 0; i--)
+				for(; i > 0; i--)
 					segments[i].setValue((leadingZero && (i != 0)) ? '0' : null);
 			}
 		}

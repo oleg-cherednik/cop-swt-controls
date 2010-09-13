@@ -48,7 +48,7 @@ public final class ByteNumber extends NumberSegmentContainer<Byte>
 
 	private ByteNumber(Shell shell, int orientation, int totalSegments)
 	{
-		super(shell, orientation, totalSegments);
+		super(shell, orientation, totalSegments, true);
 
 		minimum = Byte.MIN_VALUE;
 		maximum = Byte.MAX_VALUE;
