@@ -8,6 +8,11 @@ package cop.common.extensions;
 
 public final class BitExtension
 {
+	public static final int BIT0 = 0x1;
+	public static final int BIT1 = 0x2;
+	public static final int BIT2 = 0x4;
+	public static final int BIT3 = 0x8;
+	
 	private BitExtension()
 	{}
 
