@@ -114,12 +114,8 @@ public class SignSegment extends SegmentedIndicator
 		segments[MINUS] = new MinusSegment();
 	}
 
-	/*
-	 * AbstractSegmentIndicator
-	 */
-
 	@Override
-	public boolean isValueValid(Character value)
+	protected boolean isValueValid(Character value)
 	{
 		return value == null || value == '-' || value == '+';
 	}
@@ -128,11 +124,11 @@ public class SignSegment extends SegmentedIndicator
 	public void redraw()
 	{
 		if(value == null)
-			super.clear();
+			clear();
 		else
 		{
-			drawPart(value, PLUS, 0x0);
-			drawPart(value, MINUS, 0x1);
+			drawPart(0x1, MINUS, (value == '-') ? 0x1 : 0x2);
+			drawPart(0x1, PLUS, (value == '+') ? 0x1 : 0x2);
 		}
 	}
 }
