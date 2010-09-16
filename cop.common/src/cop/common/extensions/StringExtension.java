@@ -8,6 +8,7 @@ package cop.common.extensions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
+import static cop.common.extensions.NumericExtension.isInRangeMinMax;
 import static java.lang.Double.parseDouble;
 import static java.util.Arrays.fill;
 
@@ -114,6 +115,11 @@ public final class StringExtension
 	public static boolean isNotEmpty(String str)
 	{
 		return !isEmpty(str);
+	}
+	
+	public static boolean isNumber(char ch)
+	{
+		return isInRangeMinMax(new Integer(ch), 48, 57);
 	}
 
 	public static boolean isNumeric(String str)
