@@ -22,6 +22,8 @@ import java.util.TreeSet;
 
 public final class CollectionExtension
 {
+	public static final int[] EMPTY_INT_ARR = new int[0];
+
 	private CollectionExtension()
 	{}
 
@@ -380,19 +382,19 @@ public final class CollectionExtension
 
 		return arr;
 	}
-	
+
 	public static int[] convertToIntArray(Integer[] values)
 	{
 		if(isEmpty(values))
 			return new int[0];
-		
+
 		int[] arr = new int[values.length];
 		int i = 0;
-		
+
 		for(Integer value : values)
 			arr[i++] = isNotNull(value) ? value.intValue() : 0;
-			
-			return arr;
+
+		return arr;
 	}
 
 	public static Integer[] convertToIntegerArray(int[] values)
@@ -538,7 +540,7 @@ public final class CollectionExtension
 
 	@SuppressWarnings("unchecked")
 	private static <T> void filterCollection(Class<? extends Collection> cls, Collection<T> arr)
-	        throws InstantiationException, IllegalAccessException
+	                throws InstantiationException, IllegalAccessException
 	{
 		if(isEmpty(arr))
 			return;
@@ -551,7 +553,7 @@ public final class CollectionExtension
 
 	@SuppressWarnings("unchecked")
 	private static Collection<Integer> toCollection(final int[] arr, Class<? extends Collection> cls, Integer minimum,
-	        Integer maximum) throws InstantiationException, IllegalAccessException
+	                Integer maximum) throws InstantiationException, IllegalAccessException
 	{
 		Collection<Integer> dest = cls.newInstance();
 
