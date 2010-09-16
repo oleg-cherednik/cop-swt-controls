@@ -4,9 +4,13 @@ import static org.eclipse.swt.SWT.DEFAULT;
 
 import org.eclipse.swt.widgets.Shell;
 
+import cop.swt.widgets.segments.interfaces.ISegmentConfig;
+import cop.swt.widgets.segments.tmp.SignPositionEnum;
+import cop.swt.widgets.segments.tmp.SignTypeEnum;
+
 public final class ByteNumber extends NumberSegmentContainer<Byte>
 {
-	private static final int TOTAL_SEGMENTS = 4;
+	private static final int TOTAL_SEGMENTS = 3;
 
 	public static ByteNumber createByteNumber()
 	{
@@ -30,7 +34,7 @@ public final class ByteNumber extends NumberSegmentContainer<Byte>
 
 	public static ByteNumber createPositiveByteNumber(Shell shell, int orientation)
 	{
-		ByteNumber obj = new ByteNumber(shell, orientation, TOTAL_SEGMENTS - 1);
+		ByteNumber obj = new ByteNumber(shell, orientation, TOTAL_SEGMENTS);
 
 		obj.minimum = 0;
 
@@ -46,11 +50,57 @@ public final class ByteNumber extends NumberSegmentContainer<Byte>
 		return obj;
 	}
 
-	private ByteNumber(Shell shell, int orientation, int totalSegments)
+	private ByteNumber(Shell shell, int orientation, int totalSegmens)
 	{
-		super(shell, orientation, totalSegments, true);
+		super(shell, new ByteNumberConfig(SignTypeEnum.PLUS_MINUS, SignPositionEnum.OUTSIDE, orientation, totalSegmens));
 
 		minimum = Byte.MIN_VALUE;
 		maximum = Byte.MAX_VALUE;
 	}
+}
+
+class ByteNumberConfig implements ISegmentConfig
+{
+	private SignTypeEnum signType = SignTypeEnum.PLUS_MINUS;
+	private SignPositionEnum signPosition = SignPositionEnum.OUTSIDE;
+	private int orientation;
+	private int totalSegmens;
+	
+	ByteNumberConfig(SignTypeEnum signType, SignPositionEnum signPosition, int orientation, int totalSegmens)
+	{
+		this.signType = signType;
+		this.orientation = orientation;
+		this.totalSegmens = totalSegmens;
+		this.signPosition = signPosition;
+	}
+	
+	@Override
+    public SignTypeEnum getSignType()
+    {
+	    return signType;
+    }
+	
+	@Override
+	public SignPositionEnum getSignPosition()
+	{
+		return signPosition;
+	}
+
+	@Override
+    public int getOrientation()
+    {
+	    return orientation;
+    }
+
+	@Override
+    public int getTotalSegments()
+    {
+	    return totalSegmens;
+    }
+
+	@Override
+    public boolean isLeadingZero()
+    {
+	    return false;
+    }
 }

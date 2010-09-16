@@ -6,6 +6,7 @@ import static org.eclipse.swt.SWT.NONE;
 import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.segments.interfaces.ISegment;
+import cop.swt.widgets.segments.interfaces.ISegmentConfig;
 
 public abstract class AbstractSegment implements ISegment
 {

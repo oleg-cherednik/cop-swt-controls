@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.segments.interfaces.IControl;
 import cop.swt.widgets.segments.interfaces.ISegment;
+import cop.swt.widgets.segments.interfaces.ISegmentConfig;
 
 public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<SegmentedIndicator, T>
 {
@@ -33,11 +34,14 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 	protected final int totalSegments;
 	private int space = 1;
+	
+	protected final ISegmentConfig config;
 
-	public SegmentContainer(Shell shell, int orientation, int totalSegments)
+	public SegmentContainer(Shell shell, int orientation, int totalSegments, ISegmentConfig config)
 	{
 		super(orientation);
 
+		this.config = config;
 		this.totalSegments = (totalSegments < 1) ? 1 : totalSegments;
 
 		createParts();

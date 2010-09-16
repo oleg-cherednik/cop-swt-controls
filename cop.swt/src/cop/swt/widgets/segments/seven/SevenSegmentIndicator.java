@@ -13,7 +13,6 @@ import cop.swt.widgets.segments.primitives.LeftSegment;
 import cop.swt.widgets.segments.primitives.RightSegment;
 import cop.swt.widgets.segments.primitives.SimpleSegment;
 import cop.swt.widgets.segments.primitives.TopSegment;
-import cop.swt.widgets.segments.tmp.factories.BasicSegmentSymbolFactory;
 import cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory;
 
 public abstract class SevenSegmentIndicator extends SegmentedIndicator
@@ -36,11 +35,11 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 	protected void _setValue(int value)
 	{
 		drawPart(value, TOP, SevenSegmentSymbolFactory.SEG_TOP);
-		drawPart(value, TOP_SIDE_RIGHT, BasicSegmentSymbolFactory.SEG_TOP_SIDE_RIGHT);
-		drawPart(value, BOTTOM_SIDE_RIGHT, BasicSegmentSymbolFactory.SEG_BOTTOM_SIDE_RIGHT);
+		drawPart(value, TOP_SIDE_RIGHT, SevenSegmentSymbolFactory.SEG_TOP_SIDE_RIGHT);
+		drawPart(value, BOTTOM_SIDE_RIGHT, SevenSegmentSymbolFactory.SEG_BOTTOM_SIDE_RIGHT);
 		drawPart(value, BOTTOM, SevenSegmentSymbolFactory.SEG_BOTTOM);
-		drawPart(value, BOTTOM_SIDE_LEFT, BasicSegmentSymbolFactory.SEG_BOTTOM_SIDE_LEFT);
-		drawPart(value, TOP_SIDE_LEFT, BasicSegmentSymbolFactory.SEG_TOP_SIDE_LEFT);
+		drawPart(value, BOTTOM_SIDE_LEFT, SevenSegmentSymbolFactory.SEG_BOTTOM_SIDE_LEFT);
+		drawPart(value, TOP_SIDE_LEFT, SevenSegmentSymbolFactory.SEG_TOP_SIDE_LEFT);
 		drawPart(value, CENTER, SevenSegmentSymbolFactory.SEG_CENTER);
 	}
 
