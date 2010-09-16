@@ -1,18 +1,11 @@
 package cop.swt.widgets.segments;
 
-import static cop.common.extensions.CommonExtension.isNull;
-
-import java.util.BitSet;
-
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
 
-import cop.common.extensions.BitExtension;
 import cop.swt.widgets.segments.primitives.MinusSegment;
 import cop.swt.widgets.segments.primitives.PlusSegment;
 import cop.swt.widgets.segments.primitives.SimpleSegment;
-import cop.swt.widgets.segments.tmp.factories.BasicSegmentSymbolFactory;
-import cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory;
 
 public class SignSegment extends SegmentedIndicator
 {
@@ -124,20 +117,11 @@ public class SignSegment extends SegmentedIndicator
 	/*
 	 * AbstractSegmentIndicator
 	 */
-	
+
 	@Override
-    public void setValue(Character value)
+	public boolean isValueValid(Character value)
 	{
-		if(value == null)
-		{
-			clear();
-			return;
-		}
-		
-		if(value.charValue() != '-' && value.charValue() != '+')
-			return;
-		
-		super.setValue(value);
+		return value == null || value == '-' || value == '+';
 	}
 
 	@Override

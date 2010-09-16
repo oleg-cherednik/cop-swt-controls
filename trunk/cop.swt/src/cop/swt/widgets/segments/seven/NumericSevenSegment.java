@@ -1,9 +1,9 @@
 package cop.swt.widgets.segments.seven;
 
-import org.eclipse.swt.widgets.Shell;
+import static cop.common.extensions.CommonExtension.isNull;
+import static cop.common.extensions.StringExtension.isNumber;
 
-import cop.common.extensions.NumericExtension;
-import cop.common.extensions.StringExtension;
+import org.eclipse.swt.widgets.Shell;
 
 public abstract class NumericSevenSegment extends SevenSegmentIndicator
 {
@@ -18,7 +18,7 @@ public abstract class NumericSevenSegment extends SevenSegmentIndicator
 	}
 
 	/*
-	 * SegmentedIndicator
+	 * IControl
 	 */
 
 	@Override
@@ -28,26 +28,15 @@ public abstract class NumericSevenSegment extends SevenSegmentIndicator
 		super.clear();
 	}
 
-	@Override
-	public void setValue(Character value)
-	{
-//		if(value == null)
-//		{
-//			if(this.value == null)
-//		}
-		
-		if(this.value != null && this.value.equals(value))
-			return;
-
-		//if(this.vStringExtension.isNumber(ch))
-
-		this.value = value;
-		redraw();
-	}
-
 	/*
 	 * AbstractSegmentIndicator
 	 */
+
+	@Override
+	public boolean isValueValid(Character value)
+	{
+		return isNull(value) || isNumber(value.charValue()) || value == '-';
+	}
 
 	@Override
 	public void redraw()
