@@ -1,6 +1,7 @@
 package cop.swt.widgets.segments;
 
 import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.CommonExtension.isEqual;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.extensions.ColorExtension.DARK_GRAY;
@@ -90,9 +91,18 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 		return value;
 	}
 
-	public void setValue(N value)
+	public /*final*/void setValue(N value)
 	{
+		if(isEqual(value, this.value) || !isValueValid(value))
+			return;
+
 		this.value = value;
+		redraw();
+	}
+
+	protected/* abstract */boolean isValueValid(N value)
+	{
+		return true;
 	}
 
 	public abstract void redraw();
@@ -107,17 +117,17 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	 * AbstractSegment
 	 */
 
-	//	@Override
-	//    protected int getDefaultWidth()
-	//	{
-	//		return super.getDefaultHeight();
-	//	}
+	// @Override
+	// protected int getDefaultWidth()
+	// {
+	// return super.getDefaultHeight();
+	// }
 	//
-	//	@Override
-	//    protected int getDefaultHeight()
-	//	{
-	//		return super.getDefaultWidth();
-	//	}
+	// @Override
+	// protected int getDefaultHeight()
+	// {
+	// return super.getDefaultWidth();
+	// }
 
 	@Override
 	protected void build()
