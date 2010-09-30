@@ -2,8 +2,8 @@ package cop.swt.widgets.segments;
 
 import static cop.common.extensions.CommonExtension.isEqual;
 import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.isGreater;
-import static cop.common.extensions.NumericExtension.isLess;
+import static cop.common.extensions.NumericExtension.isGreaterOrEqual;
+import static cop.common.extensions.NumericExtension.isLessOrEqual;
 import static cop.common.extensions.NumericExtension.toInvertedCharArray;
 
 import org.eclipse.swt.widgets.Shell;
@@ -41,24 +41,24 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	{
 		int i = 0;
 		int totalSegments = config.getTotalSegments();
-		SignPositionEnum signPosition = config.getSignPosition(); 
-		
+		SignPositionEnum signPosition = config.getSignPosition();
+
 		if(signPosition != SignPositionEnum.NONE)
 			totalSegments++;
-		
+
 		segments = new SegmentedIndicator[totalSegments];
-		
+
 		if(signPosition == SignPositionEnum.OUTSIDE)
 		{
-		switch(config.getSignType())
-		{
-		case PLUS_MINUS:
-		case PLUS:
-		case MINUS:
-		default:
-			segments[i++] = new SignSegment(x, y, scale);
-			break;
-		}
+			switch(config.getSignType())
+			{
+			case PLUS_MINUS:
+			case PLUS:
+			case MINUS:
+			default:
+				segments[i++] = new SignSegment(x, y, scale);
+				break;
+			}
 		}
 
 		// if(signSegment)
@@ -94,25 +94,10 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 			return;
 		}
 
-		if(isGreater(value, maximum))
-		{
-			if(isEqual(this.value, maximum))
-				return;
-
-			value = maximum;
-		}
-
-		if(isLess(value, minimum))
-		{
-			if(isEqual(this.value, minimum))
-				return;
-
-			value = minimum;
-		}
+		if(isGreaterOrEqual(value, maximum) || isLessOrEqual(value, minimum))
+			return;
 
 		super.setValue(value);
-
-		boolean negative = false;
 
 		if(config.getSignPosition() == SignPositionEnum.OUTSIDE)
 		{
@@ -124,95 +109,99 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 				segments[0].setValue('-');
 		}
 
-		if(isInverted(isHorizontalOrientation()))
+//		if(isInverted(isHorizontalOrientation()))
+//			setInvertedValue();
+//		else
+			setDirectValue();
+	}
+
+	private void setInvertedValue()
+	{
+		int i = 0;
+		boolean negative = false;
+
+		for(char ch : toInvertedCharArray(value))
 		{
-			int i = 0;
-
-			for(char ch : toInvertedCharArray(value))
-			{
-				if(ch == '-')
-				{
-					negative = true;
-					break;
-				}
-
+			if(ch == '-')
+				negative = true;
+			else
 				segments[i++].setValue(ch);
-			}
+		}
 
-			if(negative)
+		if(negative)
+		{
+			if(config.isLeadingZero())
 			{
-				if(config.isLeadingZero())
-				{
-					for(int size = segments.length - 1; i < size; i++)
-						segments[i].setValue('0');
+				for(int size = segments.length - 1; i <= size; i++)
+					segments[i].setValue('0');
 
-					if(config.getSignPosition() == SignPositionEnum.INSIDE)
-						segments[i].setValue('-');
-					else
-						segments[i].setValue('0');
-				}
+				if(config.getSignPosition() == SignPositionEnum.INSIDE)
+					segments[i].setValue('-');
 				else
-				{
-					if(config.getSignPosition() == SignPositionEnum.INSIDE)
-						segments[i--].setValue('-');
-					else
-						segments[i--].setValue(null);
-
-					for(int size = segments.length; i < size; i++)
-						segments[i].setValue(null);
-				}
+					segments[i].setValue('0');
 			}
 			else
 			{
-				for(int size = segments.length - 1; i <= size; i++)
-					segments[i].setValue((config.isLeadingZero() && (i != size)) ? '0' : null);
+				if(config.getSignPosition() == SignPositionEnum.INSIDE)
+					segments[i--].setValue('-');
+				else
+					segments[i--].setValue(null);
+
+				for(int size = segments.length; i < size; i++)
+					segments[i].setValue(null);
 			}
 		}
 		else
 		{
-			int i = segments.length - 1;
-
-			for(char ch : toInvertedCharArray(value))
-			{
-				if(ch == '-')
-				{
-					negative = true;
-					break;
-				}
-
-				segments[i--].setValue(ch);
-			}
-
-			if(negative)
-			{
-				if(config.isLeadingZero())
-				{
-					for(; i > 0; i--)
-						segments[i].setValue('0');
-					
-					if(config.getSignPosition() == SignPositionEnum.INSIDE)
-						segments[i].setValue('-');
-					else
-						segments[i].setValue('0');
-
-				}
-				else
-				{
-					if(config.getSignPosition() == SignPositionEnum.INSIDE)
-						segments[i--].setValue('-');
-					else
-						segments[i--].setValue(null);
-
-					for(; i > 0; i--)
-						segments[i].setValue(null);
-				}
-			}
-			else
-			{
-				for(; i > 0; i--)
-					segments[i].setValue((config.isLeadingZero() && (i != 0)) ? '0' : null);
-			}
+			for(int size = segments.length - 1; i <= size; i++)
+				segments[i].setValue((config.isLeadingZero() && (i != size)) ? '0' : null);
 		}
 	}
 
+	private void setDirectValue()
+	{
+		int i = segments.length - 1;
+		boolean negative = false;
+
+		for(char ch : toInvertedCharArray(value))
+		{
+			if(ch == '-')
+			{
+				negative = true;
+				break;
+			}
+
+			segments[i--].setValue(ch);
+		}
+
+		if(negative)
+		{
+			if(config.isLeadingZero())
+			{
+				for(; i >= 0; i--)
+					segments[i].setValue('0');
+
+				if(config.getSignPosition() == SignPositionEnum.INSIDE)
+					segments[i].setValue('-');
+				else
+					segments[i].setValue('0');
+
+			}
+			else
+			{
+				if(config.getSignPosition() == SignPositionEnum.INSIDE)
+					segments[i--].setValue('-');
+				else
+					segments[i--].setValue(null);
+
+				for(; i >= 0; i--)
+					segments[i].setValue(null);
+			}
+		}
+		else
+		{
+			for(; i >= 0; i--)
+				segments[i].setValue((config.isLeadingZero() && (i != 0)) ? '0' : null);
+		}
+	}
 }
