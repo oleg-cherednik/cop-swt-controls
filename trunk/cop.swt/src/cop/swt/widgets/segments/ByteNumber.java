@@ -52,7 +52,7 @@ public final class ByteNumber extends NumberSegmentContainer<Byte>
 
 	private ByteNumber(Shell shell, int orientation, int totalSegmens)
 	{
-		super(shell, new ByteNumberConfig(SignTypeEnum.PLUS_MINUS, SignPositionEnum.INSIDE, orientation, totalSegmens));
+		super(shell, new ByteNumberConfig(SignTypeEnum.PLUS_MINUS, SignPositionEnum.OUTSIDE, orientation, totalSegmens));
 
 		minimum = Byte.MIN_VALUE;
 		maximum = Byte.MAX_VALUE;
