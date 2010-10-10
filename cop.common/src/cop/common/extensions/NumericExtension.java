@@ -6,7 +6,7 @@
  */
 package cop.common.extensions;
 
-import static cop.common.extensions.CollectionExtension.invertArray;
+import static cop.common.extensions.CollectionExtension.*;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.ReflectionExtension.isByte;
@@ -34,64 +34,65 @@ public final class NumericExtension
 	// return (value <= minimum) ? minimum : maximum;
 	// }
 
-	//	public static Integer[] getInvertNumberArray(Integer value)
-	//	{
-	//		return getNumberArray(value, -1, true);
-	//	}
+	// public static Integer[] getInvertNumberArray(Integer value)
+	// {
+	// return getNumberArray(value, -1, true);
+	// }
 	//
-	//	public static Integer[] getInvertNumberArray(Integer value, int size)
-	//	{
-	//		return getNumberArray(value, size, true);
-	//	}
+	// public static Integer[] getInvertNumberArray(Integer value, int size)
+	// {
+	// return getNumberArray(value, size, true);
+	// }
 	//
-	//	public static Integer[] getNumberArray(Integer value)
-	//	{
-	//		return getNumberArray(value, -1, false);
-	//	}
+	// public static Integer[] getNumberArray(Integer value)
+	// {
+	// return getNumberArray(value, -1, false);
+	// }
 	//
-	//	public static Integer[] getNumberArray(Integer value, int size)
-	//	{
-	//		return getNumberArray(value, size, false);
-	//	}
+	// public static Integer[] getNumberArray(Integer value, int size)
+	// {
+	// return getNumberArray(value, size, false);
+	// }
 	//
-	//	public static Integer[] getNumberArray(Integer value, boolean invert)
-	//	{
-	//		return getNumberArray(value, -1, invert);
-	//	}
+	// public static Integer[] getNumberArray(Integer value, boolean invert)
+	// {
+	// return getNumberArray(value, -1, invert);
+	// }
 
-	//	public static <T extends Number> Integer[] getNumberArray(T value, int size, boolean invert)
-	//	{
-	//		if(isNull(value))
-	//			return new Integer[0];
+	// public static <T extends Number> Integer[] getNumberArray(T value, int size, boolean invert)
+	// {
+	// if(isNull(value))
+	// return new Integer[0];
 	//
-	//		String str = expandToLimitWithChar(value, size, DEFAULT_CHAR);
+	// String str = expandToLimitWithChar(value, size, DEFAULT_CHAR);
 	//
-	//		//String str = (size < 1) ? ("" + value.intValue()) : StringExtension.resizeString("" + value, size, StringExtension.DEFAULT_CHAR);
-	//		//expandToLimitWithChar(value.intValue(), size);
-	//		Integer[] arr = new Integer[str.length()];
-	//		char[] ch1 = str.toCharArray();
+	// //String str = (size < 1) ? ("" + value.intValue()) : StringExtension.resizeString("" + value, size,
+	// StringExtension.DEFAULT_CHAR);
+	// //expandToLimitWithChar(value.intValue(), size);
+	// Integer[] arr = new Integer[str.length()];
+	// char[] ch1 = str.toCharArray();
 	//
-	//		if(invert)
-	//		{
-	//			//int i = 0;
-	//			int i = arr.length - 1;
+	// if(invert)
+	// {
+	// //int i = 0;
+	// int i = arr.length - 1;
 	//
-	//			for(char ch : ch1)
-	//				arr[i++] = (ch == DEFAULT_CHAR) ? null : Integer.valueOf(String.valueOf(ch));
-	//		}
-	//		else
-	//		{
-	//			//int i = arr.length - 1;
-	//			int i = 0;
+	// for(char ch : ch1)
+	// arr[i++] = (ch == DEFAULT_CHAR) ? null : Integer.valueOf(String.valueOf(ch));
+	// }
+	// else
+	// {
+	// //int i = arr.length - 1;
+	// int i = 0;
 	//
-	//			//			for(int j = ch1.length - 1; j >= 0; j--)
-	//			//				arr[i--] = (ch == DEFAULT_CHAR) ? null : Integer.valueOf(String.valueOf(ch));
-	//			//for(char ch : ch1)
-	//			//				arr[i--] = (ch == DEFAULT_CHAR) ? null : Integer.valueOf(String.valueOf(ch));
-	//		}
+	// // for(int j = ch1.length - 1; j >= 0; j--)
+	// // arr[i--] = (ch == DEFAULT_CHAR) ? null : Integer.valueOf(String.valueOf(ch));
+	// //for(char ch : ch1)
+	// // arr[i--] = (ch == DEFAULT_CHAR) ? null : Integer.valueOf(String.valueOf(ch));
+	// }
 	//
-	//		return arr;
-	//	}
+	// return arr;
+	// }
 
 	public static int compareNumbers(Class<?> type, Object obj1, Object obj2)
 	{
@@ -115,12 +116,12 @@ public final class NumericExtension
 
 	public static <T extends Number> char[] toCharArray(T value)
 	{
-		return isNotNull(value) ? value.toString().toCharArray() : new char[0];
+		return isNotNull(value) ? value.toString().toCharArray() : EMPTY_CHAR_ARR;
 	}
 
 	public static <T extends Number> char[] toInvertedCharArray(T value)
 	{
-		return isNotNull(value) ? invertArray(value.toString().toCharArray()) : new char[0];
+		return isNotNull(value) ? invertArray(value.toString().toCharArray()) : EMPTY_CHAR_ARR;
 	}
 
 	/*

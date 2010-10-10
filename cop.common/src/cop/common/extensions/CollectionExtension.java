@@ -23,6 +23,7 @@ import java.util.TreeSet;
 public final class CollectionExtension
 {
 	public static final int[] EMPTY_INT_ARR = new int[0];
+	public static final char[] EMPTY_CHAR_ARR = new char[0];
 
 	private CollectionExtension()
 	{}
@@ -70,14 +71,22 @@ public final class CollectionExtension
 		return res.toArray(arr);
 	}
 
-	public static <T> T[] replaceAll(T[] arr, T oldVal, T newVal)
+//	public static <T> T[] replaceAll(T[] arr, T oldVal, T newVal)
+//	{
+//		for(int i = 0; i < arr.length; i++)
+//			if(arr[i].equals(oldVal))
+//				arr[i] = newVal;
+//
+//		return arr;
+//	}
+
+	public static char[] replaceAll(char[] arr, char oldVal, char newVal)
 	{
-		List<T> res = new LinkedList<T>();
+		for(int i = 0; i < arr.length; i++)
+			if(arr[i] == oldVal)
+				arr[i] = newVal;
 
-		for(T val : arr)
-			res.add(val.equals(oldVal) ? newVal : val);
-
-		return res.toArray(arr);
+		return arr;
 	}
 
 	public static <T> boolean isEmpty(T[] arr)

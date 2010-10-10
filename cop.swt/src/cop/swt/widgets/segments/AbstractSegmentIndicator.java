@@ -91,14 +91,18 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 		return value;
 	}
 
-	public /*final*/void setValue(N value)
+	public final void setValue(N value)
 	{
 		if(isEqual(value, this.value) || !isValueValid(value))
 			return;
 
 		this.value = value;
+		_setValue();
 		redraw();
 	}
+
+	protected void _setValue()
+	{};
 
 	protected/* abstract */boolean isValueValid(N value)
 	{
