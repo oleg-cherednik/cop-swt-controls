@@ -2,8 +2,7 @@ package cop.swt.widgets.segments;
 
 import static cop.common.extensions.CollectionExtension.replaceAll;
 import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.isGreater;
-import static cop.common.extensions.NumericExtension.isLess;
+import static cop.common.extensions.NumericExtension.isInRangeMinMax;
 import static cop.common.extensions.NumericExtension.toCharArray;
 
 import org.eclipse.swt.widgets.Shell;
@@ -119,22 +118,18 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	protected void _setValue()
 	{
 		if(isNull(value))
-		{
 			clear();
-			return;
+		else if(isInRangeMinMax(value, minimum, maximum))
+		{
+			int j = segments.length - 1;
+			char[] arr = toCharArray(value);
+
+			fillSegments();
+			setSignMarker(arr);
+
+			for(int i = arr.length - 1; i >= 0; i--, j--)
+				if(arr[i] != '\0')
+					segments[j].setValue(arr[i]);
 		}
-
-		if(isGreater(value, maximum) || isLess(value, minimum))
-			return;
-
-		int j = segments.length - 1;
-		char[] arr = toCharArray(value);
-
-		fillSegments();
-		setSignMarker(arr);
-
-		for(int i = arr.length - 1; i >= 0; i--, j--)
-			if(arr[i] != '\0')
-				segments[j].setValue(arr[i]);
 	}
 }
