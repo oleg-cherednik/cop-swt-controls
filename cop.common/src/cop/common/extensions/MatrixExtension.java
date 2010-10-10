@@ -16,10 +16,10 @@ public final class MatrixExtension
 	{}
 
 	/**
-	 * Create transpose matrix of giving one
+	 * Create a new matrix that is transpose of the giving one.
 	 * 
 	 * @param matrix matrix
-	 * @return new matrix that is transpose to giving <b>matrix</b>
+	 * @return a new matrix that is transpose of the giving <b>matrix</b>
 	 */
 	public static int[][] transposeMatrix(int[][] matrix)
 	{
