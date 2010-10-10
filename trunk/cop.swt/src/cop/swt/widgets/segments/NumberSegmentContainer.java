@@ -1,12 +1,11 @@
 package cop.swt.widgets.segments;
 
-import static cop.common.extensions.CommonExtension.isEqual;
+import static cop.common.extensions.CollectionExtension.replaceAll;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.isGreater;
 import static cop.common.extensions.NumericExtension.isLess;
-import static cop.common.extensions.NumericExtension.toInvertedCharArray;
+import static cop.common.extensions.NumericExtension.toCharArray;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Shell;
 
 import cop.swt.widgets.segments.interfaces.ISegmentConfig;
@@ -31,6 +30,47 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	public NumberSegmentContainer(Shell shell, ISegmentConfig config)
 	{
 		super(shell, config.getOrientation(), config.getTotalSegments(), config);
+	}
+
+	private void fillSegments()
+	{
+		for(SegmentedIndicator segment : segments)
+		{
+			if(!config.isLeadingZero() || (segment instanceof SignSegment))
+				segment.setValue(null);
+			else
+				segment.setValue('0');
+		}
+	}
+
+	private void setSignMarker(char[] arr)
+	{
+		boolean negative = arr[0] == '-';
+
+		if(isZero(arr))
+		{
+			segments[0].setValue(null);
+			return;
+		}
+
+		if(!negative)
+		{
+			segments[0].setValue((segments[0] instanceof SignSegment) ? '+' : null);
+			return;
+		}
+
+		if(config.getSignPosition() == SignPositionEnum.OUTSIDE || config.isLeadingZero())
+		{
+			segments[0].setValue('-');
+			replaceAll(arr, '-', '\0');
+		}
+		else
+			segments[0].setValue(null);
+	}
+
+	private static boolean isZero(char[] arr)
+	{
+		return arr[0] == '0' && arr.length == 1;
 	}
 
 	/*
@@ -62,14 +102,6 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 			}
 		}
 
-		// if(signSegment)
-		// {
-		// segments = new SegmentedIndicator[config.getTotalSegments()totalSegments + 1];
-		// segments[i++] = new SignSegment(x, y, scale);
-		// }
-		// else
-		// segments = new SegmentedIndicator[totalSegments];
-
 		for(; i < totalSegments; i++)
 			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
 	}
@@ -84,11 +116,8 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	}
 
 	@Override
-	public void setValue(T value)
+	protected void _setValue()
 	{
-		if(isEqual(value, this.value))
-			return;
-
 		if(isNull(value))
 		{
 			clear();
@@ -98,99 +127,14 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 		if(isGreater(value, maximum) || isLess(value, minimum))
 			return;
 
-		super.setValue(value);
-
-		// if(config.getSignPosition() == SignPositionEnum.OUTSIDE)
-		// {
-		// if(value == null || value.intValue() == 0)
-		// segments[0].setValue(null);
-		// else if(value.intValue() > 0)
-		// segments[0].setValue('+');
-		// else
-		// segments[0].setValue('-');
-		// }
-
-		setDirectValue();
-	}
-
-	private void setDirectValue()
-	{
-		Assert.isNotNull(value);
-
 		int j = segments.length - 1;
-		char[] arr = toInvertedCharArray(value);
-		boolean negative = arr[arr.length - 1] == '-';
+		char[] arr = toCharArray(value);
 
-		for(int i = arr.length - 1; i > 0; i--, j--)
-			segments[j].setValue(arr[i]);
-		
-		if(!negative)
-			segments[j].setValue(arr[0]);
+		fillSegments();
+		setSignMarker(arr);
 
-		if(config.isLeadingZero())
-		{
-			for(; j > 0; j--)
-				segments[j].setValue('0');
-		}
-		else
-		{
-			if(config.getSignPosition() == SignPositionEnum.INSIDE)
-				segments[j--].setValue('-');
-			else
-				segments[j--].setValue(null);
-
-			for(; j > 0; j--)
-				segments[j].setValue(null);
-		}
-		
-		
-		
-		if(config.getSignPosition() == SignPositionEnum.OUTSIDE)
-			segments[0].setValue(negative ? '-' : '+');
-		
-		
-		/*
-		 * 
-		 */
-
-		if(config.getSignPosition() == SignPositionEnum.OUTSIDE)
-		{
-			for(char ch : arr)
-			{
-				if(config.getSignPosition() == SignPositionEnum.OUTSIDE && ch == '-')
-					break;
-
-				segments[j--].setValue(ch);
-			}
-		}
-
-		if(negative)
-		{
-			if(config.isLeadingZero())
-			{
-				for(; j > 0; j--)
-					segments[j].setValue('0');
-
-				if(config.getSignPosition() == SignPositionEnum.INSIDE)
-					segments[j].setValue('-');
-				else
-					segments[j].setValue('0');
-			}
-			else
-			{
-				if(config.getSignPosition() == SignPositionEnum.INSIDE)
-					segments[j--].setValue('-');
-				else
-					segments[j--].setValue(null);
-
-				for(; j > 0; j--)
-					segments[j].setValue(null);
-			}
-		}
-		else
-		{
-			for(; j > 0; j--)
-				segments[j].setValue((config.isLeadingZero() && (j != 0)) ? '0' : null);
-		}
+		for(int i = arr.length - 1; i >= 0; i--, j--)
+			if(arr[i] != '\0')
+				segments[j].setValue(arr[i]);
 	}
 }
