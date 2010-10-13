@@ -1,6 +1,6 @@
 package cop.swt.widgets.keys.enums;
 
-import static cop.common.extensions.CollectionExtension.find;
+import static cop.algorithms.search.LinearSearch.linearSearch;
 import static cop.common.extensions.CommonExtension.isNotNull;
 
 import org.eclipse.core.runtime.Assert;
@@ -57,8 +57,8 @@ public enum KeyEnum
 	KEY_GREY_MINUS(0x100002D);
 
 	private int keyCode;
-	private char ctrlChar; //Ctrl+...
-	private char altChar; //Alt+...
+	private char ctrlChar; // Ctrl+...
+	private char altChar; // Alt+...
 	private String keyName;
 
 	private KeyEnum(int keyCode)
@@ -154,7 +154,7 @@ public enum KeyEnum
 
 	public static boolean isArrow(KeyEnum key)
 	{
-		return isNotNull(key) ? find(getArrowKeys(), key) >= 0 : false;
+		return isNotNull(key) ? linearSearch(getArrowKeys(), key) >= 0 : false;
 	}
 
 	public static boolean isPageUpDown(int keyCode)

@@ -10,7 +10,7 @@ package cop.algorithms.sort;
 import static cop.algorithms.sort.BubbleSort.bubbleSort;
 import static cop.algorithms.sort.SortTestSuit.sortedIntArray;
 import static cop.algorithms.sort.SortTestSuit.unsortedIntArray;
-import static cop.common.extensions.CollectionExtension.convertToIntegerArray;
+import static cop.common.extensions.ArrayExtension.convertToIntegerArray;
 import static cop.common.extensions.ComparatorExtension.createComparator;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

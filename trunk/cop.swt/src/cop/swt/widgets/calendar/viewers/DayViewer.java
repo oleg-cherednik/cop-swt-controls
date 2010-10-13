@@ -10,7 +10,7 @@ import static cop.common.extensions.CalendarExtension.isDaySame;
 import static cop.common.extensions.CalendarExtension.isMonth;
 import static cop.common.extensions.CalendarExtension.isMonthsSame;
 import static cop.common.extensions.CalendarExtension.isYear;
-import static cop.common.extensions.CollectionExtension.find;
+import static cop.algorithms.search.LinearSearch.linearSearch;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.isInRangeMinMax;
@@ -666,7 +666,7 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 
 		private int findDay(DaySell daySell)
 		{
-			return find(days, daySell);
+			return linearSearch(days, daySell);
 		}
 
 		private Calendar getFirstShowDate()

@@ -1,12 +1,11 @@
 package cop.swt.widgets.viewers.html.enums;
 
-import static cop.common.extensions.CollectionExtension.copyOfRange;
+import static cop.common.extensions.ArrayExtension.copyOfRange;
 import static cop.common.extensions.HtmlExtension.HTML_TAG_CLOSE;
 import static cop.common.extensions.HtmlExtension.HTML_TAG_END;
 import static cop.common.extensions.HtmlExtension.HTML_TAG_OPEN;
 import static cop.common.extensions.StringExtension.isEmpty;
-
-import cop.common.extensions.CollectionExtension;
+import cop.common.extensions.ArrayExtension;
 import cop.swt.widgets.viewers.html.interfaces.IHtmlTag;
 
 public enum HtmlTagEnum implements IHtmlTag
@@ -45,7 +44,7 @@ public enum HtmlTagEnum implements IHtmlTag
 
 	public static String makeEffect(String text, IHtmlTag... effects)
 	{
-		if(isEmpty(text) || CollectionExtension.isEmpty(effects))
+		if(isEmpty(text) || ArrayExtension.isEmpty(effects))
 			return text;
 
 		IHtmlTag effect = effects[0];

@@ -9,10 +9,8 @@ package cop.common.extensions;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.isInRangeMin;
-import static cop.common.extensions.NumericExtension.isInRangeMinMax;
 import static java.lang.Math.max;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -22,9 +20,6 @@ import java.util.TreeSet;
 
 public final class CollectionExtension
 {
-	public static final int[] EMPTY_INT_ARR = new int[0];
-	public static final char[] EMPTY_CHAR_ARR = new char[0];
-
 	private CollectionExtension()
 	{}
 
@@ -71,14 +66,14 @@ public final class CollectionExtension
 		return res.toArray(arr);
 	}
 
-//	public static <T> T[] replaceAll(T[] arr, T oldVal, T newVal)
-//	{
-//		for(int i = 0; i < arr.length; i++)
-//			if(arr[i].equals(oldVal))
-//				arr[i] = newVal;
-//
-//		return arr;
-//	}
+	// public static <T> T[] replaceAll(T[] arr, T oldVal, T newVal)
+	// {
+	// for(int i = 0; i < arr.length; i++)
+	// if(arr[i].equals(oldVal))
+	// arr[i] = newVal;
+	//
+	// return arr;
+	// }
 
 	public static char[] replaceAll(char[] arr, char oldVal, char newVal)
 	{
@@ -87,61 +82,6 @@ public final class CollectionExtension
 				arr[i] = newVal;
 
 		return arr;
-	}
-
-	public static <T> boolean isEmpty(T[] arr)
-	{
-		return arr == null || arr.length == 0;
-	}
-
-	public static <T> boolean isNotEmpty(T[] arr)
-	{
-		return !isEmpty(arr);
-	}
-
-	public static boolean isEmpty(double[] arr)
-	{
-		return arr == null || arr.length == 0;
-	}
-
-	public static boolean isEmpty(char[] arr)
-	{
-		return arr == null || arr.length == 0;
-	}
-
-	public static boolean isNotEmpty(double[] arr)
-	{
-		return !isEmpty(arr);
-	}
-
-	public static boolean isEmpty(boolean[] arr)
-	{
-		return arr == null || arr.length == 0;
-	}
-
-	public static boolean isNotEmpty(boolean[] arr)
-	{
-		return !isEmpty(arr);
-	}
-
-	public static boolean isEmpty(int[] arr)
-	{
-		return arr == null || arr.length == 0;
-	}
-
-	public static boolean isNotEmpty(int[] arr)
-	{
-		return !isEmpty(arr);
-	}
-
-	public static boolean isEmpty(long[] arr)
-	{
-		return arr == null || arr.length == 0;
-	}
-
-	public static boolean isNotEmpty(long[] arr)
-	{
-		return !isEmpty(arr);
 	}
 
 	public static boolean isEmpty(Collection<?> collection)
@@ -208,93 +148,6 @@ public final class CollectionExtension
 		}
 	}
 
-	public static <T> int find(T[] arr, T key)
-	{
-		if(isEmpty(arr) || key == null)
-			return -1;
-
-		for(int i = 0; i < arr.length; i++)
-			if(key.equals(arr[i]))
-				return i;
-
-		return -arr.length;
-	}
-
-	public static int find(int[] arr, int key)
-	{
-		if(isEmpty(arr))
-			return -1;
-
-		for(int i = 0; i < arr.length; i++)
-			if(key == arr[i])
-				return i;
-
-		return -arr.length;
-	}
-
-	public static <T> T[] copyOfRange(T[] arr, int from)
-	{
-		return copyOfRange(arr, from, -1);
-	}
-
-	public static <T> T[] copyOfRange(T[] arr, int from, int to)
-	{
-		if(isEmpty(arr) || from < 0)
-			return arr;
-
-		if(from > arr.length - 1)
-			return null;
-
-		if(to < 0)
-		{
-			int _from = from;
-			int _to = arr.length;
-			return Arrays.copyOfRange(arr, _from, _to);
-		}
-
-		return (from < to) ? arr : Arrays.copyOfRange(arr, from, to);
-	}
-
-	public static <T> T getLastItem(T[] arr) throws IllegalArgumentException
-	{
-		if(isEmpty(arr))
-			throw new IllegalArgumentException("arr is empty or null");
-
-		return arr[arr.length - 1];
-	}
-
-	public static double getLastItem(double[] arr) throws IllegalArgumentException
-	{
-		if(isEmpty(arr))
-			throw new IllegalArgumentException("arr is empty or null");
-
-		return arr[arr.length - 1];
-	}
-
-	public static boolean getLastItem(boolean[] arr) throws IllegalArgumentException
-	{
-		if(isEmpty(arr))
-			throw new IllegalArgumentException("arr is empty or null");
-
-		return arr[arr.length - 1];
-	}
-
-	public static int getLastItem(int[] arr) throws IllegalArgumentException
-	{
-		if(isEmpty(arr))
-			throw new IllegalArgumentException("arr is empty or null");
-
-		return arr[arr.length - 1];
-	}
-
-	public static long getLastItem(long[] arr)
-	{
-		if(isEmpty(arr))
-			throw new IllegalArgumentException("arr is empty or null");
-
-		return arr[arr.length - 1];
-	}
-
 	public static <T> boolean swap(List<T> list, int index1, int index2)
 	{
 		if(isEmpty(list))
@@ -313,40 +166,6 @@ public final class CollectionExtension
 		return true;
 	}
 
-	public static int[] removeDublicates(int[] arr)
-	{
-		return removeDublicates(arr, null, null);
-	}
-
-	public static int[] removeDublicates(int[] arr, Integer minimum, Integer maximum)
-	{
-		try
-		{
-			return toIntArray(toCollection(arr, LinkedHashSet.class, minimum, maximum));
-		}
-		catch(Exception e)
-		{
-			return new int[0];
-		}
-	}
-
-	public static int[] removeDublicatesAndSort(int[] arr)
-	{
-		return removeDublicatesAndSort(arr, null, null);
-	}
-
-	public static int[] removeDublicatesAndSort(int[] arr, Integer minimum, Integer maximum)
-	{
-		try
-		{
-			return toIntArray(toCollection(arr, TreeSet.class, minimum, maximum));
-		}
-		catch(Exception e)
-		{
-			return new int[0];
-		}
-	}
-
 	public static <T> void convertToAnotherColletion(Collection<T> dest, Collection<T> src)
 	{
 		if(isNull(dest) || isEmpty(src))
@@ -359,25 +178,6 @@ public final class CollectionExtension
 			dest.add(obj);
 	}
 
-	public static <T> String[] convertToStringArray(T[] arr)
-	{
-		return convertToStringArray(arr, -1);
-	}
-
-	public static <T> String[] convertToStringArray(T[] arr, int length)
-	{
-		if(isEmpty(arr))
-			return new String[0];
-
-		int newLength = isInRangeMinMax(length, 1, arr.length) ? length : arr.length;
-		String[] res = new String[newLength];
-
-		for(int i = 0, size = newLength; i < size; i++)
-			res[i] = "" + arr[i];
-
-		return res;
-	}
-
 	public static int[] convertToIntArray(Collection<Integer> values)
 	{
 		if(isEmpty(values))
@@ -388,34 +188,6 @@ public final class CollectionExtension
 
 		for(Integer value : values)
 			arr[i++] = isNotNull(value) ? value.intValue() : 0;
-
-		return arr;
-	}
-
-	public static int[] convertToIntArray(Integer[] values)
-	{
-		if(isEmpty(values))
-			return new int[0];
-
-		int[] arr = new int[values.length];
-		int i = 0;
-
-		for(Integer value : values)
-			arr[i++] = isNotNull(value) ? value.intValue() : 0;
-
-		return arr;
-	}
-
-	public static Integer[] convertToIntegerArray(int[] values)
-	{
-		if(isEmpty(values))
-			return new Integer[0];
-
-		Integer[] arr = new Integer[values.length];
-		int i = 0;
-
-		for(Integer value : values)
-			arr[i++] = Integer.valueOf(isNotNull(value) ? value : 0);
 
 		return arr;
 	}
@@ -450,93 +222,12 @@ public final class CollectionExtension
 		}
 	}
 
-	public static void moveArrayX(int[] arr, int offs)
-	{
-		if(isNull(arr))
-			return;
-
-		for(int i = 0; i < arr.length; i += 2)
-			arr[i] = arr[i] + offs;
-	}
-
-	public static void moveArrayY(int[] arr, int offs)
-	{
-		if(isNull(arr))
-			return;
-
-		for(int i = 1; i < arr.length; i += 2)
-			arr[i] = arr[i] + offs;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static Collection<Integer> toCollection(final int[] arr, Class<? extends Collection> cls)
-	{
-		try
-		{
-			return toCollection(arr, cls, null, null);
-		}
-		catch(Exception e)
-		{
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> Collection<T> toCollection(final T[] arr, Class<? extends Collection> cls)
-	{
-		try
-		{
-			Collection<T> dest = cls.newInstance();
-
-			if(isEmpty(arr))
-				return dest;
-
-			for(T val : arr)
-				dest.add(val);
-
-			return dest;
-		}
-		catch(Exception e)
-		{
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T[] invertArray(T[] arr)
-	{
-		if(isEmpty(arr))
-			return (T[])(new Object[0]);
-
-		T[] res = arr.clone();
-		int i = res.length - 1;
-
-		for(T val : arr)
-			res[i--] = val;
-
-		return res;
-	}
-
-	public static char[] invertArray(char[] arr)
-	{
-		if(isEmpty(arr))
-			return new char[0];
-
-		char[] res = arr.clone();
-		int i = res.length - 1;
-
-		for(char ch : arr)
-			res[i--] = ch;
-
-		return res;
-	}
-
 	// public static <T> Collection<T>invertCollection(Collection<T> arr)
 	// {
 	//
 	// }
 
-	private static <T extends Number> int[] toIntArray(Collection<T> arr)
+	public static <T extends Number> int[] toIntArray(Collection<T> arr)
 	{
 		int i = 0;
 		int[] res = new int[arr.size()];
@@ -547,7 +238,7 @@ public final class CollectionExtension
 		return res;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static <T> void filterCollection(Class<? extends Collection> cls, Collection<T> arr)
 	                throws InstantiationException, IllegalAccessException
 	{
@@ -560,19 +251,4 @@ public final class CollectionExtension
 		convertToAnotherColletion(arr, tmp);
 	}
 
-	@SuppressWarnings("unchecked")
-	private static Collection<Integer> toCollection(final int[] arr, Class<? extends Collection> cls, Integer minimum,
-	                Integer maximum) throws InstantiationException, IllegalAccessException
-	{
-		Collection<Integer> dest = cls.newInstance();
-
-		if(isEmpty(arr))
-			return dest;
-
-		for(Integer val : arr)
-			if(isInRangeMinMax(val, minimum, maximum))
-				dest.add(val);
-
-		return dest;
-	}
 }

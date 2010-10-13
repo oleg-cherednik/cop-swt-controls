@@ -8,7 +8,7 @@ import static cop.common.beans.JavaBean.getPropertyNameByMethodName;
 import static cop.common.beans.JavaBean.getSetterMethodNameByGetterMethodName;
 import static cop.common.extensions.AnnotationExtension.getAnnotatedFields;
 import static cop.common.extensions.AnnotationExtension.getAnnotatedMethods;
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
+import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.CollectionExtension.removeDublicatesAndSort;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;

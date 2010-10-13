@@ -1,8 +1,8 @@
 package cop.swt.widgets.segments.primitives;
 
+import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.BitExtension.isAnyBitSet;
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
 import static cop.common.extensions.CommonExtension.isNull;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;

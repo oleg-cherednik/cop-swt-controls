@@ -1,9 +1,9 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
-import static cop.common.extensions.CollectionExtension.convertToStringArray;
-import static cop.common.extensions.CollectionExtension.find;
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
+import static cop.common.extensions.ArrayExtension.convertToStringArray;
+import static cop.algorithms.search.LinearSearch.linearSearch;
+import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.compareNumbers;
@@ -73,7 +73,7 @@ public class EnumColumnDescription<T> extends AbstractColumnDescription<T>
 		if(isNull(obj) || isEmpty(i18n))
 			return "" + obj;
 
-		int pos = find(constatns, obj);
+		int pos = linearSearch(constatns, obj);
 
 		return (pos >= 0) ? i18n[pos] : ("" + obj);
 	}
@@ -105,7 +105,7 @@ public class EnumColumnDescription<T> extends AbstractColumnDescription<T>
 		Object[] values = type.getEnumConstants();
 
 		// ILocalProvider
-		int pos = find(values, str);
+		int pos = linearSearch(values, str);
 
 		return (pos < 0) ? 0 : pos;
 	}

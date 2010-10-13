@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.junit4
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: cop.algorithms.sort,
+Export-Package: cop.algorithms.search,
+ cop.algorithms.sort,
  cop.common.beans,
  cop.common.enums,
  cop.common.exceptions,

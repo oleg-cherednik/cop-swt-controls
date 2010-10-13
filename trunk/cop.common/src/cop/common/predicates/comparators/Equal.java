@@ -9,7 +9,6 @@ package cop.common.predicates.comparators;
 
 import java.util.Comparator;
 
-
 /**
  * @author <a href="mailto:abba-bestl@mail.ru">Cherednik, Oleg</a>
  */

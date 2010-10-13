@@ -7,7 +7,7 @@
  */
 package cop.algorithms.sort;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNull;
 import cop.common.predicates.comparators.MoreOrEqual;
 
@@ -41,8 +41,7 @@ public final class BubbleSort
 	 * Sort given array using bubble sort algorithm.<br>
 	 * If array is <tt>null</tt> or empty then do nothing.
 	 * 
-	 * @param arr
-	 *            array to sort
+	 * @param arr array to sort
 	 * @return just return <b>arr</b> parameter
 	 */
 	public static int[] bubbleSort(int[] arr)
@@ -81,12 +80,9 @@ public final class BubbleSort
 	 * Sort given array using bubble sort algorithm and giving {@link MoreOrEqual} predicate.<br>
 	 * If array or comparator is <tt>null</tt> or empty then do nothing.
 	 * 
-	 * @param arr
-	 *            array to sort
-	 * @param moreOrEqual
-	 *            predicate
+	 * @param arr array to sort
+	 * @param moreOrEqual predicate
 	 * @return just return <b>arr</b> parameter
-	 * 
 	 * @see MoreOrEqual
 	 */
 	public static <T> T[] bubbleSort(T[] arr, MoreOrEqual<T> moreOrEqual)

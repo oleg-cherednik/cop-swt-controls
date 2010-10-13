@@ -1,6 +1,7 @@
 package cop.swt.widgets.viewers;
 
 import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.isInRangeMin;
 import static cop.swt.widgets.annotations.services.LabelService.getItemName;

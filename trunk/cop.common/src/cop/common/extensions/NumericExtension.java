@@ -6,7 +6,8 @@
  */
 package cop.common.extensions;
 
-import static cop.common.extensions.CollectionExtension.*;
+import static cop.common.extensions.ArrayExtension.EMPTY_CHAR_ARR;
+import static cop.common.extensions.ArrayExtension.invertArray;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.ReflectionExtension.isByte;

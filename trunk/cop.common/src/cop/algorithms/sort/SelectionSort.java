@@ -7,7 +7,7 @@
  */
 package cop.algorithms.sort;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNull;
 
 import java.util.Comparator;
@@ -50,10 +50,8 @@ public final class SelectionSort
 	 * Sort given array using selection sort algorithm and giving comparator.<br>
 	 * If array or comparator is <tt>null</tt> or empty then do nothing.
 	 * 
-	 * @param arr
-	 *            array to sort
-	 * @param cmp
-	 *            comparator
+	 * @param arr array to sort
+	 * @param cmp comparator
 	 * @return just return <b>arr</b> parameter
 	 */
 	public static int[] selectionSort(int[] arr)
@@ -90,10 +88,8 @@ public final class SelectionSort
 	 * Sort given array using selection sort algorithm and giving comparator.<br>
 	 * If array or comparator is <tt>null</tt> or empty then do nothing.
 	 * 
-	 * @param arr
-	 *            array to sort
-	 * @param cmp
-	 *            comparator
+	 * @param arr array to sort
+	 * @param cmp comparator
 	 * @return just return <b>arr</b> parameter
 	 */
 	public static <T> T[] selectionSort(T[] arr, Comparator<T> cmp)
