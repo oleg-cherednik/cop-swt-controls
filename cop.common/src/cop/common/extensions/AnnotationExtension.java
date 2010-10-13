@@ -6,10 +6,9 @@
  */
 package cop.common.extensions;
 
+import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.CollectionExtension.isArraysEqual;
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
-import static cop.common.extensions.CollectionExtension.toCollection;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 
@@ -35,7 +34,8 @@ public final class AnnotationExtension
 		Set<Method> res = new HashSet<Method>();
 
 		for(Method[] methods : new Method[][] { cls.getDeclaredMethods(), cls.getMethods() })
-			res.addAll(toCollection(methods, HashSet.class));
+			for(Method method : methods)
+				res.add(method);
 
 		return res.toArray(new Method[0]);
 	}

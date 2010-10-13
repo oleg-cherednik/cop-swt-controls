@@ -7,7 +7,7 @@
  */
 package cop.algorithms.sort;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNull;
 
 import java.util.Comparator;

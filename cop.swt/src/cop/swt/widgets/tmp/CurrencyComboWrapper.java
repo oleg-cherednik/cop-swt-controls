@@ -1,7 +1,7 @@
 package cop.swt.widgets.tmp;
 
 import static com.ibm.icu.util.Currency.LONG_NAME;
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.swt.extensions.LocalizationExtension.createLocale;
 

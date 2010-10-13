@@ -1,5 +1,6 @@
 package cop.swt.widgets.keys;
 
+import static cop.algorithms.search.LinearSearch.linearSearch;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ALT;
@@ -11,7 +12,6 @@ import static cop.swt.widgets.keys.enums.KeyEnum.KEY_SHIFT;
 import java.util.Set;
 import java.util.TreeSet;
 
-import cop.common.extensions.CollectionExtension;
 import cop.common.extensions.StringExtension;
 import cop.swt.widgets.keys.enums.KeyEnum;
 
@@ -60,12 +60,12 @@ public class HotKeyGroup extends KeyGroup
 
 	public static boolean isMagicKey(KeyEnum key)
 	{
-		return isNotNull(key) ? (CollectionExtension.find(MAGIC_KEYS, key) >= 0) : false;
+		return isNotNull(key) ? (linearSearch(MAGIC_KEYS, key) >= 0) : false;
 	}
 
 	public static boolean isControlKey(KeyEnum key)
 	{
-		return isNotNull(key) ? (CollectionExtension.find(CONTROL_KEYS, key) >= 0) : false;
+		return isNotNull(key) ? (linearSearch(CONTROL_KEYS, key) >= 0) : false;
 	}
 
 	/*

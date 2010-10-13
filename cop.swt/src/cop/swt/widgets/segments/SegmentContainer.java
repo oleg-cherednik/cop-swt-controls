@@ -1,11 +1,11 @@
 package cop.swt.widgets.segments;
 
+import static cop.common.extensions.ArrayExtension.invertArray;
+import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.toCollection;
 import static cop.common.extensions.BitExtension.isAnyBitSet;
 import static cop.common.extensions.BitExtension.isBitSet;
 import static cop.common.extensions.CollectionExtension.convertToIntArray;
-import static cop.common.extensions.CollectionExtension.invertArray;
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.toCollection;
 import static java.lang.Math.max;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
@@ -34,7 +34,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 	protected final int totalSegments;
 	private int space = 1;
-	
+
 	protected final ISegmentConfig config;
 
 	public SegmentContainer(Shell shell, int orientation, int totalSegments, ISegmentConfig config)

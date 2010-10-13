@@ -4,10 +4,11 @@
  */
 package cop.swt.widgets.viewers.table;
 
+import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.BitExtension.clearBits;
 import static cop.common.extensions.BitExtension.isBitSet;
 import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isNotEmpty;

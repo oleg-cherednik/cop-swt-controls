@@ -24,12 +24,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
-import cop.swt.extensions.ColorExtension;
+import Jama.Matrix;
+
 import cop.swt.widgets.segments.ByteNumber;
 import cop.swt.widgets.segments.SegmentContainer;
 import cop.swt.widgets.segments.SegmentedIndicator;
 import cop.swt.widgets.segments.SignSegment;
-import cop.swt.widgets.segments.interfaces.ISegment;
 import cop.swt.widgets.segments.seven.DigitalNumericSevenSegment;
 
 public class CanvasExample implements IExample
@@ -52,6 +52,11 @@ public class CanvasExample implements IExample
 	@Override
 	public void run(Composite parent)
 	{
+		double[][] arr1 = {{1,2,3},{4,5,6},{7,8,9}};
+		Matrix A = new Matrix(arr1);
+		Matrix B = A.transpose();
+		double[][] arr2 = B.getArray();
+		
 		display = parent.getDisplay();
 		shell = new Shell(display);
 		gc = new GC(shell);

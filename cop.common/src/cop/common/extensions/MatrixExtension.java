@@ -7,6 +7,8 @@
  */
 package cop.common.extensions;
 
+import static java.lang.Math.max;
+
 /**
  * @author <a href="mailto:abba-bestl@mail.ru">Cherednik, Oleg</a>
  */
@@ -30,7 +32,7 @@ public final class MatrixExtension
 		int rows = matrix.length;
 
 		for(int[] row : matrix)
-			columns = Math.max(columns, row.length);
+			columns = max(columns, row.length);
 
 		int[][] arr = new int[columns][rows];
 

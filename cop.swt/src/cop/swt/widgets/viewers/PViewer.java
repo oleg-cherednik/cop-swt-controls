@@ -4,9 +4,10 @@
  */
 package cop.swt.widgets.viewers;
 
-import static cop.common.extensions.CollectionExtension.find;
+import static cop.algorithms.search.LinearSearch.linearSearch;
+import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.removeDublicatesAndSort;
 import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.removeDublicatesAndSort;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
@@ -187,8 +188,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		for(int index : unicueIndices)
 		{
 			int[] selectedItems = getSelectionIndices();
-			boolean sel = find(selectedItems, index) >= 0;
-			boolean sel1 = find(selectedItems, index - 1) >= 0;
+			boolean sel = linearSearch(selectedItems, index) >= 0;
+			boolean sel1 = linearSearch(selectedItems, index - 1) >= 0;
 
 			swap(index, index - 1);
 
@@ -235,8 +236,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		{
 			int index = unicueIndices[i];
 			int[] selectedItems = getSelectionIndices();
-			boolean sel = find(selectedItems, index) >= 0;
-			boolean sel1 = find(selectedItems, index + 1) >= 0;
+			boolean sel = linearSearch(selectedItems, index) >= 0;
+			boolean sel1 = linearSearch(selectedItems, index + 1) >= 0;
 
 			swap(index, index + 1);
 
@@ -569,7 +570,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	 */
 
 	@Override
-    public void refresh()
+	public void refresh()
 	{
 		widget.refresh();
 	}
@@ -579,7 +580,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	 */
 
 	@Override
-    public void clear()
+	public void clear()
 	{
 
 	}

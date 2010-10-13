@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import cop.common.extensions.ArrayExtension;
 import cop.common.extensions.CollectionExtension;
 import cop.common.extensions.StringExtension;
 import cop.swt.widgets.interfaces.IClear;
@@ -28,7 +29,7 @@ public class KeyGroup implements IClear, Cloneable
 
 	public KeyGroup(KeyEnum... keys)
 	{
-		if(CollectionExtension.isEmpty(keys))
+		if(ArrayExtension.isEmpty(keys))
 			return;
 
 		for(KeyEnum key : keys)

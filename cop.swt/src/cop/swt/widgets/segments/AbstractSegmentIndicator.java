@@ -1,6 +1,6 @@
 package cop.swt.widgets.segments;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isEqual;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
