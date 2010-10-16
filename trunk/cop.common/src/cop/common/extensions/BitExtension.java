@@ -30,8 +30,8 @@ public final class BitExtension
 	 * Checks if all bits of giving bit set are set or not
 	 * 
 	 * @param value checked value
-	 * @param bits checked bit or bit set.
-	 * @return <code>true</code> if all selected bit(s) is set
+	 * @param bits checked bit or bit set
+	 * @return <code>true</code> if all selected bit(s) are set
 	 */
 	public static boolean isBitSet(int value, int bits)
 	{
@@ -42,8 +42,8 @@ public final class BitExtension
 	 * Checks if any bits of giving bit set are set or not
 	 * 
 	 * @param value checked value
-	 * @param bit checked bit or bit set.
-	 * @return <code>true</code> if any of giving bit(s) is set
+	 * @param bit checked bit or bit set
+	 * @return <code>true</code> if any of giving bit(s) are set
 	 */
 	public static boolean isAnyBitSet(int value, int bits)
 	{
@@ -54,21 +54,47 @@ public final class BitExtension
 	 * Checks if all bits of giving bit set are clear or not
 	 * 
 	 * @param value checked value
-	 * @param bit checked bit or bit set.
-	 * @return <code>true</code> if all selected bit(s) is clear
+	 * @param bit checked bit or bit set
+	 * @return <code>true</code> if all selected bit(s) are clear
 	 */
 	public static boolean isBitClear(int value, int bits)
 	{
 		return (value & bits) == 0;
 	}
 
-	public static int clearBits(int value, int bits)
+	/**
+	 * Checks if any bits of giving bit set are clear or not
+	 * 
+	 * @param value checked value
+	 * @param bit checked bit or bit set
+	 * @return <code>true</code> if any selected bit(s) are clear
+	 */
+	public static boolean isAnyBitClear(int value, int bits)
 	{
-		return value & ~bits;
+		return (~value & bits) != 0;
 	}
 
+	/**
+	 * Set selected bit(s) in giving value
+	 * 
+	 * @param value value
+	 * @param bit bit or bit set to set in the value
+	 * @return <code>value</code> with set selected bits
+	 */
 	public static int setBits(int value, int bits)
 	{
 		return value | bits;
+	}
+
+	/**
+	 * Clear selected bit(s) in giving value
+	 * 
+	 * @param value value
+	 * @param bit bit or bit set to clear in the value
+	 * @return <code>value</code> with cleared selected bits
+	 */
+	public static int clearBits(int value, int bits)
+	{
+		return value & ~bits;
 	}
 }
