@@ -42,6 +42,6 @@ public final class LinearSearch
 			if(equal.check(arr[i], key))
 				return i;
 
-		return -arr.length;
+		return -1;
 	}
 }

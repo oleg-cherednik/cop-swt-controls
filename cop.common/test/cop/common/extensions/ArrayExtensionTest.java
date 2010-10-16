@@ -8,7 +8,7 @@
 package cop.common.extensions;
 
 import static cop.common.extensions.ArrayExtension.invertArrayHorizontally;
-import static cop.common.extensions.ArrayExtension.invertArrayVerticallyi;
+import static cop.common.extensions.ArrayExtension.invertArrayVertically;
 import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.Test;
@@ -21,19 +21,19 @@ public class ArrayExtensionTest
 	private int[][] arr = createArray();
 
 	@Test
+	public void testInvertArrayVertically()
+	{
+		assertArrayEquals(invertArrayVertically(null), null);
+		assertArrayEquals(invertArrayVertically(new int[0][0]), new int[0][0]);
+		assertArrayEquals(invertArrayVertically(arr), createVerticalInvertArray());
+	}
+
+	@Test
 	public void testInvertArrayHorizontally()
 	{
 		assertArrayEquals(invertArrayHorizontally(null), null);
 		assertArrayEquals(invertArrayHorizontally(new int[0][0]), new int[0][0]);
 		assertArrayEquals(invertArrayHorizontally(arr), createHorizontalInvertArray());
-	}
-
-	@Test
-	public void testInvertArrayVertically()
-	{
-		assertArrayEquals(invertArrayVerticallyi(null), null);
-		assertArrayEquals(invertArrayVerticallyi(new int[0][0]), new int[0][0]);
-		assertArrayEquals(invertArrayVerticallyi(arr), createVerticalInvertArray());
 	}
 
 	private static int[][] createArray()

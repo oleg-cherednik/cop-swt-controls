@@ -18,7 +18,7 @@ public final class ArrayExtension
 	private ArrayExtension()
 	{}
 
-	public static int[][] invertArrayVerticallyi(int[][] arr)
+	public static int[][] invertArrayVertically(int[][] arr)
 	{
 		if(arr == null)
 			return null;

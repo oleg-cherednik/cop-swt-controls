@@ -127,9 +127,9 @@
 
 	<target name="run-tests" depends="compile, compile-tests" description="Run tests">
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
-			<test name="cop.TestSuit" />
 			<classpath refid="classpath.test" />
+			<formatter type="plain" usefile="false" />
+			<test name="cop.TestSuit" />
 		</junit>
 	</target>
-
 </project>
