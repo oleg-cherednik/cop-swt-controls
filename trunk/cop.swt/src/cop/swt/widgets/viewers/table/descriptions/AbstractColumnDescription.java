@@ -337,6 +337,6 @@ public abstract class AbstractColumnDescription<T> implements IColumnDescription
 	@Override
 	public int compareTo(AbstractColumnDescription<T> obj)
 	{
-		return isNotNull(obj) ? content.compareTo(obj.content) : 0;
+		return isNotNull(obj) ? content.compareTo(obj.content) : 1;
 	}
 }
