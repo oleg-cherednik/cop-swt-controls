@@ -18,7 +18,7 @@ import cop.common.predicates.comparators.MoreOrEqual;
  * elements "bubble" to the top of the list. Because it only uses comparisons to operate on elements, it is a comparison
  * sort.
  * <p>
- * <b>Perfomance & Space:</b><br>
+ * <b>Performance & Space:</b><br>
  * <ul>
  * <li>Worst case: O(n<sup>2</sup>)
  * <li>Best case: O(n)
