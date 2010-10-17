@@ -10,7 +10,6 @@ import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.CollectionExtension.isArraysEqual;
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
@@ -28,7 +27,7 @@ public final class AnnotationExtension
 
 	private static Method[] getMethods(Class<?> cls)
 	{
-		if(isNull(cls))
+		if(cls == null)
 			return new Method[0];
 
 		Set<Method> res = new HashSet<Method>();
@@ -53,7 +52,7 @@ public final class AnnotationExtension
 	public static <T extends Annotation> Method[] getAnnotatedMethods(Class<?> cls, Class<T> annotationClass,
 	                Class<?>... parameterTypes)
 	{
-		if(isNull(cls))
+		if(cls == null)
 			return null;
 
 		List<Method> methods = new ArrayList<Method>();
@@ -72,7 +71,7 @@ public final class AnnotationExtension
 
 	public static <T extends Annotation> Field[] getAnnotatedFields(Class<?> cls, Class<T> annotationClass)
 	{
-		if(isNull(cls))
+		if(cls == null)
 			return new Field[0];
 
 		List<Field> fields = new ArrayList<Field>();
@@ -86,7 +85,7 @@ public final class AnnotationExtension
 
 	private static <T extends Annotation> boolean isAnnotated(AccessibleObject obj, Class<T> annotationClass)
 	{
-		if(isNull(obj))
+		if(obj == null)
 			return false;
 
 		if(isNotNull(annotationClass))
@@ -97,7 +96,7 @@ public final class AnnotationExtension
 
 	private static boolean isSameParameters(Method method, Class<?>... parameterTypes)
 	{
-		if(isNull(method))
+		if(method == null)
 			return false;
 
 		return isNotEmpty(parameterTypes) ? isArraysEqual(method.getParameterTypes(), parameterTypes) : true;
