@@ -13,11 +13,14 @@ import static cop.common.extensions.BitExtension.BIT2;
 import static cop.common.extensions.BitExtension.BIT3;
 import static cop.common.extensions.BitExtension.BIT4;
 import static cop.common.extensions.BitExtension.clearBits;
+import static cop.common.extensions.BitExtension.getHighestSetBitNumber;
+import static cop.common.extensions.BitExtension.getLowestSetBitNumber;
+import static cop.common.extensions.BitExtension.getSetBitAmount;
 import static cop.common.extensions.BitExtension.isAnyBitClear;
 import static cop.common.extensions.BitExtension.isAnyBitSet;
 import static cop.common.extensions.BitExtension.isBitClear;
 import static cop.common.extensions.BitExtension.isBitSet;
-import static cop.common.extensions.BitExtension.setBits;
+import static cop.common.extensions.BitExtension.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -92,5 +95,64 @@ public class BitExtensionTest
 		assertEquals(45, clearBits(45, BIT1));
 		assertEquals(44, clearBits(45, BIT0));
 		assertEquals(33, clearBits(45, BIT2 | BIT3));
+	}
+
+	@Test
+	public void testGetLowestSetBitNumber()
+	{
+		assertEquals(0, getLowestSetBitNumber(725));
+		assertEquals(1, getLowestSetBitNumber(298));
+		assertEquals(2, getLowestSetBitNumber(116));
+		assertEquals(3, getLowestSetBitNumber(296));
+	}
+
+	@Test
+	public void testGetHighestSetBitNumber()
+	{
+		assertEquals(9, getHighestSetBitNumber(725));
+		assertEquals(8, getHighestSetBitNumber(298));
+		assertEquals(6, getHighestSetBitNumber(116));
+		assertEquals(8, getHighestSetBitNumber(296));
+	}
+
+	@Test
+	public void testGetSetBitAmount()
+	{
+		assertEquals(6, getSetBitAmount(725));
+		assertEquals(4, getSetBitAmount(298));
+		assertEquals(4, getSetBitAmount(116));
+		assertEquals(3, getSetBitAmount(296));
+	}
+
+	@Test
+	public void testGetLowestSetBit()
+	{
+		assertEquals(BIT0, getLowestSetBit(725));
+		assertEquals(BIT1, getLowestSetBit(298));
+		assertEquals(BIT2, getLowestSetBit(116));
+		assertEquals(BIT3, getLowestSetBit(296));
+	}
+
+	@Test
+	public void testClearLowestSetBit()
+	{
+		assertEquals(clearBits(725, getLowestSetBit(725)), clearLowestSetBit(725));
+		assertEquals(clearBits(298, getLowestSetBit(298)), clearLowestSetBit(298));
+		assertEquals(clearBits(116, getLowestSetBit(116)), clearLowestSetBit(116));
+		assertEquals(clearBits(296, getLowestSetBit(296)), clearLowestSetBit(296));
+	}
+
+	@Test
+	public void testIsPowerOf2()
+	{
+		assertTrue(isPowerOf2(2));
+		assertTrue(isPowerOf2(4));
+		assertTrue(isPowerOf2(8));
+		assertTrue(isPowerOf2(16));
+		assertTrue(isPowerOf2(32));
+
+		assertFalse(isPowerOf2(725));
+		assertFalse(isPowerOf2(100));
+		assertFalse(isPowerOf2(60));
 	}
 }
