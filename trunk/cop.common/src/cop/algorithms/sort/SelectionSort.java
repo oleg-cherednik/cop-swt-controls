@@ -25,9 +25,9 @@ import cop.common.predicates.comparators.NotEqual;
  * repeat the steps above for the remainder of the list (starting at the second position and advancing each time).<br>
  * Effectively, the list is divided into two parts: the sublist of items already sorted, which is built up from left to
  * right and is found at the beginning, and the sublist of items remaining to be sorted, occupying the remainder of the
- * array. s *
+ * array.
  * <p>
- * <b>Perfomance & Space:</b><br>
+ * <b>Performance & Space:</b><br>
  * <ul>
  * <li>Worst case: O(n<sup>2</sup>)
  * <li>Best case: O(n<sup>2</sup>)

@@ -22,7 +22,7 @@ import cop.common.predicates.comparators.MoreOrEqual;
  * directions each pass through the list. This sorting algorithm is only marginally more difficult than bubble sort to
  * implement, and solves the problem with so-called turtles in bubble sort.
  * <p>
- * <b>Perfomance & Space:</b><br>
+ * <b>Performance & Space:</b><br>
  * <ul>
  * <li>Worst case: O(n<sup>2</sup>)
  * <li>Best case: O(n)

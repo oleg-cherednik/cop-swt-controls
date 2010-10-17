@@ -25,7 +25,7 @@ import cop.common.predicates.comparators.MoreOrEqual;
  * the already-sorted list, until no input elements remain. The choice of which element to remove from the input is
  * arbitrary, and can be made using almost any choice algorithm.
  * <p>
- * <b>Perfomance & Space:</b><br>
+ * <b>Performance & Space:</b><br>
  * <ul>
  * <li>Worst case: O(n<sup>2</sup>)
  * <li>Best case: O(n<sup>2</sup>)
