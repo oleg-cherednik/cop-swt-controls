@@ -11,7 +11,7 @@ import static cop.algorithms.sort.InsertionSort.insertionSort;
 import static cop.algorithms.sort.SortTestSuit.sortedIntArray;
 import static cop.algorithms.sort.SortTestSuit.unsortedIntArray;
 import static cop.common.extensions.ArrayExtension.convertToIntegerArray;
-import static cop.common.extensions.ComparatorExtension.createComparator;
+import static cop.common.extensions.CompareExtension.createComparator;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

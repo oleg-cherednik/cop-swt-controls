@@ -31,7 +31,7 @@ public enum MenuItemEnum implements Localizable<String>
 	MI_COPY("Copy", new HotKeyGroup(KEY_CTRL, KEY_C), "Copy", "Kopieren", "Копировать"),
 	MI_DELETE("Delete", KeyEnum.KEY_DELETE, "Delete", "L\u00f6schen", "Удалить"),
 	MI_SELECT_ALL("Select All", new HotKeyGroup(KEY_CTRL, KEY_A), "Select All", "Alle Ausw\u00e4hlen", "Выделить Всё"),
-	MI_DESELECT_ALL("Deselect All", KEY_ESC, "Deselect All", "Alle Abw\u00e4hlen", "Снять Выделение"),
+	MI_DESELECT_ALL("Deselect All", KEY_ESC, "Deselect All", "Abw\u00e4hlen", "Снять Выделение"),
 	MI_PROPERTIES("Properties...", new HotKeyGroup(KEY_ALT, KEY_P), "Properties...", "Eigenschaften...", "Свойства..."),
 	MI_SORT("Sorting", "Sorting", "Sortierung", "Сортировка"),
 	MI_OFF("off", "off", "ausschalten", "выкл."),

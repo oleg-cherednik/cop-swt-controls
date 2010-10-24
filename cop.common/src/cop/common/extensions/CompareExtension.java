@@ -4,9 +4,9 @@ import static cop.common.extensions.CommonExtension.isNull;
 
 import java.util.Comparator;
 
-public final class ComparatorExtension
+public final class CompareExtension
 {
-	private ComparatorExtension()
+	private CompareExtension()
 	{}
 
 	public static <T> int compareObjects(Comparable<T> obj1, T obj2)

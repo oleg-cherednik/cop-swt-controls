@@ -12,6 +12,7 @@ import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_OFF;
 import static cop.swt.widgets.viewers.table.AbstractViewerSorter.DEFAULT_SORT_DIRECTION;
@@ -49,7 +50,6 @@ import org.eclipse.swt.widgets.TableItem;
 import cop.swt.preferences.EmployeeListPreferencePage;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
-import cop.swt.widgets.annotations.services.ColumnService;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.PushMenuItem;
@@ -144,8 +144,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	{
 		Assert.isNotNull(obj);
 
-		List<? extends IColumnDescription> descriptions = ColumnService.getDescriptions(obj.getClass(),
-		                getImageProvider());
+		List<? extends IColumnDescription<T>> descriptions = getDescriptions(obj.getClass(), getImageProvider());
 
 		if(isEmpty(descriptions))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
@@ -157,7 +156,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		for(int i = 0, size = columns.length; i < size; i++)
 		{
-			column = new PTableColumnInfo(obj, viewer, descriptions.get(i));
+			column = new PTableColumnInfo<T>(obj, viewer, descriptions.get(i));
 
 			column.setTableColumnListener(notifyTableColumnListener);
 			column.addPackableListener(doPack);
@@ -481,20 +480,20 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	public void setContentProvider(_IStructuredContentProvider<T> provider)
 	{
-	// if(isNull(provider))
-	// {
-	// if(isNull(model))
-	// model = new LocalContentProvider();
-	//
-	// return;
-	// }
-	//
-	// if(isNotNull(model))
-	// model.dispose();
-	//
-	// //model = provider;
-	//
-	// viewer.setContentProvider(new ContentProviderAdapter<T>(provider));
+		// if(isNull(provider))
+		// {
+		// if(isNull(model))
+		// model = new LocalContentProvider();
+		//
+		// return;
+		// }
+		//
+		// if(isNotNull(model))
+		// model.dispose();
+		//
+		// //model = provider;
+		//
+		// viewer.setContentProvider(new ContentProviderAdapter<T>(provider));
 	}
 
 	/*
@@ -771,7 +770,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			names.add(isNotEmpty(value) ? value : "");
 		}
 
-		return names.toArray(new String[0]);
+		return names.toArray(new String[names.size()]);
 	}
 
 	@Override
