@@ -52,7 +52,8 @@ public final class ColumnService
 	private ColumnService()
 	{}
 
-	public static List<IColumnDescription> getDescriptions(Class<?> item, ImageProvider imageProvider)
+	@SuppressWarnings("unchecked")
+    public static <T> List<IColumnDescription<T>> getDescriptions(Class<?> item, ImageProvider imageProvider)
 	                throws AnnotationDeclarationException
 	{
 		if(isNull(item))
@@ -60,7 +61,7 @@ public final class ColumnService
 
 		checkItemType(item);
 
-		List<IColumnDescription> infos = new ArrayList<IColumnDescription>();
+		List<IColumnDescription<T>> infos = new ArrayList<IColumnDescription<T>>();
 		Field[] fields = getAnnotatedFields(item, Column.class);
 		Method[] methods = getAnnotatedMethods(item, Column.class);
 
@@ -69,17 +70,17 @@ public final class ColumnService
 			throw new AnnotationDeclarationException("No @Column annotated fields or methods found");
 
 		for(Field field : fields)
-			infos.add(getAnnotationInfo(field, imageProvider));
+			infos.add((IColumnDescription<T>)getAnnotationInfo(field, imageProvider));
 
 		for(Method method : methods)
-			infos.add(getAnnotationInfo(method, item, imageProvider));
+			infos.add((IColumnDescription<T>)getAnnotationInfo(method, item, imageProvider));
 
 		removeDublicatesAndSort(infos);
 
 		return infos;
 	}
 
-	private static IColumnDescription getAnnotationInfo(Method method, Class<?> cls, ImageProvider imageProvider)
+	private static <T> IColumnDescription<T> getAnnotationInfo(Method method, Class<?> cls, ImageProvider imageProvider)
 	                throws AnnotationDeclarationException
 	{
 		Assert.isNotNull(method);
@@ -89,7 +90,7 @@ public final class ColumnService
 		checkMethodReturnType(method.getReturnType());
 		checkOrderValue(method.getAnnotation(Column.class));
 
-		IColumnDescription column = createColumnDescription(method, imageProvider);
+		IColumnDescription<T> column = createColumnDescription(method, imageProvider);
 
 		if(isEmpty(column.getName()))
 			column.getContent().setName(getPropertyNameByMethodName(method.getName()));

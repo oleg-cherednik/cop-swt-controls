@@ -66,14 +66,14 @@ public class ColumnMasterDetailsPage<T> implements LocaleSupport
 
 	private void init()
 	{
-		try
-		{
-			comboViewer.setItems(createDescriptionWrapper(obj, ColumnService.getDescriptions(obj.getClass(), null)));
-		}
-		catch(AnnotationDeclarationException e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			//comboViewer.setItems(createDescriptionWrapper(obj, ColumnService.getDescriptions(obj.getClass(), null)));
+//		}
+//		catch(AnnotationDeclarationException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 
 	private void createContents()

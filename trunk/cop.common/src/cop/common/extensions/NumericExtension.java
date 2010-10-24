@@ -8,7 +8,6 @@ package cop.common.extensions;
 
 import static cop.common.extensions.ArrayExtension.EMPTY_CHAR_ARR;
 import static cop.common.extensions.ArrayExtension.invertArray;
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.ReflectionExtension.isByte;
 import static cop.common.extensions.ReflectionExtension.isDouble;
@@ -117,12 +116,12 @@ public final class NumericExtension
 
 	public static <T extends Number> char[] toCharArray(T value)
 	{
-		return isNotNull(value) ? value.toString().toCharArray() : EMPTY_CHAR_ARR;
+		return (value != null) ? value.toString().toCharArray() : EMPTY_CHAR_ARR;
 	}
 
 	public static <T extends Number> char[] toInvertedCharArray(T value)
 	{
-		return isNotNull(value) ? invertArray(value.toString().toCharArray()) : EMPTY_CHAR_ARR;
+		return (value != null) ? invertArray(value.toString().toCharArray()) : EMPTY_CHAR_ARR;
 	}
 
 	/*

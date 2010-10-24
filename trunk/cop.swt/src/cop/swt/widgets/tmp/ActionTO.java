@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 
 import cop.swt.widgets.annotations.Column;
@@ -24,30 +25,30 @@ public class ActionTO
 	@Label(name = "model")
 //	@Column(name = "user name", order = 1, hideable = false)
 //	private String userName;
-	@Column(name = "user name", order = 1, hideable = false)
+	@Column(name = "user name", order = 1, sortable = false, hideable = false)
 	private Name userName;
-	@Column(name = "date", order = 2, movabale = true)
+	@Column(name = "date", order = 2, alignment = SWT.LEFT, sortable = false, hideable = false)
 	private Calendar date;
-	@Column(name = "number", order = 3, movabale = true)
+	@Column(name = "number", order = 3, alignment = SWT.CENTER, sortable = false, hideable = false)
 	private int number;
 	@Currency
-	@Column(name = "price", order = 4, movabale = true)
+	@Column(name = "price", order = 4, alignment = SWT.RIGHT, sortable = false, hideable = false)
 	private double price;
 	@Percent
-	@Column(name = "percent", order = 5, movabale = true)
+	//@Column(name = "percent", order = 5, sortable = false, hideable = false)
 	private double percent;
-	@Column(name = "amount", order = 6, movabale = true)
+	//@Column(name = "amount", order = 6, sortable = false, hideable = false)
 	private Double amount;
 	// //@Column(order = 4)
 	// private List<String> titles = new ArrayList<String>();
 	//@Label
-	@Column(name = "marker", order = 7, movabale = true)
+	//@Column(name = "marker", order = 7, sortable = false, hideable = false)
 	@ImageTextView(view = IMAGE_ONLY)
 	private boolean marker;
 	@Label
-	@Column(name = "count", order = 7, movabale = true)
+	//@Column(name = "count", order = 7, sortable = false, hideable = false)
 	private CountEnum count;
-	@Column(name = "color", order = 8, movabale = true)
+	//@Column(name = "color", order = 8, sortable = false, hideable = false)
 	private RGB color;
 
 	public ActionTO()

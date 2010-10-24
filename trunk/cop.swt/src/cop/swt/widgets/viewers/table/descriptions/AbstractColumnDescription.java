@@ -294,7 +294,7 @@ public abstract class AbstractColumnDescription<T> implements IColumnDescription
 	 */
 
 	@Override
-    public void setLocale(Locale locale)
+	public void setLocale(Locale locale)
 	{
 		if(isNull(locale))
 			return;
