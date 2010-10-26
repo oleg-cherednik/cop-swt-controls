@@ -6,7 +6,6 @@
  */
 package cop.common.extensions;
 
-
 /**
  * Class provides common methods that can't be placed into other named extension classes.<br>
  * This class contains only <i><u>static</u></i> methods. It can't be instantiated or inherited.

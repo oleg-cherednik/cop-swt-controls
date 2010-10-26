@@ -2,8 +2,6 @@ package cop.swt.widgets.viewers.table.celleditors;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
-import static cop.swt.widgets.listeners.TraverseListenerSet.allowEscape;
-import static cop.swt.widgets.listeners.TraverseListenerSet.allowReturn;
 import static java.text.DateFormat.SHORT;
 import static org.eclipse.swt.SWT.NONE;
 
@@ -50,7 +48,7 @@ public class CalendarCellEditor extends CellEditor implements LocaleSupport
 	@Override
 	protected Control createControl(Composite parent)
 	{
-		stamp = new Text(parent, NONE);
+		stamp = new Text(parent, NONE); 
 
 		//stamp.addTraverseListener(allowEscape);
 		//stamp.addTraverseListener(allowReturn);
