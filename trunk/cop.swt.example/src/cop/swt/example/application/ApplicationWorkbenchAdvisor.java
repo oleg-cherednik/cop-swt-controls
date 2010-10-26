@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.application;
+package cop.swt.example.application;
 
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;

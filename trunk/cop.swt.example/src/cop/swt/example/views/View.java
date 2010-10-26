@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.views;
+package cop.swt.example.views;
 
 /**
  * —имволы < , > , "  и & , €вл€ющиес€ служебными дл€ HTML, также имеют хорошо запоминающиес€ мнемонические коды:
@@ -9,7 +9,8 @@ package plugin.cop.swt.example.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import plugin.cop.swt.example.examples.*;
+import cop.swt.example.examples.*;
+
 
 
 public class View extends ViewPart

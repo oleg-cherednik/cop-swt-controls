@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.application;
+package cop.swt.example.application;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.application.ActionBarAdvisor;

@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.panbet;
+package cop.swt.example.panbet;
 
 import static java.util.Calendar.HOUR;
 import static java.util.Calendar.MINUTE;

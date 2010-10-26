@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.examples;
+package cop.swt.example.examples;
 
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ESC;
 import static cop.swt.widgets.keys.enums.KeyEnum.parseKeyEnum;
@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import plugin.cop.swt.example.Activator;
 
+import cop.swt.example.Activator;
 import cop.swt.extensions.ColorExtension;
 
 public class WelcomeExample implements IExample

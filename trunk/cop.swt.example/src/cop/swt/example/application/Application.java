@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.application;
+package cop.swt.example.application;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;

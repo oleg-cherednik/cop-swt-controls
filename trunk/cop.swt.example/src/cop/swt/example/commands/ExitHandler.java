@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.commands;
+package cop.swt.example.commands;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

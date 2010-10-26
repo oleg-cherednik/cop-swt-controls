@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.examples;
+package cop.swt.example.examples;
 
 import static cop.swt.extensions.ColorExtension.WHITE;
 
