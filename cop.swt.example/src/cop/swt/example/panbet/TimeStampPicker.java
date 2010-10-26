@@ -2,7 +2,7 @@
  * Created on 09.03.2006
  */
 
-package plugin.cop.swt.example.panbet;
+package cop.swt.example.panbet;
 
 
 

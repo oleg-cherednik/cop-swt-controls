@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.examples;
+package cop.swt.example.examples;
 
 import org.eclipse.swt.widgets.Composite;
 

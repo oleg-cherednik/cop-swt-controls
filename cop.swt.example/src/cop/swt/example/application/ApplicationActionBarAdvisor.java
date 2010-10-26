@@ -1,4 +1,4 @@
-package plugin.cop.swt.example.application;
+package cop.swt.example.application;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;

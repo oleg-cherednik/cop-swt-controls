@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Example
 Bundle-SymbolicName: cop.swt.example; singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: plugin.cop.swt.example.Activator
+Bundle-Activator: cop.swt.example.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.forms;bundle-version="3.4.1",
@@ -11,19 +11,19 @@ Require-Bundle: org.eclipse.ui,
  cop.common;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.nebula.cwt.animation,
+Export-Package: cop.swt.example,
+ cop.swt.example.application,
+ cop.swt.example.commands,
+ cop.swt.example.examples,
+ cop.swt.example.perspectives,
+ cop.swt.example.views,
+ org.eclipse.nebula.cwt.animation,
  org.eclipse.nebula.cwt.animation.effects,
  org.eclipse.nebula.cwt.animation.movement,
  org.eclipse.nebula.cwt.base,
  org.eclipse.nebula.cwt.svg,
  org.eclipse.nebula.cwt.v,
- org.eclipse.nebula.widgets.cdatetime,
- plugin.cop.swt.example,
- plugin.cop.swt.example.application,
- plugin.cop.swt.example.commands,
- plugin.cop.swt.example.examples,
- plugin.cop.swt.example.perspectives,
- plugin.cop.swt.example.views
+ org.eclipse.nebula.widgets.cdatetime
 Bundle-ClassPath: .,
  lib/org.eclipse.nebula.cwt_0.9.0.HEAD.jar,
  lib/org.eclipse.nebula.widgets.cdatetime_0.14.0.HEAD.jar,

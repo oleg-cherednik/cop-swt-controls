@@ -1,4 +1,4 @@
-package plugin.cop.swt.example;
+package cop.swt.example;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
