@@ -65,7 +65,7 @@ public final class ColumnService
 		Field[] fields = getAnnotatedFields(item, Column.class);
 		Method[] methods = getAnnotatedMethods(item, Column.class);
 
-		// if no @Column annotation, throw Exception
+		// if no @Column annotation, throw an Exception
 		if(fields.length == 0 && methods.length == 0)
 			throw new AnnotationDeclarationException("No @Column annotated fields or methods found");
 
