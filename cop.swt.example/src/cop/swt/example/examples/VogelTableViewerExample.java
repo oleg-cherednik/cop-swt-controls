@@ -21,8 +21,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import plugin.cop.swt.example.Activator;
 
-import cop.swt.example.Activator;
+
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.tmp.vogella.ModelProvider;

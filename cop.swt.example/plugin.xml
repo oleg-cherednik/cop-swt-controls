@@ -7,7 +7,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="plugin.cop.swt.example.application.Application">
+               class="cop.swt.example.application.Application">
          </run>
       </application>
    </extension>
@@ -15,7 +15,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             name="Perspective"
-            class="plugin.cop.swt.example.perspectives.Perspective"
+            class="cop.swt.example.perspectives.Perspective"
             id="cop.swt.example.perspective">
       </perspective>
    </extension>
@@ -23,7 +23,7 @@
          point="org.eclipse.ui.views">
       <view
             name="View"
-            class="plugin.cop.swt.example.views.View"
+            class="cop.swt.example.views.View"
             id="cop.swt.example.view">
       </view>
    </extension>
@@ -42,7 +42,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="plugin.cop.swt.example.commands.ExitHandler"
+            defaultHandler="cop.swt.example.commands.ExitHandler"
             id="plugin.commands"
             name="Exit">
       </command>

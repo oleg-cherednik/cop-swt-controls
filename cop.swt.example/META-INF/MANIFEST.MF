@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Example
 Bundle-SymbolicName: cop.swt.example; singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: cop.swt.example.Activator
+Bundle-Activator: plugin.cop.swt.example.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.forms;bundle-version="3.4.1",
@@ -11,8 +11,7 @@ Require-Bundle: org.eclipse.ui,
  cop.common;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: cop.swt.example,
- cop.swt.example.application,
+Export-Package: cop.swt.example.application,
  cop.swt.example.commands,
  cop.swt.example.examples,
  cop.swt.example.perspectives,
