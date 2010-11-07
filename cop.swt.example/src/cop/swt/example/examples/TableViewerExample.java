@@ -139,26 +139,26 @@ public class TableViewerExample implements IExample, LocaleSupport
 		Name nameRI = new Name("Rodionov, Ivan_us", "Rodionov, Ivan_uk", "Rodionov, Ivan_de", "Родионов, Иван");
 
 		Calendar date = Calendar.getInstance();
-		ActionTO action0 = new ActionTO(nameCO, date, 0, 1021.15, 1.35, 12345.678, true, ONE, RED.getRGB());
+		ActionTO action0 = new ActionTO(nameCO, date, 0, 1021.15, 0.05, 12345.678, true, ONE, RED.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action1 = new ActionTO(namePN, date, 1, 1021.15, 0.35, 12345.678, true, TWO, BLACK.getRGB());
+		ActionTO action1 = new ActionTO(namePN, date, 1, 1021.15, 0.15, 12345.678, true, TWO, BLACK.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action2 = new ActionTO(nameSS, date, 2, 1021.15, 0.35, 12345.678, true, THREE, GREEN.getRGB());
+		ActionTO action2 = new ActionTO(nameSS, date, 2, 1021.15, 0.25, 12345.678, true, THREE, GREEN.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
 		ActionTO action3 = new ActionTO(nameZO, date, 3, 1021.15, 0.35, 12345.678, true, FOUR, BLUE.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action4 = new ActionTO(nameKM, date, 4, 1021.15, 0.35, 12345.678, true, FIVE, GRAY.getRGB());
+		ActionTO action4 = new ActionTO(nameKM, date, 4, 1021.15, 0.45, 12345.678, true, FIVE, GRAY.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
 
-		ActionTO action5 = new ActionTO(nameSK, date, 5, 1021, 0.35, 12345.0, true, SIX, YELLOW.getRGB());
+		ActionTO action5 = new ActionTO(nameSK, date, 5, 1021, 0.55, 12345.0, true, SIX, YELLOW.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action6 = new ActionTO(nameAM, date, 6, 1021, 0.35, 12345.0, true, SEVEN, MAGENTA.getRGB());
+		ActionTO action6 = new ActionTO(nameAM, date, 6, 1021, 0.65, 12345.0, true, SEVEN, MAGENTA.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action7 = new ActionTO(nameRS, date, 7, 1021, 0.35, null, true, EIGHT, CYAN.getRGB());
+		ActionTO action7 = new ActionTO(nameRS, date, 7, 1021, 0.75, null, true, EIGHT, CYAN.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action8 = new ActionTO(nameMI, date, 8, 1021, 0.35, 12345.0, true, NINE, DARK_BLUE.getRGB());
+		ActionTO action8 = new ActionTO(nameMI, date, 8, 1021, 0.85, 12345.0, true, NINE, DARK_BLUE.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action9 = new ActionTO(nameRI, date, 9, 1021, 0.35, null, true, TEN, DARK_GREEN.getRGB());
+		ActionTO action9 = new ActionTO(nameRI, date, 9, 1021, 0.95, null, true, TEN, DARK_GREEN.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
 
 		actions1.add(action0);

@@ -28,8 +28,7 @@ import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.contents.ColumnContent;
 import cop.swt.widgets.localization.interfaces.Localizable;
 
-public abstract class AbstractColumnDescription<T> implements IColumnDescription<T>,
-                Comparable<AbstractColumnDescription<T>>
+public abstract class ColumnDescription<T> implements IColumnDescription<T>, Comparable<ColumnDescription<T>>
 {
 	protected ColumnContent content;
 	protected AccessibleObject obj;
@@ -95,7 +94,7 @@ public abstract class AbstractColumnDescription<T> implements IColumnDescription
 	 * @param locale
 	 */
 
-	public AbstractColumnDescription(AccessibleObject obj, Locale locale)
+	public ColumnDescription(AccessibleObject obj, Locale locale)
 	{
 		if(isNull(obj))
 			throw new NullPointerException("obj == null");
@@ -335,7 +334,7 @@ public abstract class AbstractColumnDescription<T> implements IColumnDescription
 	 */
 
 	@Override
-	public int compareTo(AbstractColumnDescription<T> obj)
+	public int compareTo(ColumnDescription<T> obj)
 	{
 		return isNotNull(obj) ? content.compareTo(obj.content) : 1;
 	}

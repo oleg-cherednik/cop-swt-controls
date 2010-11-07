@@ -91,7 +91,7 @@ public class ColumnEditingSupport<T> extends EditingSupport implements LocaleSup
 	protected boolean canEdit(Object element)
 	{
 		System.out.println("ColumnEditingSupport.canEdit()");
-		
+
 		if(readonly || !enabled || description.isReadonly())
 			return false;
 
@@ -113,8 +113,8 @@ public class ColumnEditingSupport<T> extends EditingSupport implements LocaleSup
 		return editor;
 	}
 
-    @Override
-    @SuppressWarnings("unchecked")
+	@Override
+	@SuppressWarnings("unchecked")
 	protected Object getValue(Object element)
 	{
 		System.out.println("ColumnEditingSupport.getValue()");

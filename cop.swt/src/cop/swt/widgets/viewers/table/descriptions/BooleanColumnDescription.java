@@ -20,7 +20,7 @@ import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.contents.ImageTextViewContent;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 
-public class BooleanColumnDescription<T> extends AbstractColumnDescription<T>
+public class BooleanColumnDescription<T> extends ColumnDescription<T>
 {
 	public static final String CHECKED_MARKER = "checked";
 	public static final String UNCHECKED_MARKER = "unchecked";

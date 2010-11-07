@@ -25,30 +25,31 @@ public class ActionTO
 	@Label(name = "model")
 //	@Column(name = "user name", order = 1, hideable = false)
 //	private String userName;
-	@Column(name = "user name", order = 1, sortable = false, hideable = false)
+	@Column(name = "user name", order = 1, sortable = false, hideable = true)
 	private Name userName;
-	@Column(name = "date", order = 2, alignment = SWT.LEFT, sortable = false, hideable = false)
+	@Column(name = "date", order = 2, alignment = SWT.LEFT, sortable = false, hideable = true)
 	private Calendar date;
-	@Column(name = "number", order = 3, alignment = SWT.CENTER, sortable = false, hideable = false)
+	@Column(name = "number", order = 3, alignment = SWT.CENTER, sortable = false, hideable = true)
 	private int number;
 	@Currency
-	@Column(name = "price", order = 4, alignment = SWT.RIGHT, sortable = false, hideable = false)
+	@Column(name = "price", order = 4, alignment = SWT.RIGHT, sortable = false, hideable = true)
 	private double price;
 	@Percent
-	//@Column(name = "percent", order = 5, sortable = false, hideable = false)
+	@ImageTextView(view = IMAGE_ONLY)
+	@Column(name = "percent", order = 5, sortable = false, hideable = false)
 	private double percent;
-	//@Column(name = "amount", order = 6, sortable = false, hideable = false)
+	@Column(name = "amount", order = 6, sortable = false, hideable = false)
 	private Double amount;
-	// //@Column(order = 4)
+	//@Column(order = 4)
 	// private List<String> titles = new ArrayList<String>();
 	//@Label
-	//@Column(name = "marker", order = 7, sortable = false, hideable = false)
+	@Column(name = "marker", order = 7, sortable = false, hideable = true)
 	@ImageTextView(view = IMAGE_ONLY)
 	private boolean marker;
 	@Label
-	//@Column(name = "count", order = 7, sortable = false, hideable = false)
+	@Column(name = "count", order = 7, sortable = false, hideable = false)
 	private CountEnum count;
-	//@Column(name = "color", order = 8, sortable = false, hideable = false)
+	@Column(name = "color", order = 8, sortable = false, hideable = false)
 	private RGB color;
 
 	public ActionTO()
