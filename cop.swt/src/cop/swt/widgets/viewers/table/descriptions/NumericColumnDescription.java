@@ -13,6 +13,7 @@ import java.util.Locale;
 import org.eclipse.core.runtime.Assert;
 
 import cop.common.extensions.ReflectionExtension;
+import cop.swt.images.ImageProvider;
 
 public class NumericColumnDescription<T> extends StringColumnDescription<T>
 {

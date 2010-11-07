@@ -10,19 +10,19 @@ import org.eclipse.swt.widgets.Listener;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.basics.AbstractRadioMenuItem;
-import cop.swt.widgets.viewers.table.descriptions.IColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class RadioDescriptionMenuItem<T> extends AbstractRadioMenuItem
 {
 	private T obj;
-	private IColumnDescription description;
+	private ColumnDescription<T> description;
 
-	public RadioDescriptionMenuItem(T obj, IColumnDescription description, Listener listener)
+	public RadioDescriptionMenuItem(T obj, ColumnDescription<T> description, Listener listener)
 	{
 		this(obj, description, null, null, null, listener);
 	}
 
-	public RadioDescriptionMenuItem(T obj, IColumnDescription description, PropertyProvider<Boolean> visibleProvider,
+	public RadioDescriptionMenuItem(T obj, ColumnDescription<T> description, PropertyProvider<Boolean> visibleProvider,
 	                PropertyProvider<Boolean> enabledProvider, PropertyProvider<Boolean> selectionProvider,
 	                Listener listener)
 	{

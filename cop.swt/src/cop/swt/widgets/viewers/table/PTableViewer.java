@@ -27,7 +27,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -41,9 +40,6 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.MouseTrackListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -59,13 +55,12 @@ import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.RadioDescriptionMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
-import cop.swt.widgets.tmp.ActionTO;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.ibm._IStructuredContentProvider;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
-import cop.swt.widgets.viewers.table.descriptions.IColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 /*
@@ -149,7 +144,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	{
 		Assert.isNotNull(obj);
 
-		List<? extends IColumnDescription<T>> descriptions = getDescriptions(obj.getClass(), getImageProvider());
+		List<? extends ColumnDescription<T>> descriptions = getDescriptions(obj.getClass(), getImageProvider());
 
 		if(isEmpty(descriptions))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
@@ -653,7 +648,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	protected MenuBuilder createSortMenuBuilder()
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
-		IColumnDescription<T> description;
+		ColumnDescription<T> description;
 
 		menuBuilder.addMenuItem(new PushMenuItem(MI_OFF, null, isSorterOnProvider, setSorterOffListener));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());

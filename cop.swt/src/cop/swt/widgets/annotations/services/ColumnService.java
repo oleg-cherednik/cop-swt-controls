@@ -28,7 +28,7 @@ import org.eclipse.core.runtime.Assert;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
-import cop.swt.widgets.viewers.table.descriptions.IColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public final class ColumnService
 {
@@ -53,7 +53,7 @@ public final class ColumnService
 	{}
 
 	@SuppressWarnings("unchecked")
-    public static <T> List<IColumnDescription<T>> getDescriptions(Class<?> item, ImageProvider imageProvider)
+	public static <T> List<? extends ColumnDescription<T>> getDescriptions(Class<?> item, ImageProvider imageProvider)
 	                throws AnnotationDeclarationException
 	{
 		if(isNull(item))
@@ -61,7 +61,7 @@ public final class ColumnService
 
 		checkItemType(item);
 
-		List<IColumnDescription<T>> infos = new ArrayList<IColumnDescription<T>>();
+		List<ColumnDescription<T>> infos = new ArrayList<ColumnDescription<T>>();
 		Field[] fields = getAnnotatedFields(item, Column.class);
 		Method[] methods = getAnnotatedMethods(item, Column.class);
 
@@ -70,17 +70,17 @@ public final class ColumnService
 			throw new AnnotationDeclarationException("No @Column annotated fields or methods found");
 
 		for(Field field : fields)
-			infos.add((IColumnDescription<T>)getAnnotationInfo(field, imageProvider));
+			infos.add((ColumnDescription<T>)getAnnotationInfo(field, imageProvider));
 
 		for(Method method : methods)
-			infos.add((IColumnDescription<T>)getAnnotationInfo(method, item, imageProvider));
+			infos.add((ColumnDescription<T>)getAnnotationInfo(method, item, imageProvider));
 
 		removeDublicatesAndSort(infos);
 
 		return infos;
 	}
 
-	private static <T> IColumnDescription<T> getAnnotationInfo(Method method, Class<?> cls, ImageProvider imageProvider)
+	private static <T> ColumnDescription<T> getAnnotationInfo(Method method, Class<?> cls, ImageProvider imageProvider)
 	                throws AnnotationDeclarationException
 	{
 		Assert.isNotNull(method);
@@ -90,7 +90,7 @@ public final class ColumnService
 		checkMethodReturnType(method.getReturnType());
 		checkOrderValue(method.getAnnotation(Column.class));
 
-		IColumnDescription<T> column = createColumnDescription(method, imageProvider);
+		ColumnDescription<T> column = createColumnDescription(method, imageProvider);
 
 		if(isEmpty(column.getName()))
 			column.getContent().setName(getPropertyNameByMethodName(method.getName()));
@@ -100,7 +100,7 @@ public final class ColumnService
 		return column;
 	}
 
-	private static <T> IColumnDescription<T> getAnnotationInfo(Field field, ImageProvider imageProvider)
+	private static <T> ColumnDescription<T> getAnnotationInfo(Field field, ImageProvider imageProvider)
 	                throws AnnotationDeclarationException
 	{
 		Assert.isNotNull(field);
@@ -108,7 +108,7 @@ public final class ColumnService
 		checkOrderValue(field.getAnnotation(Column.class));
 		checkFieldType(field.getType());
 
-		IColumnDescription<T> column = createColumnDescription(field, imageProvider);
+		ColumnDescription<T> column = createColumnDescription(field, imageProvider);
 
 		if(isEmpty(column.getName()))
 			column.getContent().setName(field.getName());
