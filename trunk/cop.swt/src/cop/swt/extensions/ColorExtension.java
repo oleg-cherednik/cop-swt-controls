@@ -7,7 +7,8 @@
  */
 package cop.swt.extensions;
 
-import static cop.common.extensions.CommonExtension.*;
+import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.common.extensions.CommonExtension.isNull;
 import static org.eclipse.swt.SWT.COLOR_BLACK;
 import static org.eclipse.swt.SWT.COLOR_BLUE;
 import static org.eclipse.swt.SWT.COLOR_CYAN;
@@ -53,7 +54,7 @@ import org.eclipse.swt.widgets.Display;
 
 public final class ColorExtension
 {
-	private static final Map<RGB, Color> rgbMap = new HashMap<RGB, Color>();
+	private static final Map<RGB, Color> RGB_MAP = new HashMap<RGB, Color>();
 
 	public static final Color WHITE = getColor(COLOR_WHITE);
 	public static final Color BLACK = getColor(COLOR_BLACK);
@@ -101,49 +102,49 @@ public final class ColorExtension
 
 	static
 	{
-		rgbMap.put(WHITE.getRGB(), WHITE);
-		rgbMap.put(BLACK.getRGB(), BLACK);
-		rgbMap.put(RED.getRGB(), RED);
-		rgbMap.put(GREEN.getRGB(), GREEN);
-		rgbMap.put(YELLOW.getRGB(), YELLOW);
-		rgbMap.put(BLUE.getRGB(), BLUE);
-		rgbMap.put(MAGENTA.getRGB(), MAGENTA);
-		rgbMap.put(CYAN.getRGB(), CYAN);
-		rgbMap.put(GRAY.getRGB(), GRAY);
+		RGB_MAP.put(WHITE.getRGB(), WHITE);
+		RGB_MAP.put(BLACK.getRGB(), BLACK);
+		RGB_MAP.put(RED.getRGB(), RED);
+		RGB_MAP.put(GREEN.getRGB(), GREEN);
+		RGB_MAP.put(YELLOW.getRGB(), YELLOW);
+		RGB_MAP.put(BLUE.getRGB(), BLUE);
+		RGB_MAP.put(MAGENTA.getRGB(), MAGENTA);
+		RGB_MAP.put(CYAN.getRGB(), CYAN);
+		RGB_MAP.put(GRAY.getRGB(), GRAY);
 
-		rgbMap.put(DARK_RED.getRGB(), DARK_RED);
-		rgbMap.put(DARK_GREEN.getRGB(), DARK_GREEN);
-		rgbMap.put(DARK_YELLOW.getRGB(), DARK_YELLOW);
-		rgbMap.put(DARK_BLUE.getRGB(), DARK_BLUE);
-		rgbMap.put(DARK_MAGENTA.getRGB(), DARK_MAGENTA);
-		rgbMap.put(DARK_CYAN.getRGB(), DARK_CYAN);
-		rgbMap.put(DARK_GRAY.getRGB(), DARK_GRAY);
+		RGB_MAP.put(DARK_RED.getRGB(), DARK_RED);
+		RGB_MAP.put(DARK_GREEN.getRGB(), DARK_GREEN);
+		RGB_MAP.put(DARK_YELLOW.getRGB(), DARK_YELLOW);
+		RGB_MAP.put(DARK_BLUE.getRGB(), DARK_BLUE);
+		RGB_MAP.put(DARK_MAGENTA.getRGB(), DARK_MAGENTA);
+		RGB_MAP.put(DARK_CYAN.getRGB(), DARK_CYAN);
+		RGB_MAP.put(DARK_GRAY.getRGB(), DARK_GRAY);
 
-		rgbMap.put(SELECTION_BACKGROUND.getRGB(), WHITE);
-		rgbMap.put(SELECTION_FOREGROUND.getRGB(), WHITE);
+		RGB_MAP.put(SELECTION_BACKGROUND.getRGB(), WHITE);
+		RGB_MAP.put(SELECTION_FOREGROUND.getRGB(), WHITE);
 
-		rgbMap.put(INFO_BACKGROUND.getRGB(), INFO_BACKGROUND);
-		rgbMap.put(INFO_FOREGROUND.getRGB(), INFO_FOREGROUND);
+		RGB_MAP.put(INFO_BACKGROUND.getRGB(), INFO_BACKGROUND);
+		RGB_MAP.put(INFO_FOREGROUND.getRGB(), INFO_FOREGROUND);
 
-		rgbMap.put(LIST_BACKGROUND.getRGB(), LIST_BACKGROUND);
-		rgbMap.put(LIST_FOREGROUND.getRGB(), LIST_FOREGROUND);
-		rgbMap.put(LIST_SELECTION.getRGB(), LIST_SELECTION);
-		rgbMap.put(LIST_SELECTION_TEXT.getRGB(), LIST_SELECTION_TEXT);
+		RGB_MAP.put(LIST_BACKGROUND.getRGB(), LIST_BACKGROUND);
+		RGB_MAP.put(LIST_FOREGROUND.getRGB(), LIST_FOREGROUND);
+		RGB_MAP.put(LIST_SELECTION.getRGB(), LIST_SELECTION);
+		RGB_MAP.put(LIST_SELECTION_TEXT.getRGB(), LIST_SELECTION_TEXT);
 
-		rgbMap.put(WIDGET_BACKGROUND.getRGB(), WIDGET_BACKGROUND);
-		rgbMap.put(WIDGET_FOREGROUND.getRGB(), WIDGET_FOREGROUND);
-		rgbMap.put(WIDGET_BORDER.getRGB(), WIDGET_BORDER);
-		rgbMap.put(WIDGET_DARK_SHADOW.getRGB(), WIDGET_DARK_SHADOW);
-		rgbMap.put(WIDGET_NORMAL_SHADOW.getRGB(), WIDGET_NORMAL_SHADOW);
-		rgbMap.put(WIDGET_LIGHT_SHADOW.getRGB(), WIDGET_LIGHT_SHADOW);
-		rgbMap.put(WIDGET_HIGHLIGHT_SHADOW.getRGB(), WIDGET_HIGHLIGHT_SHADOW);
+		RGB_MAP.put(WIDGET_BACKGROUND.getRGB(), WIDGET_BACKGROUND);
+		RGB_MAP.put(WIDGET_FOREGROUND.getRGB(), WIDGET_FOREGROUND);
+		RGB_MAP.put(WIDGET_BORDER.getRGB(), WIDGET_BORDER);
+		RGB_MAP.put(WIDGET_DARK_SHADOW.getRGB(), WIDGET_DARK_SHADOW);
+		RGB_MAP.put(WIDGET_NORMAL_SHADOW.getRGB(), WIDGET_NORMAL_SHADOW);
+		RGB_MAP.put(WIDGET_LIGHT_SHADOW.getRGB(), WIDGET_LIGHT_SHADOW);
+		RGB_MAP.put(WIDGET_HIGHLIGHT_SHADOW.getRGB(), WIDGET_HIGHLIGHT_SHADOW);
 
-		rgbMap.put(TITLE_BACKGROUND.getRGB(), TITLE_BACKGROUND);
-		rgbMap.put(TITLE_FOREGROUND.getRGB(), TITLE_FOREGROUND);
-		rgbMap.put(TITLE_INACTIVE_BACKGROUND.getRGB(), TITLE_INACTIVE_BACKGROUND);
-		rgbMap.put(TITLE_INACTIVE_FOREGROUND.getRGB(), TITLE_INACTIVE_FOREGROUND);
-		rgbMap.put(TITLE_BACKGROUND_GRADIENT.getRGB(), TITLE_BACKGROUND_GRADIENT);
-		rgbMap.put(TITLE_INACTIVE_BACKGROUND_GRADIENT.getRGB(), TITLE_INACTIVE_BACKGROUND_GRADIENT);
+		RGB_MAP.put(TITLE_BACKGROUND.getRGB(), TITLE_BACKGROUND);
+		RGB_MAP.put(TITLE_FOREGROUND.getRGB(), TITLE_FOREGROUND);
+		RGB_MAP.put(TITLE_INACTIVE_BACKGROUND.getRGB(), TITLE_INACTIVE_BACKGROUND);
+		RGB_MAP.put(TITLE_INACTIVE_FOREGROUND.getRGB(), TITLE_INACTIVE_FOREGROUND);
+		RGB_MAP.put(TITLE_BACKGROUND_GRADIENT.getRGB(), TITLE_BACKGROUND_GRADIENT);
+		RGB_MAP.put(TITLE_INACTIVE_BACKGROUND_GRADIENT.getRGB(), TITLE_INACTIVE_BACKGROUND_GRADIENT);
 	}
 
 	private ColorExtension()
@@ -159,13 +160,10 @@ public final class ColorExtension
 		if(isNull(rgb))
 			return null;
 
-		Color color = rgbMap.get(rgb);
+		Color color = RGB_MAP.get(rgb);
 
 		if(isNull(color))
-		{
-			color = new Color(Display.getCurrent(), rgb);
-			rgbMap.put(rgb, color);
-		}
+			RGB_MAP.put(rgb, color = new Color(Display.getCurrent(), rgb));
 
 		return color;
 	}
@@ -182,9 +180,9 @@ public final class ColorExtension
 
 	public static void dispose()
 	{
-		for(Color color : rgbMap.values())
+		for(Color color : RGB_MAP.values())
 			color.dispose();
 
-		rgbMap.clear();
+		RGB_MAP.clear();
 	}
 }

@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Listener;
 
 import cop.swt.widgets.annotations.contents.ColumnContent;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;

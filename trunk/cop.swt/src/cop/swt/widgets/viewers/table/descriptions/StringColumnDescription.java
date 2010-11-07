@@ -7,7 +7,7 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
 
-public class StringColumnDescription<T> extends AbstractColumnDescription<T>
+public class StringColumnDescription<T> extends ColumnDescription<T>
 {
 	/**
 	 * Closed constructor

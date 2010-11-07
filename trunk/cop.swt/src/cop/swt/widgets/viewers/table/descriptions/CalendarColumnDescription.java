@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.viewers.table.celleditors.CalendarCellEditor;
 
-public class CalendarColumnDescription<T> extends AbstractColumnDescription<T>
+public class CalendarColumnDescription<T> extends ColumnDescription<T>
 {
 	private CalendarCellEditor cellEditor;
 

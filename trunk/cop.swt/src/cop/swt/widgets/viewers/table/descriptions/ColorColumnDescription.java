@@ -13,7 +13,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
-public class ColorColumnDescription<T> extends AbstractColumnDescription<T>
+public class ColorColumnDescription<T> extends ColumnDescription<T>
 {
 	protected ColorColumnDescription(AccessibleObject obj, Locale locale)
 	{

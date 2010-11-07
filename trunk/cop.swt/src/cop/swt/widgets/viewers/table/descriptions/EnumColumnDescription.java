@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 
-public class EnumColumnDescription<T> extends AbstractColumnDescription<T>
+public class EnumColumnDescription<T> extends ColumnDescription<T>
 {
 	private Object[] constatns;
 	private String[] i18n;

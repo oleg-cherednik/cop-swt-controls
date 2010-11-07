@@ -12,7 +12,7 @@ import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.CollectionExtension.removeDublicatesAndSort;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.swt.widgets.viewers.table.descriptions.AbstractColumnDescription.createColumnDescription;
+import static cop.swt.widgets.viewers.table.descriptions.ColumnDescription.createColumnDescription;
 import static org.eclipse.swt.SWT.LEFT;
 
 import java.lang.reflect.Field;
