@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.annotations.services.LabelService;
 import cop.swt.widgets.interfaces.LabelSupport;
@@ -26,7 +25,7 @@ import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
-import cop.swt.widgets.viewers.table.descriptions.IColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class PListViewer<T> extends PViewer<T> implements LabelSupport
 {
@@ -101,7 +100,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	protected MenuBuilder createSortMenuBuilder()
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
-		IColumnDescription<T> description;
+		//ColumnDescription<T> description;
 
 		menuBuilder.addMenuItem(new PushMenuItem(MI_SORT, isSortable, null, setSorter));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());

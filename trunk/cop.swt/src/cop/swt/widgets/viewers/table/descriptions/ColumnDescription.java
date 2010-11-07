@@ -12,23 +12,27 @@ import static cop.swt.widgets.annotations.services.PercentService.isPercent;
 import java.lang.reflect.AccessibleObject;
 import java.text.Collator;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Composite;
 
 import cop.common.extensions.ReflectionExtension;
 import cop.common.extensions.StringExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.contents.ColumnContent;
+import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.localization.interfaces.Localizable;
 
-public abstract class ColumnDescription<T> implements IColumnDescription<T>, Comparable<ColumnDescription<T>>
+public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<T>, Comparable<ColumnDescription<T>>
 {
 	protected ColumnContent content;
 	protected AccessibleObject obj;
@@ -39,17 +43,17 @@ public abstract class ColumnDescription<T> implements IColumnDescription<T>, Com
 	 * Static methods
 	 */
 
-	public static <T> IColumnDescription<T> createColumnDescription(AccessibleObject obj)
+	public static <T> ColumnDescription<T> createColumnDescription(AccessibleObject obj)
 	{
 		return createColumnDescription(obj, null);
 	}
 
-	public static <T> IColumnDescription<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider)
+	public static <T> ColumnDescription<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider)
 	{
 		return createColumnDescription(obj, imageProvider, Locale.getDefault());
 	}
 
-	public static <T> IColumnDescription<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider,
+	public static <T> ColumnDescription<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider,
 	                Locale locale)
 	{
 		Assert.isNotNull(obj, "obj == null");
@@ -153,41 +157,31 @@ public abstract class ColumnDescription<T> implements IColumnDescription<T>, Com
 
 	protected abstract int _compare(Object obj1, Object obj2);
 
-	/*
-	 * IColumnDescription
-	 */
-
-	@Override
 	public String getKey()
 	{
 		return getPropertyName(obj);
 	}
 
-	@Override
 	public Object getEditValue(T item) throws Exception
 	{
 		return getValue(item);
 	}
 
-	@Override
 	public final String getTextValue(T item) throws Exception
 	{
 		return getText(invoke(item));
 	}
 
-	@Override
 	public Object getValue(T item) throws Exception
 	{
 		return invoke(item);
 	}
 
-	@Override
 	public void setValue(T item, Object value) throws Exception
 	{
 		invoke(item, value);
 	}
 
-	@Override
 	public void update(ViewerCell cell, T item) throws Exception
 	{
 		Object obj = invoke(item);
@@ -196,7 +190,6 @@ public abstract class ColumnDescription<T> implements IColumnDescription<T>, Com
 		cell.setImage(getColumnImage(obj));
 	}
 
-	@Override
 	public TableViewerColumn createTableViewerColumn(TableViewer viewer)
 	{
 		if(isNull(viewer))
@@ -205,84 +198,74 @@ public abstract class ColumnDescription<T> implements IColumnDescription<T>, Com
 		return content.createTableColumn(viewer);
 	}
 
-	@Override
 	public ColumnContent getContent()
 	{
 		return content;
 	}
 
-	@Override
 	public String getName()
 	{
 		return content.getName();
 	}
+	
+	public abstract CellEditor getCellEditor(Composite parent);
+	
 
 	// public String getUnit()
 	// {
 	//
 	// }
 
-	@Override
 	public AccessibleObject getObject()
 	{
 		return obj;
 	}
 
-	@Override
 	public String getToolTip()
 	{
 		return content.getToolTip();
 	}
 
-	@Override
 	public int getOrder()
 	{
 		return content.getOrder();
 	}
 
-	@Override
 	public boolean isMovable()
 	{
 		return content.isMovable();
 	}
 
-	@Override
 	public boolean isResizable()
 	{
 		return content.isResizable();
 	}
 
-	@Override
 	public boolean isReadonly()
 	{
 		return content.isReadonly();
 	}
 
-	@Override
 	public boolean isSortable()
 	{
 		return content.isSortable();
 	}
 
-	@Override
 	public int getAlignment()
 	{
 		return content.getAlignment();
 	}
 
-	@Override
 	public int getWidth()
 	{
 		return content.getWidth();
 	}
 
-	@Override
 	public boolean isVisible()
 	{
 		return content.isVisible();
 	}
 
-	@Override
 	public boolean isHideable()
 	{
 		return content.isHideable();

@@ -27,8 +27,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -47,15 +45,15 @@ import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.Packable;
-import cop.swt.widgets.viewers.table.descriptions.IColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
 
-public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable
+public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable, Listener
 {
 	private PTableSorter<T> sorter;
 	private ColumnEditingSupport<T> editor;
-	private IColumnDescription<T> description;
+	private ColumnDescription<T> description;
 	private TableViewerColumn columnViewer;
 	private final TableViewer tableViewer;
 
@@ -71,7 +69,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 	private TableColumnListener columnListener;
 	private TableColumnSelectionListener selectionListener;
 
-	public PTableColumnInfo(T obj, final TableViewer tableViewer, IColumnDescription<T> description)
+	public PTableColumnInfo(T obj, final TableViewer tableViewer, ColumnDescription<T> description)
 	{
 		Assert.isNotNull(description);
 
@@ -87,8 +85,6 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 		if(description.isHideable() && !description.isVisible())
 			setHidden(true);
-
-		tableViewer.getTable().addListener(SWT.PaintItem, onPaintItem);
 
 		addListeners();
 	}
@@ -121,8 +117,8 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		int len = (int)((width * percent) / 100);
 
 		event.gc.fillGradientRectangle(event.x, event.y, len, event.height, true);
-		//event.gc.fillRectangle(event.x, event.y, len, event.height);
-		//event.gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
+		// event.gc.fillRectangle(event.x, event.y, len, event.height);
+		// event.gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
 		// event.gc.drawRectangle(event.x, event.y, width - 1, event.height - 1);
 		event.gc.setForeground(background);
 		event.gc.setBackground(foreground);
@@ -130,6 +126,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 	private void addListeners()
 	{
+		tableViewer.getTable().addListener(SWT.PaintItem, this);
 		columnViewer.getColumn().addControlListener(onColumnControl);
 		columnViewer.getColumn().addSelectionListener(onColumnSelect);
 	}
@@ -204,7 +201,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		return editor;
 	}
 
-	public IColumnDescription<T> getDescription()
+	public ColumnDescription<T> getDescription()
 	{
 		return description;
 	}
@@ -521,6 +518,23 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		{
 			e.printStackTrace();
 			columnViewer.getColumn().setText(description.getName());
+		}
+	}
+
+	/*
+	 * Listener
+	 */
+
+	@Override
+	public void handleEvent(Event event)
+	{
+		int a = 0;
+		a++;
+
+		if(event.type == SWT.PaintItem)
+		{
+			int b = 0;
+			b++;
 		}
 	}
 }

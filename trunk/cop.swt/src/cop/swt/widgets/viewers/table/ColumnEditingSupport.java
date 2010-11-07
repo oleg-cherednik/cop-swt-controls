@@ -16,23 +16,23 @@ import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
-import cop.swt.widgets.viewers.table.descriptions.IColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class ColumnEditingSupport<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>
 {
 	public CellEditor editor;
-	private IColumnDescription<T> description;
+	private ColumnDescription<T> description;
 	private boolean readonly;
 	private boolean enabled;
 	private IModifyProvider<T> modifyProvider;
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 
-	public ColumnEditingSupport(TableViewer viewer, IColumnDescription<T> description)
+	public ColumnEditingSupport(TableViewer viewer, ColumnDescription<T> description)
 	{
 		this(viewer, description, null);
 	}
 
-	public ColumnEditingSupport(TableViewer viewer, IColumnDescription<T> description, IModifyProvider<T> modifyProvider)
+	public ColumnEditingSupport(TableViewer viewer, ColumnDescription<T> description, IModifyProvider<T> modifyProvider)
 	{
 		super(viewer);
 

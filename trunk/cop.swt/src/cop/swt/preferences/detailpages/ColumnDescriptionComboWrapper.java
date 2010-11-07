@@ -12,14 +12,14 @@ import org.eclipse.core.runtime.Assert;
 
 import cop.swt.widgets.annotations.Label;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
-import cop.swt.widgets.viewers.table.descriptions.IColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public final class ColumnDescriptionComboWrapper<T>
 {
-	private IColumnDescription description;
+	private ColumnDescription<T> description;
 	private T obj;
 
-	public ColumnDescriptionComboWrapper(T obj, IColumnDescription description)
+	public ColumnDescriptionComboWrapper(T obj, ColumnDescription<T> description)
 	{
 		Assert.isNotNull(obj);
 		Assert.isNotNull(description);
@@ -44,15 +44,15 @@ public final class ColumnDescriptionComboWrapper<T>
 	}
 
 	public static <T> List<ColumnDescriptionComboWrapper<T>> createDescriptionWrapper(T obj,
-	                List<IColumnDescription> descriptions)
+	                List<ColumnDescription<T>> descriptions)
 	{
 		if(isNull(obj) && isEmpty(descriptions))
 			return null;
 
-		List<ColumnDescriptionComboWrapper<T>> res = new ArrayList<ColumnDescriptionComboWrapper<T>>(descriptions
-		                .size());
+		List<ColumnDescriptionComboWrapper<T>> res = new ArrayList<ColumnDescriptionComboWrapper<T>>(
+		                descriptions.size());
 
-		for(IColumnDescription description : descriptions)
+		for(ColumnDescription<T> description : descriptions)
 			res.add(new ColumnDescriptionComboWrapper<T>(obj, description));
 
 		return res;
