@@ -17,7 +17,7 @@ import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_OFF;
 import static cop.swt.widgets.viewers.table.AbstractViewerSorter.DEFAULT_SORT_DIRECTION;
 import static org.eclipse.swt.SWT.FULL_SELECTION;
-import static org.eclipse.swt.SWT.READ_ONLY;
+import static org.eclipse.swt.SWT.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -92,11 +92,11 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		super(obj, new TableViewer(parent, clearBits(style, READ_ONLY) | FULL_SELECTION), PREFERENCE_PAGE, config);
 
 		createColumns();
+
 		setReadonly(isBitSet(style, READ_ONLY));
+		addListeners(obj);
 		createLabelProvider();
 		createFilter();
-
-		addListeners(obj);
 		postConstruct();
 	}
 
@@ -200,6 +200,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		table.addMouseMoveListener(onMouseMove);
 		table.addMouseListener(setEditOnDoubleClick);
 		table.addDisposeListener(preDispose);
+		table.addListener(PaintItem, onPaintItem);
 	}
 
 	private void _pack()
@@ -755,6 +756,15 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		return names.toArray(new String[0]);
 	}
+
+	private Listener onPaintItem = new Listener()
+	{
+		@Override
+		public void handleEvent(Event event)
+		{
+			columns[event.index].handleEvent(event);
+		}
+	};
 
 	private String[] getObjectVisibleFieldsString(T obj)
 	{
