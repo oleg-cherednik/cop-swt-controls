@@ -20,27 +20,22 @@ import java.util.Set;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 
-import cop.swt.extensions.ColorExtension;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.tmp.ActionTO;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
@@ -89,44 +84,8 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		addListeners();
 	}
 
-	private Listener onPaintItem = new Listener()
-	{
-		public void handleEvent(Event event)
-		{
-			String name = description.getName();
-
-			if(!name.equals("percent") || event.index != 4)
-				return;
-
-			drawProgressBar(event);
-		}
-	};
-
-	private void drawProgressBar(Event event)
-	{
-		ActionTO data = (ActionTO)((TableItem)event.item).getData();
-		double percent = data.getPercent() * 100;
-
-		Color foreground = event.gc.getForeground();
-		Color background = event.gc.getBackground();
-
-		event.gc.setForeground(ColorExtension.RED);
-		event.gc.setBackground(ColorExtension.YELLOW);
-
-		int width = columnViewer.getColumn().getWidth();
-		int len = (int)((width * percent) / 100);
-
-		event.gc.fillGradientRectangle(event.x, event.y, len, event.height, true);
-		// event.gc.fillRectangle(event.x, event.y, len, event.height);
-		// event.gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
-		// event.gc.drawRectangle(event.x, event.y, width - 1, event.height - 1);
-		event.gc.setForeground(background);
-		event.gc.setBackground(foreground);
-	}
-
 	private void addListeners()
 	{
-		tableViewer.getTable().addListener(SWT.PaintItem, this);
 		columnViewer.getColumn().addControlListener(onColumnControl);
 		columnViewer.getColumn().addSelectionListener(onColumnSelect);
 	}
@@ -528,13 +487,6 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 	@Override
 	public void handleEvent(Event event)
 	{
-		int a = 0;
-		a++;
-
-		if(event.type == SWT.PaintItem)
-		{
-			int b = 0;
-			b++;
-		}
+		description.handleEvent(event, tableViewer, columnViewer);
 	}
 }

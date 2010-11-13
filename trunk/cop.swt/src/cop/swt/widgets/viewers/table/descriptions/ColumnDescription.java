@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 
 import cop.common.extensions.ReflectionExtension;
 import cop.common.extensions.StringExtension;
@@ -207,9 +208,8 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	{
 		return content.getName();
 	}
-	
+
 	public abstract CellEditor getCellEditor(Composite parent);
-	
 
 	// public String getUnit()
 	// {
@@ -321,4 +321,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	{
 		return isNotNull(obj) ? content.compareTo(obj.content) : 1;
 	}
+
+	public /*abstract*/void handleEvent(Event event, TableViewer tableViewer, TableViewerColumn columnViewer)
+	{}
 }

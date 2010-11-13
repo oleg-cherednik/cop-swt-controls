@@ -10,6 +10,15 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.TableItem;
+
+import cop.swt.extensions.ColorExtension;
+import cop.swt.widgets.tmp.ActionTO;
 
 public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 {
@@ -22,6 +31,28 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	protected PercentColumnDescription(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
+	}
+
+	private void drawProgressBar(Event event, TableViewerColumn columnViewer)
+	{
+		ActionTO data = (ActionTO)((TableItem)event.item).getData();
+		double percent = data.getPercent() * 100;
+
+		Color foreground = event.gc.getForeground();
+		Color background = event.gc.getBackground();
+
+		event.gc.setForeground(ColorExtension.RED);
+		event.gc.setBackground(ColorExtension.YELLOW);
+
+		int width = columnViewer.getColumn().getWidth();
+		int len = (int)((width * percent) / 100);
+
+		event.gc.fillGradientRectangle(event.x, event.y, len, event.height, true);
+		// event.gc.fillRectangle(event.x, event.y, len, event.height);
+		// event.gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
+		// event.gc.drawRectangle(event.x, event.y, width - 1, event.height - 1);
+		event.gc.setForeground(background);
+		event.gc.setBackground(foreground);
 	}
 
 	@Override
@@ -76,5 +107,16 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 
 		if(isNotNull(locale))
 			numberFormat = getNumberFormat(locale);
+	}
+
+	/*
+	 * ColumnDescription
+	 */
+
+	@Override
+	public void handleEvent(Event event, TableViewer tableViewer, TableViewerColumn columnViewer)
+	{
+		if(event.type == SWT.PaintItem)
+			drawProgressBar(event, columnViewer);
 	}
 }
