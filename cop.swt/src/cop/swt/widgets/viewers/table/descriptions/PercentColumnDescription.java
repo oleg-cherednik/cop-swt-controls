@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.TableItem;
 
@@ -36,23 +37,25 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	private void drawProgressBar(Event event, TableViewerColumn columnViewer)
 	{
 		ActionTO data = (ActionTO)((TableItem)event.item).getData();
-		double percent = data.getPercent() * 100;
+		drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth(), event.height, data.getPercent() * 100);
+	}
+	
+	private static void drawProgressBar(GC gc, int x, int y, int width, int height, double value)
+	{
+		Color foreground = gc.getForeground();
+		Color background = gc.getBackground();
 
-		Color foreground = event.gc.getForeground();
-		Color background = event.gc.getBackground();
+		gc.setForeground(ColorExtension.RED);
+		gc.setBackground(ColorExtension.YELLOW);
 
-		event.gc.setForeground(ColorExtension.RED);
-		event.gc.setBackground(ColorExtension.YELLOW);
+		int len = (int)((width * value) / 100);
 
-		int width = columnViewer.getColumn().getWidth();
-		int len = (int)((width * percent) / 100);
-
-		event.gc.fillGradientRectangle(event.x, event.y, len, event.height, true);
-		// event.gc.fillRectangle(event.x, event.y, len, event.height);
-		// event.gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
-		// event.gc.drawRectangle(event.x, event.y, width - 1, event.height - 1);
-		event.gc.setForeground(background);
-		event.gc.setBackground(foreground);
+		gc.fillGradientRectangle(x, y, len, height, true);
+		// gc.fillRectangle(event.x, event.y, len, event.height);
+		// gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
+		// gc.drawRectangle(event.x, event.y, width - 1, event.height - 1);
+		gc.setForeground(background);
+		gc.setBackground(foreground);
 	}
 
 	@Override
