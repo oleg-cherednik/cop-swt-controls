@@ -322,6 +322,6 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		return isNotNull(obj) ? content.compareTo(obj.content) : 1;
 	}
 
-	public /*abstract*/void handleEvent(Event event, TableViewer tableViewer, TableViewerColumn columnViewer)
+	public void handleEvent(Event event, TableViewer tableViewer, TableViewerColumn columnViewer)
 	{}
 }
