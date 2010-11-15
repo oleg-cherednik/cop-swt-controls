@@ -1,8 +1,9 @@
 package cop.swt.widgets.viewers.table;
 
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.swt.enums.CaseSensitivityEnum.CASE_INSENSITIVE;
+
+import java.util.Map;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -11,11 +12,11 @@ import cop.swt.enums.CaseSensitivityEnum;
 
 public class TableFilter<T> extends ViewerFilter
 {
-	private PTableColumnInfo<T>[] viewerColumns;
+	private Map<Integer, PTableColumnInfo<T>> viewerColumns;
 	private String regex;
 	private CaseSensitivityEnum caseSensitivity = CASE_INSENSITIVE;
 
-	public TableFilter(PTableColumnInfo<T>[] viewerColumns)
+	public TableFilter(Map<Integer, PTableColumnInfo<T>> viewerColumns)
 	{
 		this.viewerColumns = viewerColumns;
 	}
@@ -36,14 +37,11 @@ public class TableFilter<T> extends ViewerFilter
 		{
 			Object obj;
 
-			for(PTableColumnInfo<T> viewerColumn : viewerColumns)
+			for(PTableColumnInfo<T> viewerColumn : viewerColumns.values())
 			{
 				obj = viewerColumn.getDescription().getTextValue((T)element);
 
-				if(isNull(obj))
-					continue;
-
-				if(caseSensitivity.matches(obj.toString(), regex))
+				if(obj != null && caseSensitivity.matches(obj.toString(), regex))
 					return true;
 			}
 
