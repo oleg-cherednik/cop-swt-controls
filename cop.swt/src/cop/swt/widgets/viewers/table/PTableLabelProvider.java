@@ -6,6 +6,7 @@ import static cop.swt.extensions.ColorExtension.YELLOW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -17,11 +18,11 @@ import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class PTableLabelProvider<T> extends StyledCellLabelProvider
 {
-	private PTableColumnInfo<T>[] viewerColumns;
+	private Map<Integer, PTableColumnInfo<T>> viewerColumns;
 	private String searchText;
 	private Color systemColor = YELLOW;
 
-	public PTableLabelProvider(PTableColumnInfo<T>[] viewerColumns)
+	public PTableLabelProvider(Map<Integer, PTableColumnInfo<T>> viewerColumns)
 	{
 		this.viewerColumns = viewerColumns;
 	}
@@ -41,7 +42,7 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider
 	{
 		try
 		{
-			ColumnDescription<T> description = viewerColumns[cell.getColumnIndex()].getDescription();
+			ColumnDescription<T> description = viewerColumns.get(cell.getColumnIndex()).getDescription();
 			T element = (T)cell.getElement();
 
 			description.update(cell, element);
