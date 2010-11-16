@@ -4,12 +4,7 @@ import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SORT;
-import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.H_SCROLL;
-import static org.eclipse.swt.SWT.KeyDown;
-import static org.eclipse.swt.SWT.KeyUp;
-import static org.eclipse.swt.SWT.MouseExit;
-import static org.eclipse.swt.SWT.MouseWheel;
 import static org.eclipse.swt.SWT.V_SCROLL;
 
 import java.util.ArrayList;
@@ -20,7 +15,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.annotations.services.LabelService;
@@ -30,7 +24,6 @@ import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
-import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class PListViewer<T> extends PViewer<T> implements LabelSupport
 {
@@ -284,6 +277,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	@Override
     public void handleEvent(Event event)
 	{
+		super.handleEvent(event);
 //		private Listener setSorter = new Listener()
 //		{
 //			@Override

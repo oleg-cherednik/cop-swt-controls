@@ -95,12 +95,12 @@ public class NumericCellEditor extends CellEditor implements LocaleSupport
 	 * Listener
 	 */
 
-	private KeyListener keyReleaseOccured = new KeyAdapter()
-	{
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			keyReleaseOccured(e);
-		}
-	};
+//	private KeyListener keyReleaseOccured = new KeyAdapter()
+//	{
+//		@Override
+//		public void keyPressed(KeyEvent e)
+//		{
+//			keyReleaseOccured(e);
+//		}
+//	};
 }
