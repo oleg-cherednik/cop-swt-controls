@@ -1,18 +1,18 @@
 package cop.swt.widgets.menus.items.basics;
 
 import static cop.swt.widgets.menus.enums.MenuItemStyleEnum.MIS_RADIO;
-
 import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 
 public abstract class AbstractRadioMenuItem extends AbstractSelectionMenuItem
 {
-	public AbstractRadioMenuItem()
+	public AbstractRadioMenuItem(MenuItemEnum key)
 	{
-		this(null);
+		this(key, null);
 	}
 
-	public AbstractRadioMenuItem(HotKeyGroup accelerator)
+	public AbstractRadioMenuItem(MenuItemEnum key, HotKeyGroup accelerator)
 	{
-		super(MIS_RADIO, accelerator);
+		super(MIS_RADIO, key, accelerator);
 	}
 }

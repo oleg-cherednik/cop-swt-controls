@@ -42,7 +42,12 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider
 	{
 		try
 		{
-			ColumnDescription<T> description = viewerColumns.get(cell.getColumnIndex()).getDescription();
+			PTableColumnInfo<T> viewerColumn = viewerColumns.get(cell.getColumnIndex());
+
+			if(viewerColumn == null)
+				return;
+
+			ColumnDescription<T> description = viewerColumn.getDescription();
 			T element = (T)cell.getElement();
 
 			description.update(cell, element);

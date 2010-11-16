@@ -1,26 +1,25 @@
 package cop.swt.widgets.menus.items.basics;
 
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.menus.enums.MenuItemStyleEnum.MIS_CASCADE;
-
 import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 
 public abstract class AbstractCascadeMenuItem extends AbstractMenuItem
 {
-	public AbstractCascadeMenuItem()
+	public AbstractCascadeMenuItem(MenuItemEnum key)
 	{
-		this(null);
+		this(key, null);
 	}
 
-	public AbstractCascadeMenuItem(HotKeyGroup accelerator)
+	public AbstractCascadeMenuItem(MenuItemEnum key, HotKeyGroup accelerator)
 	{
-		super(MIS_CASCADE, accelerator);
+		super(MIS_CASCADE, key, accelerator);
 	}
-	
+
 	/**
 	 * AbstractMenuItem
 	 */
-	
+
 	@Override
 	protected boolean isListenerEnabled()
 	{

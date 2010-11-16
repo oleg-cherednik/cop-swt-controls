@@ -3,16 +3,17 @@ package cop.swt.widgets.menus.items.basics;
 import static cop.swt.widgets.menus.enums.MenuItemStyleEnum.MIS_CHECK;
 
 import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 
 public abstract class AbstractCheckMenuItem extends AbstractSelectionMenuItem
 {
-	public AbstractCheckMenuItem()
+	public AbstractCheckMenuItem(MenuItemEnum key)
 	{
-		this(null);
+		this(key, null);
 	}
 
-	public AbstractCheckMenuItem(HotKeyGroup accelerator)
+	public AbstractCheckMenuItem(MenuItemEnum key, HotKeyGroup accelerator)
 	{
-		super(MIS_CHECK, accelerator);
+		super(MIS_CHECK, key, accelerator);
 	}
 }

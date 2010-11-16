@@ -6,6 +6,8 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import plugin.cop.swt.Activator;
+
 //import com.marathon.calendar.gui.Activator;
 
 public abstract class AbstractPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
@@ -14,8 +16,8 @@ public abstract class AbstractPreferencePage extends PreferencePage implements I
 
 	public AbstractPreferencePage()
 	{
-		store = null;
-		//setPreferenceStore(store = Activator.getDefault().getPreferenceStore());
+		//store = null;
+		setPreferenceStore(store = Activator.getDefault().getPreferenceStore());
 
 		Assert.isNotNull(store);
 	}
