@@ -8,6 +8,7 @@ import static org.eclipse.swt.SWT.H_SCROLL;
 import static org.eclipse.swt.SWT.V_SCROLL;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,6 +23,7 @@ import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
+import cop.swt.widgets.model.interfaces.Model;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
 
@@ -29,7 +31,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 {
 	private ILabelDescription<T> description;
 	private PListLabelProvider<T> labelProvider;
-	//private PListSorter<T> sorter;
+	// private PListSorter<T> sorter;
 	private static final String PREFERENCE_PAGE = null;// EmployeeListPreferencePage.class.getName();
 
 	public PListViewer(T obj, Composite parent, int style, ListViewerConfig config) throws Exception
@@ -40,7 +42,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 		// setReadonly(isBitSet(style, READ_ONLY));
 		createLabelProvider();
-		//createSorter();
+		// createSorter();
 
 		// viewer.setSorter(new PListSorter<T>());
 
@@ -52,11 +54,12 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	{
 		Assert.isNotNull(labelProvider);
 
-		//		sorter = new PListSorter<T>(LabelComparator.createLabelComparator(obj, labelProvider.getLabelName()));
-		//		AbstractLabelDescription<T> cd = AbstractLabelDescription.createColumnDescription(obj, labelProvider.getLabelName(), Locale.getDefault());
-		//		sorter = new PListSorter<T>(cd);
-		//		sorter.setDirection(SortDirectionEnum.SORT_ASC);
-		//		widget.setSorter(sorter);
+		// sorter = new PListSorter<T>(LabelComparator.createLabelComparator(obj, labelProvider.getLabelName()));
+		// AbstractLabelDescription<T> cd = AbstractLabelDescription.createColumnDescription(obj,
+		// labelProvider.getLabelName(), Locale.getDefault());
+		// sorter = new PListSorter<T>(cd);
+		// sorter.setDirection(SortDirectionEnum.SORT_ASC);
+		// widget.setSorter(sorter);
 
 		// sorter.setAccessibleObject(description);
 		// columnViewer.getColumn().addSelectionListener(setSorter);
@@ -97,7 +100,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	protected MenuBuilder createSortMenuBuilder()
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
-		//ColumnDescription<T> description;
+		// ColumnDescription<T> description;
 
 		menuBuilder.addMenuItem(new PushMenuItem(MI_SORT, isSortable, null, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
@@ -195,11 +198,29 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 			((ListViewer)widget).getList().deselect(index);
 	}
 
+	/*
+	 * IModelChange
+	 */
+
 	@Override
-	protected void modelChanged()
+	public void modelChanged(Model<T> model)
 	{
 		labelProvider.updateItems(getItems());
-		super.modelChanged();
+		super.modelChanged(model);
+	}
+
+	@Override
+	public void modelChanged(Model<T> model, T item)
+	{
+		labelProvider.updateItem(item);
+		super.modelChanged(model, item);
+	}
+
+	@Override
+	public void modelChanged(Model<T> model, Collection<T> items)
+	{
+		labelProvider.updateItems(items);
+		super.modelChanged(model, items);
 	}
 
 	/*
@@ -269,40 +290,40 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 		refresh();
 	}
-	
+
 	/*
 	 * Listener
 	 */
 
 	@Override
-    public void handleEvent(Event event)
+	public void handleEvent(Event event)
 	{
 		super.handleEvent(event);
-//		private Listener setSorter = new Listener()
-//		{
-//			@Override
-//			public void handleEvent(Event event)
-//			{
-//				System.out.println("---------");
-//				try
-//				{
-//					//				if(!description.isSortable())
-//					//					return;
-//					//
-//					//				TableColumn column = columnViewer.getColumn();
-//					//				Table table = tableViewer.getTable();
-//					//				int dir = table.getSortDirection();
-//					//
-//					//				if(table.getSortColumn() == column)
-//					//					setSorterDirection(parseSwtDirection((dir == UP) ? DOWN : UP));
-//					//				else
-//					//					setSorterDirection(parseSwtDirection(DEFAULT_SORT_DIRECTION.getSwtDirection()));
-//				}
-//				catch(Exception ex)
-//				{
-//					ex.printStackTrace();
-//				}
-//			}
-//		};
+		// private Listener setSorter = new Listener()
+		// {
+		// @Override
+		// public void handleEvent(Event event)
+		// {
+		// System.out.println("---------");
+		// try
+		// {
+		// // if(!description.isSortable())
+		// // return;
+		// //
+		// // TableColumn column = columnViewer.getColumn();
+		// // Table table = tableViewer.getTable();
+		// // int dir = table.getSortDirection();
+		// //
+		// // if(table.getSortColumn() == column)
+		// // setSorterDirection(parseSwtDirection((dir == UP) ? DOWN : UP));
+		// // else
+		// // setSorterDirection(parseSwtDirection(DEFAULT_SORT_DIRECTION.getSwtDirection()));
+		// }
+		// catch(Exception ex)
+		// {
+		// ex.printStackTrace();
+		// }
+		// }
+		// };
 	}
 }

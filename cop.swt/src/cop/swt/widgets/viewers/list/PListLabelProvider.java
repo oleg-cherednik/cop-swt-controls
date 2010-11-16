@@ -52,7 +52,7 @@ public class PListLabelProvider<T> extends TextLabelProvider
 
 	public List<String> getLabels(Collection<T> items)
 	{
-		System.out.println("PListLabelProvider.getItemsName()");
+		System.out.println("PListLabelProvider.getLabels(" + items.size() + ")");
 
 		if(isEmpty(items))
 			return new ArrayList<String>(0);
@@ -75,23 +75,28 @@ public class PListLabelProvider<T> extends TextLabelProvider
 
 	}
 
+	public void updateItem(T item)
+	{
+		System.out.println("PListLabelProvider.updateItem()");
+
+		try
+		{
+			map.put(getText(item), item);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public void updateItems(Collection<T> items)
 	{
-		System.out.println("PListLabelProvider.updateItems()");
+		System.out.println("PListLabelProvider.updateItems(" + items.size() + ")");
 
 		map.clear();
 
 		for(T item : items)
-		{
-			try
-			{
-				map.put(getText(item), item);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
+			updateItem(item);
 	}
 
 	/*
