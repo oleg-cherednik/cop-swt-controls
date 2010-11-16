@@ -184,29 +184,24 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		table.addListener(Dispose, this);
 		table.addListener(PaintItem, this);
 	}
-
-	private void _pack()
+	
+	private final Runnable packTask = new Runnable()
 	{
-		Runnable task = new Runnable()
+		@Override
+		public void run()
 		{
-			@Override
-			public void run()
+			Runnable task = new Runnable()
 			{
-				Runnable task = new Runnable()
+				@Override
+				public void run()
 				{
-					@Override
-					public void run()
-					{
-						pack();
-					}
-				};
+					pack();
+				}
+			};
 
-				widget.getControl().getDisplay().syncExec(task);
-			}
-		};
-
-		new Thread(task).start();
-	}
+			widget.getControl().getDisplay().syncExec(task);
+		}
+	};
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -424,7 +419,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	public void refresh()
 	{
 		super.refresh();
-		_pack();
+		new Thread(packTask).start();
 	}
 
 	/*
@@ -540,7 +535,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(isEmpty(items) || items.length != 1)
 			return;
 
-		int index = getSelectedColumn(items[0], event.x, event.y);
+		int index = getSelectedColumnIndex(items[0], event.x, event.y);
 
 		if(index < 0)
 			return;
@@ -579,15 +574,13 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		table.setRedraw(true);
 	};
 
-	private int getSelectedColumn(TableItem item, int x, int y)
+	private int getSelectedColumnIndex(TableItem item, int x, int y)
 	{
 		Assert.isNotNull(item);
-
-		int index = -1;
-
-		for(PTableColumnInfo<T> column : columns.values())
-			if(item.getBounds(++index).contains(x, y))
-				return index;
+		
+		for(int i = 0, size = columns.size(); i < size; i++)
+			if(item.getBounds(i).contains(x, y))
+				return i;
 
 		return -1;
 	}

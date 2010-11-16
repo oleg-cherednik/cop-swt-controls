@@ -46,7 +46,7 @@ public class LocalizableString<T> extends StringColumnDescription<T>
 	 */
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setValue(T item, Object value) throws Exception
 	{
 		((EditLocalizable)getValue(item)).setI18n(value, locale);
