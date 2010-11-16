@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import org.eclipse.core.runtime.Assert;
 
+import cop.common.extensions.CompareExtension;
 import cop.swt.widgets.annotations.exceptions.WrongReturnValueException;
 import cop.swt.widgets.annotations.services.LabelService;
 import cop.swt.widgets.interfaces.LabelSupport;
@@ -16,7 +17,8 @@ public final class LabelComparator<T> implements LabelSupport, Comparator<T>
 {
 	private String labelName;
 
-	public static <T> Comparator<T> createLabelComparator(T obj, String labelName)
+	@SuppressWarnings("unchecked")
+    public static <T> Comparator<T> createLabelComparator(T obj, String labelName)
 	{
 		Assert.isNotNull(obj);
 
@@ -54,19 +56,21 @@ public final class LabelComparator<T> implements LabelSupport, Comparator<T>
 			e.printStackTrace();
 		}
 
-		return new Comparator<T>()
-		{
-			@Override
-			public int compare(T obj1, T obj2)
-			{
-				if(obj1 == obj2)
-					return 0;
-				if(isNull(obj1) ^ isNull(obj2))
-					return isNull(obj2) ? 1 : -1;
-
-				return ((String)obj1).compareTo((String)obj2);
-			}
-		};
+//		return new Comparator<T>()
+//		{
+//			@Override
+//			public int compare(T obj1, T obj2)
+//			{
+//				if(obj1 == obj2)
+//					return 0;
+//				if(isNull(obj1) ^ isNull(obj2))
+//					return isNull(obj2) ? 1 : -1;
+//
+//				return ((String)obj1).compareTo((String)obj2);
+//			}
+//		};
+		
+		return (Comparator<T>)CompareExtension.createComparator(String.class);
 	}
 
 	/*

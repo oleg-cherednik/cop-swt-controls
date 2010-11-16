@@ -580,6 +580,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	@Override
 	public void handleEvent(Event event)
 	{
+		System.out.println("MenuDetect: " + event.type);
 		if(event.widget == widget.getControl())
 			handleControlEvent(event);
 		else if(((MenuItem)event.widget).getParent() == widget.getControl().getMenu())
