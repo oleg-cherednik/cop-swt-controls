@@ -1,5 +1,7 @@
 package cop.swt.widgets.menus.items;
 
+import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_STATE;
+
 import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
@@ -27,7 +29,7 @@ public class StateMenuItem extends AbstractPushMenuItem
 	                PropertyProvider<Boolean> visibleProvider, PropertyProvider<Boolean> enabledProvider,
 	                Listener listener)
 	{
-		super(accelerator);
+		super(MI_STATE, accelerator);
 
 		Assert.isNotNull(itemModifier);
 

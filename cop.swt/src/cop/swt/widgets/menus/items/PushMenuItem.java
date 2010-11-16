@@ -11,13 +11,9 @@ import cop.swt.widgets.menus.items.basics.AbstractPushMenuItem;
 
 public class PushMenuItem extends AbstractPushMenuItem
 {
-	private final MenuItemEnum KEY;
-
 	public PushMenuItem(MenuItemEnum key)
 	{
-		super(key.getAccelerator());
-
-		KEY = key;
+		super(key, key.getAccelerator());
 	}
 
 	public PushMenuItem(MenuItemEnum key, Listener listener)
@@ -42,7 +38,7 @@ public class PushMenuItem extends AbstractPushMenuItem
 	@Override
 	public String _getKey()
 	{
-		return KEY.name();
+		return key.name();
 	}
 
 	/*
@@ -52,6 +48,6 @@ public class PushMenuItem extends AbstractPushMenuItem
 	@Override
 	public String getText(Locale locale)
 	{
-		return StringExtension.getText(KEY.i18n(locale), KEY.getText());
+		return StringExtension.getText(key.i18n(locale), key.getText());
 	}
 }

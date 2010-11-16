@@ -1,5 +1,6 @@
 package cop.swt.widgets.menus.items;
 
+import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SEPARATOR;
 import static cop.swt.widgets.menus.enums.MenuItemStyleEnum.MIS_SEPARATOR;
 
 import org.eclipse.core.runtime.Assert;
@@ -14,7 +15,7 @@ public class SeparatorMenuItem extends AbstractMenuItem
 {
 	public SeparatorMenuItem()
 	{
-		super(MIS_SEPARATOR);
+		super(MIS_SEPARATOR, MI_SEPARATOR);
 	}
 
 	/*

@@ -5,20 +5,24 @@
 package cop.swt.widgets.viewers.table;
 
 import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.BitExtension.clearBits;
 import static cop.common.extensions.BitExtension.isBitSet;
 import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.StringExtension.*;
+import static cop.common.extensions.StringExtension.getText;
 import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_OFF;
 import static cop.swt.widgets.viewers.table.AbstractViewerSorter.DEFAULT_SORT_DIRECTION;
+import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.FULL_SELECTION;
+import static org.eclipse.swt.SWT.MouseDoubleClick;
+import static org.eclipse.swt.SWT.MouseExit;
+import static org.eclipse.swt.SWT.MouseMove;
 import static org.eclipse.swt.SWT.PaintItem;
 import static org.eclipse.swt.SWT.READ_ONLY;
+import static org.eclipse.swt.SWT.Resize;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,19 +34,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.MenuDetectEvent;
-import org.eclipse.swt.events.MenuDetectListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.MouseTrackAdapter;
-import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -50,7 +41,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import cop.common.extensions.StringExtension;
 import cop.swt.preferences.EmployeeListPreferencePage;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
@@ -73,7 +63,6 @@ import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
  */
 public final class PTableViewer<T> extends PViewer<T> implements Packable
 {
-	// private PTableColumnInfo<T>[] columns;
 	private Map<Integer, PTableColumnInfo<T>> columns = new HashMap<Integer, PTableColumnInfo<T>>();
 	private boolean autoColumnWidth = true;
 	private boolean mouseEnter;
@@ -129,11 +118,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		for(PTableColumnInfo<T> column : columns.values())
 			column.setEditorEnabled(!enabled);
-
-		if(enabled)
-			viewer.getTable().addMouseListener(setEditOnDoubleClick);
-		else
-			viewer.getTable().removeMouseListener(setEditOnDoubleClick);
 	}
 
 	public void setReadonlyProvider(IModifyProvider<T> provider)
@@ -142,7 +126,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			viewerColumn.setReadonlyProvider(provider);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createColumns() throws AnnotationDeclarationException, AnnotationMissingException
 	{
 		Assert.isNotNull(obj);
@@ -152,19 +135,17 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(isEmpty(descriptions))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
 
-		// columns = new PTableColumnInfo[descriptions.size()];
-
 		PTableColumnInfo<T> column;
 		TableViewer viewer = (TableViewer)widget;
+		int index = 1;
 
-		for(int i = 0, size = descriptions.size(); i < size; i++)
+		new PTableColumnInfo<T>(obj, viewer, descriptions.get(0)).setHidden(true);
+
+		for(ColumnDescription<T> description : descriptions)
 		{
-			column = new PTableColumnInfo<T>(obj, viewer, descriptions.get(i));
-
+			columns.put(index++, column = new PTableColumnInfo<T>(obj, viewer, description));
 			column.setTableColumnListener(notifyTableColumnListener);
-			column.addPackableListener(doPack);
-
-			columns.put(i, column);
+			column.addPackableListener(this);
 		}
 
 		pack();
@@ -191,19 +172,17 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private void addListeners(T obj)
 	{
-		super.addListeners();
-
 		if(isEmpty(columns) || isNull(obj))
 			return;
 
 		Table table = (Table)widget.getControl();
 
-		table.addControlListener(autoColumnWidthListener);
-		table.addMouseTrackListener(onMouseTrack);
-		table.addMouseMoveListener(onMouseMove);
-		table.addMouseListener(setEditOnDoubleClick);
-		table.addDisposeListener(preDispose);
-		table.addListener(PaintItem, onPaintItem);
+		table.addListener(Resize, this);
+		table.addListener(MouseExit, this);
+		table.addListener(MouseMove, this);
+		table.addListener(MouseDoubleClick, this);
+		table.addListener(Dispose, this);
+		table.addListener(PaintItem, this);
 	}
 
 	private void _pack()
@@ -514,106 +493,104 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	}
 
 	/*
+	 * Listener
+	 */
+
+	@Override
+	public void handleEvent(Event event)
+	{
+		super.handleEvent(event);
+
+		if(event.widget == widget.getControl())
+		{
+			if(event.type == PaintItem)
+				onPaintItem(event);
+			else if(event.type == MouseDoubleClick)
+				onMouseDoubleClick(event);
+			else if(event.type == MouseMove)
+				onMouseMove(event);
+			else if(event.type == MouseExit)
+				onMouseExit(event);
+			else if(event.type == Resize)
+				onResize(event);
+		}
+	}
+
+	/*
 	 * Listeners
 	 */
 
-	private Packable doPack = new Packable()
+	private void onPaintItem(Event event)
 	{
-		@Override
-		public void pack()
-		{
-			PTableViewer.this.pack();
-		}
+		PTableColumnInfo<T> column = columns.get(event.index);
+
+		if(column != null)
+			column.handleEvent(event);
 	};
 
-	private MouseListener setEditOnDoubleClick = new MouseAdapter()
+	private void onMouseDoubleClick(Event event)
 	{
-		@Override
-		public void mouseDoubleClick(MouseEvent e)
-		{
-			if(e.button != 1)
-				return;
+		if(event.button != 1)
+			return;
 
-			TableViewer viewer = (TableViewer)widget;
-			Table table = viewer.getTable();
-			TableItem[] items = table.getSelection();
+		TableViewer viewer = (TableViewer)widget;
+		Table table = viewer.getTable();
+		TableItem[] items = table.getSelection();
 
-			if(isEmpty(items) || items.length != 1)
-				return;
+		if(isEmpty(items) || items.length != 1)
+			return;
 
-			int index = getSelectedColumn(items[0], e.x, e.y);
+		int index = getSelectedColumn(items[0], event.x, event.y);
 
-			if(index < 0)
-				return;
+		if(index < 0)
+			return;
 
-			columns.get(index).setEditorEnabled(true);
-			viewer.editElement(items[0].getData(), index);
-			columns.get(index).setEditorEnabled(false);
-		}
+		columns.get(index).setEditorEnabled(true);
+		viewer.editElement(items[0].getData(), index);
+		columns.get(index).setEditorEnabled(false);
+	}
 
-		private int getSelectedColumn(TableItem item, int x, int y)
-		{
-			Assert.isNotNull(item);
-
-			int index = -1;
-
-			for(PTableColumnInfo<T> column : columns.values())
-				if(item.getBounds(++index).contains(x, y))
-					return index;
-
-			return -1;
-		}
+	private void onMouseExit(Event event)
+	{
+		mouseEnter = false;
 	};
 
-	private DisposeListener preDispose = new DisposeListener()
+	private void onMouseMove(Event event)
 	{
-		@Override
-		public void widgetDisposed(DisposeEvent e)
-		{
-			dispose();
-		}
+		mouseEnter = true;
 	};
 
-	private ControlListener autoColumnWidthListener = new ControlAdapter()
+	private void onResize(Event event)
 	{
-		@Override
-		public void controlResized(ControlEvent e)
-		{
-			if(!autoColumnWidth)
-				return;
+		if(!autoColumnWidth)
+			return;
 
-			Table table = ((TableViewer)widget).getTable();
-			int tableWidth = table.getBounds().width;
+		Table table = ((TableViewer)widget).getTable();
+		int tableWidth = table.getBounds().width;
 
-			if(tableWidth == 0)
-				return;
+		if(tableWidth == 0)
+			return;
 
-			table.setRedraw(false);
+		table.setRedraw(false);
 
-			for(PTableColumnInfo<T> viewerColumn : columns.values())
-				viewerColumn.setRelativeWidth();
+		for(PTableColumnInfo<T> viewerColumn : columns.values())
+			viewerColumn.setRelativeWidth();
 
-			table.setRedraw(true);
-		}
+		table.setRedraw(true);
 	};
 
-	private MouseTrackListener onMouseTrack = new MouseTrackAdapter()
+	private int getSelectedColumn(TableItem item, int x, int y)
 	{
-		@Override
-		public void mouseExit(MouseEvent e)
-		{
-			mouseEnter = false;
-		}
-	};
+		Assert.isNotNull(item);
 
-	private MouseMoveListener onMouseMove = new MouseMoveListener()
-	{
-		@Override
-		public void mouseMove(MouseEvent e)
-		{
-			mouseEnter = true;
-		}
-	};
+		int index = -1;
+
+		for(PTableColumnInfo<T> column : columns.values())
+			if(item.getBounds(++index).contains(x, y))
+				return index;
+
+		return -1;
+	}
 
 	private TableColumnListener notifyTableColumnListener = new TableColumnListener()
 	{
@@ -745,6 +722,19 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	 * Listeners
 	 */
 
+	@Override
+	protected void onMenuDetect(Event event)
+	{
+		if(menuManager == null)
+			return;
+
+		if(mouseEnter)
+			setControlMenu(menuManager.createMenu(0));
+		else
+			// setControlMenu(menuManager.createMenu(1));
+			setControlMenu(createHeaderMenu());
+	}
+
 	private String[] getVisibleColumnNames()
 	{
 		List<String> names = new ArrayList<String>();
@@ -755,15 +745,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		return names.toArray(new String[names.size()]);
 	}
-
-	private Listener onPaintItem = new Listener()
-	{
-		@Override
-		public void handleEvent(Event event)
-		{
-			columns.get(event.index).handleEvent(event);
-		}
-	};
 
 	private String[] getObjectVisibleFieldsString(T obj)
 	{
@@ -776,25 +757,4 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		return names.toArray(new String[names.size()]);
 	}
 
-	@Override
-	protected MenuDetectListener getContextMenu()
-	{
-		MenuDetectListener listener = new MenuDetectListener()
-		{
-			@Override
-			public void menuDetected(MenuDetectEvent e)
-			{
-				if(isNull(menuManager))
-					return;
-
-				if(mouseEnter)
-					setControlMenu(menuManager.createMenu(0));
-				else
-					// setControlMenu(menuManager.createMenu(1));
-					setControlMenu(createHeaderMenu());
-			}
-		};
-
-		return listener;
-	};
 }

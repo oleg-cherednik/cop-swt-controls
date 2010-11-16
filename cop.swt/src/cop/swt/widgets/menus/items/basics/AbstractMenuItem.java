@@ -3,6 +3,7 @@ package cop.swt.widgets.menus.items.basics;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_KEY;
 import static org.eclipse.swt.SWT.Selection;
 
 import java.util.Locale;
@@ -15,12 +16,14 @@ import org.eclipse.swt.widgets.MenuItem;
 
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.enums.MenuItemStyleEnum;
 import cop.swt.widgets.menus.interfaces.IMenuItem;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 
 public abstract class AbstractMenuItem implements IMenuItem
 {
+	protected final MenuItemEnum key;
 	private final MenuItemStyleEnum style;
 	private HotKeyGroup accelerator;
 	protected Listener listener;
@@ -29,15 +32,16 @@ public abstract class AbstractMenuItem implements IMenuItem
 	protected PropertyProvider<Boolean> enabledProvider;
 	private PropertyProvider<Boolean> visibleProvider;
 
-	protected AbstractMenuItem(MenuItemStyleEnum style)
+	protected AbstractMenuItem(MenuItemStyleEnum style, MenuItemEnum key)
 	{
-		this(style, null);
+		this(style, key, null);
 	}
 
-	protected AbstractMenuItem(MenuItemStyleEnum style, HotKeyGroup accelerator)
+	protected AbstractMenuItem(MenuItemStyleEnum style, MenuItemEnum key, HotKeyGroup accelerator)
 	{
 		Assert.isNotNull(style);
 
+		this.key = key;
 		this.style = style;
 		this.accelerator = accelerator;
 	}
@@ -53,7 +57,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 	}
 
 	@Override
-    public void setImageProvider(ImageProvider iconProvider)
+	public void setImageProvider(ImageProvider iconProvider)
 	{
 		this.iconProvider = iconProvider;
 	}
@@ -74,7 +78,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 	}
 
 	protected abstract String _getKey();
-	
+
 	protected boolean isListenerEnabled()
 	{
 		return isNotNull(listener);
@@ -91,6 +95,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 
 		MenuItem item = new MenuItem(parent, style.getSwtStyle());
 
+		item.setData(MENU_ITEM_KEY, key);
 		item.setImage(getImage());
 		item.setText(getTitle());
 		item.setEnabled(isEnabled());

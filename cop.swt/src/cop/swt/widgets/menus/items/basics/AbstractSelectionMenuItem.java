@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.enums.MenuItemStyleEnum;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 
@@ -13,16 +14,16 @@ public abstract class AbstractSelectionMenuItem extends AbstractMenuItem
 {
 	private PropertyProvider<Boolean> selectionProvider;
 
-	protected AbstractSelectionMenuItem(MenuItemStyleEnum style, HotKeyGroup accelerator)
+	protected AbstractSelectionMenuItem(MenuItemStyleEnum style, MenuItemEnum key, HotKeyGroup accelerator)
 	{
-		super(style, accelerator);
+		super(style, key, accelerator);
 	}
 
 	public void setSelectionProvider(PropertyProvider<Boolean> selectionProvider)
 	{
 		this.selectionProvider = selectionProvider;
 	}
-	
+
 	/*
 	 * ICreateMenu
 	 */

@@ -11,13 +11,9 @@ import cop.swt.widgets.menus.items.basics.AbstractRadioMenuItem;
 
 public class RadioMenuItem extends AbstractRadioMenuItem
 {
-	private final MenuItemEnum KEY;
-
 	public RadioMenuItem(MenuItemEnum key)
 	{
-		super(key.getAccelerator());
-
-		KEY = key;
+		super(key, key.getAccelerator());
 	}
 
 	public RadioMenuItem(MenuItemEnum key, PropertyProvider<Boolean> selectionProvider, Listener listener)
@@ -44,7 +40,7 @@ public class RadioMenuItem extends AbstractRadioMenuItem
 	@Override
 	public String _getKey()
 	{
-		return KEY.name();
+		return key.name();
 	}
 
 	/*
@@ -54,6 +50,6 @@ public class RadioMenuItem extends AbstractRadioMenuItem
 	@Override
 	public String getText(Locale locale)
 	{
-		return StringExtension.getText(KEY.i18n(locale), KEY.getText());
+		return StringExtension.getText(key.i18n(locale), key.getText());
 	}
 }

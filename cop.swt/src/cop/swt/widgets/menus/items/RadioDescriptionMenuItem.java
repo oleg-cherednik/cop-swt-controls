@@ -1,6 +1,7 @@
 package cop.swt.widgets.menus.items;
 
 import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
+import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COLUMN_DESCRIPTION;
 
 import java.util.Locale;
 
@@ -26,6 +27,8 @@ public class RadioDescriptionMenuItem<T> extends AbstractRadioMenuItem
 	                PropertyProvider<Boolean> enabledProvider, PropertyProvider<Boolean> selectionProvider,
 	                Listener listener)
 	{
+		super(MI_COLUMN_DESCRIPTION);
+
 		Assert.isNotNull(obj);
 		Assert.isNotNull(description);
 

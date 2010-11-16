@@ -12,6 +12,7 @@ import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_KEY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DELETE;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DESELECT_ALL;
@@ -19,6 +20,13 @@ import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_PROPERTIES;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SELECT_ALL;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SORT;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.REMOVE;
+import static org.eclipse.swt.SWT.Dispose;
+import static org.eclipse.swt.SWT.KeyDown;
+import static org.eclipse.swt.SWT.KeyUp;
+import static org.eclipse.swt.SWT.MenuDetect;
+import static org.eclipse.swt.SWT.MouseExit;
+import static org.eclipse.swt.SWT.MouseWheel;
+import static org.eclipse.swt.SWT.Selection;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,20 +46,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MenuDetectEvent;
-import org.eclipse.swt.events.MenuDetectListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseTrackAdapter;
-import org.eclipse.swt.events.MouseTrackListener;
-import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
@@ -65,6 +65,7 @@ import cop.swt.widgets.keys.enums.KeyEnum;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.MenuManager;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.interfaces.IMenuBuilder;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.CascadeMenuItem;
@@ -83,7 +84,7 @@ import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.interfaces.ViewerConfig;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport<T>, Clearable, Refreshable
+                SelectionListenerSupport<T>, Clearable, Refreshable, Listener
 {
 	protected final Composite parent;
 	public StructuredViewer widget;
@@ -116,6 +117,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		this.parent = widget.getControl().getParent();
 		this.config = config;
 		PREFERENCE_PAGE = preferencePage;
+
+		addListeners();
 	}
 
 	protected void postConstruct()
@@ -125,17 +128,17 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		setStandaloneMode();
 	}
 
-	protected void addListeners()
+	private void addListeners()
 	{
 		widget.addSelectionChangedListener(notifySelectionChangedListener);
 
-		Control control = widget.getControl();
+		Scrollable obj = (Scrollable)widget.getControl();
 
-		control.addKeyListener(isCtrlPressed);
-		control.addKeyListener(moveItemOnArrows);
-		control.addMouseWheelListener(moveItemOnMouseWheel);
-		control.addMouseTrackListener(clearHotKeysOnMouseExit);
-		control.addMenuDetectListener(getContextMenu());
+		obj.addListener(KeyDown, this);
+		obj.addListener(KeyUp, this);
+		obj.addListener(MouseWheel, this);
+		obj.addListener(MouseExit, this);
+		obj.addListener(MenuDetect, this);
 	}
 
 	public boolean isReadonly()
@@ -201,21 +204,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 			setTopIndex(topIndex - 1);
 	}
 
-	private Listener showProperties = new Listener()
-	{
-		@Override
-		public void handleEvent(Event e)
-		{
-			if(isEmpty(PREFERENCE_PAGE))
-				return;
-
-			PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(null, PREFERENCE_PAGE, null, null);
-
-			if(dialog.open() == Window.OK)
-			{}
-		}
-	};
-
 	private void moveItemsDown(int[] indices, boolean keepTopIndex)
 	{
 		if(!isStandaloneMode() || isSorterOn())
@@ -258,16 +246,16 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
 
-		menuBuilder.addMenuItem(new PushMenuItem(MI_COPY, null, isCopyEnabled, copySelectionToClipboard));
-		menuBuilder.addMenuItem(new PushMenuItem(MI_DELETE, isDeleteVisible, isDeleteEnabled, deleteSelection));
+		menuBuilder.addMenuItem(new PushMenuItem(MI_COPY, null, isCopyEnabled, this));
+		menuBuilder.addMenuItem(new PushMenuItem(MI_DELETE, isDeleteVisible, isDeleteEnabled, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
-		menuBuilder.addMenuItem(new PushMenuItem(MI_SELECT_ALL, isSelectAllVisible, isSelectAllEnabled, selectAll));
-		menuBuilder.addMenuItem(new PushMenuItem(MI_DESELECT_ALL, null, isDeselectAllEnabled, deselectAll));
+		menuBuilder.addMenuItem(new PushMenuItem(MI_SELECT_ALL, isSelectAllVisible, isSelectAllEnabled, this));
+		menuBuilder.addMenuItem(new PushMenuItem(MI_DESELECT_ALL, null, isDeselectAllEnabled, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
 		menuBuilder.addMenuItem(new CascadeMenuItem(widget.getControl(), keyManager, MI_SORT, createSortMenuBuilder(),
 		                isSortable, null));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
-		menuBuilder.addMenuItem(new PushMenuItem(MI_PROPERTIES, isPropertiesVisible, null, showProperties));
+		menuBuilder.addMenuItem(new PushMenuItem(MI_PROPERTIES, isPropertiesVisible, null, this));
 
 		return menuBuilder;
 	}
@@ -390,7 +378,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		Assert.isNotNull(widget);
 
-		if(isNotNull(menu) && menu.getItemCount() != 0)
+		if(menu != null && menu.getItemCount() != 0)
 			widget.getControl().setMenu(menu);
 		else
 			widget.getControl().setMenu(null);
@@ -586,116 +574,138 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	}
 
 	/*
+	 * Listener
+	 */
+
+	@Override
+	public void handleEvent(Event event)
+	{
+		if(event.widget == widget.getControl())
+			handleControlEvent(event);
+		else if(((MenuItem)event.widget).getParent() == widget.getControl().getMenu())
+			handleMenuEvent(event);
+	}
+
+	protected void handleControlEvent(Event event)
+	{
+		if(event.type == Dispose)
+			dispose();
+		else if(event.type == KeyDown)
+			onKeyDown(event);
+		else if(event.type == KeyUp)
+			onKeyUp(event);
+		else if(event.type == MouseWheel)
+			onMouseWheel(event);
+		else if(event.type == MouseExit)
+			onMouseExit(event);
+		else if(event.type == MenuDetect)
+			onMenuDetect(event);
+	}
+
+	protected void handleMenuEvent(Event event)
+	{
+		if(event.type == Selection)
+			onSelection(event);
+	}
+
+	/*
 	 * Listeners
 	 */
 
-	private Listener copySelectionToClipboard = new Listener()
+	private void onKeyDown(Event event)
 	{
-		@Override
-		public void handleEvent(Event e)
+		if(event.keyCode == KeyEnum.KEY_CTRL.getKeyCode())
+			ctrlPressed = true;
+		else if(!ctrlPressed)
 		{
-			List<T> items = getSelectedItems();
-
-			if(isEmpty(items))
-				return;
-
-			Object[] data1 = new Object[] { ClipboardManager.buildOneStringData(toStringArrayList(items)) };
-			Transfer[] dataTypes = new Transfer[] { TextTransfer.getInstance() };
-
-			Clipboard cb = new Clipboard(parent.getDisplay());
-			cb.setContents(data1, dataTypes);
-			cb.dispose();
+			if(event.keyCode == KeyEnum.KEY_UP.getKeyCode())
+				moveItemsUp(getSelectionIndices(), true);
+			else if(event.keyCode == KeyEnum.KEY_DOWN.getKeyCode())
+				moveItemsDown(getSelectionIndices(), true);
 		}
+	}
+
+	private void onKeyUp(Event event)
+	{
+		if(event.keyCode == KeyEnum.KEY_CTRL.getKeyCode())
+			ctrlPressed = false;
+	}
+
+	private void onMouseWheel(Event event)
+	{
+		if(!ctrlPressed || event.count == 0)
+			return;
+
+		if(event.count > 0)
+			moveItemsUp(getSelectionIndices(), true);
+		else
+			moveItemsDown(getSelectionIndices(), true);
 	};
 
-	private KeyListener isCtrlPressed = new KeyListener()
+	private void onMouseExit(Event event)
 	{
-		@Override
-		public void keyReleased(KeyEvent e)
-		{
-			if(e.keyCode == KeyEnum.KEY_CTRL.getKeyCode())
-				ctrlPressed = false;
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			if(e.keyCode == KeyEnum.KEY_CTRL.getKeyCode())
-				ctrlPressed = true;
-		}
+		if(keyManager != null)
+			keyManager.clear();
 	};
 
-	private MouseWheelListener moveItemOnMouseWheel = new MouseWheelListener()
+	protected void onMenuDetect(Event event)
 	{
-		@Override
-		public void mouseScrolled(MouseEvent e)
-		{
-			if(!ctrlPressed || e.count == 0)
-				return;
+		if(menuManager != null)
+			setControlMenu(menuManager.createMenu(0));
+	}
 
-			int[] indices = getSelectionIndices();
-
-			if(e.count > 0)
-				moveItemsUp(indices, true);
-			else
-				moveItemsDown(indices, true);
-		}
-	};
-
-	private MouseTrackListener clearHotKeysOnMouseExit = new MouseTrackAdapter()
+	protected void onSelection(Event event)
 	{
-		@Override
-		public void mouseExit(MouseEvent e)
-		{
-			if(isNotNull(keyManager))
-				keyManager.clear();
-		}
-	};
+		MenuItemEnum menuItem = (MenuItemEnum)event.widget.getData(MENU_ITEM_KEY);
 
-	private KeyListener moveItemOnArrows = new KeyAdapter()
-	{
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			if(!ctrlPressed)
-				return;
+		if(menuItem == null)
+			return;
 
-			int[] indices = getSelectionIndices();
-
-			if(e.keyCode == KeyEnum.KEY_UP.getKeyCode())
-				moveItemsUp(indices, true);
-			else if(e.keyCode == KeyEnum.KEY_DOWN.getKeyCode())
-				moveItemsDown(indices, true);
-		}
-	};
-
-	private Listener deleteSelection = new Listener()
-	{
-		@Override
-		public void handleEvent(Event e)
-		{
-			if(!readonly && !getSelectedItems().isEmpty())
-				deleteSelectedItems();
-		}
-	};
-
-	private Listener selectAll = new Listener()
-	{
-		@Override
-		public void handleEvent(Event e)
-		{
+		if(menuItem == MI_COPY)
+			onCopyMenuItem(event);
+		else if(menuItem == MI_DELETE)
+			onDeleteMenuItem(event);
+		else if(menuItem == MI_SELECT_ALL)
 			selectAll();
-		}
-	};
-
-	private Listener deselectAll = new Listener()
-	{
-		@Override
-		public void handleEvent(Event e)
-		{
+		else if(menuItem == MI_DESELECT_ALL)
 			deselectAll();
-		}
-	};
+		else if(menuItem == MI_DELETE)
+			onDeleteMenuItem(event);
+		else if(menuItem == MI_PROPERTIES)
+			onPropertiesMenuItem(event);
+	}
+
+	protected void onCopyMenuItem(Event event)
+	{
+		List<T> items = getSelectedItems();
+
+		if(isEmpty(items))
+			return;
+
+		Object[] data1 = new Object[] { ClipboardManager.buildOneStringData(toStringArrayList(items)) };
+		Transfer[] dataTypes = new Transfer[] { TextTransfer.getInstance() };
+
+		Clipboard cb = new Clipboard(parent.getDisplay());
+		cb.setContents(data1, dataTypes);
+		cb.dispose();
+	}
+
+	protected void onDeleteMenuItem(Event event)
+	{
+		if(!readonly && !getSelectedItems().isEmpty())
+			deleteSelectedItems();
+	}
+
+	protected void onPropertiesMenuItem(Event event)
+	{
+		if(isEmpty(PREFERENCE_PAGE))
+			return;
+
+		PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(null, PREFERENCE_PAGE, null, null);
+
+		if(dialog.open() == Window.OK)
+		{}
+	}
 
 	protected IModifyListener<T> modifyDefaultModel = new IModifyListener<T>()
 	{
@@ -722,20 +732,5 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		{
 			notifySelectionListeners(getSelectedItems());
 		}
-	};
-
-	protected MenuDetectListener getContextMenu()
-	{
-		MenuDetectListener listener = new MenuDetectListener()
-		{
-			@Override
-			public void menuDetected(MenuDetectEvent e)
-			{
-				if(isNotNull(menuManager))
-					setControlMenu(menuManager.createMenu(0));
-			}
-		};
-
-		return listener;
 	};
 }

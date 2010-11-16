@@ -8,7 +8,10 @@
 package cop.swt.extensions;
 
 import static cop.common.extensions.CommonExtension.isNull;
+import static cop.swt.extensions.ColorExtension.*;
 
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
@@ -43,5 +46,23 @@ public class GraphicsExtension
 		}
 
 		return region;
+	}
+
+	public static void drawProgressBar(GC gc, int x, int y, int width, int height, double value)
+	{
+		Color foreground = gc.getForeground();
+		Color background = gc.getBackground();
+
+		gc.setForeground(RED);
+		gc.setBackground(YELLOW);
+
+		int len = (int)((width * value) / 100);
+
+		gc.fillGradientRectangle(x, y, len, height, true);
+		// gc.fillRectangle(event.x, event.y, len, event.height);
+		// gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
+		// gc.drawRectangle(event.x, event.y, width - 1, event.height - 1);
+		gc.setForeground(background);
+		gc.setBackground(foreground);
 	}
 }

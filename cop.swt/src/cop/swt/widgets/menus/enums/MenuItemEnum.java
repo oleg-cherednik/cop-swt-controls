@@ -28,6 +28,8 @@ public enum MenuItemEnum implements Localizable<String>
 	// MI_SORT(new PushMenuItem("Sort...", "icons//sort//sort16.png")),
 
 	MI_SEPARATOR,
+	MI_STATE,
+	MI_COLUMN_DESCRIPTION,
 	MI_COPY("Copy", new HotKeyGroup(KEY_CTRL, KEY_C), "Copy", "Kopieren", "Копировать"),
 	MI_DELETE("Delete", KeyEnum.KEY_DELETE, "Delete", "L\u00f6schen", "Удалить"),
 	MI_SELECT_ALL("Select All", new HotKeyGroup(KEY_CTRL, KEY_A), "Select All", "Alle Ausw\u00e4hlen", "Выделить Всё"),
@@ -39,6 +41,7 @@ public enum MenuItemEnum implements Localizable<String>
 
 	;
 
+	public static final String MENU_ITEM_KEY = "menu_item";
 	private Map<Locale, String> map = new HashMap<Locale, String>();
 
 	private String text;

@@ -17,16 +17,14 @@ import cop.swt.widgets.menus.items.basics.AbstractCascadeMenuItem;
 
 public class CascadeMenuItem extends AbstractCascadeMenuItem
 {
-	private final MenuItemEnum KEY;
 	private MenuManager menuManager;
 
 	public CascadeMenuItem(Control control, HotKeyManager keyManager, MenuItemEnum key, IMenuBuilder menuBuilder)
 	{
-		super(key.getAccelerator());
+		super(key, key.getAccelerator());
 
 		Assert.isNotNull(menuBuilder);
 
-		this.KEY = key;
 		this.menuManager = new MenuManager(control, keyManager, menuBuilder);
 	}
 
@@ -62,7 +60,7 @@ public class CascadeMenuItem extends AbstractCascadeMenuItem
 	@Override
 	public String _getKey()
 	{
-		return KEY.name();
+		return key.name();
 	}
 
 	/*
@@ -72,7 +70,7 @@ public class CascadeMenuItem extends AbstractCascadeMenuItem
 	@Override
 	public String getText(Locale locale)
 	{
-		return StringExtension.getText(KEY.i18n(locale), KEY.getText());
+		return StringExtension.getText(key.i18n(locale), key.getText());
 	}
 
 	@Override

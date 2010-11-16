@@ -11,13 +11,9 @@ import cop.swt.widgets.menus.items.basics.AbstractCheckMenuItem;
 
 public class CheckMenuItem extends AbstractCheckMenuItem
 {
-	private final MenuItemEnum KEY;
-
 	public CheckMenuItem(MenuItemEnum key)
 	{
-		super(key.getAccelerator());
-
-		KEY = key;
+		super(key, key.getAccelerator());
 	}
 
 	public CheckMenuItem(MenuItemEnum key, PropertyProvider<Boolean> selectionProvider, Listener listener)
@@ -44,7 +40,7 @@ public class CheckMenuItem extends AbstractCheckMenuItem
 	@Override
 	public String _getKey()
 	{
-		return KEY.name();
+		return key.name();
 	}
 
 	/*
@@ -54,6 +50,6 @@ public class CheckMenuItem extends AbstractCheckMenuItem
 	@Override
 	public String getText(Locale locale)
 	{
-		return StringExtension.getText(KEY.i18n(locale), KEY.getText());
+		return StringExtension.getText(key.i18n(locale), key.getText());
 	}
 }

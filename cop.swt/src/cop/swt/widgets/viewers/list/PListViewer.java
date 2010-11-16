@@ -4,7 +4,12 @@ import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SORT;
+import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.H_SCROLL;
+import static org.eclipse.swt.SWT.KeyDown;
+import static org.eclipse.swt.SWT.KeyUp;
+import static org.eclipse.swt.SWT.MouseExit;
+import static org.eclipse.swt.SWT.MouseWheel;
 import static org.eclipse.swt.SWT.V_SCROLL;
 
 import java.util.ArrayList;
@@ -47,7 +52,6 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		// viewer.setSorter(new PListSorter<T>());
 
 		// createFilter();
-		addListeners();
 		postConstruct();
 	}
 
@@ -102,7 +106,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
 		//ColumnDescription<T> description;
 
-		menuBuilder.addMenuItem(new PushMenuItem(MI_SORT, isSortable, null, setSorter));
+		menuBuilder.addMenuItem(new PushMenuItem(MI_SORT, isSortable, null, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
 
 		// for(PTableColumnInfo<T> column : columns)
@@ -118,33 +122,6 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 		return menuBuilder;
 	}
-
-	private Listener setSorter = new Listener()
-	{
-		@Override
-		public void handleEvent(Event event)
-		{
-			System.out.println("---------");
-			try
-			{
-				//				if(!description.isSortable())
-				//					return;
-				//
-				//				TableColumn column = columnViewer.getColumn();
-				//				Table table = tableViewer.getTable();
-				//				int dir = table.getSortDirection();
-				//
-				//				if(table.getSortColumn() == column)
-				//					setSorterDirection(parseSwtDirection((dir == UP) ? DOWN : UP));
-				//				else
-				//					setSorterDirection(parseSwtDirection(DEFAULT_SORT_DIRECTION.getSwtDirection()));
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-	};
 
 	@Override
 	protected List<String[]> toStringArrayList(List<T> items)
@@ -298,5 +275,40 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		description.setLocale(locale);
 
 		refresh();
+	}
+	
+	/*
+	 * Listener
+	 */
+
+	@Override
+    public void handleEvent(Event event)
+	{
+//		private Listener setSorter = new Listener()
+//		{
+//			@Override
+//			public void handleEvent(Event event)
+//			{
+//				System.out.println("---------");
+//				try
+//				{
+//					//				if(!description.isSortable())
+//					//					return;
+//					//
+//					//				TableColumn column = columnViewer.getColumn();
+//					//				Table table = tableViewer.getTable();
+//					//				int dir = table.getSortDirection();
+//					//
+//					//				if(table.getSortColumn() == column)
+//					//					setSorterDirection(parseSwtDirection((dir == UP) ? DOWN : UP));
+//					//				else
+//					//					setSorterDirection(parseSwtDirection(DEFAULT_SORT_DIRECTION.getSwtDirection()));
+//				}
+//				catch(Exception ex)
+//				{
+//					ex.printStackTrace();
+//				}
+//			}
+//		};
 	}
 }
