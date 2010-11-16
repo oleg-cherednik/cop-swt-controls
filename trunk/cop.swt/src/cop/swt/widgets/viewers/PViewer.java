@@ -84,7 +84,7 @@ import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.interfaces.ViewerConfig;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport<T>, Clearable, Refreshable, Listener
+                SelectionListenerSupport<T>, Clearable, Refreshable, Listener, IModelChange<T>
 {
 	protected final Composite parent;
 	public StructuredViewer widget;
@@ -417,14 +417,9 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isNull(defaultModel))
 			return;
 
-		defaultModel.removeListener(onModelChanged);
+		defaultModel.removeListener(this);
 		defaultModel.dispose();
 		defaultModel = null;
-	}
-
-	protected void modelChanged()
-	{
-		refresh();
 	}
 
 	private void deleteSelectedItems()
@@ -440,7 +435,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public void dispose()
 	{
-		model.removeListener(onModelChanged);
+		model.removeListener(this);
 		removeDefaultModel();
 	}
 
@@ -455,6 +450,25 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	}
 
 	protected abstract List<String[]> toStringArrayList(List<T> items);
+
+	/*
+	 * IModelChange
+	 */
+
+	public void modelChanged(Model<T> model)
+	{
+		refresh();
+	}
+
+	public void modelChanged(Model<T> model, T item)
+	{
+		refresh();
+	}
+
+	public void modelChanged(Model<T> model, Collection<T> items)
+	{
+		refresh();
+	}
 
 	/*
 	 * ModifyListenerSupport
@@ -493,15 +507,15 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isStandaloneMode())
 			removeDefaultModel();
 		else if(isNotNull(this.model))
-			this.model.removeListener(onModelChanged);
+			this.model.removeListener(this);
 
-		model.addListener(onModelChanged);
+		model.addListener(this);
 		this.model = model;
 
 		widget.setContentProvider(new ContentProviderAdapter<T>(model));
 		widget.setInput(new ArrayList<T>());
 
-		modelChanged();
+		modelChanged(model);
 	}
 
 	@Override
@@ -510,7 +524,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isNull(model))
 			return;
 
-		model.removeListener(onModelChanged);
+		model.removeListener(this);
 
 		if(this.model == defaultModel)
 			return;
@@ -713,15 +727,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		public void itemModified(Widget widget, T item, ModificationTypeEnum type)
 		{
 			defaultModel.modify(item, type);
-		}
-	};
-
-	private IModelChange<T> onModelChanged = new IModelChange<T>()
-	{
-		@Override
-		public void modelChanged(Model<T> model)
-		{
-			PViewer.this.modelChanged();
 		}
 	};
 

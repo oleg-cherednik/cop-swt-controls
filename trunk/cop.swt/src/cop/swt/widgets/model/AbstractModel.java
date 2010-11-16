@@ -2,6 +2,7 @@ package cop.swt.widgets.model;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -46,6 +47,20 @@ public abstract class AbstractModel<T> implements Model<T>
 	{
 		for(IModelChange<T> viewerListener : listeners)
 			viewerListener.modelChanged(this);
+	}
+
+	@Override
+	public void modelChanged(T item)
+	{
+		for(IModelChange<T> viewerListener : listeners)
+			viewerListener.modelChanged(this, item);
+	}
+
+	@Override
+	public void modelChanged(Collection<T> items)
+	{
+		for(IModelChange<T> viewerListener : listeners)
+			viewerListener.modelChanged(this, items);
 	}
 
 	/*
