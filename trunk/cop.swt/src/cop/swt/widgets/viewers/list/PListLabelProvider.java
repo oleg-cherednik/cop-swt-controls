@@ -1,8 +1,8 @@
 package cop.swt.widgets.viewers.list;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.*;
+import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.CommonExtension.isNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.graphics.Image;
-
-import plugin.cop.swt.Activator;
 
 import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
 
@@ -21,14 +18,14 @@ public class PListLabelProvider<T> extends TextLabelProvider
 {
 	private ILabelDescription<T> description;
 	private Map<String, T> map = new HashMap<String, T>();
-	
+
 	public PListLabelProvider(ILabelDescription<T> description)
 	{
 		Assert.isNotNull(description);
-		
+
 		setDescription(description);
 	}
-	
+
 	public void setDescription(ILabelDescription<T> description)
 	{
 		if(isNotNull(description))
