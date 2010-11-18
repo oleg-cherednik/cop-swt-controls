@@ -190,19 +190,12 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		@Override
 		public void run()
 		{
-			Runnable task = new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					pack();
-				}
-			};
-
-			widget.getControl().getDisplay().syncExec(task);
+			if(!widget.getControl().isDisposed())
+				for(PTableColumnInfo<T> column : columns.values())
+					column.pack();
 		}
 	};
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> getSelectedItems()
@@ -287,11 +280,8 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void pack()
 	{
-		if(widget.getControl().isDisposed())
-			return;
-
-		for(PTableColumnInfo<T> column : columns.values())
-			column.pack();
+		if(!widget.getControl().isDisposed())
+			widget.getControl().getDisplay().syncExec(packTask);
 	}
 
 	/*
@@ -419,7 +409,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	public void refresh()
 	{
 		super.refresh();
-		new Thread(packTask).start();
+		pack();
 	}
 
 	/*

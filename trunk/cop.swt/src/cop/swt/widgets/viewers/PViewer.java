@@ -450,6 +450,16 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	}
 
 	protected abstract List<String[]> toStringArrayList(List<T> items);
+	
+	private final Runnable refreshTask = new Runnable()
+	{
+		@Override
+		public void run()
+		{	
+			if(!Thread.currentThread().isInterrupted() && !widget.getControl().isDisposed())
+				widget.refresh();
+		}
+	};
 
 	/*
 	 * IModelChange
@@ -571,10 +581,13 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	 * Refreshable
 	 */
 
+	static int val = 0;
+	
 	@Override
 	public void refresh()
 	{
-		widget.refresh();
+		if(!widget.getControl().isDisposed())
+			widget.getControl().getDisplay().syncExec(refreshTask);
 	}
 
 	/*
