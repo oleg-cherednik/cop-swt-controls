@@ -29,19 +29,19 @@ public class ListModel<T> extends AbstractViewerModel<T>
 	public void add(T item)
 	{
 		this.items.add(item);
-		modelChanged(item);
+		modelChanged();
 	}
 
 	public void add(T item, int index)
 	{
 		items.add(index, item);
-		modelChanged(item);
+		modelChanged();
 	}
 
 	public void add(Collection<T> items)
 	{
 		this.items.addAll(items);
-		modelChanged(items);
+		modelChanged();
 	}
 
 	public T getItem(int index)
@@ -102,13 +102,12 @@ public class ListModel<T> extends AbstractViewerModel<T>
 		int index = items.indexOf(item);
 
 		if(index < 0)
-		{
 			add(item);
-			return;
+		else
+		{
+			items.set(index, item);
+			modelChanged();
 		}
-
-		items.set(index, item);
-		modelChanged(item);
 	}
 
 	public boolean remove(T item)
