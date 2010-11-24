@@ -142,10 +142,8 @@ public final class CollectionExtension
 			return;
 
 		for(T obj : src)
-		{
 			if(obj != null)
 				dest.add(obj);
-		}
 	}
 
 	public static <T> boolean swap(List<T> list, int index1, int index2)

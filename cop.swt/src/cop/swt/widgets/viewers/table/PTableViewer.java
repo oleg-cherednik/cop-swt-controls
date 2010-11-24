@@ -66,7 +66,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	private Map<Integer, PTableColumnInfo<T>> columns = new HashMap<Integer, PTableColumnInfo<T>>();
 	private boolean autoColumnWidth = true;
 	private boolean mouseEnter;
-	private Set<TableColumnListener> tableColumnListeners = new HashSet<TableColumnListener>();
+	private Set<TableColumnListener<T>> tableColumnListeners = new HashSet<TableColumnListener<T>>();
 	private TableFilter<T> filter;
 	private PTableLabelProvider<T> labelProvider;
 	// private TableConfig<T> config;
@@ -223,26 +223,38 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	 * tableColumnListener
 	 */
 
-	public void addTableColumnListener(TableColumnListener listener)
+	public void addTableColumnListener(TableColumnListener<T> listener)
 	{
 		tableColumnListeners.add(listener);
 	}
 
-	public void removeTableColumnListener(TableColumnListener listener)
+	public void removeTableColumnListener(TableColumnListener<T> listener)
 	{
 		tableColumnListeners.remove(listener);
 	}
 
-	private void notifyTableColumnResizedListeners(TableColumnProperty resizedColumn, TableColumnProperty[] columns)
+	private void notifyTableColumnResizedListeners(ColumnDescription<T> resizedColumn, List<ColumnDescription<T>> columns)
 	{
-		for(TableColumnListener listener : tableColumnListeners)
+		for(TableColumnListener<T> listener : tableColumnListeners)
 			listener.columnResized(resizedColumn, columns);
 	}
 
-	private void notifyTableColumnMovedListeners(TableColumnProperty movedColumn, TableColumnProperty[] columns)
+	private void notifyTableColumnMovedListeners(ColumnDescription<T> movedColumn, List<ColumnDescription<T>> columns)
 	{
-		for(TableColumnListener listener : tableColumnListeners)
+		for(TableColumnListener<T> listener : tableColumnListeners)
 			listener.columnMoved(movedColumn, columns);
+	}
+	
+	/*
+	 * TableColumnListener
+	 */
+	
+	public void columnResized(TableColumnProperty resizedColumn, TableColumnProperty[] columns) {
+		
+	}
+
+	public void columnMoved(TableColumnProperty movedColumn, TableColumnProperty[] columns) {
+		
 	}
 
 	/*
@@ -575,32 +587,36 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		return -1;
 	}
 
-	private TableColumnListener notifyTableColumnListener = new TableColumnListener()
+	private TableColumnListener<T> notifyTableColumnListener = new TableColumnListener<T>()
 	{
 		@Override
-		public void columnMoved(TableColumnProperty movedColumn, TableColumnProperty[] columns)
+		public void columnMoved(ColumnDescription<T> movedColumn, List<ColumnDescription<T>> columns)
 		{
 			if(!autoColumnWidth)
 				notifyTableColumnMovedListeners(movedColumn, getOrderTableColumns());
 		}
 
 		@Override
-		public void columnResized(TableColumnProperty resizedColumn, TableColumnProperty[] columns)
+		public void columnResized(ColumnDescription<T> resizedColumn, List<ColumnDescription<T>> columns)
 		{
 			if(!autoColumnWidth)
 				notifyTableColumnResizedListeners(resizedColumn, getOrderTableColumns());
 		}
 
-		private TableColumnProperty[] getOrderTableColumns()
+		private List<ColumnDescription<T>> getOrderTableColumns()
 		{
-			List<TableColumnProperty> res = new ArrayList<TableColumnProperty>();
+			List<ColumnDescription<T>> res = new ArrayList<ColumnDescription<T>>();
 			Table table = ((TableViewer)widget).getTable();
+			PTableColumnInfo<T> info;
 
-			// TODO create new object here, why
-			for(int pos : table.getColumnOrder())
-				res.add(new TableColumnProperty(columns.get(pos)));
+			for(int pos : table.getColumnOrder()) {
+				info = columns.get(pos);
+				
+				if(info != null)
+					res.add(info.getDescription());
+			}
 
-			return res.toArray(new TableColumnProperty[0]);
+			return res;
 		}
 	};
 

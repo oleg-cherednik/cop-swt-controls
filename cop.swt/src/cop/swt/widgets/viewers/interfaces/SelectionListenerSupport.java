@@ -1,8 +1,10 @@
 package cop.swt.widgets.viewers.interfaces;
 
-public interface SelectionListenerSupport<T>
-{
-	void addSelectionListener(ISelectionListener<T> listener);
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 
-	void removeSelectionListener(ISelectionListener<T> listener);
+public interface SelectionListenerSupport
+{
+	void addSelectionListener(ISelectionChangedListener listener);
+
+	void removeSelectionListener(ISelectionChangedListener listener);
 }
