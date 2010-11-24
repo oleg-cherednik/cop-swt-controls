@@ -15,7 +15,7 @@ import static cop.swt.extensions.ColorExtension.WHITE;
 import static cop.swt.extensions.ColorExtension.YELLOW;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DELETE;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.*;
+import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_PROPERTIES;
 import static cop.swt.widgets.tmp.CountEnum.EIGHT;
 import static cop.swt.widgets.tmp.CountEnum.FIVE;
 import static cop.swt.widgets.tmp.CountEnum.FOUR;
@@ -30,11 +30,15 @@ import static cop.swt.widgets.tmp.CountEnum.TWO;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ModifyEvent;
@@ -55,7 +59,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 import plugin.cop.swt.Activator;
-
 import cop.swt.extensions.ColorExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
@@ -66,17 +69,17 @@ import cop.swt.widgets.tmp.localization.Name;
 import cop.swt.widgets.tmp.localization.StateBundleEnum;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
-import cop.swt.widgets.viewers.interfaces.ISelectionListener;
 import cop.swt.widgets.viewers.list.ListViewerConfig;
 import cop.swt.widgets.viewers.list.PListViewer;
 import cop.swt.widgets.viewers.model.ListModel;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
+import cop.swt.widgets.viewers.table.TableColumnAdapter;
 import cop.swt.widgets.viewers.table.TableColumnProperty;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
 import cop.swt.widgets.viewers.table.descriptions.BooleanColumnDescription;
-import cop.swt.widgets.viewers.table.interfaces.TableColumnAdapter;
+import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 public class TableViewerExample implements IExample, LocaleSupport
@@ -198,6 +201,52 @@ public class TableViewerExample implements IExample, LocaleSupport
 
 		Locale.setDefault(Locale.US);
 	}
+	
+	private Runnable updateModelA = new Runnable()
+	{
+		@Override
+        public void run()
+        {
+			while(!Thread.interrupted())
+			{
+				try
+	            {
+		            Thread.sleep(1);
+		            
+		            ActionTO action = modelA.getItem(0);
+		            double percent = action.getPercent() + 0.005;
+		            
+		            if(percent > 1)
+		            	percent -= 1;
+		            
+		    		if(!table.widget.getControl().isDisposed())
+		    			table.widget.getControl().getDisplay().syncExec(refreshTask);
+//		            table.widget.setInput(modelA.getElements(null));
+		            
+		            
+		            action.setPercent(percent);
+		            modelA.updateItem(action);
+		           //System.out.println("model A has been updated");
+	            }
+	            catch(InterruptedException e)
+	            {
+		            e.printStackTrace();
+	            }
+			}
+        }
+	};
+	
+	private final Runnable refreshTask = new Runnable()
+	{
+		@Override
+		public void run()
+		{
+			if(Thread.currentThread().isInterrupted() || table.widget.getControl().isDisposed())
+				return;
+
+			table.widget.setInput(modelA.getElements(null));
+		}
+	};
 
 	@Override
 	public void run(Composite parent)
@@ -212,6 +261,8 @@ public class TableViewerExample implements IExample, LocaleSupport
 
 			localesCombo.select(2);
 			setLocale(locales[2]);
+			
+			//new Thread(updateModelA).start();
 		}
 		catch(Exception e)
 		{
@@ -351,7 +402,7 @@ public class TableViewerExample implements IExample, LocaleSupport
 		// list.getList().setBackground(ColorExtension.YELLOW);
 		// //list.setDeleteKey(true);
 		list.addModifyListener(modifyListListener);
-		list.addSelectionListener(onItemSelect);
+		//list.addSelectionListener(onItemSelect);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		localeObjects.add(list);
 
@@ -449,15 +500,17 @@ public class TableViewerExample implements IExample, LocaleSupport
 		}
 	}
 
-	private ISelectionListener<ActionTO> onItemSelect = new ISelectionListener<ActionTO>()
+	private ISelectionChangedListener onItemSelect = new ISelectionChangedListener()
 	{
 		@Override
-		public void itemSelected(Widget widget, List<ActionTO> items)
+		public void selectionChanged(SelectionChangedEvent event)
 		{
 			System.out.println("Selection changed:");
+			
+			StructuredSelection selection = (StructuredSelection)event.getSelection();
 
-			for(ActionTO item : items)
-				System.out.println(item);
+			for(Object item : selection.toArray())
+				System.out.println(item);			
 		}
 	};
 
@@ -612,25 +665,25 @@ public class TableViewerExample implements IExample, LocaleSupport
 		}
 	};
 
-	private TableColumnListener onTableColumn = new TableColumnAdapter()
+	private TableColumnListener<ActionTO> onTableColumn = new TableColumnAdapter<ActionTO>()
 	{
 		@Override
-		public void columnMoved(TableColumnProperty movedColumn, TableColumnProperty[] columns)
+		public void columnMoved(ColumnDescription<ActionTO> movedColumn, List<ColumnDescription<ActionTO>> columns)
 		{
 			System.out.print("Column '" + movedColumn.getKey() + "' was moved. Current order:");
 
-			for(TableColumnProperty column : columns)
+			for(ColumnDescription<ActionTO> column : columns)
 				System.out.print(" " + column.getKey());
 
 			System.out.println();
 		}
 
 		@Override
-		public void columnResized(TableColumnProperty resizeColumn, TableColumnProperty[] columns)
+		public void columnResized(ColumnDescription<ActionTO> resizeColumn, List<ColumnDescription<ActionTO>> columns)
 		{
 			System.out.print("Column '" + resizeColumn.getKey() + "' was resized. Current order:");
 
-			for(TableColumnProperty column : columns)
+			for(ColumnDescription<ActionTO> column : columns)
 				System.out.print(" " + column.getKey());
 
 			System.out.println();
@@ -766,6 +819,8 @@ public class TableViewerExample implements IExample, LocaleSupport
 class ImageProviderImpl implements ImageProvider
 {
 	private static Properties paths;
+	private static Map<String, Image> images;
+	
 
 	static
 	{
@@ -784,6 +839,8 @@ class ImageProviderImpl implements ImageProvider
 
 		paths.setProperty(BooleanColumnDescription.CHECKED_MARKER, "icons//checked.gif");
 		paths.setProperty(BooleanColumnDescription.UNCHECKED_MARKER, "icons//unchecked.gif");
+		
+		images = new HashMap<String, Image>();
 	}
 
 	@Override
@@ -791,8 +848,15 @@ class ImageProviderImpl implements ImageProvider
 	{
 		if(isEmpty(key))
 			return null;
-
+		
+		if(images.containsKey(key))
+			return images.get(key);
+		
 		String path = paths.getProperty(key);
-		return isNotEmpty(path) ? Activator.getImageDescriptor(path).createImage() : null;
+		Image image = isNotEmpty(path) ? Activator.getImageDescriptor(path).createImage() : null;
+		
+		images.put(key, image);
+		
+		return image;
 	}
 }

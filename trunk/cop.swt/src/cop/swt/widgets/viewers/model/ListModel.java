@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.Viewer;
 
 import cop.common.extensions.CollectionExtension;
+import cop.swt.widgets.model.interfaces.IModelChange;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 
 public class ListModel<T> extends AbstractViewerModel<T>
@@ -125,6 +126,13 @@ public class ListModel<T> extends AbstractViewerModel<T>
 
 		return res;
 	}
+	
+	@Override
+	public void modelChanged()
+	{
+		super.modelChanged();
+		//inputChanged(null, items, items);
+	}
 
 	/*
 	 * _IStructuredContentProvider
@@ -133,6 +141,7 @@ public class ListModel<T> extends AbstractViewerModel<T>
 	@Override
 	public Collection<T> getElements(Collection<T> inputElement)
 	{
+		//System.out.println("ContentProvider.getElements(" + items.size() + ")");
 		return items;
 	}
 
@@ -144,7 +153,12 @@ public class ListModel<T> extends AbstractViewerModel<T>
 
 	@Override
 	public void inputChanged(Viewer viewer, Collection<T> oldItems, Collection<T> newItems)
-	{}
+	{
+		int oldNum = isNotEmpty(oldItems) ? oldItems.size() : -1; 
+		int newNum = isNotEmpty(newItems) ? newItems.size() : -1; 
+		
+		System.out.println("ContentProvider.inputChanged(old: " + oldNum + ", new: " + newNum + ")");
+	}
 
 	/*
 	 * Model

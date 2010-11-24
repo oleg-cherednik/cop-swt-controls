@@ -119,6 +119,8 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	@Override
 	public void handleEvent(Event event, TableViewer tableViewer, TableViewerColumn columnViewer)
 	{
+		super.handleEvent(event, tableViewer, columnViewer);
+		
 		if(event.type == SWT.PaintItem)
 			drawProgressBar(event, columnViewer);
 	}

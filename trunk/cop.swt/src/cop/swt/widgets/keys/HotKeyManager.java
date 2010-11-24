@@ -4,15 +4,14 @@ import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.swt.widgets.keys.HotKeyGroup.isControlKey;
 import static cop.swt.widgets.keys.HotKeyGroup.isMagicKey;
 import static cop.swt.widgets.keys.enums.KeyEnum.parseKeyEnum;
+import static org.eclipse.swt.SWT.Dispose;
+import static org.eclipse.swt.SWT.KeyDown;
+import static org.eclipse.swt.SWT.KeyUp;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -20,7 +19,7 @@ import org.eclipse.swt.widgets.Listener;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.keys.enums.KeyEnum;
 
-public final class HotKeyManager implements Clearable
+public final class HotKeyManager implements Clearable, Listener
 {
 	private static int DELAY = 5000;
 
@@ -42,8 +41,9 @@ public final class HotKeyManager implements Clearable
 
 	private void addListeners()
 	{
-		control.addKeyListener(keyListener);
-		control.addDisposeListener(onDispose);
+		control.addListener(Dispose, this);
+		control.addListener(KeyDown, this);
+		control.addListener(KeyUp, this);
 	}
 
 	private void checkKeysForNotify(KeyEnum key)
@@ -58,12 +58,22 @@ public final class HotKeyManager implements Clearable
 			if(!group.equals(keys))
 				continue;
 
-			map.get(group).handleEvent(new Event());
+			map.get(group).handleEvent(createEvent());
 			prvKeys.removeKey(key);
 			prvTime = (int)System.currentTimeMillis();
 
 			return;
 		}
+	}
+
+	private Event createEvent()
+	{
+		Event event = new Event();
+		
+		event.widget = control;
+		event.time = (int)System.currentTimeMillis();
+
+		return event;
 	}
 
 	private void checkPrvKeysForNotify()
@@ -73,7 +83,7 @@ public final class HotKeyManager implements Clearable
 			if(!group.equals(prvKeys))
 				continue;
 
-			map.get(group).handleEvent(new Event());
+			map.get(group).handleEvent(createEvent());
 			clear();
 
 			return;
@@ -96,64 +106,12 @@ public final class HotKeyManager implements Clearable
 			map.remove(keys);
 	}
 
-	/*
-	 * Listener
-	 */
-
-	private KeyListener keyListener = new KeyListener()
+	private void dispose()
 	{
-		@Override
-		public void keyReleased(KeyEvent e)
-		{
-			KeyEnum key = parseKeyEnum(e.keyCode);
-
-			if(!keys.removeKey(key))
-				return;
-
-			prvKeys.addKey(key);
-			prvTime = e.time;
-			usePrv = keys.isEmpty();
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			if(map.size() == 0)
-				return;
-
-			if(prvTime != 0 && (e.time - prvTime) > DELAY)
-				clear();
-
-			KeyEnum key = parseKeyEnum(e.keyCode);
-
-			if(keys.contains(key))
-				return;
-
-			if(keys.isEmpty() && prvKeys.isEmpty() && !isControlKey(key) && !isMagicKey(key))
-			{
-				clear();
-				return;
-			}
-
-			keys.addKey(key);
-			prvKeys.removeKey(key);
-
-			if(isControlKey(key) || prvKeys.containsOnlyControls())
-				clearPrv();
-			
-			if(!keys.containsOnlyControls() || isMagicKey(key))
-				checkKeysForNotify(key);
-		}
-	};
-
-	private DisposeListener onDispose = new DisposeListener()
-	{
-		@Override
-		public void widgetDisposed(DisposeEvent e)
-		{
-			control.removeKeyListener(keyListener);
-		}
-	};
+		control.removeListener(Dispose, this);
+		control.removeListener(KeyDown, this);
+		control.removeListener(KeyUp, this);
+	}
 
 	/*
 	 * Clearable
@@ -171,5 +129,67 @@ public final class HotKeyManager implements Clearable
 		prvKeys.clear();
 		prvTime = 0;
 		usePrv = false;
+	}
+
+	/*
+	 * Listener
+	 */
+
+	public void handleEvent(Event event)
+	{
+		if(event.widget != control)
+			return;
+
+		if(event.type == Dispose)
+			dispose();
+		else if(event.type == KeyDown)
+			onKeyDown(event);
+		else if(event.type == KeyUp)
+			onKeyUp(event);
+	}
+
+	/*
+	 * listeners
+	 */
+
+	private void onKeyDown(Event event)
+	{
+		if(map.size() == 0)
+			return;
+
+		if(prvTime != 0 && (event.time - prvTime) > DELAY)
+			clear();
+
+		KeyEnum key = parseKeyEnum(event.keyCode);
+
+		if(keys.contains(key))
+			return;
+
+		if(keys.isEmpty() && prvKeys.isEmpty() && !isControlKey(key) && !isMagicKey(key))
+		{
+			clear();
+			return;
+		}
+
+		keys.addKey(key);
+		prvKeys.removeKey(key);
+
+		if(isControlKey(key) || prvKeys.containsOnlyControls())
+			clearPrv();
+
+		if(!keys.containsOnlyControls() || isMagicKey(key))
+			checkKeysForNotify(key);
+	}
+
+	private void onKeyUp(Event event)
+	{
+		KeyEnum key = parseKeyEnum(event.keyCode);
+
+		if(!keys.removeKey(key))
+			return;
+
+		prvKeys.addKey(key);
+		prvTime = event.time;
+		usePrv = keys.isEmpty();
 	}
 }
