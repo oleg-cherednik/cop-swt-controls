@@ -213,20 +213,10 @@ public class TableViewerExample implements IExample, LocaleSupport
 	            {
 		            Thread.sleep(1);
 		            
-		            ActionTO action = modelA.getItem(0);
-		            double percent = action.getPercent() + 0.005;
-		            
-		            if(percent > 1)
-		            	percent -= 1;
-		            
-		    		if(!table.widget.getControl().isDisposed())
-		    			table.widget.getControl().getDisplay().syncExec(refreshTask);
-//		            table.widget.setInput(modelA.getElements(null));
-		            
-		            
-		            action.setPercent(percent);
-		            modelA.updateItem(action);
-		           //System.out.println("model A has been updated");
+		    		if(!table.widget.getControl().isDisposed()) {
+		    			table.widget.getControl().getDisplay().syncExec(increasePercent);
+		    			table.widget.getControl().getDisplay().syncExec(increaseNumber);
+		    		}
 	            }
 	            catch(InterruptedException e)
 	            {
@@ -236,7 +226,7 @@ public class TableViewerExample implements IExample, LocaleSupport
         }
 	};
 	
-	private final Runnable refreshTask = new Runnable()
+	private final Runnable increasePercent = new Runnable()
 	{
 		@Override
 		public void run()
@@ -244,7 +234,43 @@ public class TableViewerExample implements IExample, LocaleSupport
 			if(Thread.currentThread().isInterrupted() || table.widget.getControl().isDisposed())
 				return;
 
-			table.widget.setInput(modelA.getElements(null));
+            ActionTO action = modelA.getItem(0);
+            double percent = action.getPercent() + 0.005;
+            
+            if(percent > 1)
+            	percent -= 1;
+            
+            //table.widget.setInput(modelA.getElements(null));
+            
+            
+            action.setPercent(percent);
+            modelA.updateItem(action);
+           //System.out.println("model A has been updated");
+
+		}
+	};
+	
+	private final Runnable increaseNumber = new Runnable()
+	{
+		@Override
+		public void run()
+		{
+			if(Thread.currentThread().isInterrupted() || table.widget.getControl().isDisposed())
+				return;
+
+            ActionTO action = modelA.getItem(0);
+            int number = action.getNumber() + 1;
+            
+            if(number > 100)
+            	number -= 100;
+            
+            //table.widget.setInput(modelA.getElements(null));
+            
+            
+            action.setNumber(number);
+            modelA.updateItem(action);
+           //System.out.println("model A has been updated");
+
 		}
 	};
 
@@ -262,7 +288,7 @@ public class TableViewerExample implements IExample, LocaleSupport
 			localesCombo.select(2);
 			setLocale(locales[2]);
 			
-			//new Thread(updateModelA).start();
+			new Thread(updateModelA).start();
 		}
 		catch(Exception e)
 		{
@@ -350,6 +376,7 @@ public class TableViewerExample implements IExample, LocaleSupport
 		//table.addSelectionListener(onItemSelect);
 		table.addModifyListener(modifyTableListener);
 		table.addTableColumnListener(onTableColumn);
+		table.setEnabled(true);
 		// table.setPreferencePage(EmployeeListPreferencePage.class.getName());
 
 		localeObjects.add(table);

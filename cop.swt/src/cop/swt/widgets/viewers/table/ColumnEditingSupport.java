@@ -10,6 +10,15 @@ import java.util.Set;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
@@ -23,7 +32,7 @@ public class ColumnEditingSupport<T> extends EditingSupport implements LocaleSup
 	public CellEditor editor;
 	private ColumnDescription<T> description;
 	private boolean readonly;
-	private boolean enabled;
+	private boolean enabled = true;
 	private IModifyProvider<T> modifyProvider;
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 

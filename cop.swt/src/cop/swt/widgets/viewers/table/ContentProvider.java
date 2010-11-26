@@ -15,7 +15,7 @@ public class ContentProvider<T> implements _IStructuredContentProvider<T>
 	{
 		int num = isNotEmpty(inputElement) ? inputElement.size() : -1;
 
-		//System.out.println("ContentProvider.getElements(" + num + ")");
+		System.out.println("ContentProvider.getElements(" + num + ")");
 
 		return inputElement;
 	}
@@ -30,6 +30,6 @@ public class ContentProvider<T> implements _IStructuredContentProvider<T>
 		int oldNum = isNotEmpty(oldItems) ? oldItems.size() : -1;
 		int newNum = isNotEmpty(newItems) ? newItems.size() : -1;
 
-		//System.out.println("ContentProvider.inputChanged(old: " + oldNum + ", new: " + newNum + ")");
+		System.out.println("ContentProvider.inputChanged(old: " + oldNum + ", new: " + newNum + ")");
 	}
 }

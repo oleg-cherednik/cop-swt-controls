@@ -141,7 +141,7 @@ public class ListModel<T> extends AbstractViewerModel<T>
 	@Override
 	public Collection<T> getElements(Collection<T> inputElement)
 	{
-		//System.out.println("ContentProvider.getElements(" + items.size() + ")");
+		//System.out.println("ListModel.getElements(" + items.size() + ")");
 		return items;
 	}
 
@@ -157,7 +157,7 @@ public class ListModel<T> extends AbstractViewerModel<T>
 		int oldNum = isNotEmpty(oldItems) ? oldItems.size() : -1; 
 		int newNum = isNotEmpty(newItems) ? newItems.size() : -1; 
 		
-		System.out.println("ContentProvider.inputChanged(old: " + oldNum + ", new: " + newNum + ")");
+		System.out.println("ListModel.inputChanged(old: " + oldNum + ", new: " + newNum + ")");
 	}
 
 	/*

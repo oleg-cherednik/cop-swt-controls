@@ -12,6 +12,9 @@ import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
+import static cop.swt.widgets.keys.enums.KeyEnum.KEY_DOWN;
+import static cop.swt.widgets.keys.enums.KeyEnum.KEY_UP;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_KEY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DELETE;
@@ -51,6 +54,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Scrollable;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
@@ -60,7 +64,6 @@ import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKeyManager;
-import cop.swt.widgets.keys.enums.KeyEnum;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.MenuManager;
@@ -70,7 +73,8 @@ import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.CascadeMenuItem;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
-import cop.swt.widgets.model.interfaces.Model;
+import cop.swt.widgets.model.interfaces.IModelChange;
+import cop.swt.widgets.tmp.ActionTO;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.SelectionListenerSupport;
@@ -81,7 +85,7 @@ import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.interfaces.ViewerConfig;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport, Clearable, Refreshable, Listener//, IModelChange<T>
+                SelectionListenerSupport, Clearable, Refreshable, Listener, IModelChange<T>
 {
 	protected final Composite parent;
 	public StructuredViewer widget;
@@ -385,12 +389,12 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public void selectAll()
 	{
-		//notifySelectionListeners(getSelectedItems());
+		// notifySelectionListeners(getSelectedItems());
 	}
 
 	public void deselectAll()
 	{
-		//notifySelectionListeners(getSelectedItems());
+		// notifySelectionListeners(getSelectedItems());
 	}
 
 	public boolean isStandaloneMode()
@@ -411,7 +415,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isNull(defaultModel))
 			return;
 
-		//defaultModel.removeListener(this);
+		// defaultModel.removeListener(this);
 		defaultModel.dispose();
 		defaultModel = null;
 	}
@@ -429,13 +433,13 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public void dispose()
 	{
-		//model.removeListener(this);
+		// model.removeListener(this);
 		removeDefaultModel();
 	}
 
 	public void setEnabled(boolean enabled)
 	{
-		widget.getControl().setEnabled(false);
+		widget.getControl().setEnabled(enabled);
 	}
 
 	public boolean isEnabled()
@@ -445,55 +449,52 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected abstract List<String[]> toStringArrayList(List<T> items);
 
+	// protected /*abstract*/T[] getVisibleItems()
+	// {
+	// return null;
+	// }
+
 	private final Runnable refreshTask = new Runnable()
 	{
 		@Override
 		public void run()
 		{
-			if(Thread.currentThread().isInterrupted() || widget.getControl().isDisposed())
-				return;
-
-			synchronized(widget)
-			{
+			if(!Thread.currentThread().isInterrupted() && !widget.getControl().isDisposed())
 				widget.refresh();
-			}
 		}
 	};
-	
-//	private final Runnable updateContentT = new Runnable()
-//	{
-//		@Override
-//		public void run()
-//		{
-//			if(Thread.currentThread().isInterrupted() || widget.getControl().isDisposed())
-//				return;
-//
-//			synchronized(widget)
-//			{
-//				widget.refresh();
-//			}
-//		}
-//	};
+
+	// private final Runnable updateContentT = new Runnable()
+	// {
+	// @Override
+	// public void run()
+	// {
+	// if(Thread.currentThread().isInterrupted() || widget.getControl().isDisposed())
+	// return;
+	//
+	// synchronized(widget)
+	// {
+	// widget.refresh();
+	// }
+	// }
+	// };
 
 	/*
 	 * IModelChange
 	 */
 
-	public void modelChanged(Model<T> model)
+	@Override
+	public void modelChanged()
 	{
-//		content.inputChanged(widget, widget.getInput(), ((ListModel<ActionTO>)model).getElements(null));
-//		widget.setInput(((ListModel<ActionTO>)model).getElements(null));
-		refresh();
+		System.out.println("PViewer.modelChanged()");
+		for(T item : model.getElements(null))
+			widget.update(item, null);
 	}
 
-	public void modelChanged(Model<T> model, T item)
+	@Override
+	public void modelChanged(T... items)
 	{
-		refresh();
-	}
-
-	public void modelChanged(Model<T> model, Collection<T> items)
-	{
-		refresh();
+		widget.update(items, null);
 	}
 
 	/*
@@ -523,7 +524,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	/*
 	 * ModelSupport
 	 */
-	
+
 	IStructuredContentProvider content;
 
 	@Override
@@ -534,21 +535,21 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 		if(isStandaloneMode())
 			removeDefaultModel();
-//		else if(isNotNull(this.model))
-//			this.model.removeListener(this);
+		// else if(isNotNull(this.model))
+		// this.model.removeListener(this);
 
-		//model.addListener(this);
+		model.addListener(this);
 		this.model = model;
-		
+
 		if(content != null)
 			content.dispose();
-		
+
 		widget.setContentProvider(content = new ContentProviderAdapter<T>(model));
 		widget.setInput(EMPTY_LIST);
 
-		//modelChanged(model);
+		// modelChanged(model);
 	}
-	
+
 	private final List<T> EMPTY_LIST = new ArrayList<T>();
 
 	@Override
@@ -557,7 +558,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isNull(model))
 			return;
 
-		//model.removeListener(this);
+		// model.removeListener(this);
 
 		if(this.model == defaultModel)
 			return;
@@ -656,20 +657,20 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void onKeyDown(Event event)
 	{
-		if(event.keyCode == KeyEnum.KEY_CTRL.getKeyCode())
+		if(event.keyCode == KEY_CTRL.getKeyCode())
 			ctrlPressed = true;
 		else if(!ctrlPressed)
 		{
-			if(event.keyCode == KeyEnum.KEY_UP.getKeyCode())
+			if(event.keyCode == KEY_UP.getKeyCode())
 				moveItemsUp(getSelectionIndices(), true);
-			else if(event.keyCode == KeyEnum.KEY_DOWN.getKeyCode())
+			else if(event.keyCode == KEY_DOWN.getKeyCode())
 				moveItemsDown(getSelectionIndices(), true);
 		}
 	}
 
 	private void onKeyUp(Event event)
 	{
-		if(event.keyCode == KeyEnum.KEY_CTRL.getKeyCode())
+		if(event.keyCode == KEY_CTRL.getKeyCode())
 			ctrlPressed = false;
 	}
 

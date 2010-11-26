@@ -15,6 +15,7 @@ import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_OFF;
 import static cop.swt.widgets.viewers.table.AbstractViewerSorter.DEFAULT_SORT_DIRECTION;
+import static java.lang.Math.min;
 import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.FULL_SELECTION;
 import static org.eclipse.swt.SWT.MouseDoubleClick;
@@ -112,6 +113,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	public void editOnDoubleClick(boolean enabled)
 	{
+		System.out.println("PtableViewer.editOnDoubleClick() - cancelEditing()");
 		TableViewer viewer = (TableViewer)widget;
 
 		viewer.cancelEditing();
@@ -184,7 +186,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		table.addListener(Dispose, this);
 		table.addListener(PaintItem, this);
 	}
-	
+
 	private final Runnable packTask = new Runnable()
 	{
 		@Override
@@ -195,7 +197,35 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 					column.pack();
 		}
 	};
-	
+
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	protected T[] getVisibleItems()
+//	{
+//		Table table = (Table)widget.getControl();
+//		int itemCount = table.getItemCount();
+//
+//		if(table.getItemCount() == 0)
+//			return null;
+//
+//		int topIndex = table.getTopIndex();
+//		int itemHeight = table.getItemHeight();
+//		int tableHeigth = table.getBounds().height;
+//		int headerHight = 0;
+//
+//		if(table.getHeaderVisible())
+//			headerHight = table.getHeaderHeight();
+//
+//		int visibleItemCount = min(itemCount - topIndex, (tableHeigth - headerHight) / itemHeight + 1);
+//		TableItem[] items = table.getItems();
+//		Object[] visibleItems = new Object[visibleItemCount]; // TODO need optimisation
+//
+//		for(int i = topIndex; i < visibleItemCount - 1; i++)
+//			visibleItems[i] = items[i].getData();
+//
+//		return (T[])visibleItems;
+//	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> getSelectedItems()
@@ -233,7 +263,8 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		tableColumnListeners.remove(listener);
 	}
 
-	private void notifyTableColumnResizedListeners(ColumnDescription<T> resizedColumn, List<ColumnDescription<T>> columns)
+	private void notifyTableColumnResizedListeners(ColumnDescription<T> resizedColumn,
+	                List<ColumnDescription<T>> columns)
 	{
 		for(TableColumnListener<T> listener : tableColumnListeners)
 			listener.columnResized(resizedColumn, columns);
@@ -244,17 +275,19 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		for(TableColumnListener<T> listener : tableColumnListeners)
 			listener.columnMoved(movedColumn, columns);
 	}
-	
+
 	/*
 	 * TableColumnListener
 	 */
-	
-	public void columnResized(TableColumnProperty resizedColumn, TableColumnProperty[] columns) {
-		
+
+	public void columnResized(TableColumnProperty resizedColumn, TableColumnProperty[] columns)
+	{
+
 	}
 
-	public void columnMoved(TableColumnProperty movedColumn, TableColumnProperty[] columns) {
-		
+	public void columnMoved(TableColumnProperty movedColumn, TableColumnProperty[] columns)
+	{
+
 	}
 
 	/*
@@ -339,6 +372,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void deselectAll()
 	{
+		System.out.println("PtableViewer.deselectAll() - cancelEditing()");
 		if(getSelectedItems().size() == 0)
 			return;
 
@@ -398,6 +432,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void setReadonly(boolean readonly)
 	{
+		System.out.println("PtableViewer.setReadonly() - cancelEditing()");
 		super.setReadonly(readonly);
 
 		((TableViewer)widget).cancelEditing();
@@ -542,6 +577,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(index < 0)
 			return;
 
+		// TODO why true is here?
 		columns.get(index).setEditorEnabled(true);
 		viewer.editElement(items[0].getData(), index);
 		columns.get(index).setEditorEnabled(false);
@@ -579,7 +615,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	private int getSelectedColumnIndex(TableItem item, int x, int y)
 	{
 		Assert.isNotNull(item);
-		
+
 		for(int i = 0, size = columns.size(); i < size; i++)
 			if(item.getBounds(i).contains(x, y))
 				return i;
@@ -609,9 +645,10 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			Table table = ((TableViewer)widget).getTable();
 			PTableColumnInfo<T> info;
 
-			for(int pos : table.getColumnOrder()) {
+			for(int pos : table.getColumnOrder())
+			{
 				info = columns.get(pos);
-				
+
 				if(info != null)
 					res.add(info.getDescription());
 			}
@@ -704,6 +741,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void setLocale(Locale locale)
 	{
+		System.out.println("PtableViewer.setLocale() - cancelEditing()");
 		super.setLocale(locale);
 
 		((TableViewer)widget).cancelEditing();

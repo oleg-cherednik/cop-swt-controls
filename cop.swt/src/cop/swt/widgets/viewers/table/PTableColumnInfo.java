@@ -22,6 +22,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -29,11 +30,13 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
+import cop.swt.widgets.tmp.ActionTO;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
@@ -78,6 +81,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		this.property = new TableColumnProperty(this);
 
 		this.columnViewer.setEditingSupport(editor);
+
 
 		if(description.isHideable() && !description.isVisible())
 			setHidden(true);
@@ -388,8 +392,12 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 			handleColumnEvent(event);
 		if(itemName != null && event.widget == itemName)
 			handleMenuItemEvent(event);
-
-		description.handleEvent(event, tableViewer, columnViewer);
+		
+//		if(event.item != null) {
+			description.handleEvent(event, tableViewer, columnViewer);
+//			ActionTO data = (ActionTO)(event.item.getData());
+//			tableViewer.update(data, null);
+//		}
 	}
 
 	private void handleColumnEvent(Event event)
