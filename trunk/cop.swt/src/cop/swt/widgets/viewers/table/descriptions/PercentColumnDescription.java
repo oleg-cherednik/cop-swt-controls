@@ -2,7 +2,10 @@ package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
+import static cop.swt.extensions.ColorExtension.RED;
+import static cop.swt.extensions.ColorExtension.YELLOW;
 import static java.text.NumberFormat.getPercentInstance;
+import static org.eclipse.swt.SWT.PaintItem;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
@@ -12,13 +15,10 @@ import java.util.Locale;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.TableItem;
 
-import cop.swt.extensions.ColorExtension;
 import cop.swt.widgets.tmp.ActionTO;
 
 public class PercentColumnDescription<T> extends NumericColumnDescription<T>
@@ -36,17 +36,17 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 
 	private void drawProgressBar(Event event, TableViewerColumn columnViewer)
 	{
-		ActionTO data = (ActionTO)((TableItem)event.item).getData();
-		drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth(), event.height, data.getPercent() * 100);
+		double percent = ((ActionTO)event.item.getData()).getPercent() * 100;
+		drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth(), event.height, percent);
 	}
-	
+
 	private static void drawProgressBar(GC gc, int x, int y, int width, int height, double value)
 	{
 		Color foreground = gc.getForeground();
 		Color background = gc.getBackground();
 
-		gc.setForeground(ColorExtension.RED);
-		gc.setBackground(ColorExtension.YELLOW);
+		gc.setForeground(RED);
+		gc.setBackground(YELLOW);
 
 		int len = (int)((width * value) / 100);
 
@@ -120,8 +120,8 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	public void handleEvent(Event event, TableViewer tableViewer, TableViewerColumn columnViewer)
 	{
 		super.handleEvent(event, tableViewer, columnViewer);
-		
-		if(event.type == SWT.PaintItem)
+
+		if(event.type == PaintItem)
 			drawProgressBar(event, columnViewer);
 	}
 }

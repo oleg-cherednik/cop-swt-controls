@@ -45,7 +45,7 @@ public abstract class AbstractModel<T> implements Model<T>
 	public void modelChanged()
 	{
 		for(IModelChange<T> viewerListener : listeners)
-			viewerListener.modelChanged(this);
+			viewerListener.modelChanged();
 	}
 
 	// @Override

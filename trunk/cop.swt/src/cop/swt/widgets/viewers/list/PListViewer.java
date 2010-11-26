@@ -8,12 +8,12 @@ import static org.eclipse.swt.SWT.H_SCROLL;
 import static org.eclipse.swt.SWT.V_SCROLL;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
@@ -23,7 +23,6 @@ import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
-import cop.swt.widgets.model.interfaces.Model;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
 
@@ -203,25 +202,32 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	 */
 
 	@Override
-	public void modelChanged(Model<T> model)
+	public void modelChanged()
 	{
 		labelProvider.updateItems(getItems());
-		super.modelChanged(model);
+		super.modelChanged();
 	}
-
-	@Override
-	public void modelChanged(Model<T> model, T item)
-	{
-		labelProvider.updateItem(item);
-		super.modelChanged(model, item);
-	}
-
-	@Override
-	public void modelChanged(Model<T> model, Collection<T> items)
-	{
-		labelProvider.updateItems(items);
-		super.modelChanged(model, items);
-	}
+	
+//	@Override
+//	public void modelChanged(Model<T> model)
+//	{
+//		labelProvider.updateItems(getItems());
+//		super.modelChanged(model);
+//	}
+//
+//	@Override
+//	public void modelChanged(Model<T> model, T item)
+//	{
+//		labelProvider.updateItem(item);
+//		super.modelChanged(model, item);
+//	}
+//
+//	@Override
+//	public void modelChanged(Model<T> model, Collection<T> items)
+//	{
+//		labelProvider.updateItems(items);
+//		super.modelChanged(model, items);
+//	}
 
 	/*
 	 * Control
