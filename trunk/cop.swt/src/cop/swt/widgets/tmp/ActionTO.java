@@ -20,7 +20,7 @@ import cop.swt.widgets.tmp.localization.BundleEnum1;
 import cop.swt.widgets.tmp.localization.BundleEnum2;
 import cop.swt.widgets.tmp.localization.Name;
 
-public class ActionTO
+public class ActionTO implements Cloneable
 {
 	@Label(name = "model")
 //	@Column(name = "user name", order = 1, hideable = false)
@@ -73,6 +73,25 @@ public class ActionTO
 		this.marker = marker;
 		this.count = count;
 		this.color = color;
+	}
+	
+	@Override
+    public ActionTO clone()
+	{
+		ActionTO action = new ActionTO(userName);
+		
+		action.date = (Calendar)date.clone();
+		action.number = number;
+		action.price = price;
+		action.percent = percent;
+		action.amount = amount;
+		// this.titles.addAll(titles);
+		action.marker = marker;
+		action.count = count;
+		action.color = color;
+		
+		
+		return action;
 	}
 
 	// public List<String> getTitles()
