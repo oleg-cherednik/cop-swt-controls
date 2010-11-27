@@ -1,5 +1,6 @@
 package cop.swt.widgets.viewers.list;
 
+import static cop.common.extensions.ArrayExtension.ONE_ITEM_STR_ARR;
 import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
@@ -11,10 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.annotations.services.LabelService;
@@ -47,28 +46,21 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		// createFilter();
 		postConstruct();
 	}
-	
-	@Override
-	public void refresh()
-	{
-//		if(!widget.getControl().isDisposed())
-//			widget.getControl().getDisplay().syncExec(refreshTask);
-	}
 
-	private void createSorter()
-	{
-		Assert.isNotNull(labelProvider);
-
-		// sorter = new PListSorter<T>(LabelComparator.createLabelComparator(obj, labelProvider.getLabelName()));
-		// AbstractLabelDescription<T> cd = AbstractLabelDescription.createColumnDescription(obj,
-		// labelProvider.getLabelName(), Locale.getDefault());
-		// sorter = new PListSorter<T>(cd);
-		// sorter.setDirection(SortDirectionEnum.SORT_ASC);
-		// widget.setSorter(sorter);
-
-		// sorter.setAccessibleObject(description);
-		// columnViewer.getColumn().addSelectionListener(setSorter);
-	}
+	// private void createSorter()
+	// {
+	// Assert.isNotNull(labelProvider);
+	//
+	// // sorter = new PListSorter<T>(LabelComparator.createLabelComparator(obj, labelProvider.getLabelName()));
+	// // AbstractLabelDescription<T> cd = AbstractLabelDescription.createColumnDescription(obj,
+	// // labelProvider.getLabelName(), Locale.getDefault());
+	// // sorter = new PListSorter<T>(cd);
+	// // sorter.setDirection(SortDirectionEnum.SORT_ASC);
+	// // widget.setSorter(sorter);
+	//
+	// // sorter.setAccessibleObject(description);
+	// // columnViewer.getColumn().addSelectionListener(setSorter);
+	// }
 
 	@Override
 	public List<T> getSelectedItems()
@@ -84,8 +76,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 	private void createLabelProvider()
 	{
-		labelProvider = new PListLabelProvider<T>(description);
-		widget.setLabelProvider(labelProvider);
+		widget.setLabelProvider(labelProvider = new PListLabelProvider<T>(description));
 	}
 
 	// public void setItems(Collection<String> items)
@@ -125,6 +116,12 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	}
 
 	@Override
+	protected String[] getProperties()
+	{
+		return ONE_ITEM_STR_ARR;
+	}
+
+	@Override
 	protected List<String[]> toStringArrayList(List<T> items)
 	{
 		if(isEmpty(items))
@@ -133,7 +130,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		List<String[]> data = new ArrayList<String[]>(items.size() + 1);
 
 		for(String str : labelProvider.getLabels(items))
-			data.add(new String[] { str });
+			data.add(new String[] { str });	//TODO memory leaking
 
 		return data;
 	}
@@ -151,11 +148,8 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	@Override
 	public void deselectAll()
 	{
-		if(getSelectedItems().size() == 0)
-			return;
-
-		((ListViewer)widget).getList().deselectAll();
-		super.deselectAll();
+		if(getSelectedItems().size() != 0)
+			super.deselectAll();
 	}
 
 	@Override
@@ -173,24 +167,18 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	@Override
 	protected int getTopIndex()
 	{
-		Assert.isNotNull(widget);
-
 		return ((ListViewer)widget).getList().getTopIndex();
 	}
 
 	@Override
 	protected int[] getSelectionIndices()
 	{
-		Assert.isNotNull(widget);
-
 		return ((ListViewer)widget).getList().getSelectionIndices();
 	}
 
 	@Override
 	protected void setTopIndex(int index)
 	{
-		Assert.isNotNull(widget);
-
 		((ListViewer)widget).getList().setTopIndex(index);
 	}
 
@@ -201,17 +189,6 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 			((ListViewer)widget).getList().select(index);
 		else
 			((ListViewer)widget).getList().deselect(index);
-	}
-
-	/*
-	 * IModelChange
-	 */
-
-	@Override
-	public void modelChanged(T... items)
-	{
-		labelProvider.updateItems(getItems());
-		//super.modelChanged(items);
 	}
 
 	/*
@@ -280,41 +257,5 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		description.setLocale(locale);
 
 		refresh();
-	}
-
-	/*
-	 * Listener
-	 */
-
-	@Override
-	public void handleEvent(Event event)
-	{
-		super.handleEvent(event);
-		// private Listener setSorter = new Listener()
-		// {
-		// @Override
-		// public void handleEvent(Event event)
-		// {
-		// System.out.println("---------");
-		// try
-		// {
-		// // if(!description.isSortable())
-		// // return;
-		// //
-		// // TableColumn column = columnViewer.getColumn();
-		// // Table table = tableViewer.getTable();
-		// // int dir = table.getSortDirection();
-		// //
-		// // if(table.getSortColumn() == column)
-		// // setSorterDirection(parseSwtDirection((dir == UP) ? DOWN : UP));
-		// // else
-		// // setSorterDirection(parseSwtDirection(DEFAULT_SORT_DIRECTION.getSwtDirection()));
-		// }
-		// catch(Exception ex)
-		// {
-		// ex.printStackTrace();
-		// }
-		// }
-		// };
 	}
 }

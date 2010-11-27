@@ -1,6 +1,5 @@
 package cop.swt.widgets.viewers.list;
 
-import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 
@@ -17,7 +16,8 @@ import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
 public class PListLabelProvider<T> extends TextLabelProvider
 {
 	private ILabelDescription<T> description;
-	private Map<String, T> map = new HashMap<String, T>();
+	// private Map<String, T> map = new HashMap<String, T>();
+	private Map<Integer, String> map = new HashMap<Integer, String>();
 
 	public PListLabelProvider(ILabelDescription<T> description)
 	{
@@ -39,20 +39,21 @@ public class PListLabelProvider<T> extends TextLabelProvider
 
 	public List<T> getItems(String[] labels)
 	{
-		if(isEmpty(labels))
-			return new ArrayList<T>(0);
-
-		List<T> items = new ArrayList<T>(labels.length);
-
-		for(String label : labels)
-			items.add(map.get(label));
-
-		return items;
+		// if(isEmpty(labels))
+		// return new ArrayList<T>(0);
+		//
+		// List<T> items = new ArrayList<T>(labels.length);
+		//
+		// for(String label : labels)
+		// items.add(map.get(label));
+		//
+		// return items;
+		return new ArrayList<T>(0);
 	}
 
 	public List<String> getLabels(Collection<T> items)
 	{
-		//System.out.println("PListLabelProvider.getLabels(" + items.size() + ")");
+		System.out.println("PListLabelProvider.getLabels(" + items.size() + ")");
 
 		if(isEmpty(items))
 			return new ArrayList<String>(0);
@@ -60,43 +61,10 @@ public class PListLabelProvider<T> extends TextLabelProvider
 		List<String> data = new ArrayList<String>(items.size());
 
 		for(T item : items)
-		{
-			try
-			{
-				data.add(getText(item));
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
+			data.add(getText(item));
 
 		return data;
 
-	}
-
-	public void updateItem(T item)
-	{
-		//System.out.println("PListLabelProvider.updateItem()");
-
-		try
-		{
-			map.put(getText(item), item);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public void updateItems(Collection<T> items)
-	{
-		//System.out.println("PListLabelProvider.updateItems(" + items.size() + ")");
-
-		map.clear();
-
-		for(T item : items)
-			updateItem(item);
 	}
 
 	/*
@@ -107,15 +75,23 @@ public class PListLabelProvider<T> extends TextLabelProvider
 	@SuppressWarnings("unchecked")
 	public String getText(Object element)
 	{
-		try
-		{
-			return description.getTextValue((T)element);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		System.out.println("PListLabelProvider.getText()");
+		String value = description.getTextValue((T)element);
 
-		return "";
+		map.put(element.hashCode(), value);
+
+		// if(!map.containsKey(value))
+		// map.put(value, (T)element);
+
+		return value;
+	}
+
+	@Override
+	public boolean isLabelProperty(Object element, String property)
+	{
+		String oldValue = map.get(element.hashCode());
+		String newValue = description.getTextValue((T)element);
+
+		return !oldValue.equals(newValue);
 	}
 }

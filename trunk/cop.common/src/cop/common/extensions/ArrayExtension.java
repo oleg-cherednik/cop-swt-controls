@@ -14,6 +14,8 @@ public final class ArrayExtension
 {
 	public static final int[] EMPTY_INT_ARR = new int[0];
 	public static final char[] EMPTY_CHAR_ARR = new char[0];
+	public static final String[] EMPTY_STR_ARR = new String[0];
+	public static final String[] ONE_ITEM_STR_ARR = new String[1];
 
 	private ArrayExtension()
 	{}

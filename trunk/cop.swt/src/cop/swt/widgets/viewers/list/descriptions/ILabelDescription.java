@@ -5,5 +5,5 @@ import cop.swt.widgets.localization.interfaces.LocaleSupport;
 
 public interface ILabelDescription<T> extends LocaleSupport, LabelSupport
 {
-	String getTextValue(T item) throws Exception;
+	String getTextValue(T item);
 }
