@@ -26,46 +26,38 @@ public class BlockListDemo
 	{
 		DateFormat df = DateFormat.getDateInstance();
 		Calendar date = Calendar.getInstance();
-		
+
 		date.set(2009, Calendar.DECEMBER, 28);
-		
+
 		date.setMinimalDaysInFirstWeek(7);
 		System.out.println(df.format(date.getTime()));
 		System.out.println(date.get(Calendar.WEEK_OF_YEAR));
-		
+
 		date.set(2010, Calendar.JANUARY, 1);
 		System.out.println(df.format(date.getTime()));
 		System.out.println(date.get(Calendar.WEEK_OF_YEAR));
-		
-		
-		
-		
-		
-//		ThreadFactory factory = new ThreadFactory()
-//		{
-//			@Override
-//			public Thread newThread(Runnable r)
-//			{
-//				return null;
-//			}
-//		};
-		
-//		ExecutorService pool = Executors.newSingleThreadExecutor();
-//		
-//		for(ActionTO action : actions)
-//		{
-//			pool.execute(getAction1);
-//		}
-		
-		
-		
-		
-		
-//		BlockListDemo obj = new BlockListDemo();
-//		List<List<ActionTO>> data = obj.createBlocks(obj.actions);
 
-//		int a = 0;
-//		a++;
+		// ThreadFactory factory = new ThreadFactory()
+		// {
+		// @Override
+		// public Thread newThread(Runnable r)
+		// {
+		// return null;
+		// }
+		// };
+
+		// ExecutorService pool = Executors.newSingleThreadExecutor();
+		//
+		// for(ActionTO action : actions)
+		// {
+		// pool.execute(getAction1);
+		// }
+
+		// BlockListDemo obj = new BlockListDemo();
+		// List<List<ActionTO>> data = obj.createBlocks(obj.actions);
+
+		// int a = 0;
+		// a++;
 
 		// obj.tmp.s
 
@@ -89,26 +81,25 @@ public class BlockListDemo
 
 		return result;
 	}
-	
+
 	private Callable<ActionTO> getAction = new Callable<ActionTO>()
 	{
 		@Override
-        public ActionTO call() throws Exception
-        {
-	        return actions.get(currentIndex++);
-        }
-		
+		public ActionTO call() throws Exception
+		{
+			return actions.get(currentIndex++);
+		}
+
 	};
-	
-	
+
 	private static Runnable getAction1 = new Runnable()
 	{
 		@Override
-        public void run()
-        {
+		public void run()
+		{
 			ActionTO action = actions.get(currentIndex++);
 			System.out.println(action);
-        }
+		}
 	};
 }
 
