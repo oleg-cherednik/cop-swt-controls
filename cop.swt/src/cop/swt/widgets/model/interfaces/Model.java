@@ -4,6 +4,8 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 
 public interface Model<T> extends ModelChanged<T>
 {
+	String getName();
+	
 	void addListener(ModelChanged<T> listener);
 
 	void removeListener(ModelChanged<T> listener);

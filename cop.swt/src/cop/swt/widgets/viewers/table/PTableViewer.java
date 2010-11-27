@@ -15,7 +15,6 @@ import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_OFF;
 import static cop.swt.widgets.viewers.table.AbstractViewerSorter.DEFAULT_SORT_DIRECTION;
-import static java.lang.Math.min;
 import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.FULL_SELECTION;
 import static org.eclipse.swt.SWT.MouseDoubleClick;
@@ -198,33 +197,33 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		}
 	};
 
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	protected T[] getVisibleItems()
-//	{
-//		Table table = (Table)widget.getControl();
-//		int itemCount = table.getItemCount();
-//
-//		if(table.getItemCount() == 0)
-//			return null;
-//
-//		int topIndex = table.getTopIndex();
-//		int itemHeight = table.getItemHeight();
-//		int tableHeigth = table.getBounds().height;
-//		int headerHight = 0;
-//
-//		if(table.getHeaderVisible())
-//			headerHight = table.getHeaderHeight();
-//
-//		int visibleItemCount = min(itemCount - topIndex, (tableHeigth - headerHight) / itemHeight + 1);
-//		TableItem[] items = table.getItems();
-//		Object[] visibleItems = new Object[visibleItemCount]; // TODO need optimisation
-//
-//		for(int i = topIndex; i < visibleItemCount - 1; i++)
-//			visibleItems[i] = items[i].getData();
-//
-//		return (T[])visibleItems;
-//	}
+	// @Override
+	// @SuppressWarnings("unchecked")
+	// protected T[] getVisibleItems()
+	// {
+	// Table table = (Table)widget.getControl();
+	// int itemCount = table.getItemCount();
+	//
+	// if(table.getItemCount() == 0)
+	// return null;
+	//
+	// int topIndex = table.getTopIndex();
+	// int itemHeight = table.getItemHeight();
+	// int tableHeigth = table.getBounds().height;
+	// int headerHight = 0;
+	//
+	// if(table.getHeaderVisible())
+	// headerHight = table.getHeaderHeight();
+	//
+	// int visibleItemCount = min(itemCount - topIndex, (tableHeigth - headerHight) / itemHeight + 1);
+	// TableItem[] items = table.getItems();
+	// Object[] visibleItems = new Object[visibleItemCount]; // TODO need optimisation
+	//
+	// for(int i = topIndex; i < visibleItemCount - 1; i++)
+	// visibleItems[i] = items[i].getData();
+	//
+	// return (T[])visibleItems;
+	// }
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -341,6 +340,12 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 				return true;
 
 		return false;
+	}
+
+	@Override
+	protected String[] getProperties()
+	{
+		return null;
 	}
 
 	@Override

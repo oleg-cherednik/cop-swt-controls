@@ -101,7 +101,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	private final String PREFERENCE_PAGE;
 	// model
 	protected ViewerModel<T> model;
-	protected ListModel<T> defaultModel;
+	// protected ListModel<T> defaultModel;
 	// listeners
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 
@@ -156,8 +156,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void swap(int index1, int index2)
 	{
-		if(isStandaloneMode())
-			defaultModel.swap(index1, index2);
+		if(standaloneMode)
+			((ListModel<T>)model).swap(index1, index2);
 	}
 
 	protected abstract int getTopIndex();
@@ -170,10 +170,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void moveItemsUp(int[] indices, boolean keepTopIndex)
 	{
-		if(!isStandaloneMode() || isSorterOn())
+		if(!standaloneMode || isSorterOn())
 			return;
 
-		int size = defaultModel.getItemCount();
+		int size = ((ListModel<T>)model).getItemCount();
 
 		if(isEmpty(indices) || size == 0)
 			return;
@@ -202,10 +202,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void moveItemsDown(int[] indices, boolean keepTopIndex)
 	{
-		if(!isStandaloneMode() || isSorterOn())
+		if(!standaloneMode || isSorterOn())
 			return;
 
-		int size = defaultModel.getItemCount();
+		int size = ((ListModel<T>)model).getItemCount();
 
 		if(isEmpty(indices) || size == 0)
 			return;
@@ -358,16 +358,14 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public List<T> getItems()
 	{
-		Assert.isNotNull(model);
-
 		return (List<T>)model.getElements(null);
 	}
 
 	public void setItems(Collection<T> items)
 	{
-		Assert.isNotNull(defaultModel, "setItems() must be used only in non-model mode");
+		Assert.isTrue(standaloneMode, "setItems() must be used only in non-model mode");
 
-		defaultModel.set(items);
+		((ListModel<T>)model).set(items);
 	}
 
 	protected void setControlMenu(Menu menu)
@@ -395,28 +393,15 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		// notifySelectionListeners(getSelectedItems());
 	}
 
-	public boolean isStandaloneMode()
-	{
-		return isNotNull(defaultModel);
-	}
+	private boolean standaloneMode = true;
 
 	private void setStandaloneMode()
 	{
 		beginListenToModel(new ListModel<T>(getClass().getCanonicalName() + ".default"));
-		defaultModel = (ListModel<T>)model;
+		standaloneMode = true;
 	}
 
 	public abstract void setSorterOff();
-
-	private void removeDefaultModel()
-	{
-		if(isNull(defaultModel))
-			return;
-
-		defaultModel.removeListener(this);
-		defaultModel.dispose();
-		defaultModel = null;
-	}
 
 	private void deleteSelectedItems()
 	{
@@ -432,7 +417,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	public void dispose()
 	{
 		model.removeListener(this);
-		removeDefaultModel();
+		model = null;
 	}
 
 	public void setEnabled(boolean enabled)
@@ -446,6 +431,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	}
 
 	protected abstract List<String[]> toStringArrayList(List<T> items);
+
+	protected abstract String[] getProperties();
 
 	// protected /*abstract*/T[] getVisibleItems()
 	// {
@@ -486,14 +473,12 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void modelChanged(T... items) // TODO maybee it's better to give an update type
+	public void modelChanged(T... items) // TODO maybe it's better to give an update type
 	{
-		System.out.println("PViewer.modelChanged()");
-
 		if(isEmpty(items))
 			widget.setInput(model.getElements(null));
 		else
-			widget.update(model.getElements(null).toArray(), null);
+			widget.update(items, getProperties());
 	}
 
 	/*
@@ -532,9 +517,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isNull(model) || this.model == model)
 			return;
 
-		if(isStandaloneMode())
-			removeDefaultModel();
-		else if(isNotNull(this.model))
+		if(this.model != null)
 			this.model.removeListener(this);
 
 		model.addListener(this);
@@ -543,7 +526,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		this.widget.setContentProvider(content = new ContentProviderAdapter<T>(model));
 		this.widget.setInput(EMPTY_LIST);
 
-		// modelChanged();
+		standaloneMode = false;
 	}
 
 	private final List<T> EMPTY_LIST = new ArrayList<T>();
@@ -744,7 +727,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public void itemModified(Widget widget, T item, ModificationTypeEnum type)
 		{
-			defaultModel.modify(item, type);
+			if(standaloneMode)
+				((ListModel<T>)model).modify(item, type);
 		}
 	};
 }

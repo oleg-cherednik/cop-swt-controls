@@ -16,14 +16,15 @@ public abstract class AbstractModel<T> implements Model<T>
 		this.name = name;
 	}
 
+	/*
+	 * Model
+	 */
+
+	@Override
 	public String getName()
 	{
 		return name;
 	}
-
-	/*
-	 * Model
-	 */
 
 	@Override
 	public void addListener(ModelChanged<T> listener)
