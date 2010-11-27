@@ -54,7 +54,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Scrollable;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
@@ -73,8 +72,7 @@ import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.CascadeMenuItem;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
-import cop.swt.widgets.model.interfaces.IModelChange;
-import cop.swt.widgets.tmp.ActionTO;
+import cop.swt.widgets.model.interfaces.ModelChanged;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.SelectionListenerSupport;
@@ -85,7 +83,7 @@ import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.interfaces.ViewerConfig;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport, Clearable, Refreshable, Listener, IModelChange<T>
+                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChanged<T>
 {
 	protected final Composite parent;
 	public StructuredViewer widget;
@@ -415,7 +413,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isNull(defaultModel))
 			return;
 
-		// defaultModel.removeListener(this);
+		defaultModel.removeListener(this);
 		defaultModel.dispose();
 		defaultModel = null;
 	}
@@ -433,7 +431,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public void dispose()
 	{
-		// model.removeListener(this);
+		model.removeListener(this);
 		removeDefaultModel();
 	}
 
@@ -460,7 +458,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		public void run()
 		{
 			if(!Thread.currentThread().isInterrupted() && !widget.getControl().isDisposed())
+			{
+				System.out.println("PViewer.refresh()");
 				widget.refresh();
+			}
 		}
 	};
 
@@ -484,17 +485,15 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	 */
 
 	@Override
-	public void modelChanged()
+	@SuppressWarnings("unchecked")
+	public void modelChanged(T... items) // TODO maybee it's better to give an update type
 	{
 		System.out.println("PViewer.modelChanged()");
-		for(T item : model.getElements(null))
-			widget.update(item, null);
-	}
 
-	@Override
-	public void modelChanged(T... items)
-	{
-		widget.update(items, null);
+		if(isEmpty(items))
+			widget.setInput(model.getElements(null));
+		else
+			widget.update(model.getElements(null).toArray(), null);
 	}
 
 	/*
@@ -535,19 +534,16 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 		if(isStandaloneMode())
 			removeDefaultModel();
-		// else if(isNotNull(this.model))
-		// this.model.removeListener(this);
+		else if(isNotNull(this.model))
+			this.model.removeListener(this);
 
 		model.addListener(this);
+
 		this.model = model;
+		this.widget.setContentProvider(content = new ContentProviderAdapter<T>(model));
+		this.widget.setInput(EMPTY_LIST);
 
-		if(content != null)
-			content.dispose();
-
-		widget.setContentProvider(content = new ContentProviderAdapter<T>(model));
-		widget.setInput(EMPTY_LIST);
-
-		// modelChanged(model);
+		// modelChanged();
 	}
 
 	private final List<T> EMPTY_LIST = new ArrayList<T>();
@@ -555,15 +551,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	@Override
 	public void stopListenToModel(ViewerModel<T> model)
 	{
-		if(isNull(model))
-			return;
-
-		// model.removeListener(this);
-
-		if(this.model == defaultModel)
-			return;
-
-		setStandaloneMode();
+		if(model == this.model)
+			setStandaloneMode();
 	}
 
 	/*

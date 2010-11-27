@@ -1,8 +1,6 @@
 package cop.swt.widgets.model.interfaces;
 
-public interface IModelChange<T>
+public interface ModelChanged<T>
 {
-	void modelChanged();
-
 	void modelChanged(T... items);
 }

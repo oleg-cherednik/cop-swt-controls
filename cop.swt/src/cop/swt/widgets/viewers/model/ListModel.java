@@ -1,21 +1,21 @@
 package cop.swt.widgets.viewers.model;
 
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.isNotEmpty;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.ADD;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.REMOVE;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.UPDATE;
+import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.viewers.Viewer;
 
 import cop.common.extensions.CollectionExtension;
-import cop.swt.widgets.model.interfaces.IModelChange;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 
 public class ListModel<T> extends AbstractViewerModel<T>
@@ -29,19 +29,30 @@ public class ListModel<T> extends AbstractViewerModel<T>
 
 	public void add(T item)
 	{
-		this.items.add(item);
-		modelChanged();
+		if(item == null)
+			return;
+
+		items.add(item);
+		modelChanged(item);
 	}
 
 	public void add(T item, int index)
 	{
+		if(item == null || index < 0)
+			return;
+
 		items.add(index, item);
-		modelChanged();
+		modelChanged(item);
 	}
 
-	public void add(Collection<T> items)
+	public void add(T[] items)
 	{
-		this.items.addAll(items);
+		if(isEmpty(items))
+			return;
+
+		for(T item : items)
+			this.items.add(item);
+
 		modelChanged();
 	}
 
@@ -103,35 +114,29 @@ public class ListModel<T> extends AbstractViewerModel<T>
 		int index = items.indexOf(item);
 
 		if(index < 0)
-			add(item);
+			items.add(item);
 		else
-		{
 			items.set(index, item);
-			modelChanged();
-		}
+
+		modelChanged(item);
 	}
 
 	public boolean remove(T item)
 	{
 		boolean res = items.remove(item);
+
 		modelChanged();
 
 		return res;
 	}
 
-	public boolean removeAll(Collection<T> items)
+	public boolean removeAll(T[] items)
 	{
-		boolean res = items.removeAll(items);
+		boolean res = this.items.removeAll(asList(items));
+
 		modelChanged();
 
 		return res;
-	}
-	
-	@Override
-	public void modelChanged()
-	{
-		super.modelChanged();
-		//inputChanged(null, items, items);
 	}
 
 	/*
@@ -141,23 +146,17 @@ public class ListModel<T> extends AbstractViewerModel<T>
 	@Override
 	public Collection<T> getElements(Collection<T> inputElement)
 	{
-		//System.out.println("ListModel.getElements(" + items.size() + ")");
 		return items;
 	}
+
+	/*
+	 * _IContentProvider
+	 */
 
 	@Override
 	public void dispose()
 	{
 		items.clear();
-	}
-
-	@Override
-	public void inputChanged(Viewer viewer, Collection<T> oldItems, Collection<T> newItems)
-	{
-		int oldNum = isNotEmpty(oldItems) ? oldItems.size() : -1; 
-		int newNum = isNotEmpty(newItems) ? newItems.size() : -1; 
-		
-		System.out.println("ListModel.inputChanged(old: " + oldNum + ", new: " + newNum + ")");
 	}
 
 	/*
