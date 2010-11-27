@@ -194,10 +194,10 @@ public class TableViewerExample implements IExample, LocaleSupport
 		markets.add(new MarketTO("userName 4"));
 
 		modelA = new ListModel<ActionTO>("model A");
-		modelA.add(actions1);
+		modelA.add(actions1.toArray(new ActionTO[actions1.size()]));
 
 		modelB = new ListModel<ActionTO>("model B");
-		modelB.add(actions2);
+		modelB.add(actions2.toArray(new ActionTO[actions2.size()]));
 
 		Locale.setDefault(Locale.US);
 	}
@@ -214,6 +214,7 @@ public class TableViewerExample implements IExample, LocaleSupport
 		            Thread.sleep(1);
 		            
 		    		if(!table.widget.getControl().isDisposed()) {
+		    			System.out.println("TableViewerExample.updateModelA()");
 		    			table.widget.getControl().getDisplay().syncExec(increasePercent);
 		    			table.widget.getControl().getDisplay().syncExec(increaseNumber);
 		    		}

@@ -2,17 +2,11 @@ package cop.swt.widgets.model.interfaces;
 
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 
-public interface Model<T>
+public interface Model<T> extends ModelChanged<T>
 {
-	void addListener(IModelChange<T> listener);
+	void addListener(ModelChanged<T> listener);
 
-	void removeListener(IModelChange<T> listener);
-
-	void modelChanged();
-
-	// void modelChanged(T item);
-	//
-	// void modelChanged(Collection<T> items);
+	void removeListener(ModelChanged<T> listener);
 
 	void modify(T item, ModificationTypeEnum type);
 }

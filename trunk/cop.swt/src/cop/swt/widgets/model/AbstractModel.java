@@ -1,17 +1,15 @@
 package cop.swt.widgets.model;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import cop.swt.widgets.model.interfaces.IModelChange;
 import cop.swt.widgets.model.interfaces.Model;
+import cop.swt.widgets.model.interfaces.ModelChanged;
 
 public abstract class AbstractModel<T> implements Model<T>
 {
 	private final String name;
-	private Set<IModelChange<T>> listeners = new CopyOnWriteArraySet<IModelChange<T>>();
+	private Set<ModelChanged<T>> listeners = new CopyOnWriteArraySet<ModelChanged<T>>();
 
 	public AbstractModel(String name)
 	{
@@ -28,39 +26,29 @@ public abstract class AbstractModel<T> implements Model<T>
 	 */
 
 	@Override
-	public void addListener(IModelChange<T> listener)
+	public void addListener(ModelChanged<T> listener)
 	{
-		if(isNotNull(listener))
+		if(listener != null)
 			listeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(IModelChange<T> listener)
+	public void removeListener(ModelChanged<T> listener)
 	{
-		if(isNotNull(listener))
+		if(listener != null)
 			listeners.remove(listener);
 	}
 
-	@Override
-	public void modelChanged()
-	{
-		for(IModelChange<T> viewerListener : listeners)
-			viewerListener.modelChanged();
-	}
+	/*
+	 * ModelChanged
+	 */
 
-	// @Override
-	// public void modelChanged(T item)
-	// {
-	// for(IModelChange<T> viewerListener : listeners)
-	// viewerListener.modelChanged(this, item);
-	// }
-	//
-	// @Override
-	// public void modelChanged(Collection<T> items)
-	// {
-	// for(IModelChange<T> viewerListener : listeners)
-	// viewerListener.modelChanged(this, items);
-	// }
+	@Override
+	public void modelChanged(T... items)
+	{
+		for(ModelChanged<T> viewerListener : listeners)
+			viewerListener.modelChanged(items);
+	}
 
 	/*
 	 * Object

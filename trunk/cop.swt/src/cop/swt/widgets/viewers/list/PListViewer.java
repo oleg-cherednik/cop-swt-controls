@@ -13,7 +13,6 @@ import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ListViewer;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
@@ -47,6 +46,13 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 		// createFilter();
 		postConstruct();
+	}
+	
+	@Override
+	public void refresh()
+	{
+//		if(!widget.getControl().isDisposed())
+//			widget.getControl().getDisplay().syncExec(refreshTask);
 	}
 
 	private void createSorter()
@@ -202,32 +208,11 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	 */
 
 	@Override
-	public void modelChanged()
+	public void modelChanged(T... items)
 	{
 		labelProvider.updateItems(getItems());
-		super.modelChanged();
+		//super.modelChanged(items);
 	}
-	
-//	@Override
-//	public void modelChanged(Model<T> model)
-//	{
-//		labelProvider.updateItems(getItems());
-//		super.modelChanged(model);
-//	}
-//
-//	@Override
-//	public void modelChanged(Model<T> model, T item)
-//	{
-//		labelProvider.updateItem(item);
-//		super.modelChanged(model, item);
-//	}
-//
-//	@Override
-//	public void modelChanged(Model<T> model, Collection<T> items)
-//	{
-//		labelProvider.updateItems(items);
-//		super.modelChanged(model, items);
-//	}
 
 	/*
 	 * Control

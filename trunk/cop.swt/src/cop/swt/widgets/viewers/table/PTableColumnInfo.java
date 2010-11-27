@@ -22,7 +22,6 @@ import java.util.Set;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -30,13 +29,11 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.tmp.ActionTO;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
@@ -52,7 +49,6 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 	private ColumnDescription<T> description;
 	private TableViewerColumn columnViewer;
 	private final TableViewer tableViewer;
-	private final TableColumnProperty property;
 
 	private Set<Packable> packableListeners = new HashSet<Packable>();
 
@@ -78,10 +74,8 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		this.columnViewer = description.createTableViewerColumn(tableViewer);
 		this.editor = new ColumnEditingSupport<T>(tableViewer, description);
 		this.sorter = new PTableSorter<T>(description);
-		this.property = new TableColumnProperty(this);
 
 		this.columnViewer.setEditingSupport(editor);
-
 
 		if(description.isHideable() && !description.isVisible())
 			setHidden(true);
@@ -148,11 +142,6 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		Assert.isNotNull(description);
 
 		return description.isSortable();
-	}
-	
-	public TableColumnProperty getProperty()
-	{
-		return property;
 	}
 
 	TableViewerColumn getViewer()
@@ -392,12 +381,12 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 			handleColumnEvent(event);
 		if(itemName != null && event.widget == itemName)
 			handleMenuItemEvent(event);
-		
-//		if(event.item != null) {
-			description.handleEvent(event, tableViewer, columnViewer);
-//			ActionTO data = (ActionTO)(event.item.getData());
-//			tableViewer.update(data, null);
-//		}
+
+		// if(event.item != null) {
+		description.handleEvent(event, tableViewer, columnViewer);
+		// ActionTO data = (ActionTO)(event.item.getData());
+		// tableViewer.update(data, null);
+		// }
 	}
 
 	private void handleColumnEvent(Event event)
