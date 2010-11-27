@@ -176,16 +176,16 @@ public class TableViewerExample implements IExample, LocaleSupport
 		actions2.add(action8);
 		actions2.add(action9);
 
-		actions.add(action0);
-		actions.add(action1);
-		actions.add(action2);
-		actions.add(action3);
-		actions.add(action4);
-		actions.add(action5);
-		actions.add(action6);
-		actions.add(action7);
-		actions.add(action8);
-		actions.add(action9);
+		actions.add(action0.clone());
+		actions.add(action1.clone());
+		actions.add(action2.clone());
+		actions.add(action3.clone());
+		actions.add(action4.clone());
+		actions.add(action5.clone());
+		actions.add(action6.clone());
+		actions.add(action7.clone());
+		actions.add(action8.clone());
+		actions.add(action9.clone());
 
 		markets.add(new MarketTO("userName 0"));
 		markets.add(new MarketTO("userName 1"));
@@ -213,11 +213,10 @@ public class TableViewerExample implements IExample, LocaleSupport
 	            {
 		            Thread.sleep(1);
 		            
-		    		if(!table.widget.getControl().isDisposed()) {
-		    			System.out.println("TableViewerExample.updateModelA()");
+		    		if(!table.widget.getControl().isDisposed())
 		    			table.widget.getControl().getDisplay().syncExec(increasePercent);
+		    		if(!table.widget.getControl().isDisposed())
 		    			table.widget.getControl().getDisplay().syncExec(increaseNumber);
-		    		}
 	            }
 	            catch(InterruptedException e)
 	            {
