@@ -48,13 +48,11 @@ public final class ContentProviderAdapter<T> implements IStructuredContentProvid
 	}
 
 	/**
-	 * @see IStructuredContentProvider#dispose()
+	 * This adapter is not responsible for destroying of content provider
 	 */
 	@Override
 	public void dispose()
-	{
-		contentProvider.dispose();
-	}
+	{}
 
 	/**
 	 * @see IStructuredContentProvider#inputChanged(Viewer, Object, Object)
