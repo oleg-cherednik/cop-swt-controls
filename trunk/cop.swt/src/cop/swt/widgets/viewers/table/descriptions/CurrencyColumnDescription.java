@@ -1,10 +1,11 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static java.text.NumberFormat.getNumberInstance;
+import static java.text.NumberFormat.getCurrencyInstance;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
@@ -23,32 +24,20 @@ public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
 	@Override
 	protected NumberFormat getNumberFormat(Locale locale)
 	{
-		// this.numberFormat.
-
-		// return getCurrencyInstance(locale);
-		return getNumberInstance(locale);
+		return getCurrencyInstance(locale);
 	}
 
-	// /*
-	// * NumericColumnDescription
-	// */
-	//
-	// @Override
-	// protected Object parseNumber(String value) throws Exception
-	// {
-	// // Assert.isNotNull(value);
-	// //
-	// // try
-	// // {
-	// // return getNumberValue(type, numberFormat.parse(value));
-	// // }
-	// // catch(ParseException e)
-	// // {
-	// // e.printStackTrace();
-	// // }
-	//
-	// return super.parseNumber(value);
-	// }
+	/*
+	 * NumericColumnDescription
+	 */
+
+	@Override
+	protected Number parseNumber(String value) throws ParseException
+	{
+		String symbol = numberFormat.getCurrency().getSymbol(locale);
+
+		return numberFormat.parse(value.endsWith(symbol) ? value : (value + " " + symbol));
+	}
 
 	/*
 	 * AbstractColumnDescription

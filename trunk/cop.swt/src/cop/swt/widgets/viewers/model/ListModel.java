@@ -1,6 +1,5 @@
 package cop.swt.widgets.viewers.model;
 
-import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.isNotEmpty;
 import static cop.common.extensions.CommonExtension.isNull;
@@ -45,14 +44,12 @@ public class ListModel<T> extends AbstractViewerModel<T>
 		modelChanged(item);
 	}
 
-	public void add(T[] items)
+	public void add(List<T> items)
 	{
 		if(isEmpty(items))
 			return;
 
-		for(T item : items)
-			this.items.add(item);
-
+		this.items.addAll(items);
 		modelChanged();
 	}
 
