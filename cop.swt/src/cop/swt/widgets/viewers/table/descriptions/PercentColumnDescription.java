@@ -1,7 +1,6 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.swt.extensions.ColorExtension.RED;
 import static cop.swt.extensions.ColorExtension.YELLOW;
 import static java.text.NumberFormat.getPercentInstance;
@@ -12,7 +11,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.graphics.Color;
@@ -73,20 +71,11 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	 */
 
 	@Override
-	protected Object parseNumber(String value) throws Exception
+	protected Number parseNumber(String value) throws ParseException
 	{
-		Assert.isNotNull(value);
+		Number obj = numberFormat.parse(value.endsWith("%") ? value : (value + "%"));
 
-		try
-		{
-			return getNumberValue(type, numberFormat.parse(value));
-		}
-		catch(ParseException e)
-		{}
-
-		Number obj = (Number)super.parseNumber(value);
-
-		return obj.doubleValue() / 100;
+		return obj.doubleValue();
 	}
 
 	/*

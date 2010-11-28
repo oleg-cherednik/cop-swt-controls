@@ -2,17 +2,13 @@ package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.NumericExtension.compareNumbers;
-import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.common.extensions.StringExtension.isNotEmpty;
 import static java.text.NumberFormat.getNumberInstance;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
-
-import org.eclipse.core.runtime.Assert;
-
-import cop.common.extensions.ReflectionExtension;
 
 public class NumericColumnDescription<T> extends StringColumnDescription<T>
 {
@@ -30,14 +26,9 @@ public class NumericColumnDescription<T> extends StringColumnDescription<T>
 		return getNumberInstance(locale);
 	}
 
-	protected Object parseNumber(String value) throws Exception
+	protected Number parseNumber(String value) throws ParseException
 	{
-		Assert.isNotNull(value);
-
-		if(isNotEmpty(value))
-			return getNumberValue(type, numberFormat.parse(value));
-
-		return ReflectionExtension.getType(getObject()).isPrimitive() ? 0 : null;
+		return numberFormat.parse(value);
 	}
 
 	/*
@@ -47,7 +38,10 @@ public class NumericColumnDescription<T> extends StringColumnDescription<T>
 	@Override
 	public void setValue(T item, Object value) throws Exception
 	{
-		invoke(item, parseNumber((String)value));
+		if(isNotEmpty((String)value))
+			invoke(item, parseNumber((String)value));
+		else if(!type.isPrimitive())
+			invoke(item, (Object)null);
 	}
 
 	/*
