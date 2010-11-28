@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ ArrayExtensionTest.class, BitExtensionTest.class, MatrixExtensionTest.class })
+@Suite.SuiteClasses({ ArrayExtensionTest.class, BitExtensionTest.class, MatrixExtensionTest.class,
+                NumericExtensionTest.class })
 public class ExtensionsTestSuit
 {}

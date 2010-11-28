@@ -94,6 +94,19 @@ public final class NumericExtension
 	// return arr;
 	// }
 
+	public static int getValueInNewRange(int value, int min, int max, int min1, int max1)
+	{
+		return (int)getValueInNewRange((double)value, min, max, min1, max1);
+	}
+
+	public static double getValueInNewRange(double value, double min, double max, double min1, double max1)
+	{
+		double val = ((value - min) * 100.0) / (max - min);
+		double res = ((max1 - min1) * val) / 100;
+
+		return res + min1;
+	}
+
 	public static int compareNumbers(Class<?> type, Object obj1, Object obj2)
 	{
 		if(isByte(type))
