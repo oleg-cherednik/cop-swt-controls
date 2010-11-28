@@ -7,6 +7,7 @@ package cop.swt.widgets.viewers.table;
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.BitExtension.clearBits;
 import static cop.common.extensions.BitExtension.isBitSet;
+import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
 import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
@@ -138,9 +139,9 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		PTableColumnInfo<T> column;
 		TableViewer viewer = (TableViewer)widget;
-		int index = 1;
+		int index = 0;
 
-		new PTableColumnInfo<T>(obj, viewer, descriptions.get(0)).setHidden(true);
+		// new PTableColumnInfo<T>(obj, viewer, descriptions.get(0)).setHidden(true);
 
 		for(ColumnDescription<T> description : descriptions)
 		{
@@ -224,23 +225,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	//
 	// return (T[])visibleItems;
 	// }
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<T> getSelectedItems()
-	{
-		Table table = (Table)widget.getControl();
-		TableItem[] tableItems = table.getSelection();
-		List<T> items = new ArrayList<T>();
-
-		if(isEmpty(tableItems))
-			return items;
-
-		for(TableItem tableItem : tableItems)
-			items.add((T)tableItem.getData());
-
-		return items;
-	}
 
 	@Override
 	public int getItemCount()
@@ -349,12 +333,12 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	}
 
 	@Override
-	protected List<String[]> toStringArrayList(List<T> items)
+	protected List<String[]> toStringArrayList(T[] items)
 	{
 		if(isEmpty(items))
-			return new ArrayList<String[]>(0);
+			return EMPTY_STR_ARR_LIST;
 
-		List<String[]> data = new ArrayList<String[]>(items.size() + 1);
+		List<String[]> data = new ArrayList<String[]>(items.length + 1);
 
 		data.add(getVisibleColumnNames());
 
@@ -367,7 +351,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void selectAll()
 	{
-		if(getSelectedItems().size() == getItemCount())
+		if(getSelectionSize() == getItemCount())
 			return;
 
 		((Table)widget.getControl()).selectAll();
@@ -377,8 +361,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void deselectAll()
 	{
-		System.out.println("PtableViewer.deselectAll() - cancelEditing()");
-		if(getSelectedItems().size() == 0)
+		if(getSelectionSize() == 0)
 			return;
 
 		TableViewer viewer = (TableViewer)widget;

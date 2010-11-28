@@ -1,7 +1,8 @@
 package cop.swt.widgets.viewers.list;
 
 import static cop.common.extensions.ArrayExtension.ONE_ITEM_STR_ARR;
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SORT;
@@ -63,12 +64,6 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	// }
 
 	@Override
-	public List<T> getSelectedItems()
-	{
-		return labelProvider.getItems(((ListViewer)widget).getList().getSelection());
-	}
-
-	@Override
 	public int getItemCount()
 	{
 		return labelProvider.getItemCount();
@@ -122,15 +117,15 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	}
 
 	@Override
-	protected List<String[]> toStringArrayList(List<T> items)
+	protected List<String[]> toStringArrayList(T[] items)
 	{
 		if(isEmpty(items))
-			return new ArrayList<String[]>(0);
+			return EMPTY_STR_ARR_LIST;
 
-		List<String[]> data = new ArrayList<String[]>(items.size() + 1);
+		List<String[]> data = new ArrayList<String[]>(items.length);
 
 		for(String str : labelProvider.getLabels(items))
-			data.add(new String[] { str });	//TODO memory leaking
+			data.add(new String[] { str });
 
 		return data;
 	}
@@ -138,7 +133,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	@Override
 	public void selectAll()
 	{
-		if(getSelectedItems().size() == getItemCount())
+		if(getSelectionSize() == getItemCount())
 			return;
 
 		((ListViewer)widget).getList().selectAll();
@@ -148,7 +143,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	@Override
 	public void deselectAll()
 	{
-		if(getSelectedItems().size() != 0)
+		if(getSelectionSize() != 0)
 			super.deselectAll();
 	}
 

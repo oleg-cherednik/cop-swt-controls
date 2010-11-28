@@ -11,6 +11,7 @@ import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.isInRangeMin;
 import static java.lang.Math.max;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -20,6 +21,8 @@ import java.util.TreeSet;
 
 public final class CollectionExtension
 {
+	public static final List<String[]> EMPTY_STR_ARR_LIST = new ArrayList<String[]>(0);
+	
 	private CollectionExtension()
 	{}
 
