@@ -17,6 +17,8 @@ import cop.swt.widgets.keys.enums.KeyEnum;
 
 public class HotKeyGroup extends KeyGroup
 {
+	private static final int MAX_KEYS_IN_GROUP = 5;
+	
 	private static final KeyEnum[] MAGIC_KEYS; // can be use without control keys
 	private static final KeyEnum[] CONTROL_KEYS;
 
@@ -105,7 +107,7 @@ public class HotKeyGroup extends KeyGroup
 	@Override
 	public void addKey(KeyEnum key)
 	{
-		if(isNotNull(key) && size() < 5)
+		if(isNotNull(key) && size() <= MAX_KEYS_IN_GROUP)
 			super.addKey(key);
 	}
 

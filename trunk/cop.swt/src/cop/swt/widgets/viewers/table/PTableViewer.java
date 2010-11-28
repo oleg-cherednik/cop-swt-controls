@@ -420,7 +420,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void setReadonly(boolean readonly)
 	{
-		System.out.println("PtableViewer.setReadonly() - cancelEditing()");
 		super.setReadonly(readonly);
 
 		((TableViewer)widget).cancelEditing();
@@ -729,7 +728,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void setLocale(Locale locale)
 	{
-		System.out.println("PtableViewer.setLocale() - cancelEditing()");
 		super.setLocale(locale);
 
 		((TableViewer)widget).cancelEditing();
@@ -754,7 +752,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			return;
 
 		if(mouseEnter)
-			setControlMenu(menuManager.createMenu(0));
+			setControlMenu(menuManager.createMenu());
 		else
 			// setControlMenu(menuManager.createMenu(1));
 			setControlMenu(createHeaderMenu());

@@ -66,7 +66,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	@Override
 	public int getItemCount()
 	{
-		return labelProvider.getItemCount();
+		return ((ListViewer)widget).getList().getItemCount();
 	}
 
 	private void createLabelProvider()

@@ -21,6 +21,7 @@ import java.util.TreeSet;
 
 public final class CollectionExtension
 {
+	public static final List<Object> EMPTY_LIST = new ArrayList<Object>(0);
 	public static final List<String[]> EMPTY_STR_ARR_LIST = new ArrayList<String[]>(0);
 	
 	private CollectionExtension()
