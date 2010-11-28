@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -59,6 +60,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 import plugin.cop.swt.Activator;
+import cop.common.extensions.NumericExtension;
 import cop.swt.extensions.ColorExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
@@ -120,6 +122,29 @@ public class PViewerExample implements IExample, LocaleSupport
 		listConfig.setImageProvider(IMAGE_PROVIDER);
 	}
 
+	private static int getNumber()
+	{
+		return (int)NumericExtension.getValueInNewRange(Math.random(), 0, 1, 0, 100);
+	}
+
+	private static double getPrice()
+	{
+		return NumericExtension.getValueInNewRange(Math.random(), 0, 1, 0, 10000);
+	}
+
+	private static double getPercent()
+	{
+		return Math.random();
+	}
+
+	private static Double getAmount()
+	{
+		if(Math.random() < 0.2)
+			return null;
+
+		return NumericExtension.getValueInNewRange(Math.random(), 0, 1, 0, 100000);
+	}
+
 	private List<LocaleSupport> localeObjects = new ArrayList<LocaleSupport>();
 
 	{
@@ -142,26 +167,36 @@ public class PViewerExample implements IExample, LocaleSupport
 		Name nameRI = new Name("Rodionov, Ivan_us", "Rodionov, Ivan_uk", "Rodionov, Ivan_de", "Родионов, Иван");
 
 		Calendar date = Calendar.getInstance();
-		ActionTO action0 = new ActionTO(nameCO, date, 0, 1021.15, 0.05, 12345.678, true, ONE, RED.getRGB());
+		ActionTO action0 = new ActionTO(nameCO, date, getNumber(), getPrice(), getPercent(), getAmount(), true, ONE,
+		                RED.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action1 = new ActionTO(namePN, date, 1, 1021.15, 0.15, 12345.678, true, TWO, BLACK.getRGB());
+		ActionTO action1 = new ActionTO(namePN, date, getNumber(), getPrice(), getPercent(), getAmount(), true, TWO,
+		                BLACK.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action2 = new ActionTO(nameSS, date, 2, 1021.15, 0.25, 12345.678, true, THREE, GREEN.getRGB());
+		ActionTO action2 = new ActionTO(nameSS, date, getNumber(), getPrice(), getPercent(), getAmount(), true, THREE,
+		                GREEN.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action3 = new ActionTO(nameZO, date, 3, 1021.15, 0.35, 12345.678, true, FOUR, BLUE.getRGB());
+		ActionTO action3 = new ActionTO(nameZO, date, getNumber(), getPrice(), getPercent(), getAmount(), true, FOUR,
+		                BLUE.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action4 = new ActionTO(nameKM, date, 4, 1021.15, 0.45, 12345.678, true, FIVE, GRAY.getRGB());
+		ActionTO action4 = new ActionTO(nameKM, date, getNumber(), getPrice(), getPercent(), getAmount(), true, FIVE,
+		                GRAY.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
 
-		ActionTO action5 = new ActionTO(nameSK, date, 5, 1021, 0.55, 12345.0, true, SIX, YELLOW.getRGB());
+		ActionTO action5 = new ActionTO(nameSK, date, getNumber(), getPrice(), getPercent(), getAmount(), true, SIX,
+		                YELLOW.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action6 = new ActionTO(nameAM, date, 6, 1021, 0.65, 12345.0, true, SEVEN, MAGENTA.getRGB());
+		ActionTO action6 = new ActionTO(nameAM, date, getNumber(), getPrice(), getPercent(), getAmount(), true, SEVEN,
+		                MAGENTA.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action7 = new ActionTO(nameRS, date, 7, 1021, 0.75, null, true, EIGHT, CYAN.getRGB());
+		ActionTO action7 = new ActionTO(nameRS, date, getNumber(), getPrice(), getPercent(), getAmount(), true, EIGHT,
+		                CYAN.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action8 = new ActionTO(nameMI, date, 8, 1021, 0.85, 12345.0, true, NINE, DARK_BLUE.getRGB());
+		ActionTO action8 = new ActionTO(nameMI, date, getNumber(), getPrice(), getPercent(), getAmount(), true, NINE,
+		                DARK_BLUE.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
-		ActionTO action9 = new ActionTO(nameRI, date, 9, 1021, 0.95, null, true, TEN, DARK_GREEN.getRGB());
+		ActionTO action9 = new ActionTO(nameRI, date, getNumber(), getPrice(), getPercent(), getAmount(), true, TEN,
+		                DARK_GREEN.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
 
 		actions1.add(action0);
@@ -194,38 +229,38 @@ public class PViewerExample implements IExample, LocaleSupport
 		markets.add(new MarketTO("userName 4"));
 
 		modelA = new ListModel<ActionTO>("model A");
-		modelA.add(actions1.toArray(new ActionTO[actions1.size()]));
+		modelA.add(actions1);
 
 		modelB = new ListModel<ActionTO>("model B");
-		modelB.add(actions2.toArray(new ActionTO[actions2.size()]));
+		modelB.add(actions2);
 
 		Locale.setDefault(Locale.US);
 	}
-	
+
 	private Runnable updateModelA = new Runnable()
 	{
 		@Override
-        public void run()
-        {
+		public void run()
+		{
 			while(!Thread.interrupted())
 			{
 				try
-	            {
-		            Thread.sleep(1);
-		            
-		    		if(!table.widget.getControl().isDisposed())
-		    			table.widget.getControl().getDisplay().syncExec(increasePercent);
-		    		if(!table.widget.getControl().isDisposed())
-		    			table.widget.getControl().getDisplay().syncExec(increaseNumber);
-	            }
-	            catch(InterruptedException e)
-	            {
-		            e.printStackTrace();
-	            }
+				{
+					Thread.sleep(1);
+
+					if(!table.widget.getControl().isDisposed())
+						table.widget.getControl().getDisplay().syncExec(increasePercent);
+					if(!table.widget.getControl().isDisposed())
+						table.widget.getControl().getDisplay().syncExec(increaseNumber);
+				}
+				catch(InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
-        }
+		}
 	};
-	
+
 	private final Runnable increasePercent = new Runnable()
 	{
 		@Override
@@ -234,22 +269,21 @@ public class PViewerExample implements IExample, LocaleSupport
 			if(Thread.currentThread().isInterrupted() || table.widget.getControl().isDisposed())
 				return;
 
-            ActionTO action = modelA.getItem(0);
-            double percent = action.getPercent() + 0.005;
-            
-            if(percent > 1)
-            	percent -= 1;
-            
-            //table.widget.setInput(modelA.getElements(null));
-            
-            
-            action.setPercent(percent);
-            modelA.updateItem(action);
-           //System.out.println("model A has been updated");
+			ActionTO action = modelA.getItem(0);
+			double percent = action.getPercent() + 0.005;
+
+			if(percent > 1)
+				percent -= 1;
+
+			// table.widget.setInput(modelA.getElements(null));
+
+			action.setPercent(percent);
+			modelA.updateItem(action);
+			// System.out.println("model A has been updated");
 
 		}
 	};
-	
+
 	private final Runnable increaseNumber = new Runnable()
 	{
 		@Override
@@ -258,18 +292,17 @@ public class PViewerExample implements IExample, LocaleSupport
 			if(Thread.currentThread().isInterrupted() || table.widget.getControl().isDisposed())
 				return;
 
-            ActionTO action = modelA.getItem(0);
-            int number = action.getNumber() + 1;
-            
-            if(number > 100)
-            	number -= 100;
-            
-            //table.widget.setInput(modelA.getElements(null));
-            
-            
-            action.setNumber(number);
-            modelA.updateItem(action);
-           //System.out.println("model A has been updated");
+			ActionTO action = modelA.getItem(0);
+			int number = action.getNumber() + 1;
+
+			if(number > 100)
+				number -= 100;
+
+			// table.widget.setInput(modelA.getElements(null));
+
+			action.setNumber(number);
+			modelA.updateItem(action);
+			// System.out.println("model A has been updated");
 
 		}
 	};
@@ -287,7 +320,7 @@ public class PViewerExample implements IExample, LocaleSupport
 
 			localesCombo.select(2);
 			setLocale(locales[2]);
-			
+
 			new Thread(updateModelA).start();
 		}
 		catch(Exception e)
@@ -373,7 +406,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		// table.setReadonlyProvider(ActionTO.checkStrategy);
 
 		// table.setItems(actions);
-		//table.addSelectionListener(onItemSelect);
+		// table.addSelectionListener(onItemSelect);
 		table.addModifyListener(modifyTableListener);
 		table.addTableColumnListener(onTableColumn);
 		table.setEnabled(true);
@@ -429,7 +462,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		// list.getList().setBackground(ColorExtension.YELLOW);
 		// //list.setDeleteKey(true);
 		list.addModifyListener(modifyListListener);
-		//list.addSelectionListener(onItemSelect);
+		// list.addSelectionListener(onItemSelect);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		localeObjects.add(list);
 
@@ -491,7 +524,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		list.setReadonly(true);
 		localeObjects.add(list);
 		list.setLabelName("model");
-		//list.setEnabled(false);
+		// list.setEnabled(false);
 	}
 
 	private void createModelBPart(Composite parent) throws Exception
@@ -510,7 +543,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		list.setReadonly(true);
 		localeObjects.add(list);
 		list.setLabelName("model");
-		//list.setEnabled(false);
+		// list.setEnabled(false);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -533,11 +566,11 @@ public class PViewerExample implements IExample, LocaleSupport
 		public void selectionChanged(SelectionChangedEvent event)
 		{
 			System.out.println("Selection changed:");
-			
+
 			StructuredSelection selection = (StructuredSelection)event.getSelection();
 
 			for(Object item : selection.toArray())
-				System.out.println(item);			
+				System.out.println(item);
 		}
 	};
 
@@ -794,7 +827,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		@Override
 		public void itemModified(Widget widget, ActionTO item, ModificationTypeEnum type)
 		{
-		// TODO Auto-generated method stub
+			// TODO Auto-generated method stub
 
 		}
 	};
@@ -847,7 +880,6 @@ class ImageProviderImpl implements ImageProvider
 {
 	private static Properties paths;
 	private static Map<String, Image> images;
-	
 
 	static
 	{
@@ -866,7 +898,7 @@ class ImageProviderImpl implements ImageProvider
 
 		paths.setProperty(BooleanColumnDescription.CHECKED_MARKER, "icons//checked.gif");
 		paths.setProperty(BooleanColumnDescription.UNCHECKED_MARKER, "icons//unchecked.gif");
-		
+
 		images = new HashMap<String, Image>();
 	}
 
@@ -875,15 +907,15 @@ class ImageProviderImpl implements ImageProvider
 	{
 		if(isEmpty(key))
 			return null;
-		
+
 		if(images.containsKey(key))
 			return images.get(key);
-		
+
 		String path = paths.getProperty(key);
 		Image image = isNotEmpty(path) ? Activator.getImageDescriptor(path).createImage() : null;
-		
+
 		images.put(key, image);
-		
+
 		return image;
 	}
 }
