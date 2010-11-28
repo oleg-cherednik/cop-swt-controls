@@ -294,11 +294,11 @@ public final class ReflectionExtension
 		if(isInteger(type))
 			return number.intValue();
 		if(isLong(type))
-			return number;
+			return number.longValue();
 		if(isFloat(type))
 			return number.floatValue();
 		if(isDouble(type))
-			return number;
+			return number.doubleValue();
 
 		return null;
 	}

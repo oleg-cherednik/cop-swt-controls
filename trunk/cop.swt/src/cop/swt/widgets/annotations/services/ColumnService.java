@@ -43,6 +43,7 @@ public final class ColumnService
 	public static final boolean DEF_SORTABLE = true;
 	public static final boolean DEF_VISIBLE = true;
 	public static final boolean DEF_HIDEABLE = true;
+	public static final boolean DEF_EMPTYABLE = true;
 	public static final int DEF_WIDTH = -1;
 	public static final Class<?> DEF_TYPE = String.class;
 

@@ -2,6 +2,7 @@ package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.NumericExtension.compareNumbers;
+import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.common.extensions.StringExtension.isNotEmpty;
 import static java.text.NumberFormat.getNumberInstance;
 
@@ -39,8 +40,8 @@ public class NumericColumnDescription<T> extends StringColumnDescription<T>
 	public void setValue(T item, Object value) throws Exception
 	{
 		if(isNotEmpty((String)value))
-			invoke(item, parseNumber((String)value));
-		else if(!type.isPrimitive())
+			invoke(item, getNumberValue(type, parseNumber((String)value)));
+		else if(!type.isPrimitive() && isEmptyable())
 			invoke(item, (Object)null);
 	}
 

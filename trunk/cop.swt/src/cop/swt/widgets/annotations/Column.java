@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 @Inherited
 @Documented
 @Retention(RUNTIME)
-@Target( { FIELD, METHOD })
+@Target({ FIELD, METHOD })
 public @interface Column
 {
 	String name() default DEF_NAME;
@@ -51,17 +51,19 @@ public @interface Column
 	 * @see org.eclipse.swt.widgets.TableColumn#setAlignment(int)
 	 */
 	int alignment() default DEF_ALIGNMENT;
-	
+
 	boolean readonly() default DEF_READONLY;
 
 	boolean sortable() default DEF_SORTABLE;
-	
+
 	/**
 	 * Relative column width in percents from table with.
 	 */
 	int width() default DEF_WIDTH;
-	
+
 	boolean visible() default DEF_VISIBLE;
-	
+
 	boolean hideable() default DEF_HIDEABLE;
+
+	boolean emptyable() default DEF_EMPTYABLE;
 }

@@ -38,7 +38,7 @@ public class ActionTO implements Cloneable
 	@ImageTextView(view = IMAGE_ONLY)
 	@Column(name = "percent", order = 5, movabale = true, sortable = true, hideable = false)
 	private double percent;
-	@Column(name = "amount", order = 6, movabale = true, sortable = true, hideable = false)
+	@Column(name = "amount", order = 6, movabale = true, sortable = true, hideable = false, emptyable = false)
 	private Double amount;
 	//@Column(order = 4)
 	// private List<String> titles = new ArrayList<String>();
