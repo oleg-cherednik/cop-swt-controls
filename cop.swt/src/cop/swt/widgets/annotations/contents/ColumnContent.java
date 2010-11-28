@@ -3,6 +3,7 @@ package cop.swt.widgets.annotations.contents;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_ALIGNMENT;
+import static cop.swt.widgets.annotations.services.ColumnService.DEF_EMPTYABLE;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_HIDEABLE;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_MOVABLE;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_NAME;
@@ -11,7 +12,6 @@ import static cop.swt.widgets.annotations.services.ColumnService.DEF_READONLY;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_RISIZABLE;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_SORTABLE;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_TOOLTIP;
-import static cop.swt.widgets.annotations.services.ColumnService.DEF_UNIT;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_VISIBLE;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_WIDTH;
 import static org.eclipse.swt.SWT.CENTER;
@@ -33,7 +33,7 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 {
 	private String name = DEF_NAME;
 	private String toolTip = DEF_TOOLTIP;
-	private String unit = DEF_UNIT;
+	// private String unit = DEF_UNIT;
 	private int order = DEF_ORDER;
 	private boolean movable = DEF_MOVABLE;
 	private boolean resizable = DEF_RISIZABLE;
@@ -43,6 +43,7 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 	private int width = DEF_WIDTH;
 	private boolean visible = DEF_VISIBLE;
 	private boolean hideable = DEF_HIDEABLE;
+	private boolean emptyable = DEF_EMPTYABLE;
 	private Collator collator;
 
 	public ColumnContent(Column annotation, Locale locale)
@@ -62,6 +63,7 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 		setWidth(annotation.width());
 		setVisible(annotation.visible());
 		setHideable(annotation.hideable());
+		setEmptyable(annotation.emptyable());
 	}
 
 	public TableViewerColumn createTableColumn(TableViewer viewer)
@@ -141,6 +143,11 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 		return hideable;
 	}
 
+	public boolean isEmptyable()
+	{
+		return emptyable;
+	}
+
 	public void setName(String name)
 	{
 		this.name = isNull(name) ? DEF_NAME : name;
@@ -189,6 +196,11 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 	public void setHideable(boolean hideable)
 	{
 		this.hideable = hideable;
+	}
+
+	public void setEmptyable(boolean emptyable)
+	{
+		this.emptyable = emptyable;
 	}
 
 	private void setAlignment(int alignment)

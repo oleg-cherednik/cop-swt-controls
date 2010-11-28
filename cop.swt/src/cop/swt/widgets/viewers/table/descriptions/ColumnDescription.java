@@ -270,6 +270,11 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	{
 		return content.isHideable();
 	}
+	
+	public boolean isEmptyable()
+	{
+		return content.isEmptyable();
+	}
 
 	/*
 	 * Localizable
