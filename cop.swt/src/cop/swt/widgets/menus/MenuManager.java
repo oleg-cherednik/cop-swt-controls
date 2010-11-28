@@ -24,11 +24,6 @@ public final class MenuManager implements LocaleSupport
 	private HotKeyManager keyManager;
 	private List<IMenuItem> menuItems;
 
-	// public MenuManager(Control control)
-	// {
-	// this(control, null);
-	// }
-
 	public MenuManager(Control control, HotKeyManager keyManager, IMenuBuilder menuBuilder)
 	{
 		Assert.isNotNull(control);
@@ -53,10 +48,10 @@ public final class MenuManager implements LocaleSupport
 
 		for(IMenuItem menuItem : menuItems)
 			if(isNotNull(keyManager) && isNotNull(menuItem.getListener()))
-				keyManager.addHotKey(menuItem.getAccelerator(), menuItem.getListener());
+				keyManager.addHotKey(menuItem.getAccelerator(), menuItem.getListener(), menuItem);
 	}
 
-	public Menu createMenu(int variant)
+	public Menu createMenu()
 	{
 		return isEmpty() ? null : createMenu(new Menu(control));
 	}
@@ -68,8 +63,6 @@ public final class MenuManager implements LocaleSupport
 
 	protected Menu createMenu(Menu menu)
 	{
-		Assert.isNotNull(menu);
-
 		List<List<IMenuItem>> groups = new ArrayList<List<IMenuItem>>();
 		List<IMenuItem> arr = new ArrayList<IMenuItem>();
 

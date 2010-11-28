@@ -24,7 +24,8 @@ public final class HotKeyManager implements Clearable, Listener
 	private static int DELAY = 5000;
 
 	private Control control;
-	private Map<KeyGroup, Listener> map = new HashMap<KeyGroup, Listener>();
+	private Map<KeyGroup, Listener> listeners = new HashMap<KeyGroup, Listener>();
+	private Map<KeyGroup, Object> keyData = new HashMap<KeyGroup, Object>();
 	private HotKeyGroup keys = new HotKeyGroup();
 	private HotKeyGroup prvKeys = new HotKeyGroup();
 	private int prvTime;
@@ -32,7 +33,7 @@ public final class HotKeyManager implements Clearable, Listener
 
 	public HotKeyManager(Control control)
 	{
-		Assert.isLegal(isNotNull(control), "Control can't be null");
+		Assert.isNotNull(control, "Control can't be null");
 
 		this.control = control;
 
@@ -53,12 +54,12 @@ public final class HotKeyManager implements Clearable, Listener
 		else if(!keys.containsOnlyMagicKeys() && keys.containsOnlyControls())
 			return;
 
-		for(KeyGroup group : map.keySet())
+		for(KeyGroup group : listeners.keySet())
 		{
 			if(!group.equals(keys))
 				continue;
 
-			map.get(group).handleEvent(createEvent());
+			listeners.get(group).handleEvent(createEvent(group));
 			prvKeys.removeKey(key);
 			prvTime = (int)System.currentTimeMillis();
 
@@ -66,11 +67,12 @@ public final class HotKeyManager implements Clearable, Listener
 		}
 	}
 
-	private Event createEvent()
+	private Event createEvent(KeyGroup group)
 	{
 		Event event = new Event();
-		
+
 		event.widget = control;
+		event.data = keyData.get(group);
 		event.time = (int)System.currentTimeMillis();
 
 		return event;
@@ -78,12 +80,12 @@ public final class HotKeyManager implements Clearable, Listener
 
 	private void checkPrvKeysForNotify()
 	{
-		for(KeyGroup group : map.keySet())
+		for(KeyGroup keys : listeners.keySet())
 		{
-			if(!group.equals(prvKeys))
+			if(!keys.equals(prvKeys))
 				continue;
 
-			map.get(group).handleEvent(createEvent());
+			listeners.get(keys).handleEvent(createEvent(keys));
 			clear();
 
 			return;
@@ -92,18 +94,26 @@ public final class HotKeyManager implements Clearable, Listener
 		clear();
 	}
 
-	public void addHotKey(HotKeyGroup keys, Listener listener)
+	public void addHotKey(HotKeyGroup group, Listener listener)
 	{
-		Assert.isLegal(isNotNull(keys), "Hot key can't be null");
-		Assert.isLegal(isNotNull(listener), "Listener for hot key can't be null");
+		addHotKey(group, listener, null);
+	}
 
-		map.put(keys, listener);
+	public void addHotKey(HotKeyGroup group, Listener listener, Object data)
+	{
+		Assert.isNotNull(group, "Hot key can't be null");
+		Assert.isNotNull(listener, "Listener for hot key can't be null");
+
+		listeners.put(group, listener);
+
+		if(data != null)
+			keyData.put(group, data);
 	}
 
 	public void removeHotKey(HotKeyGroup keys)
 	{
 		if(isNotNull(keys))
-			map.remove(keys);
+			listeners.remove(keys);
 	}
 
 	private void dispose()
@@ -154,7 +164,7 @@ public final class HotKeyManager implements Clearable, Listener
 
 	private void onKeyDown(Event event)
 	{
-		if(map.size() == 0)
+		if(listeners.size() == 0)
 			return;
 
 		if(prvTime != 0 && (event.time - prvTime) > DELAY)

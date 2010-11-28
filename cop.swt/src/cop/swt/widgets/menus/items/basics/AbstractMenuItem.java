@@ -23,6 +23,8 @@ import cop.swt.widgets.menus.interfaces.PropertyProvider;
 
 public abstract class AbstractMenuItem implements IMenuItem
 {
+	private static final HotKeyGroup EMPTY_KEY_GROUP = new HotKeyGroup();
+	
 	protected final MenuItemEnum key;
 	private final MenuItemStyleEnum style;
 	private HotKeyGroup accelerator;
@@ -54,6 +56,11 @@ public abstract class AbstractMenuItem implements IMenuItem
 	public void setVisibleProvider(PropertyProvider<Boolean> visibleProvider)
 	{
 		this.visibleProvider = visibleProvider;
+	}
+	
+	public final MenuItemEnum getMenuItemKey()
+	{
+		return key;
 	}
 
 	@Override
@@ -91,8 +98,6 @@ public abstract class AbstractMenuItem implements IMenuItem
 	@Override
 	public MenuItem create(Menu parent)
 	{
-		Assert.isNotNull(parent);
-
 		MenuItem item = new MenuItem(parent, style.getSwtStyle());
 
 		item.setData(MENU_ITEM_KEY, key);
@@ -100,7 +105,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 		item.setText(getTitle());
 		item.setEnabled(isEnabled());
 
-		if(isNotNull(listener))
+		if(listener != null)
 			item.addListener(Selection, listener);
 
 		return item;
@@ -152,7 +157,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 	@Override
 	public HotKeyGroup getAccelerator()
 	{
-		return isNotNull(accelerator) ? (HotKeyGroup)accelerator.clone() : new HotKeyGroup();
+		return isNotNull(accelerator) ? (HotKeyGroup)accelerator.clone() : EMPTY_KEY_GROUP;
 	}
 
 	@Override

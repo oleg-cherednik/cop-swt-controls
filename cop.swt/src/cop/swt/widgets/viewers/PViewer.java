@@ -8,6 +8,7 @@ import static cop.algorithms.search.LinearSearch.linearSearch;
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.ArrayExtension.removeDublicatesAndSort;
+import static cop.common.extensions.CollectionExtension.EMPTY_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
@@ -29,9 +30,7 @@ import static org.eclipse.swt.SWT.KeyUp;
 import static org.eclipse.swt.SWT.MenuDetect;
 import static org.eclipse.swt.SWT.MouseExit;
 import static org.eclipse.swt.SWT.MouseWheel;
-import static org.eclipse.swt.SWT.Selection;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -69,10 +68,12 @@ import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.MenuManager;
 import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.interfaces.IMenuBuilder;
+import cop.swt.widgets.menus.interfaces.IMenuItem;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.CascadeMenuItem;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
+import cop.swt.widgets.menus.items.basics.AbstractMenuItem;
 import cop.swt.widgets.model.interfaces.ModelChanged;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
@@ -352,8 +353,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void createHotKeys()
 	{
-		Assert.isNotNull(widget);
-
 		keyManager = new HotKeyManager(widget.getControl());
 	}
 
@@ -371,8 +370,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void setControlMenu(Menu menu)
 	{
-		Assert.isNotNull(widget);
-
 		if(menu != null && menu.getItemCount() != 0)
 			widget.getControl().setMenu(menu);
 		else
@@ -453,10 +450,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		public void run()
 		{
 			if(!Thread.currentThread().isInterrupted() && !widget.getControl().isDisposed())
-			{
-				System.out.println("PViewer.refresh()");
 				widget.refresh();
-			}
 		}
 	};
 
@@ -474,6 +468,19 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	// }
 	// }
 	// };
+
+	private boolean isMenuHandleEvent(Event event)
+	{
+		if(event.widget == widget.getControl())
+			return event.data instanceof IMenuItem;
+
+		return ((MenuItem)event.widget).getParent() == widget.getControl().getMenu();
+	}
+
+	private boolean isControlEvent(Event event)
+	{
+		return event.widget == widget.getControl();
+	}
 
 	/*
 	 * IModelChange
@@ -536,8 +543,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 		standaloneMode = false;
 	}
-
-	private final List<T> EMPTY_LIST = new ArrayList<T>();
 
 	@Override
 	public void stopListenToModel(ViewerModel<T> model)
@@ -603,10 +608,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	@Override
 	public void handleEvent(Event event)
 	{
-		if(event.widget == widget.getControl())
-			handleControlEvent(event);
-		else if(((MenuItem)event.widget).getParent() == widget.getControl().getMenu())
+		if(isMenuHandleEvent(event))
 			handleMenuEvent(event);
+		else if(isControlEvent(event))
+			handleControlEvent(event);
 	}
 
 	protected void handleControlEvent(Event event)
@@ -627,8 +632,28 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void handleMenuEvent(Event event)
 	{
-		if(event.type == Selection)
-			onSelection(event);
+		MenuItemEnum menuItem = null;
+
+		if(event.data instanceof AbstractMenuItem)
+			menuItem = ((AbstractMenuItem)event.data).getMenuItemKey();
+		else
+			menuItem = (MenuItemEnum)event.widget.getData(MENU_ITEM_KEY);
+
+		if(menuItem == null)
+			return;
+
+		if(menuItem == MI_COPY)
+			onCopyMenuItem(event);
+		else if(menuItem == MI_DELETE)
+			onDeleteMenuItem(event);
+		else if(menuItem == MI_SELECT_ALL)
+			selectAll();
+		else if(menuItem == MI_DESELECT_ALL)
+			deselectAll();
+		else if(menuItem == MI_DELETE)
+			onDeleteMenuItem(event);
+		else if(menuItem == MI_PROPERTIES)
+			onPropertiesMenuItem(event);
 	}
 
 	/*
@@ -674,28 +699,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	protected void onMenuDetect(Event event)
 	{
 		if(menuManager != null)
-			setControlMenu(menuManager.createMenu(0));
-	}
-
-	protected void onSelection(Event event)
-	{
-		MenuItemEnum menuItem = (MenuItemEnum)event.widget.getData(MENU_ITEM_KEY);
-
-		if(menuItem == null)
-			return;
-
-		if(menuItem == MI_COPY)
-			onCopyMenuItem(event);
-		else if(menuItem == MI_DELETE)
-			onDeleteMenuItem(event);
-		else if(menuItem == MI_SELECT_ALL)
-			selectAll();
-		else if(menuItem == MI_DESELECT_ALL)
-			deselectAll();
-		else if(menuItem == MI_DELETE)
-			onDeleteMenuItem(event);
-		else if(menuItem == MI_PROPERTIES)
-			onPropertiesMenuItem(event);
+			setControlMenu(menuManager.createMenu());
 	}
 
 	protected void onCopyMenuItem(Event event)
