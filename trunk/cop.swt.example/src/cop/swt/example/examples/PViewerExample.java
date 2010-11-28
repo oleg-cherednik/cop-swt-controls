@@ -82,7 +82,7 @@ import cop.swt.widgets.viewers.table.descriptions.BooleanColumnDescription;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
-public class TableViewerExample implements IExample, LocaleSupport
+public class PViewerExample implements IExample, LocaleSupport
 {
 	private static Boolean MODEL_A = Boolean.FALSE;
 	private static Boolean MODEL_B = Boolean.TRUE;
@@ -429,7 +429,7 @@ public class TableViewerExample implements IExample, LocaleSupport
 		// list.getList().setBackground(ColorExtension.YELLOW);
 		// //list.setDeleteKey(true);
 		list.addModifyListener(modifyListListener);
-		//list.addSelectionListener(onItemSelect);
+		list.addSelectionListener(onItemSelect);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		localeObjects.add(list);
 
@@ -651,7 +651,7 @@ public class TableViewerExample implements IExample, LocaleSupport
 		@Override
 		public void widgetSelected(SelectionEvent e)
 		{
-			Collection<ActionTO> items = table.getSelectedItems();
+			ActionTO[] items = table.getSelectedItems();
 
 			for(ActionTO item : items)
 				modelA.remove(item);

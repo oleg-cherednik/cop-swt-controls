@@ -23,7 +23,7 @@ public class ColumnEditingSupport<T> extends EditingSupport implements LocaleSup
 	public CellEditor editor;
 	private ColumnDescription<T> description;
 	private boolean readonly;
-	private boolean enabled = true;
+	private boolean enabled;
 	private IModifyProvider<T> modifyProvider;
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 

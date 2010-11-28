@@ -1,10 +1,10 @@
 package cop.swt.widgets.viewers.list;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.EMPTY_STR_ARR;
+import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,17 +51,15 @@ public class PListLabelProvider<T> extends TextLabelProvider
 		return new ArrayList<T>(0);
 	}
 
-	public List<String> getLabels(Collection<T> items)
+	public String[] getLabels(T[] items)
 	{
-		System.out.println("PListLabelProvider.getLabels(" + items.size() + ")");
-
 		if(isEmpty(items))
-			return new ArrayList<String>(0);
+			return EMPTY_STR_ARR;
 
-		List<String> data = new ArrayList<String>(items.size());
+		String[] data = new String[items.length];
 
-		for(T item : items)
-			data.add(getText(item));
+		for(int i = 0; i < data.length; i++)
+			data[i] = getText(items[i]);
 
 		return data;
 

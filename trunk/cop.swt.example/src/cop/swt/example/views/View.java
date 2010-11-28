@@ -24,7 +24,7 @@ public class View extends ViewPart
 	@Override
 	public void createPartControl(Composite _parent)
 	{
-		new TableViewerExample().run(_parent);
+		new PViewerExample().run(_parent);
 		//new NumericExample().run(_parent);
 		//new VogelTableViewerExample().run(_parent);
 		//new HtmlViewerExample().run(_parent);

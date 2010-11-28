@@ -6,8 +6,8 @@ package cop.swt.widgets.viewers;
 
 import static cop.algorithms.search.LinearSearch.linearSearch;
 import static cop.common.extensions.ArrayExtension.isEmpty;
+import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.ArrayExtension.removeDublicatesAndSort;
-import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
@@ -42,6 +42,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -291,7 +292,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public Boolean getProperty()
 		{
-			return !getSelectedItems().isEmpty();
+			return getSelectedItems().length != 0;
 		}
 	};
 
@@ -327,7 +328,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public Boolean getProperty()
 		{
-			return getItemCount() != getSelectedItems().size();
+			return getItemCount() != getSelectionSize();
 		}
 	};
 
@@ -336,7 +337,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public Boolean getProperty()
 		{
-			return !getSelectedItems().isEmpty();
+			return getSelectionSize() != 0;
 		}
 	};
 
@@ -345,7 +346,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public Boolean getProperty()
 		{
-			return !isReadonly() && !getSelectedItems().isEmpty();
+			return !isReadonly() && getSelectionSize() != 0;
 		}
 	};
 
@@ -378,8 +379,17 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 			widget.getControl().setMenu(null);
 	}
 
-	// return empty array if no selection
-	public abstract List<T> getSelectedItems();
+	public T[] getSelectedItems()
+	{
+		StructuredSelection selection = (StructuredSelection)widget.getSelection();
+		return (T[])selection.toArray();
+	}
+
+	public int getSelectionSize()
+	{
+		StructuredSelection selection = (StructuredSelection)widget.getSelection();
+		return selection.size();
+	}
 
 	public abstract int getItemCount();
 
@@ -405,13 +415,11 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void deleteSelectedItems()
 	{
-		List<T> items = getSelectedItems();
+		T[] items = getSelectedItems();
 
-		if(isEmpty(items))
-			return;
-
-		for(T item : items)
-			notifyModifyListener(item, REMOVE);
+		if(isNotEmpty(items))
+			for(T item : items)
+				notifyModifyListener(item, REMOVE);
 	}
 
 	public void dispose()
@@ -430,7 +438,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		return widget.getControl().isEnabled();
 	}
 
-	protected abstract List<String[]> toStringArrayList(List<T> items);
+	protected abstract List<String[]> toStringArrayList(T[] items);
 
 	protected abstract String[] getProperties();
 
@@ -692,7 +700,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void onCopyMenuItem(Event event)
 	{
-		List<T> items = getSelectedItems();
+		T[] items = getSelectedItems();
 
 		if(isEmpty(items))
 			return;
@@ -707,7 +715,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void onDeleteMenuItem(Event event)
 	{
-		if(!readonly && !getSelectedItems().isEmpty())
+		if(!readonly && getSelectionSize() != 0)
 			deleteSelectedItems();
 	}
 
