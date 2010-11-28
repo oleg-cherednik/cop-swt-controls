@@ -429,7 +429,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		// list.getList().setBackground(ColorExtension.YELLOW);
 		// //list.setDeleteKey(true);
 		list.addModifyListener(modifyListListener);
-		list.addSelectionListener(onItemSelect);
+		//list.addSelectionListener(onItemSelect);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		localeObjects.add(list);
 
