@@ -40,7 +40,6 @@ import java.util.Set;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.window.Window;
@@ -103,7 +102,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	private final String PREFERENCE_PAGE;
 	// model
 	protected ViewerModel<T> model;
-	// protected ListModel<T> defaultModel;
 	// listeners
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 
@@ -151,9 +149,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public boolean isSorterOn()
 	{
-		Assert.isNotNull(widget);
-
-		return isNotNull(widget.getSorter());
+		return widget.getSorter() != null;
 	}
 
 	protected void swap(int index1, int index2)
@@ -524,8 +520,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	 * ModelSupport
 	 */
 
-	IStructuredContentProvider content;
-
 	@Override
 	public void beginListenToModel(ViewerModel<T> model)
 	{
@@ -538,7 +532,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		model.addListener(this);
 
 		this.model = model;
-		this.widget.setContentProvider(content = new ContentProviderAdapter<T>(model));
+		this.widget.setContentProvider(new ContentProviderAdapter<T>(model));
 		this.widget.setInput(EMPTY_LIST);
 
 		standaloneMode = false;

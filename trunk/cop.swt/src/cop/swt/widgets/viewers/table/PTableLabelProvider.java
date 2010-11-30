@@ -8,15 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jface.viewers.IColorProvider;
+import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 
 import cop.swt.widgets.tmp.vogella.SearchUtil;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public class PTableLabelProvider<T> extends StyledCellLabelProvider
+public class PTableLabelProvider<T> extends StyledCellLabelProvider implements IColorProvider, IFontProvider
 {
 	private Map<Integer, PTableColumnInfo<T>> viewerColumns;
 	private String searchText;
@@ -80,5 +83,34 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider
 		{
 			super.update(cell);
 		}
+	}
+
+	/*
+	 * IColorProvider
+	 */
+
+	@Override
+	public Color getForeground(Object element)
+	{
+		System.out.println("PTableLabelProvider.getForeground()");
+		return null;
+	}
+
+	/*
+	 * IFontProvider
+	 */
+
+	@Override
+	public Color getBackground(Object element)
+	{
+		System.out.println("PTableLabelProvider.getBackground()");
+		return null;
+	}
+
+	@Override
+	public Font getFont(Object element)
+	{
+		System.out.println("PTableLabelProvider.getFont()");
+		return null;
 	}
 }

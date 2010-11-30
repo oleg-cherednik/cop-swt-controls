@@ -13,7 +13,7 @@ import java.util.Locale;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 
-public class EnumLabelDescription<T> extends AbstractLabelDescription<T>
+public class EnumLabelDescription<T> extends LabelDescription<T>
 {
 	private Object[] constatns;
 	private String[] i18n;

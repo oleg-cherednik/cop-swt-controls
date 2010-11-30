@@ -13,7 +13,7 @@ import static cop.common.extensions.ReflectionExtension.isNumeric;
 import static cop.common.extensions.ReflectionExtension.isString;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isEqual;
-import static cop.swt.widgets.viewers.list.descriptions.AbstractLabelDescription.createLabelDescription;
+import static cop.swt.widgets.viewers.list.descriptions.LabelDescription.createLabelDescription;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
@@ -28,7 +28,7 @@ import cop.common.extensions.AnnotationExtension;
 import cop.swt.widgets.annotations.Label;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.WrongReturnValueException;
-import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
+import cop.swt.widgets.viewers.list.descriptions.LabelDescription;
 
 /**
  * Class contains static methods that are used for working with <b>Label</b> annotation.<br>
@@ -45,7 +45,7 @@ public final class LabelService
 	private LabelService()
 	{}
 
-	public static <T> ILabelDescription<T> getDescription(Class<?> item, String labelName)
+	public static <T> LabelDescription<T> getDescription(Class<?> item, String labelName)
 	                throws AnnotationDeclarationException
 	{
 		if(isNull(item))
@@ -63,7 +63,7 @@ public final class LabelService
 		return null;
 	}
 
-	private static <T> ILabelDescription<T> getAnnotationInfo(Method method, String labelName, Class<?> cls)
+	private static <T> LabelDescription<T> getAnnotationInfo(Method method, String labelName, Class<?> cls)
 	                throws AnnotationDeclarationException
 	{
 		Assert.isNotNull(method);
@@ -73,7 +73,7 @@ public final class LabelService
 		//		checkMethodReturnType(method.getReturnType());
 		//		checkOrderValue(method.getAnnotation(Column.class));
 
-		ILabelDescription<T> column = createLabelDescription(method);
+		LabelDescription<T> column = createLabelDescription(method);
 		
 		column.setLabelName(labelName);
 
@@ -85,7 +85,7 @@ public final class LabelService
 		return column;
 	}
 
-	private static <T> ILabelDescription<T> getAnnotationInfo(Field field, String labelName)
+	private static <T> LabelDescription<T> getAnnotationInfo(Field field, String labelName)
 	                throws AnnotationDeclarationException
 	{
 		Assert.isNotNull(field);
@@ -93,7 +93,7 @@ public final class LabelService
 		//		checkOrderValue(field.getAnnotation(Column.class));
 		//		checkFieldType(field.getType());
 
-		ILabelDescription<T> column = createLabelDescription(field);
+		LabelDescription<T> column = createLabelDescription(field);
 		
 		column.setLabelName(labelName);
 
