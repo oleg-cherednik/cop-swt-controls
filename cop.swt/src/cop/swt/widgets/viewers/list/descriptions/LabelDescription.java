@@ -17,8 +17,10 @@ import org.eclipse.swt.graphics.Image;
 import cop.common.extensions.ReflectionExtension;
 import cop.common.extensions.StringExtension;
 import cop.swt.images.ImageProvider;
+import cop.swt.widgets.interfaces.LabelSupport;
+import cop.swt.widgets.localization.interfaces.LocaleSupport;
 
-public abstract class AbstractLabelDescription<T> implements Comparator<T>, ILabelDescription<T> // IColumnDescription<T>,
+public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport, Comparator<T> // IColumnDescription<T>,
 // Comparable<AbstractColumnDescription<T>>
 {
 	private Collator collator;
@@ -32,17 +34,17 @@ public abstract class AbstractLabelDescription<T> implements Comparator<T>, ILab
 	 * Static methods
 	 */
 
-	public static <T> ILabelDescription<T> createLabelDescription(AccessibleObject obj)
+	public static <T> LabelDescription<T> createLabelDescription(AccessibleObject obj)
 	{
 		return createLabelDescription(obj, null);
 	}
 
-	public static <T> ILabelDescription<T> createLabelDescription(AccessibleObject obj, ImageProvider imageProvider)
+	public static <T> LabelDescription<T> createLabelDescription(AccessibleObject obj, ImageProvider imageProvider)
 	{
 		return createLabelDescription(obj, imageProvider, Locale.getDefault());
 	}
 
-	public static <T> ILabelDescription<T> createLabelDescription(AccessibleObject obj, ImageProvider imageProvider,
+	public static <T> LabelDescription<T> createLabelDescription(AccessibleObject obj, ImageProvider imageProvider,
 	                Locale locale)
 	{
 		if(isNull(obj))
@@ -79,7 +81,7 @@ public abstract class AbstractLabelDescription<T> implements Comparator<T>, ILab
 	 * @param locale
 	 */
 
-	public AbstractLabelDescription(AccessibleObject obj, Locale locale)
+	public LabelDescription(AccessibleObject obj, Locale locale)
 	{
 		if(isNull(obj))
 			throw new NullPointerException("obj == null");
@@ -129,10 +131,6 @@ public abstract class AbstractLabelDescription<T> implements Comparator<T>, ILab
 
 	protected abstract int _compare(Object obj1, Object obj2);
 
-	/*
-	 * IColumnDescription
-	 */
-
 	// @Override
 	public String getKey()
 	{
@@ -145,7 +143,6 @@ public abstract class AbstractLabelDescription<T> implements Comparator<T>, ILab
 		return getValue(item);
 	}
 
-	@Override
 	public final String getTextValue(T item)
 	{
 		try

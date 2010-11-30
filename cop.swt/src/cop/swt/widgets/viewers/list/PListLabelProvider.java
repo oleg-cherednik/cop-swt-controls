@@ -16,21 +16,21 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 
-import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
+import cop.swt.widgets.viewers.list.descriptions.LabelDescription;
 
 public class PListLabelProvider<T> implements ILabelProvider, IColorProvider, IFontProvider
 {
-	private ILabelDescription<T> description;
+	private LabelDescription<T> description;
 	private Map<Integer, String> map = new HashMap<Integer, String>();
 
-	public PListLabelProvider(ILabelDescription<T> description)
+	public PListLabelProvider(LabelDescription<T> description)
 	{
 		Assert.isNotNull(description);
 
 		setDescription(description);
 	}
 
-	public void setDescription(ILabelDescription<T> description)
+	public void setDescription(LabelDescription<T> description)
 	{
 		if(isNotNull(description))
 			this.description = description;

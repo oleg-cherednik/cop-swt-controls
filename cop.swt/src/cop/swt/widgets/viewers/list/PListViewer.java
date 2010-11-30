@@ -23,11 +23,11 @@ import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
-import cop.swt.widgets.viewers.list.descriptions.ILabelDescription;
+import cop.swt.widgets.viewers.list.descriptions.LabelDescription;
 
 public class PListViewer<T> extends PViewer<T> implements LabelSupport
 {
-	private ILabelDescription<T> description;
+	private LabelDescription<T> description;
 	private PListLabelProvider<T> labelProvider;
 	// private PListSorter<T> sorter;
 	private static final String PREFERENCE_PAGE = null;// EmployeeListPreferencePage.class.getName();
@@ -216,7 +216,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	{
 		try
 		{
-			ILabelDescription<T> description = LabelService.getDescription(obj.getClass(), labelName);
+			LabelDescription<T> description = LabelService.getDescription(obj.getClass(), labelName);
 
 			if(isNull(description))
 			{

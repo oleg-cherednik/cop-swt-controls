@@ -3,7 +3,7 @@ package cop.swt.widgets.viewers.list.descriptions;
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
-public class BooleanLabelDescription<T> extends AbstractLabelDescription<T>
+public class BooleanLabelDescription<T> extends LabelDescription<T>
 {
 	protected BooleanLabelDescription(AccessibleObject obj, Locale locale)
 	{

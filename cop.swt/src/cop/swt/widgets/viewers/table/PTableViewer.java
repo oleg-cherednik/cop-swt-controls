@@ -491,14 +491,9 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		// viewer.setContentProvider(new ContentProviderAdapter<T>(provider));
 	}
 
-	/*
-	 * ColumnViewer
-	 */
-
 	private void createLabelProvider()
 	{
-		labelProvider = new PTableLabelProvider<T>(columns);
-		widget.setLabelProvider(labelProvider);
+		widget.setLabelProvider(labelProvider = new PTableLabelProvider<T>(columns));
 	}
 
 	/*
