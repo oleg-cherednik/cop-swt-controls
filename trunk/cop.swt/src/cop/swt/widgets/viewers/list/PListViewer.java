@@ -29,12 +29,12 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 {
 	private LabelDescription<T> description;
 	private PListLabelProvider<T> labelProvider;
+
 	// private PListSorter<T> sorter;
-	private static final String PREFERENCE_PAGE = null;// EmployeeListPreferencePage.class.getName();
 
 	public PListViewer(T obj, Composite parent, int style, ListViewerConfig config) throws Exception
 	{
-		super(obj, new ListViewer(parent, style | V_SCROLL | H_SCROLL), PREFERENCE_PAGE, config);
+		super(obj, new ListViewer(parent, style | V_SCROLL | H_SCROLL), config);
 
 		setLabelName(isNotNull(config) ? config.getLabelName() : "");
 
@@ -133,18 +133,15 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	@Override
 	public void selectAll()
 	{
-		if(getSelectionSize() == getItemCount())
-			return;
-
-		((ListViewer)widget).getList().selectAll();
-		super.selectAll();
+		if(getSelectionSize() != getItemCount())
+			((ListViewer)widget).getList().selectAll();
 	}
 
 	@Override
 	public void deselectAll()
 	{
 		if(getSelectionSize() != 0)
-			super.deselectAll();
+			((ListViewer)widget).getList().deselectAll();
 	}
 
 	@Override

@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import cop.swt.preferences.EmployeeListPreferencePage;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.menus.MenuBuilder;
@@ -70,11 +69,9 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	private Set<TableColumnListener<T>> tableColumnListeners = new HashSet<TableColumnListener<T>>();
 	private TableFilter<T> filter;
 	private PTableLabelProvider<T> labelProvider;
+
 	// private TableConfig<T> config;
 	// private AddListener<T> addListener;
-
-	private static final String PREFERENCE_PAGE = EmployeeListPreferencePage.class.getName();
-
 	// private Set<String> controlNotifiers = new HashSet<String>();
 
 	public PTableViewer(T obj, Composite parent, int style) throws Exception
@@ -84,7 +81,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	public PTableViewer(T obj, Composite parent, int style, TableViewerConfig config) throws Exception
 	{
-		super(obj, new TableViewer(parent, clearBits(style, READ_ONLY) | FULL_SELECTION), PREFERENCE_PAGE, config);
+		super(obj, new TableViewer(parent, clearBits(style, READ_ONLY) | FULL_SELECTION), config);
 
 		createColumns();
 		setReadonly(isBitSet(style, READ_ONLY));
@@ -354,8 +351,10 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(getSelectionSize() == getItemCount())
 			return;
 
-		((Table)widget.getControl()).selectAll();
-		super.selectAll();
+		TableViewer viewer = (TableViewer)widget;
+
+		viewer.cancelEditing();
+		viewer.getTable().selectAll();
 	}
 
 	@Override
@@ -368,8 +367,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		viewer.cancelEditing();
 		viewer.getTable().deselectAll();
-
-		super.deselectAll();
 	}
 
 	@Override

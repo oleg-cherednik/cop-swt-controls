@@ -99,13 +99,14 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	// property flags
 	private boolean readonly;
 	private boolean ctrlPressed;
-	private final String PREFERENCE_PAGE;
+	private final String preferencePage = null;
 	// model
 	protected ViewerModel<T> model;
+	private boolean standaloneMode;
 	// listeners
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 
-	protected PViewer(T obj, StructuredViewer viewer, String preferencePage, ViewerConfig config)
+	protected PViewer(T obj, StructuredViewer viewer, ViewerConfig config)
 	{
 		Assert.isNotNull(obj);
 		Assert.isNotNull(viewer);
@@ -114,7 +115,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		this.widget = viewer;
 		this.parent = widget.getControl().getParent();
 		this.config = config;
-		PREFERENCE_PAGE = preferencePage;
 
 		addListeners();
 	}
@@ -307,7 +307,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public Boolean getProperty()
 		{
-			return isNotEmpty(PREFERENCE_PAGE);
+			return isNotEmpty(preferencePage);
 		}
 	};
 
@@ -386,17 +386,9 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public abstract int getItemCount();
 
-	public void selectAll()
-	{
-		// notifySelectionListeners(getSelectedItems());
-	}
+	public abstract void selectAll();
 
-	public void deselectAll()
-	{
-		// notifySelectionListeners(getSelectedItems());
-	}
-
-	private boolean standaloneMode = true;
+	public abstract void deselectAll();
 
 	private void setStandaloneMode()
 	{
@@ -719,10 +711,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void onPropertiesMenuItem(Event event)
 	{
-		if(isEmpty(PREFERENCE_PAGE))
+		if(isEmpty(preferencePage))
 			return;
 
-		PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(null, PREFERENCE_PAGE, null, null);
+		PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(null, preferencePage, null, null);
 
 		if(dialog.open() == Window.OK)
 		{}
