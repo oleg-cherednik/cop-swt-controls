@@ -9,13 +9,11 @@ import static cop.common.extensions.BitExtension.clearBits;
 import static cop.common.extensions.BitExtension.isBitSet;
 import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
 import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.getText;
 import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_OFF;
-import static cop.swt.widgets.viewers.table.AbstractViewerSorter.DEFAULT_SORT_DIRECTION;
 import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.FULL_SELECTION;
 import static org.eclipse.swt.SWT.MouseDoubleClick;
@@ -36,6 +34,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -110,10 +109,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	public void editOnDoubleClick(boolean enabled)
 	{
-		System.out.println("PtableViewer.editOnDoubleClick() - cancelEditing()");
-		TableViewer viewer = (TableViewer)widget;
-
-		viewer.cancelEditing();
+		((TableViewer)widget).cancelEditing();
 
 		for(PTableColumnInfo<T> column : columns.values())
 			column.setEditorEnabled(!enabled);
@@ -137,8 +133,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		PTableColumnInfo<T> column;
 		TableViewer viewer = (TableViewer)widget;
 		int index = 0;
-
-		// new PTableColumnInfo<T>(obj, viewer, descriptions.get(0)).setHidden(true);
 
 		for(ColumnDescription<T> description : descriptions)
 		{
@@ -277,7 +271,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void addModifyListener(IModifyListener<T> listener)
 	{
-		if(isNull(listener))
+		if(listener == null)
 			return;
 
 		super.addModifyListener(listener);
@@ -289,7 +283,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void removeModifyListener(IModifyListener<T> listener)
 	{
-		if(isNull(listener))
+		if(listener == null)
 			return;
 
 		super.removeModifyListener(listener);
@@ -305,8 +299,10 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void pack()
 	{
-		if(!widget.getControl().isDisposed())
-			widget.getControl().getDisplay().syncExec(packTask);
+		Control control = widget.getControl();
+
+		if(!control.isDisposed())
+			control.getDisplay().syncExec(packTask);
 	}
 
 	/*
@@ -641,6 +637,10 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
 		ColumnDescription<T> description;
+		PropertyProvider<Boolean> visibleProvider;
+		PropertyProvider<Boolean> enabledProvider;
+		PropertyProvider<Boolean> selectionProvider;
+		Listener listener;
 
 		menuBuilder.addMenuItem(new PushMenuItem(MI_OFF, null, isSorterOnProvider, setSorterOffListener));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
@@ -652,8 +652,13 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			if(!description.isSortable())
 				continue;
 
-			menuBuilder.addMenuItem(new RadioDescriptionMenuItem<T>(obj, column.getDescription(), null, null,
-			                getColumnStateSelectionProvider(column), getSortColumnMenuListener(column)));
+			visibleProvider = null;
+			enabledProvider = null;
+			selectionProvider = getColumnStateSelectionProvider(column);
+			listener = column;
+
+			menuBuilder.addMenuItem(new RadioDescriptionMenuItem<T>(obj, description, visibleProvider, enabledProvider,
+			                selectionProvider, listener));
 		}
 
 		return menuBuilder;
@@ -693,26 +698,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		return provider;
 	}
 
-	private Listener getSortColumnMenuListener(final PTableColumnInfo<T> column)
-	{
-		Assert.isNotNull(column);
-
-		Listener listener = new Listener()
-		{
-			@Override
-			@SuppressWarnings("unchecked")
-			public void handleEvent(Event event)
-			{
-				Assert.isNotNull(widget);
-
-				PTableSorter<T> sorter = (PTableSorter<T>)widget.getSorter();
-				column.setSorterDirection(isNotNull(sorter) ? sorter.getDirection() : DEFAULT_SORT_DIRECTION);
-			}
-		};
-
-		return listener;
-	}
-
 	/*
 	 * Localizable
 	 */
@@ -746,7 +731,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(mouseEnter)
 			setControlMenu(menuManager.createMenu());
 		else
-			// setControlMenu(menuManager.createMenu(1));
 			setControlMenu(createHeaderMenu());
 	}
 

@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.annotations.services.LabelService;
+import cop.swt.widgets.comparators.LabelComparator;
 import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.items.PushMenuItem;
@@ -37,10 +39,12 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		super(obj, new ListViewer(parent, style | V_SCROLL | H_SCROLL), config);
 
 		setLabelName(isNotNull(config) ? config.getLabelName() : "");
+		
+		((ListViewer)widget).setUseHashlookup(true);
 
 		// setReadonly(isBitSet(style, READ_ONLY));
 		createLabelProvider();
-		// createSorter();
+		createSorter();
 
 		// viewer.setSorter(new PListSorter<T>());
 
@@ -48,20 +52,26 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		postConstruct();
 	}
 
-	// private void createSorter()
-	// {
-	// Assert.isNotNull(labelProvider);
-	//
-	// // sorter = new PListSorter<T>(LabelComparator.createLabelComparator(obj, labelProvider.getLabelName()));
-	// // AbstractLabelDescription<T> cd = AbstractLabelDescription.createColumnDescription(obj,
-	// // labelProvider.getLabelName(), Locale.getDefault());
-	// // sorter = new PListSorter<T>(cd);
-	// // sorter.setDirection(SortDirectionEnum.SORT_ASC);
-	// // widget.setSorter(sorter);
-	//
-	// // sorter.setAccessibleObject(description);
-	// // columnViewer.getColumn().addSelectionListener(setSorter);
-	// }
+	private void createSorter()
+	{
+		Assert.isNotNull(labelProvider);
+		
+		ListViewer viewer = (ListViewer)widget;
+		PListSorter<T> sorter = new PListSorter<T>(LabelComparator.createLabelComparator(obj, description.getLabelName()));
+		
+		viewer.setSorter(sorter);
+		
+
+		
+		// AbstractLabelDescription<T> cd = AbstractLabelDescription.createColumnDescription(obj,
+		// labelProvider.getLabelName(), Locale.getDefault());
+		// sorter = new PListSorter<T>(cd);
+		// sorter.setDirection(SortDirectionEnum.SORT_ASC);
+		// widget.setSorter(sorter);
+
+		// sorter.setAccessibleObject(description);
+		// columnViewer.getColumn().addSelectionListener(setSorter);
+	}
 
 	@Override
 	public int getItemCount()
@@ -215,7 +225,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		{
 			LabelDescription<T> description = LabelService.getDescription(obj.getClass(), labelName);
 
-			if(isNull(description))
+			if(description == null)
 			{
 				// if it's first time - throw exception
 				if(isNull(this.description))
@@ -226,7 +236,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 			this.description = description;
 
-			if(isNotNull(labelProvider))
+			if(labelProvider != null)
 				labelProvider.setDescription(description);
 
 			refresh();

@@ -30,10 +30,13 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import cop.common.extensions.StringExtension;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
+import cop.swt.widgets.menus.MenuManager;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
@@ -100,13 +103,13 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		this.columnListener = listener;
 	}
 
+	// Assert.isNotNull(widget);
+	//
+	// PTableSorter<T> sorter = (PTableSorter<T>)widget.getSorter();
+	// column.setSorterDirection(isNotNull(sorter) ? sorter.getDirection() : DEFAULT_SORT_DIRECTION);
+
 	public void setSorterDirection(SortDirectionEnum direction)
 	{
-		Assert.isNotNull(direction);
-		Assert.isNotNull(sorter);
-		Assert.isNotNull(tableViewer);
-		Assert.isNotNull(columnViewer);
-
 		if(sorter.getDirection() == direction)
 			return;
 
@@ -129,9 +132,6 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 	public boolean isSorterOn()
 	{
-		Assert.isNotNull(tableViewer);
-		Assert.isNotNull(columnViewer);
-
 		TableColumn column = tableViewer.getTable().getSortColumn();
 
 		return isNotNull(column) && column == columnViewer.getColumn();
@@ -139,8 +139,6 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 	public boolean isSortable()
 	{
-		Assert.isNotNull(description);
-
 		return description.isSortable();
 	}
 
@@ -203,6 +201,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 		itemName = new MenuItem(parent, CHECK);
 
+		itemName.setData(MenuManager.MENU_ITEM_PATH, MenuItemEnum.MI_HIDE.name() + MenuManager.MENU_ITEM_PATH_SEPARATOR + description.getKey() + MenuManager.MENU_ITEM_PATH_SEPARATOR);
 		itemName.setText(columnViewer.getColumn().getText());
 		itemName.setSelection(columnViewer.getColumn().getResizable());
 		itemName.addListener(Selection, this);
@@ -379,7 +378,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 	{
 		if(event.widget == columnViewer.getColumn())
 			handleColumnEvent(event);
-		if(itemName != null && event.widget == itemName)
+		else if(isMenuItemEvent(event))
 			handleMenuItemEvent(event);
 
 		// if(event.item != null) {
@@ -387,6 +386,23 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		// ActionTO data = (ActionTO)(event.item.getData());
 		// tableViewer.update(data, null);
 		// }
+	}
+
+	private boolean isMenuItemEvent(Event event)
+	{
+		if(!(event.widget instanceof MenuItem))
+			return false;
+
+		String path = (String)event.widget.getData(MenuManager.MENU_ITEM_PATH);
+
+		if(StringExtension.isEmpty(path))
+			return false;
+
+		String[] parts = (path != null) ? path.split(MenuManager.MENU_ITEM_PATH_SEPARATOR) : null;
+		int i = parts.length - 1;
+		String key = description.getKey();
+
+		return key.equals(parts[i]);
 	}
 
 	private void handleColumnEvent(Event event)
@@ -401,8 +417,23 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 	private void handleMenuItemEvent(Event event)
 	{
-		if(event.type == Selection)
+		String path = (String)event.widget.getData(MenuManager.MENU_ITEM_PATH);
+		String[] parts = path.split(MenuManager.MENU_ITEM_PATH_SEPARATOR);
+
+		if(parts.length < 2)
+			return;
+
+		int i = parts.length - 1;
+
+		if(MenuItemEnum.MI_SORT.name().equals(parts[i - 1]))
+		{
+			if(description.isSortable())
+				onColumnSorter(event);
+		}
+		else if(MenuItemEnum.MI_HIDE.name().equals(parts[i - 1]))
 			setHidden(!itemName.getSelection());
+		int a = 0;
+		a++;
 	}
 
 	/*

@@ -16,7 +16,7 @@ import static cop.common.extensions.StringExtension.isNotEmpty;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_DOWN;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_UP;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_KEY;
+import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_ENUM;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DELETE;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DESELECT_ALL;
@@ -364,12 +364,9 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		((ListModel<T>)model).set(items);
 	}
 
-	protected void setControlMenu(Menu menu)
+	protected final void setControlMenu(Menu menu)
 	{
-		if(menu != null && menu.getItemCount() != 0)
-			widget.getControl().setMenu(menu);
-		else
-			widget.getControl().setMenu(null);
+		widget.getControl().setMenu((menu != null && menu.getItemCount() != 0) ? menu : null);
 	}
 
 	public T[] getSelectedItems()
@@ -544,9 +541,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	@Override
 	public void setLocale(Locale locale)
 	{
-		Assert.isNotNull(locale);
-
-		if(isNotNull(menuManager))
+		if(menuManager != null)
 			menuManager.setLocale(locale);
 	}
 
@@ -623,7 +618,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(event.data instanceof AbstractMenuItem)
 			menuItem = ((AbstractMenuItem)event.data).getMenuItemKey();
 		else
-			menuItem = (MenuItemEnum)event.widget.getData(MENU_ITEM_KEY);
+			menuItem = (MenuItemEnum)event.widget.getData(MENU_ITEM_ENUM);
 
 		if(menuItem == null)
 			return;
