@@ -44,9 +44,6 @@ public class CascadeMenuItem extends AbstractCascadeMenuItem
 	@Override
 	public MenuItem create(Menu parent)
 	{
-		Assert.isNotNull(parent);
-		Assert.isNotNull(menuManager);
-
 		MenuItem item = super.create(parent);
 		item.setMenu(menuManager.createMenu(item));
 

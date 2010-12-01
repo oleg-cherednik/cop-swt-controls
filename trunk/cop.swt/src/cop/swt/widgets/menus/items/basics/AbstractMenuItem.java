@@ -3,7 +3,6 @@ package cop.swt.widgets.menus.items.basics;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isNotEmpty;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_KEY;
 import static org.eclipse.swt.SWT.Selection;
 
 import java.util.Locale;
@@ -16,6 +15,7 @@ import org.eclipse.swt.widgets.MenuItem;
 
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.menus.MenuManager;
 import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.enums.MenuItemStyleEnum;
 import cop.swt.widgets.menus.interfaces.IMenuItem;
@@ -24,7 +24,7 @@ import cop.swt.widgets.menus.interfaces.PropertyProvider;
 public abstract class AbstractMenuItem implements IMenuItem
 {
 	private static final HotKeyGroup EMPTY_KEY_GROUP = new HotKeyGroup();
-	
+
 	protected final MenuItemEnum key;
 	private final MenuItemStyleEnum style;
 	private HotKeyGroup accelerator;
@@ -57,7 +57,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 	{
 		this.visibleProvider = visibleProvider;
 	}
-	
+
 	public final MenuItemEnum getMenuItemKey()
 	{
 		return key;
@@ -99,8 +99,10 @@ public abstract class AbstractMenuItem implements IMenuItem
 	public MenuItem create(Menu parent)
 	{
 		MenuItem item = new MenuItem(parent, style.getSwtStyle());
+		String path = (String)parent.getData(MenuManager.MENU_ITEM_PATH) + _getKey()
+		                + MenuManager.MENU_ITEM_PATH_SEPARATOR;
 
-		item.setData(MENU_ITEM_KEY, key);
+		item.setData(MenuManager.MENU_ITEM_PATH, path);
 		item.setImage(getImage());
 		item.setText(getTitle());
 		item.setEnabled(isEnabled());

@@ -38,10 +38,13 @@ public enum MenuItemEnum implements Localizable<String>
 	MI_SORT("Sorting", "Sorting", "Sortierung", "—ортировка"),
 	MI_OFF("off", "off", "ausschalten", "выкл."),
 	MI_EXPORT("Export...", new HotKeyGroup(KEY_ALT, KEY_E), "Export...", "Exportieren...", "Ёкспортировать..."),
+	MI_HIDE,
 
 	;
 
-	public static final String MENU_ITEM_KEY = "menu_item";
+	public static final String MENU_ITEM_ENUM = "MenuItemEnum";
+	//public static final String MENU_ITEM_KEY = "key";
+	
 	private Map<Locale, String> map = new HashMap<Locale, String>();
 
 	private String text;

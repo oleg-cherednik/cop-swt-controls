@@ -46,7 +46,7 @@ public class RadioDescriptionMenuItem<T> extends AbstractRadioMenuItem
 	 */
 
 	@Override
-	public String _getKey()
+	protected String _getKey()
 	{
 		return description.getKey();
 	}

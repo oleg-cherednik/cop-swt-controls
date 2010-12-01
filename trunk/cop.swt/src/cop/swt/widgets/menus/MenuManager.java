@@ -20,6 +20,9 @@ import cop.swt.widgets.menus.items.SeparatorMenuItem;
 
 public final class MenuManager implements LocaleSupport
 {
+	public static final String MENU_ITEM_PATH = "menu_item_path";
+	public static final String MENU_ITEM_PATH_SEPARATOR = "/";
+
 	private Control control;
 	private HotKeyManager keyManager;
 	private List<IMenuItem> menuItems;
@@ -53,15 +56,27 @@ public final class MenuManager implements LocaleSupport
 
 	public Menu createMenu()
 	{
-		return isEmpty() ? null : createMenu(new Menu(control));
+		if(isEmpty())
+			return null;
+
+		Menu menu = new Menu(control);
+		menu.setData(MENU_ITEM_PATH, "");
+
+		return createMenu(menu);
 	}
 
 	public Menu createMenu(MenuItem parentItem)
 	{
-		return isEmpty() ? null : createMenu(new Menu(parentItem));
+		if(isEmpty())
+			return null;
+
+		Menu menu = new Menu(parentItem);
+		menu.setData(MENU_ITEM_PATH, parentItem.getData(MENU_ITEM_PATH));
+
+		return createMenu(menu);
 	}
 
-	protected Menu createMenu(Menu menu)
+	protected final Menu createMenu(Menu menu)
 	{
 		List<List<IMenuItem>> groups = new ArrayList<List<IMenuItem>>();
 		List<IMenuItem> arr = new ArrayList<IMenuItem>();
