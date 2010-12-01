@@ -49,7 +49,6 @@ import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.RadioDescriptionMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
-import cop.swt.widgets.viewers.ibm._IStructuredContentProvider;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
@@ -189,6 +188,28 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		}
 	};
 
+	private String[] getVisibleColumnNames()
+	{
+		List<String> names = new ArrayList<String>();
+
+		for(PTableColumnInfo<T> viewerColumn : columns.values())
+			if(!viewerColumn.isHidden())
+				names.add(viewerColumn.getName());
+
+		return names.toArray(new String[names.size()]);
+	}
+
+	private String[] getObjectVisibleFieldsString(T obj)
+	{
+		List<String> names = new ArrayList<String>();
+
+		for(PTableColumnInfo<T> viewerColumn : columns.values())
+			if(!viewerColumn.isHidden())
+				names.add(getText(viewerColumn.getColumnString(obj), ""));
+
+		return names.toArray(new String[names.size()]);
+	}
+
 	// @Override
 	// @SuppressWarnings("unchecked")
 	// protected T[] getVisibleItems()
@@ -299,6 +320,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	public void pack()
 	{
+		// if(autoColumnWidth)
 		Control control = widget.getControl();
 
 		if(!control.isDisposed())
@@ -331,7 +353,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(isEmpty(items))
 			return EMPTY_STR_ARR_LIST;
 
-		List<String[]> data = new ArrayList<String[]>(items.length + 1);
+		List<String[]> data = new ArrayList<String[]>(items.length + 1); // +1 for header
 
 		data.add(getVisibleColumnNames());
 
@@ -380,24 +402,18 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	protected int getTopIndex()
 	{
-		Assert.isNotNull(widget);
-
 		return ((Table)widget.getControl()).getTopIndex();
 	}
 
 	@Override
 	protected int[] getSelectionIndices()
 	{
-		Assert.isNotNull(widget);
-
 		return ((Table)widget.getControl()).getSelectionIndices();
 	}
 
 	@Override
 	protected void setTopIndex(int index)
 	{
-		Assert.isNotNull(widget);
-
 		((Table)widget.getControl()).setTopIndex(index);
 	}
 
@@ -462,28 +478,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		((TableViewer)widget).getTable().setHeaderVisible(show);
 	}
 
-	/*
-	 * StructuredViewer
-	 */
-
-	public void setContentProvider(_IStructuredContentProvider<T> provider)
-	{
-		// if(isNull(provider))
-		// {
-		// if(isNull(model))
-		// model = new LocalContentProvider();
-		//
-		// return;
-		// }
-		//
-		// if(isNotNull(model))
-		// model.dispose();
-		//
-		// //model = provider;
-		//
-		// viewer.setContentProvider(new ContentProviderAdapter<T>(provider));
-	}
-
 	private void createLabelProvider()
 	{
 		widget.setLabelProvider(labelProvider = new PTableLabelProvider<T>(columns));
@@ -524,7 +518,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	}
 
 	/*
-	 * Listeners
+	 * listeners
 	 */
 
 	private void onPaintItem(Event event)
@@ -552,7 +546,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(index < 0)
 			return;
 
-		// TODO why true is here?
 		columns.get(index).setEditorEnabled(true);
 		viewer.editElement(items[0].getData(), index);
 		columns.get(index).setEditorEnabled(false);
@@ -589,8 +582,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private int getSelectedColumnIndex(TableItem item, int x, int y)
 	{
-		Assert.isNotNull(item);
-
 		for(int i = 0, size = columns.size(); i < size; i++)
 			if(item.getBounds(i).contains(x, y))
 				return i;
@@ -733,27 +724,4 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		else
 			setControlMenu(createHeaderMenu());
 	}
-
-	private String[] getVisibleColumnNames()
-	{
-		List<String> names = new ArrayList<String>();
-
-		for(PTableColumnInfo<T> viewerColumn : columns.values())
-			if(!viewerColumn.isHidden())
-				names.add(viewerColumn.getName());
-
-		return names.toArray(new String[names.size()]);
-	}
-
-	private String[] getObjectVisibleFieldsString(T obj)
-	{
-		List<String> names = new ArrayList<String>();
-
-		for(PTableColumnInfo<T> viewerColumn : columns.values())
-			if(!viewerColumn.isHidden())
-				names.add(getText(viewerColumn.getColumnString(obj), ""));
-
-		return names.toArray(new String[names.size()]);
-	}
-
 }
