@@ -10,7 +10,6 @@ import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.ArrayExtension.removeDublicatesAndSort;
 import static cop.common.extensions.CollectionExtension.EMPTY_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isNotEmpty;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
@@ -381,19 +380,11 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		return selection.size();
 	}
 
-	public abstract int getItemCount();
-
-	public abstract void selectAll();
-
-	public abstract void deselectAll();
-
 	private void setStandaloneMode()
 	{
 		beginListenToModel(new ListModel<T>(getClass().getCanonicalName() + ".default"));
 		standaloneMode = true;
 	}
-
-	public abstract void setSorterOff();
 
 	private void deleteSelectedItems()
 	{
@@ -420,15 +411,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		return widget.getControl().isEnabled();
 	}
 
-	protected abstract List<String[]> toStringArrayList(T[] items);
-
-	protected abstract String[] getProperties();
-
-	// protected /*abstract*/T[] getVisibleItems()
-	// {
-	// return null;
-	// }
-
 	private final Runnable refreshTask = new Runnable()
 	{
 		@Override
@@ -438,21 +420,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 				widget.refresh();
 		}
 	};
-
-	// private final Runnable updateContentT = new Runnable()
-	// {
-	// @Override
-	// public void run()
-	// {
-	// if(Thread.currentThread().isInterrupted() || widget.getControl().isDisposed())
-	// return;
-	//
-	// synchronized(widget)
-	// {
-	// widget.refresh();
-	// }
-	// }
-	// };
 
 	private boolean isMenuHandleEvent(Event event)
 	{
@@ -466,6 +433,22 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		return event.widget == widget.getControl();
 	}
+
+	/*
+	 * abstract
+	 */
+
+	protected abstract List<String[]> toStringArrayList(T[] items);
+
+	protected abstract String[] getProperties();
+
+	public abstract void setSorterOff();
+
+	public abstract int getItemCount();
+
+	public abstract void selectAll();
+
+	public abstract void deselectAll();
 
 	/*
 	 * IModelChange
@@ -488,14 +471,14 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	@Override
 	public void addModifyListener(IModifyListener<T> listener)
 	{
-		if(isNotNull(listener))
+		if(listener != null)
 			modifyListeners.add(listener);
 	}
 
 	@Override
 	public void removeModifyListener(IModifyListener<T> listener)
 	{
-		if(isNotNull(listener))
+		if(listener != null)
 			modifyListeners.remove(listener);
 	}
 
@@ -512,7 +495,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	@Override
 	public void beginListenToModel(ViewerModel<T> model)
 	{
-		if(isNull(model) || this.model == model)
+		if(model == null || this.model == model)
 			return;
 
 		if(this.model != null)
@@ -595,6 +578,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 			handleControlEvent(event);
 	}
 
+	/*
+	 * listeners
+	 */
+
 	protected void handleControlEvent(Event event)
 	{
 		if(event.type == Dispose)
@@ -645,7 +632,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		if(event.keyCode == KEY_CTRL.getKeyCode())
 			ctrlPressed = true;
-		else if(!ctrlPressed)
+		else if(ctrlPressed)
 		{
 			if(event.keyCode == KEY_UP.getKeyCode())
 				moveItemsUp(getSelectionIndices(), true);
