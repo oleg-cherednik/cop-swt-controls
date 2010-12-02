@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Listener;
 
 import cop.swt.images.ImageProvider;
-import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menus.enums.MenuItemEnum;
 
@@ -18,7 +18,7 @@ public interface IMenuItem extends ICreateMenu, LocaleSupport
 
 	Listener getListener();
 
-	HotKeyGroup getAccelerator();
+	HotKey getAccelerator();
 
 	Image getImage();
 

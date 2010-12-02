@@ -82,20 +82,41 @@ public class KeyGroup implements IClear, Cloneable
 
 	public String getName()
 	{
+		return getName(keys);
+	}
+
+	protected static final String getName(KeyEnum... keys)
+	{
+		if(ArrayExtension.isEmpty(keys))
+			return "";
+
+		StringBuilder buf = new StringBuilder();
+
+		for(KeyEnum key : keys)
+			append(buf, key);
+
+		return buf.toString();
+	}
+
+	protected static final String getName(Set<KeyEnum> keys)
+	{
 		if(CollectionExtension.isEmpty(keys))
 			return "";
 
 		StringBuilder buf = new StringBuilder();
 
-		for(KeyEnum key : getKeys())
-		{
-			if(buf.length() > 0)
-				buf.append("+");
+		for(KeyEnum key : keys)
+			append(buf, key);
 
-			buf.append(StringExtension.isEmpty(key.getKeyName()) ? key : key.getKeyName());
-		}
+		return buf.toString();
+	}
 
-		return "" + buf;
+	private static void append(StringBuilder buf, KeyEnum key)
+	{
+		if(buf.length() > 0)
+			buf.append("+");
+
+		buf.append(StringExtension.isEmpty(key.getKeyName()) ? key : key.getKeyName());
 	}
 
 	/*
@@ -105,10 +126,7 @@ public class KeyGroup implements IClear, Cloneable
 	@Override
 	public String toString()
 	{
-		if(CollectionExtension.isEmpty(keys))
-			return "";
-
-		return getName();
+		return isNotEmpty(keys) ? getName() : "";
 	}
 
 	@Override

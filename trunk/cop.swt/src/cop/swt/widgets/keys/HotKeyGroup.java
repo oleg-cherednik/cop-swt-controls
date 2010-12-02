@@ -9,7 +9,7 @@ import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ESC;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_SHIFT;
 import cop.swt.widgets.keys.enums.KeyEnum;
 
-public class HotKeyGroup extends KeyGroup
+class HotKeyGroup extends KeyGroup
 {
 	// magic keys can be use without control keys
 	private static final KeyEnum[] MAGIC_KEYS = new KeyEnum[] { KEY_DELETE, KEY_ESC };
@@ -72,15 +72,5 @@ public class HotKeyGroup extends KeyGroup
 			return false;
 
 		return true;
-	}
-
-	/*
-	 * Object
-	 */
-
-	@Override
-	public Object clone()
-	{
-		return new HotKeyGroup(getKeys());
 	}
 }

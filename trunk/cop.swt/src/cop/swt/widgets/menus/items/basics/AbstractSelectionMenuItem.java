@@ -5,7 +5,7 @@ import static cop.common.extensions.CommonExtension.isNotNull;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.enums.MenuItemStyleEnum;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
@@ -14,7 +14,7 @@ public abstract class AbstractSelectionMenuItem extends AbstractMenuItem
 {
 	private PropertyProvider<Boolean> selectionProvider;
 
-	protected AbstractSelectionMenuItem(MenuItemStyleEnum style, MenuItemEnum key, HotKeyGroup accelerator)
+	protected AbstractSelectionMenuItem(MenuItemStyleEnum style, MenuItemEnum key, HotKey accelerator)
 	{
 		super(style, key, accelerator);
 	}
