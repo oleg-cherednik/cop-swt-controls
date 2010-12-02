@@ -12,8 +12,8 @@ import static cop.common.extensions.CollectionExtension.EMPTY_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isNotEmpty;
-import static cop.swt.widgets.keys.FinalHotKeyGroup.keyCtrlDown;
-import static cop.swt.widgets.keys.FinalHotKeyGroup.keyCtrlUp;
+import static cop.swt.widgets.keys.HotKey.keyCtrlDown;
+import static cop.swt.widgets.keys.HotKey.keyCtrlUp;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_ENUM;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
@@ -61,7 +61,7 @@ import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Refreshable;
-import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menus.MenuBuilder;
@@ -348,7 +348,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	private void createHotKeys()
 	{
 		hotKeyManager = new HotKeyManager(widget.getControl());
-		
+
 		hotKeyManager.addHotKey(keyCtrlUp, this);
 		hotKeyManager.addHotKey(keyCtrlDown, this);
 	}
@@ -637,7 +637,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 			return;
 
 		Properties prop = (Properties)event.data;
-		HotKeyGroup hotKey = (HotKeyGroup)prop.get(HotKeyManager.HOT_KEY);
+		HotKey hotKey = (HotKey)prop.get(HotKeyManager.HOT_KEY);
 
 		if(keyCtrlUp.equals(hotKey))
 			moveItemsUp(getSelectionIndices(), true);

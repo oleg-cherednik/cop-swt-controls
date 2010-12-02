@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.MenuItem;
 
 import cop.common.extensions.CollectionExtension;
 import cop.common.structures.EntrySet;
-import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menus.enums.MenuItemEnum;
@@ -48,7 +48,7 @@ public final class MenuManager implements LocaleSupport
 
 	private void addMenuItems(IMenuBuilder menuBuilder)
 	{
-		HotKeyGroup group;
+		HotKey group;
 		Listener listener;
 		Entry<String, ? extends Object> data;
 

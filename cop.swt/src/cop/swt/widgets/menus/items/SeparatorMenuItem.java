@@ -1,5 +1,6 @@
 package cop.swt.widgets.menus.items;
 
+import static cop.swt.widgets.keys.HotKey.EMPTY_HOT_KEY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SEPARATOR;
 import static cop.swt.widgets.menus.enums.MenuItemStyleEnum.MIS_SEPARATOR;
 
@@ -8,7 +9,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-import cop.swt.widgets.keys.HotKeyGroup;
+import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.menus.items.basics.AbstractMenuItem;
 
 public class SeparatorMenuItem extends AbstractMenuItem
@@ -53,9 +54,9 @@ public class SeparatorMenuItem extends AbstractMenuItem
 
 	@Override
 	@Deprecated
-	public HotKeyGroup getAccelerator()
+	public HotKey getAccelerator()
 	{
-		return new HotKeyGroup();
+		return EMPTY_HOT_KEY;
 	}
 
 	@Override
