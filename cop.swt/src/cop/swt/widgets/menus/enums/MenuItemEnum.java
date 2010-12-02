@@ -5,8 +5,9 @@ import static cop.swt.widgets.keys.enums.KeyEnum.KEY_A;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ALT;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_C;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
+import static cop.swt.widgets.keys.enums.KeyEnum.KEY_E;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ESC;
-import static cop.swt.widgets.keys.enums.KeyEnum.*;
+import static cop.swt.widgets.keys.enums.KeyEnum.KEY_P;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -14,9 +15,10 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
 
-import cop.swt.extensions.LocalizationExtension;
 import cop.common.extensions.StringExtension;
+import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.annotations.i18n;
+import cop.swt.widgets.keys.FinalHotKeyGroup;
 import cop.swt.widgets.keys.HotKeyGroup;
 import cop.swt.widgets.keys.enums.KeyEnum;
 import cop.swt.widgets.localization.interfaces.Localizable;
@@ -30,14 +32,14 @@ public enum MenuItemEnum implements Localizable<String>
 	MI_SEPARATOR,
 	MI_STATE,
 	MI_COLUMN_DESCRIPTION,
-	MI_COPY("Copy", new HotKeyGroup(KEY_CTRL, KEY_C), "Copy", "Kopieren", "Копировать"),
+	MI_COPY("Copy", new FinalHotKeyGroup(KEY_CTRL, KEY_C), "Copy", "Kopieren", "Копировать"),
 	MI_DELETE("Delete", KeyEnum.KEY_DELETE, "Delete", "L\u00f6schen", "Удалить"),
-	MI_SELECT_ALL("Select All", new HotKeyGroup(KEY_CTRL, KEY_A), "Select All", "Alle Ausw\u00e4hlen", "Выделить Всё"),
+	MI_SELECT_ALL("Select All", new FinalHotKeyGroup(KEY_CTRL, KEY_A), "Select All", "Alle Ausw\u00e4hlen", "Выделить Всё"),
 	MI_DESELECT_ALL("Deselect All", KEY_ESC, "Deselect All", "Abw\u00e4hlen", "Снять Выделение"),
-	MI_PROPERTIES("Properties...", new HotKeyGroup(KEY_ALT, KEY_P), "Properties...", "Eigenschaften...", "Свойства..."),
+	MI_PROPERTIES("Properties...", new FinalHotKeyGroup(KEY_ALT, KEY_P), "Properties...", "Eigenschaften...", "Свойства..."),
 	MI_SORT("Sorting", "Sorting", "Sortierung", "Сортировка"),
 	MI_OFF("off", "off", "ausschalten", "выкл."),
-	MI_EXPORT("Export...", new HotKeyGroup(KEY_ALT, KEY_E), "Export...", "Exportieren...", "Экспортировать..."),
+	MI_EXPORT("Export...", new FinalHotKeyGroup(KEY_ALT, KEY_E), "Export...", "Exportieren...", "Экспортировать..."),
 	MI_HIDE,
 
 	;
