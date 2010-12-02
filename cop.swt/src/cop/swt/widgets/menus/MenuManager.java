@@ -1,19 +1,22 @@
 package cop.swt.widgets.menus;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import cop.common.extensions.CollectionExtension;
+import cop.common.structures.EntrySet;
+import cop.swt.widgets.keys.HotKeyGroup;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
+import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.interfaces.IMenuBuilder;
 import cop.swt.widgets.menus.interfaces.IMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
@@ -45,13 +48,23 @@ public final class MenuManager implements LocaleSupport
 
 	private void addMenuItems(IMenuBuilder menuBuilder)
 	{
-		Assert.isNotNull(menuBuilder);
+		HotKeyGroup group;
+		Listener listener;
+		Entry<String, ? extends Object> data;
 
 		menuItems = menuBuilder.getMenuItems();
 
 		for(IMenuItem menuItem : menuItems)
-			if(isNotNull(keyManager) && isNotNull(menuItem.getListener()))
-				keyManager.addHotKey(menuItem.getAccelerator(), menuItem.getListener(), menuItem);
+		{
+			if(keyManager == null || menuItem.getListener() == null)
+				continue;
+
+			group = menuItem.getAccelerator();
+			listener = menuItem.getListener();
+			data = new EntrySet<String, MenuItemEnum>(MenuItemEnum.MENU_ITEM_ENUM, menuItem.getMenuItemKey());
+
+			keyManager.addHotKey(group, listener, data);
+		}
 	}
 
 	public Menu createMenu()
@@ -71,6 +84,7 @@ public final class MenuManager implements LocaleSupport
 			return null;
 
 		Menu menu = new Menu(parentItem);
+
 		menu.setData(MENU_ITEM_PATH, parentItem.getData(MENU_ITEM_PATH));
 
 		return createMenu(menu);

@@ -201,7 +201,8 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 		itemName = new MenuItem(parent, CHECK);
 
-		itemName.setData(MenuManager.MENU_ITEM_PATH, MenuItemEnum.MI_HIDE.name() + MenuManager.MENU_ITEM_PATH_SEPARATOR + description.getKey() + MenuManager.MENU_ITEM_PATH_SEPARATOR);
+		itemName.setData(MenuManager.MENU_ITEM_PATH, MenuItemEnum.MI_HIDE.name() + MenuManager.MENU_ITEM_PATH_SEPARATOR
+		                + description.getKey() + MenuManager.MENU_ITEM_PATH_SEPARATOR);
 		itemName.setText(columnViewer.getColumn().getText());
 		itemName.setSelection(columnViewer.getColumn().getResizable());
 		itemName.addListener(Selection, this);

@@ -16,6 +16,7 @@ import cop.swt.widgets.keys.enums.KeyEnum;
 
 public class KeyGroup implements IClear, Cloneable
 {
+	private static final KeyEnum[] EMPTY_KEY_GROUP = new KeyEnum[0];
 	private Set<KeyEnum> keys;
 
 	{
@@ -33,18 +34,29 @@ public class KeyGroup implements IClear, Cloneable
 			return;
 
 		for(KeyEnum key : keys)
-			if(isNotNull(key) && key != KEY_UNKNOWN)
+			if(key != null && key != KEY_UNKNOWN)
 				this.keys.add(key);
 	}
 
 	public KeyEnum[] getKeys()
 	{
-		return keys.toArray(new KeyEnum[0]);
+		KeyEnum[] arr = EMPTY_KEY_GROUP;
+
+		if(keys.size() != 0)
+		{
+			arr = new KeyEnum[keys.size()];
+			int i = 0;
+
+			for(KeyEnum key : keys)
+				arr[i++] = key;
+		}
+
+		return arr;
 	}
-	
+
 	public void addKey(KeyEnum key)
 	{
-		if(isNotNull(key))
+		if(key != null)
 			keys.add(key);
 	}
 

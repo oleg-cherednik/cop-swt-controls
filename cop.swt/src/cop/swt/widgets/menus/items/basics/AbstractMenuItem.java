@@ -58,6 +58,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 		this.visibleProvider = visibleProvider;
 	}
 
+	@Override
 	public final MenuItemEnum getMenuItemKey()
 	{
 		return key;
@@ -103,6 +104,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 		                + MenuManager.MENU_ITEM_PATH_SEPARATOR;
 
 		item.setData(MenuManager.MENU_ITEM_PATH, path);
+		item.setData(MenuItemEnum.MENU_ITEM_ENUM, key);
 		item.setImage(getImage());
 		item.setText(getTitle());
 		item.setEnabled(isEnabled());
