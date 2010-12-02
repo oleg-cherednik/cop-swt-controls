@@ -10,6 +10,8 @@ import static org.eclipse.swt.SWT.KeyUp;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Control;
@@ -21,11 +23,12 @@ import cop.swt.widgets.keys.enums.KeyEnum;
 
 public final class HotKeyManager implements Clearable, Listener
 {
-	private static int DELAY = 5000;
+	public static final String HOT_KEY = "hot_key";
+	private static final int DELAY = 5000;
 
 	private Control control;
 	private Map<KeyGroup, Listener> listeners = new HashMap<KeyGroup, Listener>();
-	private Map<KeyGroup, Object> keyData = new HashMap<KeyGroup, Object>();
+	private Map<KeyGroup, Entry<String, ? extends Object>> keyData = new HashMap<KeyGroup, Entry<String, ? extends Object>>();
 	private HotKeyGroup keys = new HotKeyGroup();
 	private HotKeyGroup prvKeys = new HotKeyGroup();
 	private int prvTime;
@@ -51,7 +54,7 @@ public final class HotKeyManager implements Clearable, Listener
 	{
 		if(usePrv && !prvKeys.isEmpty())
 			checkPrvKeysForNotify();
-		else if(!keys.containsOnlyMagicKeys() && keys.containsOnlyControls())
+		else if(!keys.isHasOnlyMagicKeys() && keys.containsOnlyControls())
 			return;
 
 		for(KeyGroup group : listeners.keySet())
@@ -70,9 +73,17 @@ public final class HotKeyManager implements Clearable, Listener
 	private Event createEvent(KeyGroup group)
 	{
 		Event event = new Event();
+		Properties prop = new Properties();
+		Entry<String, ? extends Object> entry = keyData.get(group);
 
+		if(entry != null)
+			prop.put(entry.getKey(), entry.getValue());
+
+		prop.put(HOT_KEY, group);
+
+		event.data = prop;
 		event.widget = control;
-		event.data = keyData.get(group);
+		event.type = KeyDown;
 		event.time = (int)System.currentTimeMillis();
 
 		return event;
@@ -99,7 +110,7 @@ public final class HotKeyManager implements Clearable, Listener
 		addHotKey(group, listener, null);
 	}
 
-	public void addHotKey(HotKeyGroup group, Listener listener, Object data)
+	public void addHotKey(HotKeyGroup group, Listener listener, Entry<String, ? extends Object> data)
 	{
 		Assert.isNotNull(group, "Hot key can't be null");
 		Assert.isNotNull(listener, "Listener for hot key can't be null");
@@ -114,6 +125,11 @@ public final class HotKeyManager implements Clearable, Listener
 	{
 		if(isNotNull(keys))
 			listeners.remove(keys);
+	}
+
+	public boolean isKeyPressed(KeyEnum key)
+	{
+		return keys.contains(key);
 	}
 
 	private void dispose()
@@ -172,7 +188,7 @@ public final class HotKeyManager implements Clearable, Listener
 
 		KeyEnum key = parseKeyEnum(event.keyCode);
 
-		if(keys.contains(key))
+		if(isKeyPressed(key))
 			return;
 
 		if(keys.isEmpty() && prvKeys.isEmpty() && !isControlKey(key) && !isMagicKey(key))

@@ -12,9 +12,9 @@ import static cop.common.extensions.CollectionExtension.EMPTY_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.swt.widgets.keys.FinalHotKeyGroup.keyCtrlDown;
+import static cop.swt.widgets.keys.FinalHotKeyGroup.keyCtrlUp;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
-import static cop.swt.widgets.keys.enums.KeyEnum.KEY_DOWN;
-import static cop.swt.widgets.keys.enums.KeyEnum.KEY_UP;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_ENUM;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DELETE;
@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
@@ -60,18 +61,17 @@ import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Refreshable;
+import cop.swt.widgets.keys.HotKeyGroup;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.MenuManager;
 import cop.swt.widgets.menus.enums.MenuItemEnum;
 import cop.swt.widgets.menus.interfaces.IMenuBuilder;
-import cop.swt.widgets.menus.interfaces.IMenuItem;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.CascadeMenuItem;
 import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
-import cop.swt.widgets.menus.items.basics.AbstractMenuItem;
 import cop.swt.widgets.model.interfaces.ModelChanged;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
@@ -93,11 +93,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	protected ViewerConfig config;
 
 	// manager
-	private HotKeyManager keyManager;
+	private HotKeyManager hotKeyManager;
 	protected MenuManager menuManager;
 	// property flags
 	private boolean readonly;
-	private boolean ctrlPressed;
 	private final String preferencePage = null;
 	// model
 	protected ViewerModel<T> model;
@@ -245,8 +244,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		menuBuilder.addMenuItem(new PushMenuItem(MI_SELECT_ALL, isSelectAllVisible, isSelectAllEnabled, this));
 		menuBuilder.addMenuItem(new PushMenuItem(MI_DESELECT_ALL, null, isDeselectAllEnabled, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
-		menuBuilder.addMenuItem(new CascadeMenuItem(widget.getControl(), keyManager, MI_SORT, createSortMenuBuilder(),
-		                isSortable, null));
+		menuBuilder.addMenuItem(new CascadeMenuItem(widget.getControl(), hotKeyManager, MI_SORT,
+		                createSortMenuBuilder(), isSortable, null));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
 		menuBuilder.addMenuItem(new PushMenuItem(MI_PROPERTIES, isPropertiesVisible, null, this));
 
@@ -255,7 +254,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void createMenuManager()
 	{
-		menuManager = new MenuManager(widget.getControl(), keyManager, createMenuBuilder());
+		menuManager = new MenuManager(widget.getControl(), hotKeyManager, createMenuBuilder());
 	}
 
 	protected MenuBuilder createSortMenuBuilder()
@@ -348,7 +347,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void createHotKeys()
 	{
-		keyManager = new HotKeyManager(widget.getControl());
+		hotKeyManager = new HotKeyManager(widget.getControl());
+		
+		hotKeyManager.addHotKey(keyCtrlUp, this);
+		hotKeyManager.addHotKey(keyCtrlDown, this);
 	}
 
 	public List<T> getItems()
@@ -423,10 +425,13 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private boolean isMenuHandleEvent(Event event)
 	{
-		if(event.widget == widget.getControl())
-			return event.data instanceof IMenuItem;
+		if(event.widget != widget.getControl())
+			return ((MenuItem)event.widget).getParent() == widget.getControl().getMenu();
 
-		return ((MenuItem)event.widget).getParent() == widget.getControl().getMenu();
+		if(!(event.data instanceof Properties))
+			return false;
+
+		return ((Properties)event.data).get(MenuItemEnum.MENU_ITEM_ENUM) instanceof MenuItemEnum;
 	}
 
 	private boolean isControlEvent(Event event)
@@ -588,8 +593,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 			dispose();
 		else if(event.type == KeyDown)
 			onKeyDown(event);
-		else if(event.type == KeyUp)
-			onKeyUp(event);
 		else if(event.type == MouseWheel)
 			onMouseWheel(event);
 		else if(event.type == MouseExit)
@@ -602,10 +605,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		MenuItemEnum menuItem = null;
 
-		if(event.data instanceof AbstractMenuItem)
-			menuItem = ((AbstractMenuItem)event.data).getMenuItemKey();
-		else
+		if(!(event.data instanceof Properties))
 			menuItem = (MenuItemEnum)event.widget.getData(MENU_ITEM_ENUM);
+		else
+			menuItem = ((MenuItemEnum)(((Properties)event.data).get(MenuItemEnum.MENU_ITEM_ENUM)));
 
 		if(menuItem == null)
 			return;
@@ -630,26 +633,21 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void onKeyDown(Event event)
 	{
-		if(event.keyCode == KEY_CTRL.getKeyCode())
-			ctrlPressed = true;
-		else if(ctrlPressed)
-		{
-			if(event.keyCode == KEY_UP.getKeyCode())
-				moveItemsUp(getSelectionIndices(), true);
-			else if(event.keyCode == KEY_DOWN.getKeyCode())
-				moveItemsDown(getSelectionIndices(), true);
-		}
-	}
+		if(!(event.data instanceof Properties))
+			return;
 
-	private void onKeyUp(Event event)
-	{
-		if(event.keyCode == KEY_CTRL.getKeyCode())
-			ctrlPressed = false;
+		Properties prop = (Properties)event.data;
+		HotKeyGroup hotKey = (HotKeyGroup)prop.get(HotKeyManager.HOT_KEY);
+
+		if(keyCtrlUp.equals(hotKey))
+			moveItemsUp(getSelectionIndices(), true);
+		else if(keyCtrlDown.equals(hotKey))
+			moveItemsDown(getSelectionIndices(), true);
 	}
 
 	private void onMouseWheel(Event event)
 	{
-		if(!ctrlPressed || event.count == 0)
+		if(event.count == 0 || !hotKeyManager.isKeyPressed(KEY_CTRL))
 			return;
 
 		if(event.count > 0)
@@ -660,8 +658,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void onMouseExit(Event event)
 	{
-		if(keyManager != null)
-			keyManager.clear();
+		if(hotKeyManager != null)
+			hotKeyManager.clear();
 	};
 
 	protected void onMenuDetect(Event event)
