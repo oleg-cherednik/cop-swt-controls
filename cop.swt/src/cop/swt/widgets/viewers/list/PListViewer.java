@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.annotations.services.LabelService;
-import cop.swt.widgets.comparators.LabelComparator;
+import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.menus.MenuBuilder;
 import cop.swt.widgets.menus.items.PushMenuItem;
@@ -57,7 +57,8 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		Assert.isNotNull(labelProvider);
 		
 		ListViewer viewer = (ListViewer)widget;
-		PListSorter<T> sorter = new PListSorter<T>(LabelComparator.createLabelComparator(obj, description.getLabelName()));
+		PListSorter<T> sorter = new PListSorter<T>(description);
+		sorter.setDirection(SortDirectionEnum.SORT_DESC);
 		
 		viewer.setSorter(sorter);
 		

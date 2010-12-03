@@ -6,22 +6,22 @@ import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 
 import java.util.Comparator;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
 import cop.swt.widgets.enums.SortDirectionEnum;
 
-public abstract class AbstractViewerSorter<T> extends ViewerSorter
+public abstract class PViewerSorter<T> extends ViewerSorter
 {
 	public static final SortDirectionEnum DEFAULT_SORT_DIRECTION = SORT_ASC;
 
 	private SortDirectionEnum direction = SORT_OFF;
 	protected final Comparator<T> accessibleObject;
 
-	public AbstractViewerSorter(Comparator<T> accessibleObject)
+	public PViewerSorter(Comparator<T> accessibleObject)
 	{
-		Assert.isNotNull(accessibleObject);
+		if(accessibleObject == null)
+			throw new NullPointerException();
 
 		this.accessibleObject = accessibleObject;
 	}
@@ -33,7 +33,8 @@ public abstract class AbstractViewerSorter<T> extends ViewerSorter
 
 	public void setDirection(SortDirectionEnum direction)
 	{
-		Assert.isNotNull(direction);
+		if(direction == null)
+			throw new NullPointerException();
 
 		this.direction = direction;
 	}
@@ -42,9 +43,6 @@ public abstract class AbstractViewerSorter<T> extends ViewerSorter
 	@SuppressWarnings("unchecked")
 	public int compare(Viewer viewer, Object e1, Object e2)
 	{
-		Assert.isNotNull(accessibleObject);
-		Assert.isNotNull(direction);
-
 		if(direction == SORT_OFF)
 			return 0;
 

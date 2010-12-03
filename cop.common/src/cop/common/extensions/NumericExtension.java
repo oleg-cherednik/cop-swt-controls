@@ -9,12 +9,6 @@ package cop.common.extensions;
 import static cop.common.extensions.ArrayExtension.EMPTY_CHAR_ARR;
 import static cop.common.extensions.ArrayExtension.invertArray;
 import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.ReflectionExtension.isByte;
-import static cop.common.extensions.ReflectionExtension.isDouble;
-import static cop.common.extensions.ReflectionExtension.isFloat;
-import static cop.common.extensions.ReflectionExtension.isInteger;
-import static cop.common.extensions.ReflectionExtension.isLong;
-import static cop.common.extensions.ReflectionExtension.isShort;
 import static cop.common.extensions.StringExtension.DEFAULT_CHAR;
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.abs;
@@ -105,26 +99,6 @@ public final class NumericExtension
 		double res = ((max1 - min1) * val) / 100;
 
 		return res + min1;
-	}
-
-	public static int compareNumbers(Class<?> type, Object obj1, Object obj2)
-	{
-		if(isByte(type))
-			return ((Byte)obj1).compareTo((Byte)obj2);
-		if(isShort(type))
-			return ((Short)obj1).compareTo((Short)obj2);
-		if(isShort(type))
-			return ((Short)obj1).compareTo((Short)obj2);
-		if(isInteger(type))
-			return ((Integer)obj1).compareTo((Integer)obj2);
-		if(isLong(type))
-			return ((Long)obj1).compareTo((Long)obj2);
-		if(isFloat(type))
-			return ((Float)obj1).compareTo((Float)obj2);
-		if(isDouble(type))
-			return ((Double)obj1).compareTo((Double)obj2);
-
-		throw new IllegalArgumentException(type + " is not a Number");
 	}
 
 	public static <T extends Number> char[] toCharArray(T value)

@@ -21,17 +21,25 @@ public class ColorColumnDescription<T> extends ColumnDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * Comparator
 	 */
 
 	@Override
-	protected int _compare(Object obj1, Object obj2)
+	public int compare(T item1, T item2)
 	{
-		return compareRgb((RGB)obj1, (RGB)obj2);
+		try
+		{
+			return compareRgb((RGB)getValue(item1), (RGB)getValue(item2));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	/*
-	 * IColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override

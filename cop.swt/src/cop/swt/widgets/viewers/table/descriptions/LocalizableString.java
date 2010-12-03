@@ -25,7 +25,7 @@ public class LocalizableString<T> extends StringColumnDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override
@@ -40,10 +40,6 @@ public class LocalizableString<T> extends StringColumnDescription<T>
 	{
 		return isNotNull(obj) ? ((Localizable<String>)obj).i18n(locale) : "";
 	}
-
-	/*
-	 * IColumnDescription
-	 */
 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })

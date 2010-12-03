@@ -1,5 +1,7 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
+import static cop.common.extensions.CommonExtension.isNull;
+
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
@@ -20,18 +22,40 @@ public class StringColumnDescription<T> extends ColumnDescription<T>
 		super(obj, locale);
 	}
 
-	/*
-	 * AbstractColumnDescription
-	 */
-
-	@Override
 	protected int _compare(Object obj1, Object obj2)
 	{
 		return getCollator().compare(obj1, obj2);
 	}
 
 	/*
-	 * IColumnDescription
+	 * Comparator
+	 */
+
+	@Override
+	public int compare(T item1, T item2)
+	{
+		try
+		{
+			Object obj1 = getValue(item1);
+			Object obj2 = getValue(item2);
+
+			if(obj1 == obj2)
+				return 0;
+			if(isNull(obj1) ^ isNull(obj2))
+				return isNull(obj2) ? 1 : -1;
+
+			return _compare(obj1, obj2);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	/*
+	 * ColumnDescription
 	 */
 
 	@Override

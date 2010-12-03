@@ -1,5 +1,7 @@
 package cop.swt.widgets.viewers.list.descriptions;
 
+import static cop.common.extensions.CompareExtension.compareNumbers;
+
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
@@ -11,12 +13,20 @@ public class BooleanLabelDescription<T> extends LabelDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * Comparator
 	 */
 
 	@Override
-	protected int _compare(Object obj1, Object obj2)
+	public int compare(T item1, T item2)
 	{
-		return ((Boolean)obj1).compareTo((Boolean)obj2);
+		try
+		{
+			return compareNumbers(Boolean.TYPE, getValue(item1), getValue(item2));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }

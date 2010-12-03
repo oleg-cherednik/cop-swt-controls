@@ -1,12 +1,12 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
-import static cop.common.extensions.ArrayExtension.convertToStringArray;
 import static cop.algorithms.search.LinearSearch.linearSearch;
+import static cop.common.extensions.ArrayExtension.convertToStringArray;
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.compareNumbers;
+import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.swt.widgets.annotations.services.i18nService.getTranslations;
 import static org.eclipse.swt.SWT.READ_ONLY;
 
@@ -79,17 +79,25 @@ public class EnumColumnDescription<T> extends ColumnDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * Comparator
 	 */
 
 	@Override
-	protected int _compare(Object obj1, Object obj2)
+	public int compare(T item1, T item2)
 	{
-		return compareNumbers(Integer.class, obj1, obj2);
+		try
+		{
+			return compareNumbers(Integer.TYPE, getValue(item1), getValue(item2));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	/*
-	 * IColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override
@@ -118,10 +126,6 @@ public class EnumColumnDescription<T> extends ColumnDescription<T>
 
 		invoke(item, values[index]);
 	}
-
-	/*
-	 * AbstractColumnDescription
-	 */
 
 	@Override
 	protected String getText(Object obj)
