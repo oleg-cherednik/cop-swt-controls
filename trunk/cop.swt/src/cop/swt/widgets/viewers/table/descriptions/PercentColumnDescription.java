@@ -79,7 +79,7 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override

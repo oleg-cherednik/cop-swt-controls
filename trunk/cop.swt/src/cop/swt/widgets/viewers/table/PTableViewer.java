@@ -187,6 +187,17 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 					column.pack();
 		}
 	};
+	
+//	private boolean isEditorOn()
+//	{
+//		for(PTableColumnInfo<T> column : columns.values())
+//		{
+//				column.i
+//		}
+//		
+//		return false;
+//				
+//	}
 
 	private String[] getVisibleColumnNames()
 	{

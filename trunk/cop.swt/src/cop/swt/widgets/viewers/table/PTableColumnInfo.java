@@ -6,7 +6,7 @@ import static cop.common.extensions.StringExtension.isNotEmpty;
 import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.enums.SortDirectionEnum.parseSwtDirection;
-import static cop.swt.widgets.viewers.table.AbstractViewerSorter.DEFAULT_SORT_DIRECTION;
+import static cop.swt.widgets.viewers.table.PViewerSorter.DEFAULT_SORT_DIRECTION;
 import static org.eclipse.swt.SWT.CHECK;
 import static org.eclipse.swt.SWT.DEFAULT;
 import static org.eclipse.swt.SWT.DOWN;

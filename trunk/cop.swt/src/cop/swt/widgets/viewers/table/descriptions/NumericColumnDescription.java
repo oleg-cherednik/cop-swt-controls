@@ -1,7 +1,7 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.NumericExtension.compareNumbers;
+import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.common.extensions.StringExtension.isNotEmpty;
 import static java.text.NumberFormat.getNumberInstance;
@@ -33,7 +33,7 @@ public class NumericColumnDescription<T> extends StringColumnDescription<T>
 	}
 
 	/*
-	 * IColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override
@@ -44,10 +44,6 @@ public class NumericColumnDescription<T> extends StringColumnDescription<T>
 		else if(!type.isPrimitive() && isEmptyable())
 			invoke(item, (Object)null);
 	}
-
-	/*
-	 * AbstractColumnDescription
-	 */
 
 	@Override
 	protected int _compare(Object obj1, Object obj2)

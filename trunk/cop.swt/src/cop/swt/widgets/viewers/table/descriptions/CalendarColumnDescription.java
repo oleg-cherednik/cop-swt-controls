@@ -1,6 +1,7 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.common.extensions.CompareExtension.compareObjects;
 import static cop.swt.widgets.viewers.table.celleditors.CalendarCellEditor.getDateFormat;
 import static org.eclipse.swt.SWT.NONE;
 
@@ -29,17 +30,25 @@ public class CalendarColumnDescription<T> extends ColumnDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * Comparator
 	 */
 
 	@Override
-	protected int _compare(Object obj1, Object obj2)
+	public int compare(T item1, T item2)
 	{
-		return ((Calendar)obj1).compareTo((Calendar)obj2);
+		try
+		{
+			return compareObjects((Calendar)getValue(item1), (Calendar)getValue(item2));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	/*
-	 * IColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override
@@ -47,10 +56,6 @@ public class CalendarColumnDescription<T> extends ColumnDescription<T>
 	{
 		return cellEditor = new CalendarCellEditor(parent, NONE, locale);
 	}
-
-	/*
-	 * AbstractColumnDescription
-	 */
 
 	@Override
 	protected String getText(Object obj)

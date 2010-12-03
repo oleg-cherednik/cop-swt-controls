@@ -467,6 +467,9 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 			widget.setInput(model.getElements(null));
 		else
 			widget.update(items, getProperties());
+
+//		if(isSorterOn() && isE)
+//			refresh();
 	}
 
 	/*

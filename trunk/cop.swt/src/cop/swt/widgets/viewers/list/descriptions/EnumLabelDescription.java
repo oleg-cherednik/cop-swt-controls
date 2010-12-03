@@ -6,6 +6,7 @@ import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
+import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.swt.widgets.annotations.services.i18nService.getTranslations;
 
 import java.lang.reflect.AccessibleObject;
@@ -73,25 +74,26 @@ public class EnumLabelDescription<T> extends LabelDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * Comparator
 	 */
 
 	@Override
-	@SuppressWarnings("unchecked")
-	protected int _compare(Object obj1, Object obj2)
+	public int compare(T item1, T item2)
 	{
-		return ((Enum)obj1).compareTo((Enum)obj2);
+		try
+		{
+			return compareNumbers(Integer.class, getValue(item1), getValue(item2));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	/*
-	 * IColumnDescription
+	 * LabelDescription
 	 */
-
-	// @Override
-	// public CellEditor getCellEditor(Composite parent)
-	// {
-	// return new ComboBoxCellEditor(parent, getStringItems(), READ_ONLY);
-	// }
 
 	@Override
 	public Object getValue(T item) throws Exception
@@ -113,10 +115,6 @@ public class EnumLabelDescription<T> extends LabelDescription<T>
 
 		invoke(item, values[index]);
 	}
-
-	/*
-	 * AbstractColumnDescription
-	 */
 
 	@Override
 	protected String getText(Object obj)

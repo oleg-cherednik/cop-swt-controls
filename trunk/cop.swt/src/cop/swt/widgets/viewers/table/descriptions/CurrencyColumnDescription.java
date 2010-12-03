@@ -40,7 +40,7 @@ public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override

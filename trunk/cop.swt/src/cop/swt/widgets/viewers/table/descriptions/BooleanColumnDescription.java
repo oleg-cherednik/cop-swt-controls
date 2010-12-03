@@ -1,6 +1,7 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.swt.widgets.annotations.services.ImageTextViewService.DEF_IMAGETEXTVIEW;
 import static cop.swt.widgets.annotations.services.ImageTextViewService.getImageTextViewContent;
 import static cop.swt.widgets.enums.ImageTextViewEnum.TEXT_ONLY;
@@ -44,17 +45,25 @@ public class BooleanColumnDescription<T> extends ColumnDescription<T>
 	}
 
 	/*
-	 * AbstractColumnDescription
+	 * Comparator
 	 */
 
 	@Override
-	protected int _compare(Object obj1, Object obj2)
+	public int compare(T item1, T item2)
 	{
-		return ((Boolean)obj1).compareTo((Boolean)obj2);
+		try
+		{
+			return compareNumbers(Boolean.TYPE, getValue(item1), getValue(item2));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	/*
-	 * IColumnDescription
+	 * ColumnDescription
 	 */
 
 	@Override
@@ -62,10 +71,6 @@ public class BooleanColumnDescription<T> extends ColumnDescription<T>
 	{
 		return new CheckboxCellEditor(parent, CHECK | READ_ONLY);
 	}
-
-	/*
-	 * AbstractColumnDescription
-	 */
 
 	@Override
 	protected Image getColumnImage(Object res)
