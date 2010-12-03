@@ -4,7 +4,6 @@ import static cop.common.extensions.ArrayExtension.ONE_ITEM_STR_ARR;
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SORT;
 import static org.eclipse.swt.SWT.H_SCROLL;
 import static org.eclipse.swt.SWT.V_SCROLL;
@@ -26,11 +25,13 @@ import cop.swt.widgets.menus.items.PushMenuItem;
 import cop.swt.widgets.menus.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.list.descriptions.LabelDescription;
+import cop.swt.widgets.viewers.table.PViewerSorter;
 
 public class PListViewer<T> extends PViewer<T> implements LabelSupport
 {
 	private LabelDescription<T> description;
 	private PListLabelProvider<T> labelProvider;
+	private PViewerSorter<T> sorter;
 
 	// private PListSorter<T> sorter;
 
@@ -39,7 +40,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		super(obj, new ListViewer(parent, style | V_SCROLL | H_SCROLL), config);
 
 		setLabelName(isNotNull(config) ? config.getLabelName() : "");
-		
+
 		((ListViewer)widget).setUseHashlookup(true);
 
 		// setReadonly(isBitSet(style, READ_ONLY));
@@ -55,23 +56,11 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	private void createSorter()
 	{
 		Assert.isNotNull(labelProvider);
+
+		sorter = new PViewerSorter<T>(description);
 		
-		ListViewer viewer = (ListViewer)widget;
-		PListSorter<T> sorter = new PListSorter<T>(description);
+		widget.setSorter(sorter);
 		sorter.setDirection(SortDirectionEnum.SORT_DESC);
-		
-		viewer.setSorter(sorter);
-		
-
-		
-		// AbstractLabelDescription<T> cd = AbstractLabelDescription.createColumnDescription(obj,
-		// labelProvider.getLabelName(), Locale.getDefault());
-		// sorter = new PListSorter<T>(cd);
-		// sorter.setDirection(SortDirectionEnum.SORT_ASC);
-		// widget.setSorter(sorter);
-
-		// sorter.setAccessibleObject(description);
-		// columnViewer.getColumn().addSelectionListener(setSorter);
 	}
 
 	@Override
@@ -229,16 +218,19 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 			if(description == null)
 			{
 				// if it's first time - throw exception
-				if(isNull(this.description))
+				if(this.description == null)
 					throw new AnnotationMissingException("No item found. Use @Label annotation.");
 
 				return;
 			}
 
 			this.description = description;
-
+			
 			if(labelProvider != null)
 				labelProvider.setDescription(description);
+			
+			if(sorter != null)
+				sorter.setComparator(description);
 
 			refresh();
 		}
