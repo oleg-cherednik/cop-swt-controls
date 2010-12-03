@@ -11,19 +11,33 @@ import org.eclipse.jface.viewers.ViewerSorter;
 
 import cop.swt.widgets.enums.SortDirectionEnum;
 
-public abstract class PViewerSorter<T> extends ViewerSorter
+public class PViewerSorter<T> extends ViewerSorter
 {
 	public static final SortDirectionEnum DEFAULT_SORT_DIRECTION = SORT_ASC;
 
 	private SortDirectionEnum direction = SORT_OFF;
-	protected final Comparator<T> accessibleObject;
+	private Comparator<T> comparator;
 
 	public PViewerSorter(Comparator<T> accessibleObject)
 	{
 		if(accessibleObject == null)
 			throw new NullPointerException();
 
-		this.accessibleObject = accessibleObject;
+		this.comparator = accessibleObject;
+	}
+
+	public void setComparator(Comparator<T> comparator)
+	{
+		if(comparator == null)
+			throw new NullPointerException();
+
+		this.comparator = comparator;
+	}
+
+	@Override
+	public Comparator<T> getComparator()
+	{
+		return comparator;
 	}
 
 	public SortDirectionEnum getDirection()
@@ -48,7 +62,7 @@ public abstract class PViewerSorter<T> extends ViewerSorter
 
 		try
 		{
-			int res = accessibleObject.compare((T)e1, (T)e2);
+			int res = comparator.compare((T)e1, (T)e2);
 
 			return (direction == SORT_DESC) ? -res : res;
 		}

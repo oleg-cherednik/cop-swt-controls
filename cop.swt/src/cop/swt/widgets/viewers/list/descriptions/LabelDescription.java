@@ -19,6 +19,8 @@ import cop.common.extensions.StringExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
+import cop.swt.widgets.localization.interfaces.Localizable;
+import cop.swt.widgets.viewers.list.descriptions.LocalizableString;
 
 public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport, Comparator<T> // IColumnDescription<T>,
 // Comparable<ColumnDescription<T>>
@@ -71,6 +73,14 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 		// if(type.isAssignableFrom(RGB.class))
 		// return new ColorColumnDescription<T>(obj, locale);
 
+		try
+		{
+			type.asSubclass(Localizable.class);
+			return new LocalizableString<T>(obj, locale);
+		}
+		catch(Exception e)
+		{}
+		
 		return new StringLabelDescription<T>(obj, locale);
 	}
 

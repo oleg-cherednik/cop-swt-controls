@@ -47,7 +47,7 @@ import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
 
 public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable, Listener
 {
-	private PTableSorter<T> sorter;
+	private PViewerSorter<T> sorter;
 	private ColumnEditingSupport<T> editor;
 	private ColumnDescription<T> description;
 	private TableViewerColumn columnViewer;
@@ -76,7 +76,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		this.description = description;
 		this.columnViewer = description.createTableViewerColumn(tableViewer);
 		this.editor = new ColumnEditingSupport<T>(tableViewer, description);
-		this.sorter = new PTableSorter<T>(description);
+		this.sorter = new PViewerSorter<T>(description);
 
 		this.columnViewer.setEditingSupport(editor);
 
