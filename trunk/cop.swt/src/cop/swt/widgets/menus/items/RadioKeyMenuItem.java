@@ -11,29 +11,28 @@ import org.eclipse.swt.widgets.Listener;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.menus.interfaces.PropertyProvider;
 import cop.swt.widgets.menus.items.basics.AbstractRadioMenuItem;
-import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public class RadioDescriptionMenuItem<T> extends AbstractRadioMenuItem
+public class RadioKeyMenuItem<T> extends AbstractRadioMenuItem
 {
 	private T obj;
-	private ColumnDescription<T> description;
+	private String localKey;
 
-	public RadioDescriptionMenuItem(T obj, ColumnDescription<T> description, Listener listener)
+	public RadioKeyMenuItem(T obj, String localKey, Listener listener)
 	{
-		this(obj, description, null, null, null, listener);
+		this(obj, localKey, null, null, null, listener);
 	}
 
-	public RadioDescriptionMenuItem(T obj, ColumnDescription<T> description, PropertyProvider<Boolean> visibleProvider,
+	public RadioKeyMenuItem(T obj, String localKey, PropertyProvider<Boolean> visibleProvider,
 	                PropertyProvider<Boolean> enabledProvider, PropertyProvider<Boolean> selectionProvider,
 	                Listener listener)
 	{
 		super(MI_COLUMN_DESCRIPTION);
 
 		Assert.isNotNull(obj);
-		Assert.isNotNull(description);
+		Assert.isNotNull(localKey);
 
 		this.obj = obj;
-		this.description = description;
+		this.localKey = localKey;
 
 		setSelectionProvider(selectionProvider);
 		setVisibleProvider(visibleProvider);
@@ -48,7 +47,7 @@ public class RadioDescriptionMenuItem<T> extends AbstractRadioMenuItem
 	@Override
 	protected String _getKey()
 	{
-		return description.getKey();
+		return localKey;
 	}
 
 	/*
@@ -60,7 +59,7 @@ public class RadioDescriptionMenuItem<T> extends AbstractRadioMenuItem
 	{
 		try
 		{
-			return getTranslation(obj, description.getKey(), locale);
+			return getTranslation(obj, localKey, locale);
 		}
 		catch(AnnotationDeclarationException e)
 		{
