@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import cop.common.extensions.LocaleExtension;
 import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.annotations.i18n;
 import cop.swt.widgets.localization.interfaces.Localizable;
@@ -30,7 +31,7 @@ public enum CountEnum implements Localizable<String>
 		map.put(Locale.US, en_US);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(new Locale("ru", "RU"), ru_RU);
+		map.put(LocaleExtension.RUSSIA, ru_RU);
 	}
 
 	@i18n
