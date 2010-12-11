@@ -20,11 +20,12 @@ import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.menu.enums.MenuItemStyleEnum;
 import cop.swt.widgets.menu.interfaces.IMenuItem;
+import cop.swt.widgets.menu.interfaces.MenuItemKey;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 
 public abstract class AbstractMenuItem implements IMenuItem
 {
-	protected final MenuItemEnum key;
+	private final MenuItemKey key;
 	private final MenuItemStyleEnum style;
 	private HotKey accelerator;
 	protected Listener listener;
@@ -38,7 +39,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 		this(style, key, EMPTY_HOT_KEY);
 	}
 
-	protected AbstractMenuItem(MenuItemStyleEnum style, MenuItemEnum key, HotKey accelerator)
+	protected AbstractMenuItem(MenuItemStyleEnum style, MenuItemKey key, HotKey accelerator)
 	{
 		Assert.isNotNull(style);
 
@@ -58,7 +59,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 	}
 
 	@Override
-	public final MenuItemEnum getMenuItemKey()
+	public final MenuItemKey getMenuItemKey()
 	{
 		return key;
 	}
@@ -83,10 +84,10 @@ public abstract class AbstractMenuItem implements IMenuItem
 	{
 		return style;
 	}
-	
+
 	protected String _getKey()
 	{
-		return key.name();
+		return key.getKey();
 	}
 
 	protected boolean isListenerEnabled()

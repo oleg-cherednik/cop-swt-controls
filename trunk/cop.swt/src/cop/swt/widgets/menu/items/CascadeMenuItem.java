@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-import cop.common.extensions.StringExtension;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
@@ -57,7 +56,7 @@ public class CascadeMenuItem extends AbstractCascadeMenuItem
 	@Override
 	public String getText(Locale locale)
 	{
-		return StringExtension.getText(key.i18n(locale), key.getText());
+		return getMenuItemKey().i18n(locale);
 	}
 
 	@Override

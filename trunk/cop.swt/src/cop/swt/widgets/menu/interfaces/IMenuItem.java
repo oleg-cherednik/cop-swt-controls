@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Listener;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.menu.enums.MenuItemEnum;
 
 public interface IMenuItem extends ICreateMenu, LocaleSupport
 {
@@ -28,5 +27,5 @@ public interface IMenuItem extends ICreateMenu, LocaleSupport
 
 	void setImageProvider(ImageProvider imageProvider);
 
-	MenuItemEnum getMenuItemKey();
+	MenuItemKey getMenuItemKey();
 }

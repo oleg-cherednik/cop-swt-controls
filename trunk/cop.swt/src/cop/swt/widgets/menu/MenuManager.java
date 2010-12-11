@@ -19,6 +19,7 @@ import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.menu.interfaces.IMenuBuilder;
 import cop.swt.widgets.menu.interfaces.IMenuItem;
+import cop.swt.widgets.menu.interfaces.MenuItemKey;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
 
 public final class MenuManager implements LocaleSupport
@@ -50,7 +51,7 @@ public final class MenuManager implements LocaleSupport
 	{
 		HotKey group;
 		Listener listener;
-		Entry<String, ? extends Object> data;
+		Entry<String, ? extends MenuItemKey> data;
 
 		menuItems = menuBuilder.getMenuItems();
 
@@ -61,7 +62,7 @@ public final class MenuManager implements LocaleSupport
 
 			group = menuItem.getAccelerator();
 			listener = menuItem.getListener();
-			data = new EntrySet<String, MenuItemEnum>(MenuItemEnum.MENU_ITEM_ENUM, menuItem.getMenuItemKey());
+			data = new EntrySet<String, MenuItemKey>(MenuItemEnum.MENU_ITEM_ENUM, menuItem.getMenuItemKey());
 
 			keyManager.addHotKey(group, listener, data);
 		}
