@@ -1,16 +1,17 @@
 package cop.swt.widgets.enums;
 
+import static org.eclipse.swt.SWT.DOWN;
+import static org.eclipse.swt.SWT.NONE;
+import static org.eclipse.swt.SWT.UP;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.eclipse.swt.SWT.*;
+import cop.swt.extensions.LocalizationExtension;
+import cop.swt.widgets.menu.interfaces.MenuItemKey;
 
-import cop.common.extensions.LocaleExtension;
-import cop.swt.widgets.localization.interfaces.Localizable;
-import cop.swt.widgets.tmp.localization.LocalizationHelper;
-
-public enum SortDirectionEnum implements Localizable<String>
+public enum SortDirectionEnum implements MenuItemKey
 {
 	SORT_OFF(NONE, "Sort off", "Sort off", "Sortierung ausschalten", "Сортировка выкл."),
 	SORT_ASC(UP, "Sort a->z", "Sort a->z", "Sortierung a->z", "Сортировка а->я"),
@@ -26,7 +27,7 @@ public enum SortDirectionEnum implements Localizable<String>
 		map.put(Locale.US, en_US);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(LocaleExtension.RUSSIA, ru_RU);
+		map.put(LocalizationExtension.RUSSIA, ru_RU);
 	}
 
 	public int getSwtDirection()
@@ -50,12 +51,22 @@ public enum SortDirectionEnum implements Localizable<String>
 	@Override
 	public String i18n()
 	{
-		return LocalizationHelper.i18n(map);
+		return i18n(Locale.getDefault());
 	}
 
 	@Override
 	public String i18n(Locale locale)
 	{
-		return LocalizationHelper.i18n(map, locale);
+		return LocalizationExtension.i18n(map, locale, getKey());
+	}
+
+	/*
+	 * MenuItemKey
+	 */
+
+	@Override
+	public String getKey()
+	{
+		return name();
 	}
 }

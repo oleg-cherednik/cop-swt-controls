@@ -13,9 +13,9 @@ import static cop.swt.extensions.ColorExtension.MAGENTA;
 import static cop.swt.extensions.ColorExtension.RED;
 import static cop.swt.extensions.ColorExtension.WHITE;
 import static cop.swt.extensions.ColorExtension.YELLOW;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DELETE;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_PROPERTIES;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_COPY;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_DELETE;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_PROPERTIES;
 import static cop.swt.widgets.tmp.CountEnum.EIGHT;
 import static cop.swt.widgets.tmp.CountEnum.FIVE;
 import static cop.swt.widgets.tmp.CountEnum.FOUR;
@@ -60,11 +60,12 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 import plugin.cop.swt.Activator;
+import cop.swt.extensions.LocalizationExtension;
 import cop.common.extensions.NumericExtension;
 import cop.swt.extensions.ColorExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.menus.items.StateMenuItem;
+import cop.swt.widgets.menu.items.StateMenuItem;
 import cop.swt.widgets.tmp.ActionTO;
 import cop.swt.widgets.tmp.MarketTO;
 import cop.swt.widgets.tmp.localization.Name;
@@ -102,7 +103,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	private PListViewer<ActionTO> list;
 	private Text searchText;
 	private Combo localesCombo;
-	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, new Locale("ru", "RU") };
+	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RUSSIA };
 	private ListModel<ActionTO> modelA, modelB;
 	private List<ActionTO> actions;
 	private Button removeItemButton;
@@ -890,10 +891,10 @@ class ImageProviderImpl implements ImageProvider
 		// paths.setProperty(MI_PRINT.name(), "icons//print//print16.png");
 		paths.setProperty(MI_PROPERTIES.name(), "icons//properties//properties16.png");
 
-		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE0.name(), "icons//num0.png");
-		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE1.name(), "icons//num1.png");
-		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE2.name(), "icons//num2.png");
-		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE3.name(), "icons//num3.png");
+//		paths.setProperty(StateMenuItem. .getKey() + "_" + StateBundleEnum.STATE0.name(), "icons//num0.png");
+//		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE1.name(), "icons//num1.png");
+//		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE2.name(), "icons//num2.png");
+//		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE3.name(), "icons//num3.png");
 		// paths.setProperty("userName", "icons//num3.png");
 
 		paths.setProperty(BooleanColumnDescription.CHECKED_MARKER, "icons//checked.gif");

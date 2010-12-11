@@ -1,6 +1,5 @@
 package cop.swt.widgets.menu.enums;
 
-import static cop.common.extensions.StringExtension.isNotEmpty;
 import static cop.swt.widgets.keys.HotKey.createHotKey;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_A;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ALT;
@@ -17,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
 
-import cop.common.extensions.LocaleExtension;
 import cop.common.extensions.StringExtension;
 import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.annotations.i18n;
@@ -70,19 +68,18 @@ public enum MenuItemEnum implements MenuItemKey
 	private MenuItemEnum(String text, HotKey accelerator, String en_UK, String de_DE, String ru_RU)
 	{
 		Assert.isTrue(StringExtension.isNotEmpty(text));
-		this.text = text;
 		this.accelerator = accelerator;
 
 		map.put(Locale.US, text);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(LocaleExtension.RUSSIA, ru_RU);
+		map.put(LocalizationExtension.RUSSIA, ru_RU);
 	}
 
-	public String getText()
-	{
-		return text;
-	}
+	// public String getText()
+	// {
+	// return text;
+	// }
 
 	public HotKey getAccelerator()
 	{
@@ -114,9 +111,7 @@ public enum MenuItemEnum implements MenuItemKey
 	@Override
 	public String i18n(Locale locale)
 	{
-		String str = map.get(locale);
-
-		return isNotEmpty(str) ? str : text;
+		return LocalizationExtension.i18n(map, locale, text);
 	}
 
 	/*

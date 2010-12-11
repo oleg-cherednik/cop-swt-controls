@@ -18,7 +18,7 @@ public final class StringExtension
 
 	private StringExtension()
 	{}
-	
+
 	public static boolean isEqual(String str1, String str2)
 	{
 		return isEmpty(str1) ? isEmpty(str2) : str1.equalsIgnoreCase(str2);
@@ -28,10 +28,15 @@ public final class StringExtension
 	{
 		return getText(res, "");
 	}
-	
+
 	public static <T> String getText(T res, String def)
 	{
 		return isNotNull(res) ? res.toString() : def;
+	}
+
+	public static String getNotEmptyText(String str, String def)
+	{
+		return isNotEmpty(str) ? str : def;
 	}
 
 	public static int getStringLength(String str)
@@ -116,7 +121,7 @@ public final class StringExtension
 	{
 		return !isEmpty(str);
 	}
-	
+
 	public static boolean isNumber(char ch)
 	{
 		return isInRangeMinMax(new Integer(ch), 48, 57);
@@ -153,13 +158,13 @@ public final class StringExtension
 
 		return "" + buf;
 	}
-	
+
 	public static String replaceAll(String str, String search, String replace)
 	{
 		StringBuilder buf = new StringBuilder(str);
-		
+
 		replaceAll(buf, search, replace);
-		
+
 		return "" + buf;
 	}
 

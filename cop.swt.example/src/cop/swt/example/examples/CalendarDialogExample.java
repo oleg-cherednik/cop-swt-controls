@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import cop.swt.extensions.LocalizationExtension;
 import cop.swt.extensions.ColorExtension;
 import cop.swt.widgets.calendar.CalendarViewer;
 import cop.swt.widgets.calendar.viewers.templates.DefaultCalendarConfig;
@@ -30,7 +31,7 @@ public class CalendarDialogExample implements IExample
 {
 	private CalendarViewer swtcal;
 	private Combo localesCombo;
-	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, new Locale("ru", "RU"),
+	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RUSSIA,
 	                new Locale("en", "RU") };
 
 	private Button button;
@@ -46,7 +47,7 @@ public class CalendarDialogExample implements IExample
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 
 		createLocaleCombo(parent, toolkit);
-		swtcal = new CalendarViewer(parent, SWT.BORDER, new Locale("ru", "RU"), new DefaultCalendarConfig());
+		swtcal = new CalendarViewer(parent, SWT.BORDER, LocalizationExtension.RUSSIA, new DefaultCalendarConfig());
 
 		//swtcal.addModifyListener(onDoubleSelectNewDay);
 
@@ -57,7 +58,7 @@ public class CalendarDialogExample implements IExample
 
 		button.addSelectionListener(onButton);
 
-		// Calendar tmp = Calendar.getInstance(new Locale("ru", "RU"));
+		// Calendar tmp = Calendar.getInstance(LocaleExtenxion.RUSSIA);
 
 		// swtcal.setDate(tmp);
 
