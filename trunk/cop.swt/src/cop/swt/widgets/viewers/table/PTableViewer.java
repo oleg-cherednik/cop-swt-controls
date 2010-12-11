@@ -13,7 +13,7 @@ import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.getText;
 import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_OFF;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_OFF;
 import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.FULL_SELECTION;
 import static org.eclipse.swt.SWT.MouseDoubleClick;
@@ -43,11 +43,11 @@ import org.eclipse.swt.widgets.TableItem;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
-import cop.swt.widgets.menus.MenuBuilder;
-import cop.swt.widgets.menus.interfaces.PropertyProvider;
-import cop.swt.widgets.menus.items.PushMenuItem;
-import cop.swt.widgets.menus.items.RadioDescriptionMenuItem;
-import cop.swt.widgets.menus.items.SeparatorMenuItem;
+import cop.swt.widgets.menu.MenuBuilder;
+import cop.swt.widgets.menu.interfaces.PropertyProvider;
+import cop.swt.widgets.menu.items.PushMenuItem;
+import cop.swt.widgets.menu.items.RadioKeyMenuItem;
+import cop.swt.widgets.menu.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
@@ -659,7 +659,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			selectionProvider = getColumnStateSelectionProvider(column);
 			listener = column;
 
-			menuBuilder.addMenuItem(new RadioDescriptionMenuItem<T>(obj, description, visibleProvider, enabledProvider,
+			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(obj, description.getKey(), visibleProvider, enabledProvider,
 			                selectionProvider, listener));
 		}
 
