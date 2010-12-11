@@ -4,12 +4,12 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import cop.swt.widgets.model.interfaces.Model;
-import cop.swt.widgets.model.interfaces.ModelChanged;
+import cop.swt.widgets.model.interfaces.ModelChangedListener;
 
 public abstract class AbstractModel<T> implements Model<T>
 {
 	private final String name;
-	private Set<ModelChanged<T>> listeners = new CopyOnWriteArraySet<ModelChanged<T>>();
+	private Set<ModelChangedListener<T>> listeners = new CopyOnWriteArraySet<ModelChangedListener<T>>();
 
 	public AbstractModel(String name)
 	{
@@ -27,14 +27,14 @@ public abstract class AbstractModel<T> implements Model<T>
 	}
 
 	@Override
-	public void addListener(ModelChanged<T> listener)
+	public void addListener(ModelChangedListener<T> listener)
 	{
 		if(listener != null)
 			listeners.add(listener);
 	}
 
 	@Override
-	public void removeListener(ModelChanged<T> listener)
+	public void removeListener(ModelChangedListener<T> listener)
 	{
 		if(listener != null)
 			listeners.remove(listener);
@@ -47,7 +47,7 @@ public abstract class AbstractModel<T> implements Model<T>
 	@Override
 	public void modelChanged(T... items)
 	{
-		for(ModelChanged<T> viewerListener : listeners)
+		for(ModelChangedListener<T> viewerListener : listeners)
 			viewerListener.modelChanged(items);
 	}
 

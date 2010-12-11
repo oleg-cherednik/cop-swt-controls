@@ -29,7 +29,7 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 	private AccessibleObject obj;
 	protected Class<?> type = DEF_TYPE;
 	protected Locale locale;
-	//private ImageProvider imageProvider;
+	// private ImageProvider imageProvider;
 	private String labelName;
 
 	/*
@@ -80,7 +80,7 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 		}
 		catch(Exception e)
 		{}
-		
+
 		return new StringLabelDescription<T>(obj, locale);
 	}
 
@@ -289,33 +289,6 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 		setCollator(locale);
 		// this.content.setLocale(locale);
 	}
-
-//	/*
-//	 * Comparator
-//	 */
-//
-//	@Override
-//	public int compare(T item1, T item2)
-//	{
-//		try
-//		{
-//			Object obj1 = getValue(item1);
-//			Object obj2 = getValue(item2);
-//			
-//			if(obj1 == obj2)
-//				return 0;
-//			if(isNull(obj1) ^ isNull(obj2))
-//				return isNull(obj2) ? 1 : -1;
-//
-//			return _compare(obj1, obj2);
-//		}
-//		catch(Exception e)
-//		{
-//			e.printStackTrace();
-//		}
-//
-//		return 0;
-//	}
 
 	/*
 	 * LabelSupport

@@ -15,13 +15,13 @@ import static cop.common.extensions.StringExtension.isNotEmpty;
 import static cop.swt.widgets.keys.HotKey.keyCtrlDown;
 import static cop.swt.widgets.keys.HotKey.keyCtrlUp;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MENU_ITEM_ENUM;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_COPY;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DELETE;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_DESELECT_ALL;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_PROPERTIES;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SELECT_ALL;
-import static cop.swt.widgets.menus.enums.MenuItemEnum.MI_SORT;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MENU_ITEM_ENUM;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_COPY;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_DELETE;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_DESELECT_ALL;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_PROPERTIES;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_SELECT_ALL;
+import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_SORT;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.REMOVE;
 import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.KeyDown;
@@ -64,15 +64,15 @@ import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.menus.MenuBuilder;
-import cop.swt.widgets.menus.MenuManager;
-import cop.swt.widgets.menus.enums.MenuItemEnum;
-import cop.swt.widgets.menus.interfaces.IMenuBuilder;
-import cop.swt.widgets.menus.interfaces.PropertyProvider;
-import cop.swt.widgets.menus.items.CascadeMenuItem;
-import cop.swt.widgets.menus.items.PushMenuItem;
-import cop.swt.widgets.menus.items.SeparatorMenuItem;
-import cop.swt.widgets.model.interfaces.ModelChanged;
+import cop.swt.widgets.menu.MenuBuilder;
+import cop.swt.widgets.menu.MenuManager;
+import cop.swt.widgets.menu.enums.MenuItemEnum;
+import cop.swt.widgets.menu.interfaces.IMenuBuilder;
+import cop.swt.widgets.menu.interfaces.PropertyProvider;
+import cop.swt.widgets.menu.items.CascadeMenuItem;
+import cop.swt.widgets.menu.items.PushMenuItem;
+import cop.swt.widgets.menu.items.SeparatorMenuItem;
+import cop.swt.widgets.model.interfaces.ModelChangedListener;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.SelectionListenerSupport;
@@ -83,7 +83,7 @@ import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.interfaces.ViewerConfig;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChanged<T>
+                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChangedListener<T>
 {
 	protected final Composite parent;
 	public StructuredViewer widget;
@@ -439,6 +439,12 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		return event.widget == widget.getControl();
 	}
 
+	public void setSorterOff()
+	{
+		widget.setSorter(null);
+		refresh();
+	}
+
 	/*
 	 * abstract
 	 */
@@ -446,8 +452,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	protected abstract List<String[]> toStringArrayList(T[] items);
 
 	protected abstract String[] getProperties();
-
-	public abstract void setSorterOff();
 
 	public abstract int getItemCount();
 
@@ -468,8 +472,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		else
 			widget.update(items, getProperties());
 
-//		if(isSorterOn() && isE)
-//			refresh();
+		// if(isSorterOn() && isE)
+		// refresh();
 	}
 
 	/*
