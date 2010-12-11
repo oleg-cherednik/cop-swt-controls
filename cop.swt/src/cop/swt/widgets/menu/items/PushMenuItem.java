@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.eclipse.swt.widgets.Listener;
 
-import cop.common.extensions.StringExtension;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.basics.AbstractPushMenuItem;
@@ -38,6 +37,6 @@ public class PushMenuItem extends AbstractPushMenuItem
 	@Override
 	public String getText(Locale locale)
 	{
-		return StringExtension.getText(key.i18n(locale), key.getText());
+		return getMenuItemKey().i18n(locale);
 	}
 }

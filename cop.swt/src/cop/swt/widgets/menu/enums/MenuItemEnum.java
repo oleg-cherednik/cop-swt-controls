@@ -23,9 +23,9 @@ import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.annotations.i18n;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.enums.KeyEnum;
-import cop.swt.widgets.localization.interfaces.Localizable;
+import cop.swt.widgets.menu.interfaces.MenuItemKey;
 
-public enum MenuItemEnum implements Localizable<String>
+public enum MenuItemEnum implements MenuItemKey
 {
 	// MI_EXPORT(new PushMenuItem("Export...", new HotKeyGroup(KEY_CTRL, KEY_E), null)),
 	// MI_PRINT(new PushMenuItem("Print...", new HotKeyGroup(KEY_CTRL, KEY_P), "icons//print//print16.png")),
@@ -114,10 +114,17 @@ public enum MenuItemEnum implements Localizable<String>
 	@Override
 	public String i18n(Locale locale)
 	{
-		Assert.isNotNull(locale);
-
 		String str = map.get(locale);
 
-		return isNotEmpty(str) ? str : map.get(Locale.getDefault());
+		return isNotEmpty(str) ? str : text;
+	}
+
+	/*
+	 * MenuKey
+	 */
+
+	public String getKey()
+	{
+		return name();
 	}
 }
