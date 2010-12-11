@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import cop.common.extensions.LocaleExtension;
+import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.localization.interfaces.EditLocalizable;
 
 public class Name implements EditLocalizable<String>
@@ -16,7 +16,7 @@ public class Name implements EditLocalizable<String>
 		map.put(Locale.US, en_US);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(LocaleExtension.RUSSIA, ru_RU);
+		map.put(LocalizationExtension.RUSSIA, ru_RU);
 	}
 
 	/*
@@ -26,13 +26,13 @@ public class Name implements EditLocalizable<String>
 	@Override
 	public String i18n()
 	{
-		return LocalizationHelper.i18n(map);
+		return i18n(Locale.getDefault());
 	}
 
 	@Override
 	public String i18n(Locale locale)
 	{
-		return LocalizationHelper.i18n(map, locale);
+		return LocalizationExtension.i18n(map, locale, map.get(Locale.US));
 	}
 
 	/*

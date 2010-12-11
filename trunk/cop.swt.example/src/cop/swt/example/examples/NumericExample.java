@@ -13,6 +13,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 
+import cop.swt.extensions.LocalizationExtension;
 import cop.swt.extensions.ColorExtension;
 
 @SuppressWarnings("unused")
@@ -23,7 +24,7 @@ public class NumericExample implements IExample
 	{
 		parent = createComposite(parent);
 		
-		Locale locale = new Locale("ru", "RU");
+		Locale locale = LocalizationExtension.RUSSIA;
 		
 		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
 		
