@@ -405,7 +405,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		for(PTableColumnInfo<T> column : columns.values())
 			column.setSorterDirection(SORT_OFF);
-		
+
 		refresh();
 	}
 
@@ -643,7 +643,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		PropertyProvider<Boolean> selectionProvider;
 		Listener listener;
 
-		menuBuilder.addMenuItem(new PushMenuItem(SORT_OFF, null, isSorterOnProvider, setSorterOffListener));
+		menuBuilder.addMenuItem(new PushMenuItem(SORT_OFF, null, isSorterOnProvider, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
 
 		for(PTableColumnInfo<T> column : columns.values())
@@ -664,15 +664,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		return menuBuilder;
 	}
-
-	private Listener setSorterOffListener = new Listener()
-	{
-		@Override
-		public void handleEvent(Event event)
-		{
-			setSorterOff();
-		}
-	};
 
 	private PropertyProvider<Boolean> isSorterOnProvider = new PropertyProvider<Boolean>()
 	{

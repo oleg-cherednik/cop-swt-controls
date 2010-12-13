@@ -43,7 +43,6 @@ import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -57,12 +56,11 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.PreferencesUtil;
-import org.hamcrest.core.IsNull;
 
 import cop.common.extensions.BitExtension;
-import cop.common.extensions.CommonExtension;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
+import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKey;
@@ -72,6 +70,7 @@ import cop.swt.widgets.menu.MenuBuilder;
 import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.menu.interfaces.IMenuBuilder;
+import cop.swt.widgets.menu.interfaces.MenuItemKey;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.CascadeMenuItem;
 import cop.swt.widgets.menu.items.PushMenuItem;
@@ -433,7 +432,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	private boolean isMenuHandleEvent(Event event)
 	{
 		if(event.widget != widget.getControl())
-			return ((MenuItem)event.widget).getParent() == widget.getControl().getMenu();
+			return getRootMenu((MenuItem)event.widget) == widget.getControl().getMenu();
 
 		if(!(event.data instanceof Properties))
 			return false;
@@ -447,6 +446,22 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	}
 
 	public abstract void setSorterOff();
+
+	protected static Menu getRootMenu(MenuItem item)
+	{
+		if(item == null)
+			return null;
+
+		Menu menu = item.getParent();
+		Menu menuNext;
+
+		while((menuNext = menu.getParentMenu()) != null)
+		{
+			menu = menuNext;
+		}
+
+		return menu;
+	}
 
 	/*
 	 * abstract
@@ -613,12 +628,12 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void handleMenuEvent(Event event)
 	{
-		MenuItemEnum menuItem = null;
+		MenuItemKey menuItem = null;
 
 		if(!(event.data instanceof Properties))
-			menuItem = (MenuItemEnum)event.widget.getData(MENU_ITEM_ENUM);
+			menuItem = (MenuItemKey)event.widget.getData(MENU_ITEM_ENUM);
 		else
-			menuItem = ((MenuItemEnum)(((Properties)event.data).get(MenuItemEnum.MENU_ITEM_ENUM)));
+			menuItem = ((MenuItemKey)(((Properties)event.data).get(MenuItemEnum.MENU_ITEM_ENUM)));
 
 		if(menuItem == null)
 			return;
@@ -635,6 +650,8 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 			onDeleteMenuItem(event);
 		else if(menuItem == MI_PROPERTIES)
 			onPropertiesMenuItem(event);
+		else if(menuItem == SORT_OFF)
+			setSorterOff();
 	}
 
 	/*
