@@ -14,11 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.annotations.services.LabelService;
@@ -37,7 +38,8 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	private LabelDescription<T> description;
 	private PListLabelProvider<T> labelProvider;
 	private PViewerSorter<T> sorter;
-	//private Locale locale = Locale.getDefault();
+
+	// private Locale locale = Locale.getDefault();
 
 	public PListViewer(T obj, Composite parent, int style, ListViewerConfig config) throws Exception
 	{
@@ -57,7 +59,6 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 	private void createSorter()
 	{
-		Assert.isNotNull(labelProvider);
 		sorter = new PViewerSorter<T>(widget, description);
 	}
 
@@ -90,7 +91,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
 
-		menuBuilder.addMenuItem(new PushMenuItem(SORT_OFF, null, isSorterOnProvider, setSorterOffListener));
+		menuBuilder.addMenuItem(new PushMenuItem(SORT_OFF, null, isSorterOnProvider, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
 		menuBuilder.addMenuItem(new PushMenuItem(SORT_ASC, null, getSorterSelectionProvider(SORT_ASC),
 		                setSorterAscListener));
@@ -125,6 +126,21 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		@Override
 		public void handleEvent(Event event)
 		{
+			boolean res = false;
+
+			Menu menu1 = getRootMenu((MenuItem)event.widget);
+			//
+			// MenuItem item1 = (MenuItem)event.widget;
+			// Menu menu1 = item1.getParent();
+			// MenuItem item2 = menu1.getParentItem();
+			// Menu menu3 = menu1.getParentMenu();
+			// Menu menu4 = menu3.getParentMenu();
+
+			Menu menu2 = widget.getControl().getMenu();
+
+			if(event.widget != widget.getControl())
+				res = menu1 == menu2;
+
 			setSorterOff();
 		}
 	};
@@ -299,8 +315,8 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 		description.setLocale(locale);
 
-//		if(locale != null)
-//			this.locale = locale;
+		// if(locale != null)
+		// this.locale = locale;
 
 		refresh();
 	}
