@@ -13,7 +13,6 @@ import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.getText;
 import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
-import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_OFF;
 import static org.eclipse.swt.SWT.Dispose;
 import static org.eclipse.swt.SWT.FULL_SELECTION;
 import static org.eclipse.swt.SWT.MouseDoubleClick;
@@ -187,17 +186,17 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 					column.pack();
 		}
 	};
-	
-//	private boolean isEditorOn()
-//	{
-//		for(PTableColumnInfo<T> column : columns.values())
-//		{
-//				column.i
-//		}
-//		
-//		return false;
-//				
-//	}
+
+	// private boolean isEditorOn()
+	// {
+	// for(PTableColumnInfo<T> column : columns.values())
+	// {
+	// column.i
+	// }
+	//
+	// return false;
+	//
+	// }
 
 	private String[] getVisibleColumnNames()
 	{
@@ -406,7 +405,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		for(PTableColumnInfo<T> column : columns.values())
 			column.setSorterDirection(SORT_OFF);
-
+		
 		refresh();
 	}
 
@@ -644,7 +643,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		PropertyProvider<Boolean> selectionProvider;
 		Listener listener;
 
-		menuBuilder.addMenuItem(new PushMenuItem(MI_OFF, null, isSorterOnProvider, setSorterOffListener));
+		menuBuilder.addMenuItem(new PushMenuItem(SORT_OFF, null, isSorterOnProvider, setSorterOffListener));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
 
 		for(PTableColumnInfo<T> column : columns.values())
@@ -659,8 +658,8 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			selectionProvider = getColumnStateSelectionProvider(column);
 			listener = column;
 
-			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(obj, description.getKey(), visibleProvider, enabledProvider,
-			                selectionProvider, listener));
+			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(obj, description.getKey(), visibleProvider,
+			                enabledProvider, selectionProvider, listener));
 		}
 
 		return menuBuilder;

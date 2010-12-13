@@ -6,6 +6,7 @@ import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 
 import java.util.Comparator;
 
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
@@ -17,12 +18,14 @@ public class PViewerSorter<T> extends ViewerSorter
 
 	private SortDirectionEnum direction = SORT_OFF;
 	private Comparator<T> comparator;
+	private final StructuredViewer viewer;
 
-	public PViewerSorter(Comparator<T> accessibleObject)
+	public PViewerSorter(StructuredViewer viewer, Comparator<T> accessibleObject)
 	{
-		if(accessibleObject == null)
+		if(viewer == null || accessibleObject == null)
 			throw new NullPointerException();
 
+		this.viewer = viewer;
 		this.comparator = accessibleObject;
 	}
 
@@ -51,6 +54,7 @@ public class PViewerSorter<T> extends ViewerSorter
 			throw new NullPointerException();
 
 		this.direction = direction;
+		viewer.setSorter((direction == SORT_OFF) ? null : this);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package cop.common.extensions;
 
 import static cop.common.extensions.CommonExtension.isNull;
+import static cop.common.extensions.ReflectionExtension.isBoolean;
 import static cop.common.extensions.ReflectionExtension.isByte;
 import static cop.common.extensions.ReflectionExtension.isDouble;
 import static cop.common.extensions.ReflectionExtension.isFloat;
@@ -39,6 +40,8 @@ public final class CompareExtension
 
 	public static int compareNumbers(Class<?> type, Object obj1, Object obj2)
 	{
+		if(isBoolean(type))
+			return compareObjects((Boolean)obj1, (Boolean)obj2);
 		if(isByte(type))
 			return compareObjects((Byte)obj1, (Byte)obj2);
 		if(isShort(type))

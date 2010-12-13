@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.events.ControlListener;
@@ -69,14 +68,15 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 	public PTableColumnInfo(T obj, final TableViewer tableViewer, ColumnDescription<T> description)
 	{
-		Assert.isNotNull(description);
+		if(description == null)
+			throw new NullPointerException("description == null");
 
 		this.obj = obj;
 		this.tableViewer = tableViewer;
 		this.description = description;
 		this.columnViewer = description.createTableViewerColumn(tableViewer);
 		this.editor = new ColumnEditingSupport<T>(tableViewer, description);
-		this.sorter = new PViewerSorter<T>(description);
+		this.sorter = new PViewerSorter<T>(tableViewer, description);
 
 		this.columnViewer.setEditingSupport(editor);
 
@@ -110,24 +110,12 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 	public void setSorterDirection(SortDirectionEnum direction)
 	{
-		if(sorter.getDirection() == direction)
-			return;
-
-		if(direction == SORT_OFF)
-		{
-			tableViewer.setSorter(null);
-			tableViewer.getTable().setSortColumn(null);
-		}
-		else
-		{
-			tableViewer.setSorter(sorter);
-			tableViewer.getTable().setSortColumn(columnViewer.getColumn());
-		}
-
 		sorter.setDirection(direction);
 		tableViewer.getTable().setSortDirection(direction.getSwtDirection());
+		tableViewer.getTable().setSortColumn((direction == SORT_OFF) ? null : columnViewer.getColumn());
 
-		refresh();
+		if(direction != SORT_OFF)
+			refresh();
 	}
 
 	public boolean isSorterOn()
@@ -496,8 +484,6 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 	@Override
 	public void refresh()
 	{
-		Assert.isNotNull(tableViewer);
-
 		tableViewer.refresh();
 		notifyPackableListener();
 	}
@@ -523,5 +509,15 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 			e.printStackTrace();
 			columnViewer.getColumn().setText(description.getName());
 		}
+	}
+
+	/*
+	 * Object
+	 */
+
+	@Override
+	public String toString()
+	{
+		return description.getKey();
 	}
 }
