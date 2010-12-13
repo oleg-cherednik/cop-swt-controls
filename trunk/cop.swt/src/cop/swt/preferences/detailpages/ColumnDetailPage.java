@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import static cop.swt.widgets.tmp.localization.InterfaceEnumBundle.*;
+//import static cop.swt.tmp.localization.InterfaceEnumBundle.*;
 
 public class ColumnDetailPage implements LocaleSupport
 {
@@ -57,47 +57,47 @@ public class ColumnDetailPage implements LocaleSupport
 
 	private void createVisibilityGroup(Composite parent)
 	{
-		visibilityGroup = new Group(parent, NONE);
-
-		visibilityGroup.setText(VISIBILITY.i18n(locale));
-		visibilityGroup.setBackground(parent.getBackground());
-		visibilityGroup.setLayout(new GridLayout(2, false));
-		visibilityGroup.setLayoutData(new GridData(FILL, FILL, false, false, 2, 1));
-
-		visibleButton = toolkit.createButton(visibilityGroup, VISIBLE.i18n(locale), CHECK);
-		hideableButton = toolkit.createButton(visibilityGroup, HIDEABLE.i18n(locale), CHECK);
-
-		visibleButton.setBackground(parent.getBackground());
-		hideableButton.setBackground(parent.getBackground());
-
-		hideableButton.addSelectionListener(new SelectionAdapter()
-		{
-			@Override
-			public void widgetSelected(SelectionEvent e)
-			{
-				boolean hideable = hideableButton.getSelection();
-
-				visibleButton.setEnabled(hideable);
-
-				if(!hideable)
-					visibleButton.setSelection(true);
-			}
-		});
+//		visibilityGroup = new Group(parent, NONE);
+//
+//		visibilityGroup.setText(VISIBILITY.i18n(locale));
+//		visibilityGroup.setBackground(parent.getBackground());
+//		visibilityGroup.setLayout(new GridLayout(2, false));
+//		visibilityGroup.setLayoutData(new GridData(FILL, FILL, false, false, 2, 1));
+//
+//		visibleButton = toolkit.createButton(visibilityGroup, VISIBLE.i18n(locale), CHECK);
+//		hideableButton = toolkit.createButton(visibilityGroup, HIDEABLE.i18n(locale), CHECK);
+//
+//		visibleButton.setBackground(parent.getBackground());
+//		hideableButton.setBackground(parent.getBackground());
+//
+//		hideableButton.addSelectionListener(new SelectionAdapter()
+//		{
+//			@Override
+//			public void widgetSelected(SelectionEvent e)
+//			{
+//				boolean hideable = hideableButton.getSelection();
+//
+//				visibleButton.setEnabled(hideable);
+//
+//				if(!hideable)
+//					visibleButton.setSelection(true);
+//			}
+//		});
 	}
 
 	private void createContents()
 	{
-		movableButton = toolkit.createButton(composite, MOVABLE.i18n(locale), CHECK);
-		resizeableButton = toolkit.createButton(composite, RESIZEABLE.i18n(locale), CHECK);
-		readonlyButton = toolkit.createButton(composite, READ_ONLY.i18n(locale), CHECK);
-		sortableButton = toolkit.createButton(composite, SORTABLE.i18n(locale), CHECK);
-
-		createVisibilityGroup(composite);
-
-		movableButton.setBackground(composite.getBackground());
-		resizeableButton.setBackground(composite.getBackground());
-		readonlyButton.setBackground(composite.getBackground());
-		sortableButton.setBackground(composite.getBackground());
+//		movableButton = toolkit.createButton(composite, MOVABLE.i18n(locale), CHECK);
+//		resizeableButton = toolkit.createButton(composite, RESIZEABLE.i18n(locale), CHECK);
+//		readonlyButton = toolkit.createButton(composite, READ_ONLY.i18n(locale), CHECK);
+//		sortableButton = toolkit.createButton(composite, SORTABLE.i18n(locale), CHECK);
+//
+//		createVisibilityGroup(composite);
+//
+//		movableButton.setBackground(composite.getBackground());
+//		resizeableButton.setBackground(composite.getBackground());
+//		readonlyButton.setBackground(composite.getBackground());
+//		sortableButton.setBackground(composite.getBackground());
 	}
 
 	/*
@@ -112,20 +112,20 @@ public class ColumnDetailPage implements LocaleSupport
 
 		this.locale = locale;
 
-		if(isNotNull(visibilityGroup))
-			visibilityGroup.setText(VISIBILITY.i18n(locale));
-		if(isNotNull(visibleButton))
-			visibleButton.setText(VISIBLE.i18n(locale));
-		if(isNotNull(hideableButton))
-			hideableButton.setText(HIDEABLE.i18n(locale));
-		if(isNotNull(movableButton))
-			movableButton.setText(MOVABLE.i18n(locale));
-		if(isNotNull(readonlyButton))
-			readonlyButton.setText(READ_ONLY.i18n(locale));
-		if(isNotNull(sortableButton))
-			sortableButton.setText(SORTABLE.i18n(locale));
-		if(isNotNull(resizeableButton))
-			resizeableButton.setText(RESIZEABLE.i18n(locale));
+//		if(isNotNull(visibilityGroup))
+//			visibilityGroup.setText(VISIBILITY.i18n(locale));
+//		if(isNotNull(visibleButton))
+//			visibleButton.setText(VISIBLE.i18n(locale));
+//		if(isNotNull(hideableButton))
+//			hideableButton.setText(HIDEABLE.i18n(locale));
+//		if(isNotNull(movableButton))
+//			movableButton.setText(MOVABLE.i18n(locale));
+//		if(isNotNull(readonlyButton))
+//			readonlyButton.setText(READ_ONLY.i18n(locale));
+//		if(isNotNull(sortableButton))
+//			sortableButton.setText(SORTABLE.i18n(locale));
+//		if(isNotNull(resizeableButton))
+//			resizeableButton.setText(RESIZEABLE.i18n(locale));
 
 		composite.layout();
 	}

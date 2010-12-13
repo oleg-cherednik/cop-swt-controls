@@ -9,7 +9,6 @@ import java.lang.reflect.Field;
 import org.junit.Test;
 
 import cop.swt.widgets.annotations.Label;
-import cop.swt.widgets.tmp.localization.Name;
 
 public class LabelServiceTest
 {
