@@ -4,7 +4,9 @@ import static cop.common.extensions.ArrayExtension.ONE_ITEM_STR_ARR;
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_OFF;
+import static cop.swt.widgets.enums.SortDirectionEnum.SORT_ASC;
+import static cop.swt.widgets.enums.SortDirectionEnum.SORT_DESC;
+import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static org.eclipse.swt.SWT.H_SCROLL;
 import static org.eclipse.swt.SWT.V_SCROLL;
 
@@ -25,7 +27,6 @@ import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.menu.MenuBuilder;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.PushMenuItem;
-import cop.swt.widgets.menu.items.RadioMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.list.descriptions.LabelDescription;
@@ -36,7 +37,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	private LabelDescription<T> description;
 	private PListLabelProvider<T> labelProvider;
 	private PViewerSorter<T> sorter;
-	private Locale locale = Locale.getDefault();
+	//private Locale locale = Locale.getDefault();
 
 	public PListViewer(T obj, Composite parent, int style, ListViewerConfig config) throws Exception
 	{
@@ -57,11 +58,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	private void createSorter()
 	{
 		Assert.isNotNull(labelProvider);
-
-		sorter = new PViewerSorter<T>(description);
-
-		widget.setSorter(sorter);
-		sorter.setDirection(SortDirectionEnum.SORT_DESC);
+		sorter = new PViewerSorter<T>(widget, description);
 	}
 
 	@Override
@@ -93,41 +90,26 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
 
-		menuBuilder.addMenuItem(new PushMenuItem(MI_OFF, null, isSorterOnProvider, setSorterOffListener));
+		menuBuilder.addMenuItem(new PushMenuItem(SORT_OFF, null, isSorterOnProvider, setSorterOffListener));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
-		
-//		for(SortDirectionEnum dir : SortDirectionEnum.values())
-//			menuBuilder.addMenuItem(new RadioMenuItem(obj, null, null, getSorterSelectionProvider(dir), onSort));
-
-		// for(PTableColumnInfo<T> column : columns.values())
-		// {
-		// description = column.getDescription();
-		//
-		// if(!description.isSortable())
-		// continue;
-		//
-		// visibleProvider = null;
-		// enabledProvider = null;
-		// selectionProvider = getColumnStateSelectionProvider(column);
-		// listener = column;
-		//
-		// menuBuilder.addMenuItem(new RadioDescriptionMenuItem<T>(obj, description, visibleProvider, enabledProvider,
-		// selectionProvider, listener));
-		// }
+		menuBuilder.addMenuItem(new PushMenuItem(SORT_ASC, null, getSorterSelectionProvider(SORT_ASC),
+		                setSorterAscListener));
+		menuBuilder.addMenuItem(new PushMenuItem(SORT_DESC, null, getSorterSelectionProvider(SORT_DESC),
+		                setSorterDescListener));
 
 		return menuBuilder;
 	}
-	
-	private Listener onSort = new Listener()
-	{
-		@Override
-		public void handleEvent(Event event)
-		{
-			int a = 0;
-			a++;
-			
-		}
-	};
+
+	// private Listener onSort = new Listener()
+	// {
+	// @Override
+	// public void handleEvent(Event event)
+	// {
+	// int a = 0;
+	// a++;
+	//
+	// }
+	// };
 
 	private PropertyProvider<Boolean> isSorterOnProvider = new PropertyProvider<Boolean>()
 	{
@@ -146,7 +128,27 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 			setSorterOff();
 		}
 	};
-	
+
+	private Listener setSorterAscListener = new Listener()
+	{
+		@Override
+		public void handleEvent(Event event)
+		{
+			sorter.setDirection(SORT_ASC);
+			refresh();
+		}
+	};
+
+	private Listener setSorterDescListener = new Listener()
+	{
+		@Override
+		public void handleEvent(Event event)
+		{
+			sorter.setDirection(SORT_DESC);
+			refresh();
+		}
+	};
+
 	private PropertyProvider<Boolean> getSorterSelectionProvider(final SortDirectionEnum dir)
 	{
 		PropertyProvider<Boolean> provider = new PropertyProvider<Boolean>()
@@ -154,11 +156,18 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 			@Override
 			public Boolean getProperty()
 			{
-				return sorter.getDirection() == dir;
+				return sorter.getDirection() != dir;
 			}
 		};
 
 		return provider;
+	}
+
+	@Override
+	public void setSorterOff()
+	{
+		sorter.setDirection(SORT_OFF);
+		refresh();
 	}
 
 	@Override
@@ -289,9 +298,9 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 		super.setLocale(locale);
 
 		description.setLocale(locale);
-		
-		if(locale != null)
-			this.locale = locale;
+
+//		if(locale != null)
+//			this.locale = locale;
 
 		refresh();
 	}

@@ -12,6 +12,7 @@ import static cop.common.extensions.CollectionExtension.EMPTY_LIST;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.keys.HotKey.keyCtrlDown;
 import static cop.swt.widgets.keys.HotKey.keyCtrlUp;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
@@ -42,6 +43,7 @@ import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -55,8 +57,10 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.hamcrest.core.IsNull;
 
 import cop.common.extensions.BitExtension;
+import cop.common.extensions.CommonExtension;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.Clearable;
@@ -80,6 +84,7 @@ import cop.swt.widgets.viewers.model.ListModel;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ModelSupport;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
+import cop.swt.widgets.viewers.table.PViewerSorter;
 import cop.swt.widgets.viewers.table.interfaces.ViewerConfig;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
@@ -147,7 +152,9 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public boolean isSorterOn()
 	{
-		return widget.getSorter() != null;
+		PViewerSorter<T> sorter = (PViewerSorter<T>)widget.getSorter();
+
+		return isNotNull(sorter) ? sorter.getDirection() != SORT_OFF : false;
 	}
 
 	protected void swap(int index1, int index2)
@@ -439,11 +446,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		return event.widget == widget.getControl();
 	}
 
-	public void setSorterOff()
-	{
-		widget.setSorter(null);
-		refresh();
-	}
+	public abstract void setSorterOff();
 
 	/*
 	 * abstract

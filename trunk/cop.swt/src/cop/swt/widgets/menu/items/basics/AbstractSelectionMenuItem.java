@@ -6,15 +6,15 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import cop.swt.widgets.keys.HotKey;
-import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.menu.enums.MenuItemStyleEnum;
+import cop.swt.widgets.menu.interfaces.MenuItemKey;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 
 public abstract class AbstractSelectionMenuItem extends AbstractMenuItem
 {
 	private PropertyProvider<Boolean> selectionProvider;
 
-	protected AbstractSelectionMenuItem(MenuItemStyleEnum style, MenuItemEnum key, HotKey accelerator)
+	protected AbstractSelectionMenuItem(MenuItemStyleEnum style, MenuItemKey key, HotKey accelerator)
 	{
 		super(style, key, accelerator);
 	}
