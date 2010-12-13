@@ -1,11 +1,11 @@
 package cop.swt.preferences;
 
-import cop.swt.widgets.tmp.ActionTO;
+//import cop.swt.tmp.ActionTO;
 
-public class EmployeeListPreferencePage extends AbstractTablePreferencePage<ActionTO>
+public class EmployeeListPreferencePage// extends AbstractTablePreferencePage<ActionTO>
 {
-	public EmployeeListPreferencePage()
-	{
-		super(new ActionTO());
-	}
+//	public EmployeeListPreferencePage()
+//	{
+//		super(new ActionTO());
+//	}
 }

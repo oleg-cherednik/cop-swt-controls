@@ -2,7 +2,7 @@ package cop.swt.preferences;
 
 import static cop.swt.enums.CountryEnum.getActiveCountries;
 import static cop.swt.enums.LanguageEnum.getActiveLanguages;
-import static cop.swt.widgets.tmp.CurrencyComboWrapper.getCurrencies;
+//import static cop.swt.tmp.CurrencyComboWrapper.getCurrencies;
 import static org.eclipse.swt.SWT.CENTER;
 import static org.eclipse.swt.SWT.CHECK;
 import static org.eclipse.swt.SWT.FILL;
@@ -30,14 +30,14 @@ import cop.swt.preferences.obj.LocalizationPreference;
 import static cop.common.extensions.CommonExtension.*;
 import cop.swt.enums.CountryEnum;
 import cop.swt.enums.LanguageEnum;
-import cop.swt.widgets.tmp.CurrencyComboWrapper;
+//import cop.swt.tmp.CurrencyComboWrapper;
 import cop.swt.widgets.viewers.PComboViewer;
 
 public class LocalizationPreferencePage extends AbstractPreferencePage
 {
 	private PComboViewer<LanguageEnum> languageCombo;
 	private PComboViewer<CountryEnum> countryCombo;
-	private PComboViewer<CurrencyComboWrapper> currencyCombo;
+	//private PComboViewer<CurrencyComboWrapper> currencyCombo;
 	private Button defaultLanguageButton;
 	private Button defaultCountryButton;
 	private Label resultLabel;
@@ -141,11 +141,11 @@ public class LocalizationPreferencePage extends AbstractPreferencePage
 
 	private void createCurrencyCombo(Composite parent)
 	{
-		currencyCombo = new PComboViewer<CurrencyComboWrapper>(parent, READ_ONLY);
-
-		currencyCombo.setItems(getCurrencies(getActiveCountries()));
-		currencyCombo.addSelectionListener(setLocale);
-		currencyCombo.setLayoutData(new GridData(FILL, CENTER, true, false));
+//		currencyCombo = new PComboViewer<CurrencyComboWrapper>(parent, READ_ONLY);
+//
+//		currencyCombo.setItems(getCurrencies(getActiveCountries()));
+//		currencyCombo.addSelectionListener(setLocale);
+//		currencyCombo.setLayoutData(new GridData(FILL, CENTER, true, false));
 	}
 
 	private void createDefaultCountryButon(Composite parent)
@@ -170,18 +170,18 @@ public class LocalizationPreferencePage extends AbstractPreferencePage
 
 	private void setLocale()
 	{
-		Locale locale = new Locale(getLanguage(defaultLocale), getCountry(defaultLocale));
-
-		countryCombo.setLocale(locale);
-		currencyCombo.setLocale(locale);
-
-		resultLabel.setText(locale.getDisplayName(locale));
-
-		preference.setLanguage(languageCombo.getSelectionItem());
-		preference.setCountry(countryCombo.getSelectionItem());
-		preference.setCurrency(currencyCombo.getSelectionItem());
-		preference.setUseDefaultLanguage(defaultLanguageButton.getSelection());
-		preference.setUseDefaultCountry(defaultCountryButton.getSelection());
+//		Locale locale = new Locale(getLanguage(defaultLocale), getCountry(defaultLocale));
+//
+//		countryCombo.setLocale(locale);
+//		currencyCombo.setLocale(locale);
+//
+//		resultLabel.setText(locale.getDisplayName(locale));
+//
+//		preference.setLanguage(languageCombo.getSelectionItem());
+//		preference.setCountry(countryCombo.getSelectionItem());
+//		preference.setCurrency(currencyCombo.getSelectionItem());
+//		preference.setUseDefaultLanguage(defaultLanguageButton.getSelection());
+//		preference.setUseDefaultCountry(defaultCountryButton.getSelection());
 	}
 
 	private String getLanguage(Locale locale)
@@ -263,7 +263,7 @@ public class LocalizationPreferencePage extends AbstractPreferencePage
 
 			languageCombo.setSelection(preference.getLanguage());
 			countryCombo.setSelection(preference.getCountry());
-			currencyCombo.setSelection(preference.getCurrency());
+			//currencyCombo.setSelection(preference.getCurrency());
 			setDefaultLanguage(preference.isUseDefaultLanguage(), false);
 			setDefaultCountry(preference.isUseDefaultCountry(), true);
 

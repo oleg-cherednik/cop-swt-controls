@@ -17,7 +17,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Event;
 
-import cop.swt.widgets.tmp.ActionTO;
+//import cop.swt.tmp.ActionTO;
 
 public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 {
@@ -34,8 +34,8 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 
 	private void drawProgressBar(Event event, TableViewerColumn columnViewer)
 	{
-		double percent = ((ActionTO)event.item.getData()).getPercent() * 100;
-		drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth(), event.height, percent);
+//		double percent = ((T)event.item.getData()).getPercent() * 100;
+//		drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth(), event.height, percent);
 	}
 
 	private static void drawProgressBar(GC gc, int x, int y, int width, int height, double value)

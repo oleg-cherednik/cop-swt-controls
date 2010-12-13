@@ -28,4 +28,7 @@ Bundle-ClassPath: .,
  lib/org.eclipse.nebula.widgets.cdatetime_0.14.0.HEAD.jar,
  lib/org.eclipse.nebula.widgets.formattedtext_1.0.0.HEAD.jar,
  lib/Jama-1.0.2.jar,
- lib/jarettable-0.85.jar
+ lib/jarettable-0.85.jar,
+ lib/icu4j-4_4_1-docs.jar,
+ lib/icu4j-4_4_1-src.jar,
+ lib/icu4j-4_4_1.jar

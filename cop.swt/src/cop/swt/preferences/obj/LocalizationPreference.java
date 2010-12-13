@@ -15,7 +15,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import cop.swt.enums.CountryEnum;
 import cop.swt.enums.LanguageEnum;
-import cop.swt.widgets.tmp.CurrencyComboWrapper;
+//import cop.swt.tmp.CurrencyComboWrapper;
 
 public final class LocalizationPreference extends AbstractPreference
 {
@@ -28,7 +28,7 @@ public final class LocalizationPreference extends AbstractPreference
 
 	private LanguageEnum language;
 	private CountryEnum country;
-	private CurrencyComboWrapper currency;
+	//private CurrencyComboWrapper currency;
 	private boolean useDefaultLanguage;
 	private boolean useDefaultCountry;
 
@@ -78,10 +78,10 @@ public final class LocalizationPreference extends AbstractPreference
 		return country;
 	}
 
-	public CurrencyComboWrapper getCurrency()
-	{
-		return currency;
-	}
+//	public CurrencyComboWrapper getCurrency()
+//	{
+//		return currency;
+//	}
 
 	public boolean isUseDefaultLanguage()
 	{
@@ -103,10 +103,10 @@ public final class LocalizationPreference extends AbstractPreference
 		this.country = country;
 	}
 
-	public void setCurrency(CurrencyComboWrapper currency)
-	{
-		this.currency = currency;
-	}
+//	public void setCurrency(CurrencyComboWrapper currency)
+//	{
+//		this.currency = currency;
+//	}
 
 	public void setUseDefaultLanguage(boolean useDefaultLanguage)
 	{
@@ -124,7 +124,7 @@ public final class LocalizationPreference extends AbstractPreference
 		store.setValue(PROP_LOCALE_COUNTRY, country.getCode());
 		store.setValue(PROP_LOCALE_LANGUAGE_DEF, useDefaultLanguage);
 		store.setValue(PROP_LOCALE_COUNTRY_DEF, useDefaultCountry);
-		store.setValue(PROP_LOCALE_CURRENCY, currency.getCode());
+		//store.setValue(PROP_LOCALE_CURRENCY, currency.getCode());
 	}
 
 	private void saveDefaults()
@@ -133,7 +133,7 @@ public final class LocalizationPreference extends AbstractPreference
 		store.setDefault(PROP_LOCALE_COUNTRY, country.getCode());
 		store.setDefault(PROP_LOCALE_LANGUAGE_DEF, useDefaultLanguage);
 		store.setDefault(PROP_LOCALE_COUNTRY_DEF, useDefaultCountry);
-		store.setDefault(PROP_LOCALE_CURRENCY, currency.getCode());
+		//store.setDefault(PROP_LOCALE_CURRENCY, currency.getCode());
 	}
 
 	public void read() throws ParseException
@@ -148,8 +148,8 @@ public final class LocalizationPreference extends AbstractPreference
 		useDefaultLanguage = store.getBoolean(PROP_LOCALE_LANGUAGE_DEF);
 		useDefaultCountry = store.getBoolean(PROP_LOCALE_COUNTRY_DEF);
 
-		if(store.contains(PROP_LOCALE_COUNTRY))
-			currency = new CurrencyComboWrapper(store.getString(PROP_LOCALE_CURRENCY));
+//		if(store.contains(PROP_LOCALE_COUNTRY))
+//			currency = new CurrencyComboWrapper(store.getString(PROP_LOCALE_CURRENCY));
 	}
 
 	public void restoreDefaults() throws ParseException
@@ -162,7 +162,7 @@ public final class LocalizationPreference extends AbstractPreference
 			this.country = parseCountryEnum(locale);
 			this.useDefaultLanguage = true;
 			this.useDefaultCountry = true;
-			this.currency = new CurrencyComboWrapper(language, country);
+//			this.currency = new CurrencyComboWrapper(language, country);
 
 			saveDefaults();
 		}
