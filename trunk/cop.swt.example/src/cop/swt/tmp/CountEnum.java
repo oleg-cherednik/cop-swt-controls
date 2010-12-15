@@ -11,7 +11,7 @@ import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.annotations.i18n;
 import cop.swt.widgets.localization.interfaces.Localizable;
 
-public enum CountEnum implements Localizable<String>
+public enum CountEnum implements Localizable
 {
 	ONE("one", "one", "ein", "один"),
 	TWO("two", "two", "zwei", "два"),
@@ -31,7 +31,7 @@ public enum CountEnum implements Localizable<String>
 		map.put(Locale.US, en_US);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(LocalizationExtension.RUSSIA, ru_RU);
+		map.put(LocalizationExtension.RU, ru_RU);
 	}
 
 	@i18n
@@ -43,7 +43,7 @@ public enum CountEnum implements Localizable<String>
 	@i18n
 	public static String[] getLocalizedName(Locale locale)
 	{
-		return LocalizationExtension.getLocalizedNames(values(), locale);
+		return LocalizationExtension.i18n(values(), locale);
 	}
 
 	/*

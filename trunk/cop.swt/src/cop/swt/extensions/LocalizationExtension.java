@@ -16,29 +16,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.eclipse.core.runtime.Assert;
 
+import cop.common.extensions.StringExtension;
 import cop.swt.enums.CountryEnum;
 import cop.swt.enums.LanguageEnum;
 import cop.swt.widgets.localization.interfaces.Localizable;
 
 public final class LocalizationExtension
 {
-	public static final Locale RUSSIA = new Locale("ru", "RU");
+	public static final Locale RU = new Locale("ru", "RU");
 	public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
 
 	private LocalizationExtension()
 	{}
 
-	public static Locale getApplicationDefaultLocale()
+	public static Locale getDefaultApplicationLocale()
 	{
 		return Locale.getDefault();
 	}
 
 	public static String i18n(Map<Locale, String> map, String def)
 	{
-		return i18n(map, getApplicationDefaultLocale(), def);
+		return i18n(map, getDefaultApplicationLocale(), def);
 	}
 
 	public static String i18n(Map<Locale, String> map, Locale locale, String def)
@@ -80,9 +82,14 @@ public final class LocalizationExtension
 		return names.toArray(new String[0]);
 	}
 
-	public static String[] getLocalizedNames(Localizable<String>[] objs, Locale locale)
+	public static String[] i18n(Localizable[] objs)
 	{
-		if(isEmpty(objs) || isNull(locale))
+		return i18n(objs, getDefaultApplicationLocale());
+	}
+
+	public static String[] i18n(Localizable[] objs, Locale locale)
+	{
+		if(isEmpty(objs) || locale == null)
 			return new String[0];
 
 		String[] res = new String[objs.length];
@@ -91,5 +98,44 @@ public final class LocalizationExtension
 			res[i] = objs[i].i18n(locale);
 
 		return res;
+	}
+
+	public static String i18n(Object bundle, String key)
+	{
+		return i18n(bundle, key, getDefaultApplicationLocale());
+	}
+
+	public static String i18n(Object bundle, String key, Locale locale)
+	{
+		if(bundle == null || StringExtension.isEmpty(key) || locale == null)
+			return "unknown";
+
+		try
+		{
+			ResourceBundle resourceBundle = getBundle(bundle, locale);
+
+			if(resourceBundle == null)
+			{
+				// MessageDialogEx.showError(MessageFormat.format(EclipseBundle.RESOURCE_MESSAGE.i18n(),
+				// bundle.getClass().getName(), locale.toString()));
+				return key;
+			}
+
+			return resourceBundle.getString(key);
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			// AppPlugin.getDefault().logException(ex);
+			return key;
+		}
+	}
+
+	private static ResourceBundle getBundle(Object bundle, Locale locale)
+	{
+		String baseName = "i18n." + bundle.getClass().getSimpleName();
+		ClassLoader loader = bundle.getClass().getClassLoader();
+
+		return ResourceBundle.getBundle(baseName, locale, loader);
 	}
 }

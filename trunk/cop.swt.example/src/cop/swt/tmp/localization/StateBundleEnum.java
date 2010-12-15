@@ -7,7 +7,7 @@ import java.util.Map;
 import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.localization.interfaces.Localizable;
 
-public enum StateBundleEnum implements Localizable<String>
+public enum StateBundleEnum implements Localizable
 {
 	STATE0("State 0", "State 0", "Zustand 0", "Состояние 0"),
 	STATE1("State 1", "State 1", "Zustand 1", "Состояние 1"),
@@ -21,7 +21,7 @@ public enum StateBundleEnum implements Localizable<String>
 		map.put(Locale.US, en_US);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(LocalizationExtension.RUSSIA, ru_RU);
+		map.put(LocalizationExtension.RU, ru_RU);
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class NumericExample implements IExample
 	{
 		parent = createComposite(parent);
 		
-		Locale locale = LocalizationExtension.RUSSIA;
+		Locale locale = LocalizationExtension.RU;
 		
 		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
 		

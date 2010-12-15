@@ -1,5 +1,6 @@
 package cop.swt.widgets.menu.enums;
 
+import static cop.swt.widgets.keys.HotKey.EMPTY_HOT_KEY;
 import static cop.swt.widgets.keys.HotKey.createHotKey;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_A;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ALT;
@@ -10,13 +11,8 @@ import static cop.swt.widgets.keys.enums.KeyEnum.KEY_E;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ESC;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_P;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
-import org.eclipse.core.runtime.Assert;
-
-import cop.common.extensions.StringExtension;
 import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.annotations.i18n;
 import cop.swt.widgets.keys.HotKey;
@@ -32,14 +28,14 @@ public enum MenuItemEnum implements MenuItemKey
 	MI_SEPARATOR,
 	MI_STATE,
 	MI_COLUMN_DESCRIPTION,
-	MI_COPY("Copy", createHotKey(KEY_CTRL, KEY_C), "Copy", "Kopieren", "Копировать"),
-	MI_DELETE("Delete", KEY_DELETE, "Delete", "L\u00f6schen", "Удалить"),
-	MI_SELECT_ALL("Select All", createHotKey(KEY_CTRL, KEY_A), "Select All", "Alle Ausw\u00e4hlen", "Выделить Всё"),
-	MI_DESELECT_ALL("Deselect All", KEY_ESC, "Deselect All", "Abw\u00e4hlen", "Снять Выделение"),
-	MI_PROPERTIES("Properties...", createHotKey(KEY_ALT, KEY_P), "Properties...", "Eigenschaften...", "Свойства..."),
-	MI_SORT("Sorting", "Sorting", "Sortierung", "Сортировка"),
-	MI_OFF("off", "off", "ausschalten", "выкл."),
-	MI_EXPORT("Export...", createHotKey(KEY_ALT, KEY_E), "Export...", "Exportieren...", "Экспортировать..."),
+	MI_COPY(createHotKey(KEY_CTRL, KEY_C)),
+	MI_DELETE(KEY_DELETE),
+	MI_SELECT_ALL(createHotKey(KEY_CTRL, KEY_A)),
+	MI_DESELECT_ALL(KEY_ESC),
+	MI_PROPERTIES(createHotKey(KEY_ALT, KEY_P)),
+	MI_SORT,
+	MI_OFF,
+	MI_EXPORT(createHotKey(KEY_ALT, KEY_E)),
 	MI_HIDE,
 
 	;
@@ -47,39 +43,20 @@ public enum MenuItemEnum implements MenuItemKey
 	public static final String MENU_ITEM_ENUM = "MenuItemEnum";
 	// public static final String MENU_ITEM_KEY = "key";
 
-	private Map<Locale, String> map = new HashMap<Locale, String>();
-
-	private String text;
-	private HotKey accelerator;
+	private HotKey accelerator = EMPTY_HOT_KEY;
 
 	private MenuItemEnum()
 	{}
 
-	private MenuItemEnum(String text, String en_UK, String de_DE, String ru_RU)
+	private MenuItemEnum(KeyEnum... accelerator)
 	{
-		this(text, (HotKey)null, en_UK, de_DE, ru_RU);
+		this(createHotKey(accelerator));
 	}
 
-	private MenuItemEnum(String text, KeyEnum accelerator, String en_UK, String de_DE, String ru_RU)
+	private MenuItemEnum(HotKey accelerator)
 	{
-		this(text, createHotKey(accelerator), en_UK, de_DE, ru_RU);
-	}
-
-	private MenuItemEnum(String text, HotKey accelerator, String en_UK, String de_DE, String ru_RU)
-	{
-		Assert.isTrue(StringExtension.isNotEmpty(text));
 		this.accelerator = accelerator;
-
-		map.put(Locale.US, text);
-		map.put(Locale.UK, en_UK);
-		map.put(Locale.GERMANY, de_DE);
-		map.put(LocalizationExtension.RUSSIA, ru_RU);
 	}
-
-	// public String getText()
-	// {
-	// return text;
-	// }
 
 	public HotKey getAccelerator()
 	{
@@ -89,13 +66,13 @@ public enum MenuItemEnum implements MenuItemKey
 	@i18n
 	public static String[] getLocalizedName()
 	{
-		return getLocalizedName(Locale.getDefault());
+		return LocalizationExtension.i18n(values());
 	}
 
 	@i18n
 	public static String[] getLocalizedName(Locale locale)
 	{
-		return LocalizationExtension.getLocalizedNames(values(), locale);
+		return LocalizationExtension.i18n(values(), locale);
 	}
 
 	/*
@@ -105,13 +82,13 @@ public enum MenuItemEnum implements MenuItemKey
 	@Override
 	public String i18n()
 	{
-		return i18n(Locale.getDefault());
+		return LocalizationExtension.i18n(this, name());
 	}
 
 	@Override
 	public String i18n(Locale locale)
 	{
-		return LocalizationExtension.i18n(map, locale, text);
+		return LocalizationExtension.i18n(this, name(), locale);
 	}
 
 	/*

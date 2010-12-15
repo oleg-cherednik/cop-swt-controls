@@ -35,16 +35,14 @@ public class LocalizableString<T> extends StringColumnDescription<T>
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected String getText(Object obj)
 	{
-		return isNotNull(obj) ? ((Localizable<String>)obj).i18n(locale) : "";
+		return isNotNull(obj) ? ((Localizable)obj).i18n(locale) : "";
 	}
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setValue(T item, Object value) throws Exception
 	{
-		((EditLocalizable)getValue(item)).setI18n(value, locale);
+		((EditLocalizable)getValue(item)).setI18n((String)value, locale);
 	}
 }
