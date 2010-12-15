@@ -7,7 +7,7 @@ import java.util.Map;
 import cop.swt.extensions.LocalizationExtension;
 import cop.swt.widgets.localization.interfaces.EditLocalizable;
 
-public class Name implements EditLocalizable<String>
+public class Name implements EditLocalizable
 {
 	private Map<Locale, String> map = new HashMap<Locale, String>();
 
@@ -16,7 +16,7 @@ public class Name implements EditLocalizable<String>
 		map.put(Locale.US, en_US);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(LocalizationExtension.RUSSIA, ru_RU);
+		map.put(LocalizationExtension.RU, ru_RU);
 	}
 
 	/*

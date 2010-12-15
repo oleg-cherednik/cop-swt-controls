@@ -2,9 +2,9 @@ package cop.swt.widgets.localization.interfaces;
 
 import java.util.Locale;
 
-public interface Localizable<T>
+public interface Localizable
 {
-	T i18n();
+	String i18n();
 
-	T i18n(Locale locale);
+	String i18n(Locale locale);
 }

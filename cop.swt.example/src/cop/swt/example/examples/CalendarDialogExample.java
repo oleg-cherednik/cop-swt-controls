@@ -31,7 +31,7 @@ public class CalendarDialogExample implements IExample
 {
 	private CalendarViewer swtcal;
 	private Combo localesCombo;
-	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RUSSIA,
+	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RU,
 	                new Locale("en", "RU") };
 
 	private Button button;
@@ -47,7 +47,7 @@ public class CalendarDialogExample implements IExample
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 
 		createLocaleCombo(parent, toolkit);
-		swtcal = new CalendarViewer(parent, SWT.BORDER, LocalizationExtension.RUSSIA, new DefaultCalendarConfig());
+		swtcal = new CalendarViewer(parent, SWT.BORDER, LocalizationExtension.RU, new DefaultCalendarConfig());
 
 		//swtcal.addModifyListener(onDoubleSelectNewDay);
 

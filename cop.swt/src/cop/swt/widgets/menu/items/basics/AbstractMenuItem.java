@@ -41,7 +41,8 @@ public abstract class AbstractMenuItem implements IMenuItem
 
 	protected AbstractMenuItem(MenuItemStyleEnum style, MenuItemKey key, HotKey accelerator)
 	{
-		Assert.isNotNull(style);
+		if(style == null || key == null)
+			throw new NullPointerException();
 
 		this.key = key;
 		this.style = style;

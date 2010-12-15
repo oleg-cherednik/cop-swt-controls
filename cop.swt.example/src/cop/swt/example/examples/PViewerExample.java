@@ -103,7 +103,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	private PListViewer<ActionTO> list;
 	private Text searchText;
 	private Combo localesCombo;
-	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RUSSIA };
+	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RU };
 	private ListModel<ActionTO> modelA, modelB;
 	private List<ActionTO> actions;
 	private Button removeItemButton;
@@ -235,7 +235,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		modelB = new ListModel<ActionTO>("model B");
 		modelB.add(actions2);
 
-		Locale.setDefault(Locale.US);
+//		Locale.setDefault(Locale.US);
 	}
 
 	private Runnable updateModelA = new Runnable()

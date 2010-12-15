@@ -147,8 +147,6 @@ public final class MenuManager implements LocaleSupport
 	@Override
 	public void setLocale(Locale locale)
 	{
-		Assert.isNotNull(locale);
-
 		if(isEmpty())
 			return;
 
