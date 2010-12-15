@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.RGB;
 
 import cop.swt.tmp.localization.BundleEnum1;
 import cop.swt.tmp.localization.BundleEnum2;
+import cop.swt.tmp.localization.CountEnum;
 import cop.swt.tmp.localization.Name;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.Currency;
