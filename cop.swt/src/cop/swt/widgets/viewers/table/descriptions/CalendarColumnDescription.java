@@ -54,7 +54,7 @@ public class CalendarColumnDescription<T> extends ColumnDescription<T>
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		return cellEditor = new CalendarCellEditor(parent, NONE, locale);
+		return null;//cellEditor = new CalendarCellEditor(parent, NONE, locale);
 	}
 
 	@Override
