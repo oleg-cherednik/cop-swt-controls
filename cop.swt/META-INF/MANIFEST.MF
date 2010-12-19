@@ -224,5 +224,5 @@ Export-Package: cop.swt.enums,
    cop.swt.widgets.interfaces,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
- plugin.cop.swt;uses:="org.eclipse.jface.resource,org.eclipse.ui.plugin,org.osgi.framework"
+  plugin.cop.swt;uses:="org.eclipse.jface.resource,org.eclipse.ui.plugin,org.osgi.framework"
 Bundle-ClassPath: .
