@@ -26,7 +26,6 @@ public class View extends ViewPart
 	{
 		new PViewerExample().run(_parent);
 		//new NumericExample().run(_parent);
-		//new VogelTableViewerExample().run(_parent);
 		//new HtmlViewerExample().run(_parent);
 		//new CalendarDialogExample().run(_parent);
 		//new WelcomeExample().run(_parent);

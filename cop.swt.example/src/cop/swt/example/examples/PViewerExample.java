@@ -27,16 +27,17 @@ import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_COPY;
 import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_DELETE;
 import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_PROPERTIES;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -54,22 +55,23 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.internal.util.BundleUtility;
+import org.osgi.framework.Bundle;
 
 import plugin.cop.swt.Activator;
-import cop.swt.extensions.LocalizationExtension;
 import cop.common.extensions.NumericExtension;
 import cop.swt.extensions.ColorExtension;
+import cop.swt.extensions.LocalizationExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.tmp.ActionTO;
 import cop.swt.tmp.MarketTO;
 import cop.swt.tmp.localization.Name;
-import cop.swt.tmp.localization.StateBundleEnum;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.menu.items.StateMenuItem;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.list.ListViewerConfig;
@@ -79,7 +81,6 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableColumnAdapter;
-import cop.swt.widgets.viewers.table.TableColumnProperty;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
 import cop.swt.widgets.viewers.table.descriptions.BooleanColumnDescription;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
@@ -121,6 +122,11 @@ public class PViewerExample implements IExample, LocaleSupport
 	{
 		listConfig = new ListViewerConfig();
 		listConfig.setImageProvider(IMAGE_PROVIDER);
+	}
+
+	private static void setDefaultColorScheme(Control control)
+	{
+		setInverseColorScheme(control);
 	}
 
 	private static int getNumber()
@@ -235,7 +241,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		modelB = new ListModel<ActionTO>("model B");
 		modelB.add(actions2);
 
-//		Locale.setDefault(Locale.US);
+		// Locale.setDefault(Locale.US);
 	}
 
 	private Runnable updateModelA = new Runnable()
@@ -361,6 +367,25 @@ public class PViewerExample implements IExample, LocaleSupport
 		searchText = new Text(group, SWT.BORDER);
 		searchText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		searchText.addModifyListener(onSearchText);
+		setDefaultColorScheme(searchText);
+	}
+
+	private static void setInverseColorScheme(Control control)
+	{
+		setColorScheme(control, BLACK, WHITE);
+	}
+
+	private static void setNormalColorScheme(Control control)
+	{
+		setColorScheme(control, WHITE, BLACK);
+	}
+
+	private static void setColorScheme(Control control, Color backgroundColor, Color foregroundColor)
+	{
+		if(control != null && backgroundColor != null)
+			control.setBackground(backgroundColor);
+		if(control != null && foregroundColor != null)
+			control.setForeground(foregroundColor);
 	}
 
 	private void createLocaleCombo(Composite parent)
@@ -379,6 +404,7 @@ public class PViewerExample implements IExample, LocaleSupport
 				localesCombo.add(locale.getDisplayName());
 
 		localesCombo.addSelectionListener(onChangeLocale);
+		setDefaultColorScheme(localesCombo);
 	}
 
 	private void createTableViewer(Composite parent) throws Exception
@@ -837,7 +863,8 @@ public class PViewerExample implements IExample, LocaleSupport
 	{
 		Composite composite = new Composite(parent, SWT.NONE);
 
-		composite.setBackground(WHITE);
+		// composite.setBackground(WHITE);
+		// composite.setBackgroundMode(SWT.INHERIT_FORCE);
 		composite.setLayout(createLayout(2));
 		composite.setLayoutData(createLayoutData(2));
 
@@ -887,14 +914,16 @@ class ImageProviderImpl implements ImageProvider
 		paths = new Properties();
 
 		paths.setProperty(MI_COPY.name(), "icons//copy//copy16.png");
+		// paths.setProperty(MI_COPY.name(), "icons//copy.ico");
+
 		paths.setProperty(MI_DELETE.name(), "icons//delete//delete16.png");
 		// paths.setProperty(MI_PRINT.name(), "icons//print//print16.png");
 		paths.setProperty(MI_PROPERTIES.name(), "icons//properties//properties16.png");
 
-//		paths.setProperty(StateMenuItem. .getKey() + "_" + StateBundleEnum.STATE0.name(), "icons//num0.png");
-//		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE1.name(), "icons//num1.png");
-//		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE2.name(), "icons//num2.png");
-//		paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE3.name(), "icons//num3.png");
+		// paths.setProperty(StateMenuItem. .getKey() + "_" + StateBundleEnum.STATE0.name(), "icons//num0.png");
+		// paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE1.name(), "icons//num1.png");
+		// paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE2.name(), "icons//num2.png");
+		// paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE3.name(), "icons//num3.png");
 		// paths.setProperty("userName", "icons//num3.png");
 
 		paths.setProperty(BooleanColumnDescription.CHECKED_MARKER, "icons//checked.gif");
@@ -914,9 +943,35 @@ class ImageProviderImpl implements ImageProvider
 
 		String path = paths.getProperty(key);
 		Image image = isNotEmpty(path) ? Activator.getImageDescriptor(path).createImage() : null;
-
 		images.put(key, image);
 
 		return image;
+	}
+
+	@SuppressWarnings("restriction")
+	private static URL getURL(String imageFilePath)
+	{
+		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
+
+		if(!BundleUtility.isReady(bundle))
+		{
+			return null;
+		}
+
+		// look for the image (this will check both the plugin and fragment folders
+		URL fullPathString = BundleUtility.find(bundle, imageFilePath);
+		if(fullPathString == null)
+		{
+			try
+			{
+				fullPathString = new URL(imageFilePath);
+			}
+			catch(MalformedURLException e)
+			{
+				return null;
+			}
+		}
+
+		return fullPathString;
 	}
 }
