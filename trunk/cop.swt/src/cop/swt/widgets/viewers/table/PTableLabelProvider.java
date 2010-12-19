@@ -16,7 +16,7 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
-import cop.swt.widgets.tmp.vogella.SearchUtil;
+import cop.swt.utils.SearchUtil;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class PTableLabelProvider<T> extends StyledCellLabelProvider implements IColorProvider, IFontProvider
