@@ -1,10 +1,10 @@
 package cop.swt.widgets.viewers.html.enums;
 
 import static cop.common.extensions.ArrayExtension.copyOfRange;
-import static cop.common.extensions.HtmlExtension.HTML_TAG_CLOSE;
-import static cop.common.extensions.HtmlExtension.HTML_TAG_END;
-import static cop.common.extensions.HtmlExtension.HTML_TAG_OPEN;
 import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.swt.widgets.viewers.html.HtmlExtension.HTML_TAG_CLOSE;
+import static cop.swt.widgets.viewers.html.HtmlExtension.HTML_TAG_END;
+import static cop.swt.widgets.viewers.html.HtmlExtension.HTML_TAG_OPEN;
 import cop.common.extensions.ArrayExtension;
 import cop.swt.widgets.viewers.html.interfaces.IHtmlTag;
 

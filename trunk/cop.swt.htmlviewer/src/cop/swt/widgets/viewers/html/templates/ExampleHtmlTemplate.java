@@ -1,8 +1,8 @@
 package cop.swt.widgets.viewers.html.templates;
 
-import static cop.common.extensions.HtmlExtension.makeFontEffect;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.enums.HtmlColorEnum.HTML_COLOR_BLUE;
+import static cop.swt.widgets.viewers.html.HtmlExtension.makeFontEffect;
 import static cop.swt.widgets.viewers.html.enums.HtmlTagEnum.HTML_TAG_BOLD;
 import static cop.swt.widgets.viewers.html.enums.HtmlTagEnum.HTML_TAG_ITALIC;
 import static cop.swt.widgets.viewers.html.enums.HtmlTagEnum.HTML_TAG_UNDERLINE;
