@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: HtmlViewer Example
+Bundle-SymbolicName: cop.swt.htmlviewer.example; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: plugin.cop.swt.widgets.viewers.html.example.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ cop.swt.htmlviewer;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
