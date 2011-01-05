@@ -60,7 +60,6 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import cop.common.extensions.BitExtension;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
-import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKey;
@@ -79,12 +78,11 @@ import cop.swt.widgets.model.interfaces.ModelChangedListener;
 import cop.swt.widgets.viewers.interfaces.IModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.SelectionListenerSupport;
+import cop.swt.widgets.viewers.interfaces.ViewerConfig;
 import cop.swt.widgets.viewers.model.ListModel;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ModelSupport;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
-import cop.swt.widgets.viewers.table.PViewerSorter;
-import cop.swt.widgets.viewers.table.interfaces.ViewerConfig;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
                 SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChangedListener<T>
@@ -151,9 +149,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	public boolean isSorterOn()
 	{
-		PViewerSorter<T> sorter = (PViewerSorter<T>)widget.getSorter();
-
-		return isNotNull(sorter) ? sorter.getDirection() != SORT_OFF : false;
+		return widget.getSorter() != null;
 	}
 
 	protected void swap(int index1, int index2)
