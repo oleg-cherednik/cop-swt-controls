@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: HtmlViewer
 Bundle-SymbolicName: cop.swt.htmlviewer
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0
 Bundle-Activator: plugin.cop.swt.widgets.viewers.html.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;bundle-version="3.6.1"
