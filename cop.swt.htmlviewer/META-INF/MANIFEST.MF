@@ -9,3 +9,9 @@ Require-Bundle: org.eclipse.core.runtime,
  cop.common;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: cop.swt.widgets.viewers.html,
+ cop.swt.widgets.viewers.html.css,
+ cop.swt.widgets.viewers.html.css.enums,
+ cop.swt.widgets.viewers.html.enums,
+ cop.swt.widgets.viewers.html.interfaces,
+ plugin.cop.swt.widgets.viewers.html
