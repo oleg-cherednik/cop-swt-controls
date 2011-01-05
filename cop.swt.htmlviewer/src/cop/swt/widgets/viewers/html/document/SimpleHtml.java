@@ -5,20 +5,21 @@
  * $Id:$
  * $HeadURL:$
  */
-package cop.swt.widgets.viewers.html.templates;
-
-import cop.swt.widgets.viewers.html.HtmlTag;
-import cop.swt.widgets.viewers.html.document.HtmlDocument;
+package cop.swt.widgets.viewers.html.document;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
- * @since 16.08.2010
+ * @since 05.01.2011
  */
-public interface HtmlTemplate<T>
+public class SimpleHtml extends HtmlDocument
 {
-	HtmlTag getDelimeter();
+	public void println(String html)
+	{
+		partBody.append(html).append(HTML_TAG_NEW_LINE).append("\n");
+	}
 
-	HtmlDocument getHtmlDocument();
-
-	String getHtml(T obj);
+	public void print(String html)
+	{
+		partBody.append(html);
+	}
 }

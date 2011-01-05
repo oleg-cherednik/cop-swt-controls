@@ -1,50 +1,49 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id:$
+ * $HeadURL:$
+ */
 package cop.swt.widgets.viewers.html.templates;
 
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.swt.widgets.viewers.html.enums.HtmlTagEnum.HTML_TAG_NEW_LINE;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
 
+import cop.swt.widgets.viewers.html.HtmlTag;
+
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 16.08.2010
+ */
 public abstract class AbstractHtmlTemplate<T> implements HtmlTemplate<T>
 {
-	private static final String DEFAULT_DELIMETER = "%";
-	private final String delimeter;
-	private List<String> lines = new LinkedList<String>();
+	protected static final String MACRO_DELIMETER = "%";
+	protected static final HtmlTag PART_DELIMETER = HtmlTag.create("hr");
+
+	private final String macroDelimeter;
+	private final HtmlTag partDelimeter;
+	private final String template;
 
 	protected AbstractHtmlTemplate()
 	{
-		this(null);
+		this(null, null);
 	}
 
-	protected AbstractHtmlTemplate(String delimeter)
+	protected AbstractHtmlTemplate(String macroDelimeter, HtmlTag partDelimeter)
 	{
-		this.delimeter = isEmpty(delimeter) ? DEFAULT_DELIMETER : delimeter;
-		this.lines.addAll(createLines());
+		this.macroDelimeter = isEmpty(macroDelimeter) ? MACRO_DELIMETER : macroDelimeter;
+		this.partDelimeter = (partDelimeter == null) ? PART_DELIMETER : partDelimeter;
+		this.template = getTemplate();
 	}
 
-	private final String getMacroFreeString(String macroStr, T obj)
+	protected final String getMacro(String macro)
 	{
-		if(isEmpty(macroStr))
-			return "";
-
-		StringTokenizer st = new StringTokenizer(macroStr, delimeter);
-		StringBuilder buf = new StringBuilder();
-
-		while(st.hasMoreTokens())
-			buf.append(getMacroValue(st.nextToken(), obj));
-
-		return "" + buf;
+		return isEmpty(macro) ? "" : (macroDelimeter + macro + macroDelimeter);
 	}
 
-	public final String getMacro(String macro)
-	{
-		return isEmpty(macro) ? "" : delimeter + macro + delimeter;
-	}
-
-	protected abstract List<String> createLines();
+	protected abstract String getTemplate();
 
 	protected abstract String getMacroValue(String macro, T obj);
 
@@ -53,20 +52,22 @@ public abstract class AbstractHtmlTemplate<T> implements HtmlTemplate<T>
 	 */
 
 	@Override
+	public final HtmlTag getDelimeter()
+	{
+		return partDelimeter;
+	}
+
+	@Override
 	public final String getHtml(T obj)
 	{
-		if(isNull(obj))
+		if(obj == null || isEmpty(template))
 			return "";
 
-		StringBuilder buf = new StringBuilder();
+		StringTokenizer st = new StringTokenizer(template, macroDelimeter);
+		StringBuilder buf = new StringBuilder(1024);
 
-		for(int i = 0, size = lines.size(); i < size; i++)
-		{
-			buf.append(getMacroFreeString(lines.get(i), obj));
-
-			if(i < size - 1)
-				buf.append(HTML_TAG_NEW_LINE.open());
-		}
+		while(st.hasMoreTokens())
+			buf.append(getMacroValue(st.nextToken(), obj));
 
 		return "" + buf;
 	}
