@@ -2,14 +2,16 @@
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
  * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * 
- * $Id:$
- * $HeadURL:$
+ * $Id$
+ * $HeadURL$
  */
 package cop.swt.widgets.viewers.html.example;
 
 import static cop.swt.extensions.ColorExtension.WHITE;
+import static org.eclipse.swt.SWT.BORDER;
+import static org.eclipse.swt.SWT.FILL;
+import static org.eclipse.swt.SWT.NONE;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
@@ -31,28 +33,28 @@ public class View extends ViewPart
 
 	private Composite createComposite(Composite parent)
 	{
-		Composite composite = new Composite(parent, SWT.NONE);
+		Composite composite = new Composite(parent, NONE);
 
 		composite.setBackground(WHITE);
 		composite.setLayout(new GridLayout());
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		composite.setLayoutData(new GridData(FILL, FILL, true, false));
 
 		return composite;
 	}
 
 	private void createTabPart(Composite parent)
 	{
-		CTabFolder tabFolder = new CTabFolder(parent, SWT.BORDER);
-		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		CTabFolder tabFolder = new CTabFolder(parent, BORDER);
+		tabFolder.setLayoutData(new GridData(FILL, FILL, true, true));
 
-		addTabPage("Simple", new SimpleViewer(tabFolder, SWT.NONE));
-		addTabPage("News", new NewsViewer(tabFolder, SWT.NONE));
+		addTabPage("Simple", new SimpleViewer(tabFolder, NONE));
+		addTabPage("News", new NewsViewer(tabFolder, NONE));
 	}
 
 	private static void addTabPage(String title, Control control)
 	{
 		CTabFolder parent = (CTabFolder)control.getParent();
-		CTabItem tabItem = new CTabItem(parent, SWT.NONE);
+		CTabItem tabItem = new CTabItem(parent, NONE);
 
 		tabItem.setText(title);
 		tabItem.setControl(control);
