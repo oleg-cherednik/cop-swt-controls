@@ -9,13 +9,13 @@ package cop.swt.example.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import cop.swt.example.examples.*;
+import cop.swt.example.examples.PViewerExample;
 
 
 
 public class View extends ViewPart
 {
-	public static final String ID = "cop.swt.example.view";
+	public static final String ID = "cop.swt.htmlviewer.example.view";
 
 	@Override
 	public void setFocus()
@@ -26,7 +26,6 @@ public class View extends ViewPart
 	{
 		new PViewerExample().run(_parent);
 		//new NumericExample().run(_parent);
-		//new HtmlViewerExample().run(_parent);
 		//new CalendarDialogExample().run(_parent);
 		//new WelcomeExample().run(_parent);
 		//new CanvasExample().run(_parent);
