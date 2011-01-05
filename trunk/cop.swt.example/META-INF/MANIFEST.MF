@@ -1,14 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Example
-Bundle-SymbolicName: cop.swt.example; singleton:=true
+Bundle-Name: HtmlViewer example
+Bundle-SymbolicName: cop.swt.htmlviewer.example;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: plugin.cop.swt.example.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.forms;bundle-version="3.4.1",
  cop.swt;bundle-version="1.0.0",
- cop.common;bundle-version="1.0.0"
+ cop.common;bundle-version="1.0.0",
+ cop.swt.widgets.viewers.table;bundle-version="1.0.0",
+ cop.swt.widgets.viewers.list;bundle-version="1.0.0",
+ cop.swt.widgets.segments;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: cop.swt.example.application,
