@@ -12,14 +12,16 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		super(configurer);
 	}
 
-	public ActionBarAdvisor createActionBarAdvisor(
+	@Override
+    public ActionBarAdvisor createActionBarAdvisor(
 			IActionBarConfigurer configurer) {
 		return new ApplicationActionBarAdvisor(configurer);
 	}
 
-	public void preWindowOpen() {
+	@Override
+    public void preWindowOpen() {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-		configurer.setInitialSize(new Point(400, 300));
+		configurer.setInitialSize(new Point(920, 450));
 		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(false);
 		configurer.setTitle("HtmlViewer example");
