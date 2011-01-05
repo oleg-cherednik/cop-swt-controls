@@ -2,16 +2,17 @@
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
  * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * 
- * $Id:$
- * $HeadURL:$
+ * $Id$
+ * $HeadURL$
  */
 package cop.swt.widgets.viewers.html.example.simple;
 
 import static cop.swt.extensions.ColorExtension.WHITE;
+import static org.eclipse.swt.SWT.FILL;
+import static org.eclipse.swt.SWT.NONE;
 
 import java.io.IOException;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -51,15 +52,13 @@ public class SimpleViewer extends Composite
 	{
 		try
 		{
-			htmlViewer = new SimpleHtmlViewer(this, SWT.NONE);
-			htmlViewer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			htmlViewer = new SimpleHtmlViewer(this, NONE);
+			htmlViewer.setLayoutData(new GridData(FILL, FILL, true, true));
 		}
 		catch(IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void refresh()
