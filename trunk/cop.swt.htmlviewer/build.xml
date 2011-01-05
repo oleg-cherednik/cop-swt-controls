@@ -62,13 +62,13 @@
 	<target name="remove" depends="remove-binary-dir, remove-destination-dir" description="Remove binary and destination folders" />
 
 	<!-- remove binary folder -->
-	<target name="remove-binary-dir" unless="${bin.dir.exsists}">
-		<delete dir="${bin.dir}" />
+	<target name="remove-binary-dir">
+		<delete dir="${bin.dir}" failonerror="false" />
 	</target>
 
 	<!-- remove destination folder -->
-	<target name="remove-destination-dir" unless="${dest.dir.exsists}">
-		<delete dir="${dest.dir}" />
+	<target name="remove-destination-dir">
+		<delete dir="${dest.dir}"  failonerror="false"/>
 	</target>
 
 	<!-- CLEAN -->
@@ -76,15 +76,15 @@
 	<target name="clean" depends="clean-binary-dir, clean-destination-dir" description="Clean binary and destination folders" />
 
 	<!-- clean binary folder -->
-	<target name="clean-binary-dir" if="${bin.dir.exsists}">
-		<delete includeemptydirs="true">
+	<target name="clean-binary-dir">
+		<delete includeemptydirs="true" failonerror="false">
 			<fileset dir="${bin.dir}" includes="**/*" />
 		</delete>
 	</target>
 
 	<!-- clean destination folder -->
-	<target name="clean-destination-dir" if="${dest.dir.exsists}">
-		<delete includeemptydirs="true">
+	<target name="clean-destination-dir">
+		<delete includeemptydirs="true" failonerror="false">
 			<fileset dir="${dest.dir}" includes="**/*" />
 		</delete>
 	</target>
