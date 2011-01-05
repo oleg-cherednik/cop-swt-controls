@@ -13,7 +13,7 @@ import static cop.common.extensions.ReflectionExtension.isNumeric;
 import static cop.common.extensions.ReflectionExtension.isString;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isEqual;
-import static cop.swt.widgets.viewers.list.descriptions.LabelDescription.createLabelDescription;
+import static cop.swt.widgets.viewers.descriptions.LabelDescription.createLabelDescription;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
@@ -28,7 +28,7 @@ import cop.common.extensions.AnnotationExtension;
 import cop.swt.widgets.annotations.Label;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.WrongReturnValueException;
-import cop.swt.widgets.viewers.list.descriptions.LabelDescription;
+import cop.swt.widgets.viewers.descriptions.LabelDescription;
 
 /**
  * Class contains static methods that are used for working with <b>Label</b> annotation.<br>
@@ -69,18 +69,18 @@ public final class LabelService
 		Assert.isNotNull(method);
 		Assert.isNotNull(cls);
 
-		//		checkMethodParameterNumber(method.getParameterTypes());
-		//		checkMethodReturnType(method.getReturnType());
-		//		checkOrderValue(method.getAnnotation(Column.class));
+		// checkMethodParameterNumber(method.getParameterTypes());
+		// checkMethodReturnType(method.getReturnType());
+		// checkOrderValue(method.getAnnotation(Column.class));
 
 		LabelDescription<T> column = createLabelDescription(method);
-		
+
 		column.setLabelName(labelName);
 
-		//		if(isEmpty(column.getName()))
-		//			column.getContent().setName(getPropertyNameByMethodName(method.getName()));
+		// if(isEmpty(column.getName()))
+		// column.getContent().setName(getPropertyNameByMethodName(method.getName()));
 		//
-		//		checkSetterExists(method, cls);
+		// checkSetterExists(method, cls);
 
 		return column;
 	}
@@ -90,15 +90,15 @@ public final class LabelService
 	{
 		Assert.isNotNull(field);
 
-		//		checkOrderValue(field.getAnnotation(Column.class));
-		//		checkFieldType(field.getType());
+		// checkOrderValue(field.getAnnotation(Column.class));
+		// checkFieldType(field.getType());
 
 		LabelDescription<T> column = createLabelDescription(field);
-		
+
 		column.setLabelName(labelName);
 
-		//		if(isEmpty(column.getName()))
-		//			column.getContent().setName(field.getName());
+		// if(isEmpty(column.getName()))
+		// column.getContent().setName(field.getName());
 
 		return column;
 	}
@@ -208,27 +208,27 @@ public final class LabelService
 		return String.class;
 	}
 
-	//	public static <T> Class<?> getItem(T item, String labelName) throws WrongReturnValueException
-	//	{
-	//		if(isNull(item))
-	//			throw new NullPointerException("item == null");
+	// public static <T> Class<?> getItem(T item, String labelName) throws WrongReturnValueException
+	// {
+	// if(isNull(item))
+	// throw new NullPointerException("item == null");
 	//
-	//		try
-	//		{
-	//			Class<?> cls = item.getClass();
+	// try
+	// {
+	// Class<?> cls = item.getClass();
 	//
-	//			if(isString(cls) || isNumeric(cls))
-	//				return cls;
+	// if(isString(cls) || isNumeric(cls))
+	// return cls;
 	//
-	//			return getType(findAnnotatedItem(item.getClass(), labelName), String.class);
-	//		}
-	//		catch(AnnotationDeclarationException e)
-	//		{
-	//			e.printStackTrace();
-	//		}
+	// return getType(findAnnotatedItem(item.getClass(), labelName), String.class);
+	// }
+	// catch(AnnotationDeclarationException e)
+	// {
+	// e.printStackTrace();
+	// }
 	//
-	//		return String.class;
-	//	}
+	// return String.class;
+	// }
 
 	public static AccessibleObject getAnnotatedItem(Class<?> cls, String labelName)
 	                throws AnnotationDeclarationException
@@ -374,8 +374,8 @@ public final class LabelService
 	{
 		Assert.isNotNull(item);
 		Assert.isNotNull(method);
-		//		Assert.isLegal(!(item instanceof String), "item must not be String");
-		//		Assert.isLegal(!(item instanceof Number), "item must not be Number");
+		// Assert.isLegal(!(item instanceof String), "item must not be String");
+		// Assert.isLegal(!(item instanceof Number), "item must not be Number");
 
 		checkItemType(item.getClass());
 		checkMethodArguments(method);

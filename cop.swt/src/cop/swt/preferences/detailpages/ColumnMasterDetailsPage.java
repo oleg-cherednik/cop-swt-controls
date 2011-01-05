@@ -1,6 +1,6 @@
 package cop.swt.preferences.detailpages;
 
-import static cop.swt.preferences.detailpages.ColumnDescriptionComboWrapper.createDescriptionWrapper;
+//import static cop.swt.preferences.detailpages.ColumnDescriptionComboWrapper.createDescriptionWrapper;
 import static org.eclipse.swt.SWT.FILL;
 import static org.eclipse.swt.SWT.READ_ONLY;
 
@@ -16,8 +16,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import cop.swt.preferences.obj.LocalizationPreference;
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
-import cop.swt.widgets.annotations.services.ColumnService;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.viewers.PComboViewer;
 
