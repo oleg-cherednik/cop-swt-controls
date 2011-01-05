@@ -2,12 +2,11 @@
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
  * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * 
- * $Id:$
- * $HeadURL:$
+ * $Id$
+ * $HeadURL$
  */
 package cop.swt.widgets.viewers.html;
 
-import java.io.IOException;
 import java.util.Collection;
 
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class SimpleHtmlViewer extends HtmlViewer<String>
 {
-	public SimpleHtmlViewer(Composite parent, int style) throws IOException
+	public SimpleHtmlViewer(Composite parent, int style)
 	{
 		super(parent, style);
 	}

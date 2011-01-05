@@ -11,8 +11,6 @@ import static cop.swt.extensions.ColorExtension.WHITE;
 import static org.eclipse.swt.SWT.FILL;
 import static org.eclipse.swt.SWT.NONE;
 
-import java.io.IOException;
-
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -50,15 +48,8 @@ public class SimpleViewer extends Composite
 
 	private void createHtmlViewerPart()
 	{
-		try
-		{
-			htmlViewer = new SimpleHtmlViewer(this, NONE);
-			htmlViewer.setLayoutData(new GridData(FILL, FILL, true, true));
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
+		htmlViewer = new SimpleHtmlViewer(this, NONE);
+		htmlViewer.setLayoutData(new GridData(FILL, FILL, true, true));
 	}
 
 	public void refresh()
