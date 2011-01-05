@@ -12,6 +12,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: cop.swt.widgets.viewers.html,
  cop.swt.widgets.viewers.html.css,
  cop.swt.widgets.viewers.html.css.enums,
+ cop.swt.widgets.viewers.html.document,
  cop.swt.widgets.viewers.html.enums,
  cop.swt.widgets.viewers.html.interfaces,
+ cop.swt.widgets.viewers.html.templates,
  plugin.cop.swt.widgets.viewers.html
