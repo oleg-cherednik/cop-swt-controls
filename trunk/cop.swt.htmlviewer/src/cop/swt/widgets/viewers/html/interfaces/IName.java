@@ -5,20 +5,13 @@
  * $Id:$
  * $HeadURL:$
  */
-package cop.swt.widgets.viewers.html.templates;
-
-import cop.swt.widgets.viewers.html.HtmlTag;
-import cop.swt.widgets.viewers.html.document.HtmlDocument;
+package cop.swt.widgets.viewers.html.interfaces;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
- * @since 16.08.2010
+ * @since 05.01.2011
  */
-public interface HtmlTemplate<T>
+public interface IName
 {
-	HtmlTag getDelimeter();
-
-	HtmlDocument getHtmlDocument();
-
-	String getHtml(T obj);
+	String getName();
 }

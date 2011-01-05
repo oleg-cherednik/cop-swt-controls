@@ -5,20 +5,17 @@
  * $Id:$
  * $HeadURL:$
  */
-package cop.swt.widgets.viewers.html.templates;
+package cop.swt.widgets.viewers.html.interfaces;
 
-import cop.swt.widgets.viewers.html.HtmlTag;
-import cop.swt.widgets.viewers.html.document.HtmlDocument;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
- * @since 16.08.2010
+ * @since 05.01.2011
  */
-public interface HtmlTemplate<T>
+public interface IAppendable
 {
-	HtmlTag getDelimeter();
+	boolean isEmpty();
 
-	HtmlDocument getHtmlDocument();
-
-	String getHtml(T obj);
+	Appendable append(Appendable buf) throws IOException;
 }

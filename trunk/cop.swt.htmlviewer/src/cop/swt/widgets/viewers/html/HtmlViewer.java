@@ -1,40 +1,42 @@
 /**
- * GNU Lesser General Public License
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id:$
+ * $HeadURL:$
  */
 package cop.swt.widgets.viewers.html;
 
 import static cop.common.extensions.BitExtension.clearBits;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.swt.widgets.viewers.html.enums.HtmlTagEnum.HTML_TAG_NEW_LINE;
 import static org.eclipse.swt.SWT.H_SCROLL;
 import static org.eclipse.swt.SWT.V_SCROLL;
 
+import java.util.Collection;
+
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Layout;
 
-public abstract class HtmlViewer<T> extends Browser
+import cop.swt.widgets.viewers.html.document.HtmlDocument;
+
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 16.08.2010
+ */
+public abstract class HtmlViewer<T>
 {
-	private static final String AUTO_SCROLL = "<body style='overflow:auto'/>";
-
-	private boolean autoIndent = true;
-
-	private StringBuilder html = new StringBuilder(AUTO_SCROLL);
+	private final Browser browser;
+	private final HtmlDocument html;
 
 	public HtmlViewer(Composite parent, int style)
 	{
-		super(parent, checkStyle(style));
+		this(parent, style, new HtmlDocument());
 	}
 
-	public boolean isAutoIndent()
+	public HtmlViewer(Composite parent, int style, HtmlDocument html)
 	{
-		return autoIndent;
-	}
-
-	public void setAutoIndent(boolean autoIndent)
-	{
-		this.autoIndent = autoIndent;
+		this.html = html;
+		this.browser = new Browser(parent, checkStyle(style));
 	}
 
 	protected static int checkStyle(int style)
@@ -44,141 +46,74 @@ public abstract class HtmlViewer<T> extends Browser
 
 	public void clear()
 	{
-		clearHtml();
+		html.clear();
 		refresh();
 	}
 
-	public boolean isClear()
+	public boolean isEmpty()
 	{
-		return html.toString().equalsIgnoreCase(AUTO_SCROLL);
+		return html.isEmpty();
 	}
 
 	public void println()
 	{
-		html.append(HTML_TAG_NEW_LINE.open());
+		html.println();
 		refresh();
 	}
 
-	private void clearHtml()
+	public void setText(String html)
 	{
-		html.replace(0, html.length(), AUTO_SCROLL);
-	}
-
-	/**
-	 * Widget
-	 */
-
-	@Override
-	protected void checkSubclass()
-	{}
-
-	/**
-	 * Browser
-	 */
-
-	@Override
-	public boolean setText(String html)
-	{
-		clearHtml();
-		this.html.append(html);
+		this.html.setText(html);
 		refresh();
-
-		return true;
 	}
 
-	@Override
 	public String getText()
 	{
-		return html.substring(AUTO_SCROLL.length() + 1);
+		return html.getText();
 	}
 
-	@Override
 	public void refresh()
 	{
-		super.setText("" + html);
-	}
-
-	/**
-	 * Control
-	 */
-
-	@Override
-	@Deprecated
-	public void setBackground(Color color)
-	{}
-
-	@Override
-	@Deprecated
-	public void setForeground(Color color)
-	{}
-
-	@Override
-	@Deprecated
-	public Color getBackground()
-	{
-		return super.getBackground();
-	}
-
-	@Override
-	@Deprecated
-	public Color getForeground()
-	{
-		return super.getForeground();
-	}
-
-	public abstract void println(T html);
-
-	public abstract void print(T html);
-
-	protected void addTextLn(String html)
-	{
-		addText(html, true);
+		browser.setText(html.toString());
 	}
 
 	protected void addText(String html)
 	{
 		addText(html, false);
-	}
-
-	private void addText(String html, boolean newLine)
-	{
-		if(isNull(html))
-			return;
-
-		checkAutoIndent();
-		addHtml(html);
-		addNewLine(newLine);
 		refresh();
 	}
 
-	private void addHtml(String html)
+	protected void addTextLn(String html)
 	{
-		if(!isEmpty(html))
-			this.html.append(html.trim());
+		addText(html, true);
+		refresh();
 	}
 
-	private void addNewLine(boolean newLine)
+	protected void addText(String html, boolean newLine)
 	{
+		this.html.addText(html);
+
 		if(newLine)
-			this.html.append(HTML_TAG_NEW_LINE.open());
+			this.html.println();
 	}
 
-	private void checkAutoIndent()
+	public void setLayout(Layout layout)
 	{
-		if(!autoIndent || isClear())
-			return;
-
-		String tagNewLine = HTML_TAG_NEW_LINE.open();
-		int lengthTagNewLine = tagNewLine.length();
-		int lengthHtml = html.length();
-		int tagPrePreStart = lengthHtml - (2 * lengthTagNewLine);
-		int tagPreStart = tagPrePreStart + lengthTagNewLine;
-		String tagPrePre = html.substring(tagPrePreStart, tagPreStart);
-		String tagPre = html.substring(tagPreStart);
-
-		if(!tagPre.equalsIgnoreCase(tagNewLine))
-			this.html.append(tagNewLine + tagNewLine);
-		else if(!tagPrePre.equalsIgnoreCase(tagNewLine))
-			this.html.append(tagNewLine);
+		browser.setLayout(layout);
 	}
+
+	public void setLayoutData(Object layoutData)
+	{
+		browser.setLayoutData(layoutData);
+	}
+
+	/*
+	 * abstract
+	 */
+
+	public abstract void print(Collection<T> html);
+
+	public abstract void print(T html);
+
+	public abstract void println(T html);
 }
