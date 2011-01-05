@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: cop.common
 Bundle-SymbolicName: cop.common
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: plugin.cop.common.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
