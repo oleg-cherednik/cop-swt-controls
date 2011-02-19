@@ -23,7 +23,7 @@
 
 	<property name="dest.head" value="${ant.project.name}" />
 	<property name="dest.src.head" value="${dest.head}.source" />
-	<property name="dest.teil" value="v${Bundle-Version}.${start.curr.time}" />
+	<property name="dest.teil" value="v${start.curr.time}" />
 
 	<property name="dest.name" value="${dest.head}_${dest.teil}" />
 	<property name="dest.src.name" value="${dest.src.head}_${dest.teil}" />
@@ -59,7 +59,7 @@
 
 	<!-- REMOVE -->
 
-	<target name="remove" depends="remove-binary-dir, remove-destination-dir" description="Remove binary and destination folders" />
+	<target name="remove" depends="remove-binary-dir, remove-destination-dir" description="Remove all created folders" />
 
 	<!-- remove binary folder -->
 	<target name="remove-binary-dir">

@@ -35,7 +35,7 @@ public final class NewsGenerator extends Thread
 
 		String section = "Politics";
 		String reporter = "Rosa Prince, Political Correspondent";
-		String title = "John Redwood: Liberal Democrats are taking credit for ‘nice things’ Government does";
+		String title = "John Redwood: Liberal Democrats are taking credit for 'nice things' Government does";
 		String note = "A leading Conservative has accused Liberal Democrats within the Coalition of seeking to claim credit for the ‘nice things’ the Government is doing.";
 		String body = "<b><font color=\"darkcyan\">Nick Clegg</font></b>, the Lib Dem Deputy Prime Minister, is understood to have ordered his MPs to embrace their Coalition partners amid fears that strains between the two sides could begin to undermine the Government.<p>Last week, a number of ministers were embarrassed after making highly critical remarks about the Tories to reporters from The Daily Telegraph posing as constituents.<p>With both sides said to be bruised by the row, John Redwood, a former Conservative Cabinet minister, rejected angrily suggestions that the role of the <b><font color=\"darkcyan\">Liberal Democrats</font></b>, in government was to \"bridle the instincts\" of the Conservatives.<p>He accused the party’s MPs of seeking to claim the credit for policies which the Tories had also campaigned for, such as cutting income tax for the low paid, channelling funding to poorer pupils and restoring civil liberties.<p>In words which will alarm <b><font color=\"darkcyan\">David Cameron</font></b> and Mr Clegg, Mr Redwood also warned of real differences between the two parties on issues such as the European Union.";
 
