@@ -33,13 +33,13 @@ import cop.swt.widgets.viewers.html.css.CssGroup;
 import cop.swt.widgets.viewers.html.css.CssId;
 import cop.swt.widgets.viewers.html.css.CssStyleList;
 import cop.swt.widgets.viewers.html.document.HtmlDocument;
-import cop.swt.widgets.viewers.html.templates.AbstractHtmlTemplate;
+import cop.swt.widgets.viewers.html.templates.HtmlTemplate;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class NewsHtmlTemplate extends AbstractHtmlTemplate<NewsTO>
+public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 {
 	private static final HtmlTag HTML_TAG_NEW_LINE = HtmlTag.create("br");
 	private static final HtmlTag HTML_TAG_PARAGRAPH = HtmlTag.create("p");

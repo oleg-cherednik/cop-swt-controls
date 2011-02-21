@@ -18,11 +18,15 @@
 
 	<property name="bin.dir.name" value="bin" />
 	<property name="dest.dir.name" value="build" />
-	
+	<property name="eclipselib.dir.name" value="eclipse" />
+
+
 	<property name="src.dir" location="src" />
 	<property name="bin.dir" location="${bin.dir.name}" />
 	<property name="test.dir" location="test" />
 	<property name="dest.dir" location="${dest.dir.name}" />
+	<property name="lib.dir" location="lib" />
+	<property name="eclipse.lib.dir" location="${dest.dir}/${eclipselib.dir.name}" />
 
 	<property name="dest.head" value="${ant.project.name}" />
 	<property name="dest.src.head" value="${dest.head}.source" />
@@ -35,6 +39,9 @@
 
 	<path id="classpath.core">
 		<fileset dir="${eclipse.plugins}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -55,14 +62,19 @@
 		<mkdir dir="${bin.dir}" />
 	</target>
 
-	<!-- remove destination directory -->
+	<!-- create destination directory -->
 	<target name="create-destination-dir" unless="${dest.dir.exsists}">
 		<mkdir dir="${dest.dir}" />
 	</target>
 
+	<!-- create eclipse lib directory -->
+	<target name="create-eclipselib-dir" unless="${eclipse.lib.dir.exsists}">
+		<mkdir dir="${eclipse.lib.dir}" />
+	</target>
+
 	<!-- REMOVE -->
 
-	<target name="remove" depends="remove-binary-dir, remove-destination-dir" description="Remove binary and destination folders" />
+	<target name="remove" depends="remove-binary-dir, remove-destination-dir, remove-eclipselib-dir" description="Remove binary and destination folders" />
 
 	<!-- remove binary folder -->
 	<target name="remove-binary-dir" unless="${bin.dir.exsists}">
@@ -74,9 +86,14 @@
 		<delete dir="${dest.dir}" />
 	</target>
 
+	<!-- remove eclipse lib folder -->
+	<target name="remove-eclipselib-dir" unless="${eclipse.lib.dir.exsists}">
+		<delete dir="${eclipse.lib.dir}" />
+	</target>
+
 	<!-- CLEAN -->
 
-	<target name="clean" depends="clean-binary-dir, clean-destination-dir" description="Clean binary and destination folders" />
+	<target name="clean" depends="clean-binary-dir, clean-destination-dir, remove-eclipselib-dir" description="Clean binary and destination folders" />
 
 	<!-- clean binary folder -->
 	<target name="clean-binary-dir" if="${bin.dir.exsists}">
@@ -100,13 +117,130 @@
 		</javac>
 	</target>
 
-	<target name="build-binary" depends="compile, create-destination-dir" description="Create binary *.jar archive">
+	<target name="copy-eclipse-files" depends="create-eclipselib-dir" description="Copy eclipse files for runnable jar">
+		<unzip dest="${eclipse.lib.dir}">
+			<first count="1">
+				<sort>
+					<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators" />
+					<resources>
+						<fileset dir="${eclipse.plugins}">
+							<include name="**/org.eclipse.jdt.ui_3.6.1.r361_*.jar" />
+							<exclude name="**/*source*.jar" />
+						</fileset>
+					</resources>
+				</sort>
+			</first>
+			<patternset>
+				<include name="**/jar-in-jar-loader.zip" />
+			</patternset>
+		</unzip>
+		<copy todir="${eclipse.lib.dir}" flatten="true">
+			<first count="1">
+				<sort>
+					<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators" />
+					<resources>
+						<fileset dir="${eclipse.plugins}">
+							<include name="**/org.eclipse.core.commands_*.jar" />
+							<exclude name="**/*source*.jar" />
+						</fileset>
+					</resources>
+				</sort>
+			</first>
+		</copy>
+		<copy todir="${eclipse.lib.dir}" flatten="true">
+			<first count="1">
+				<sort>
+					<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators" />
+					<resources>
+						<fileset dir="${eclipse.plugins}">
+							<include name="**/org.eclipse.equinox.common_*.jar" />
+							<exclude name="**/*source*.jar" />
+						</fileset>
+					</resources>
+				</sort>
+			</first>
+		</copy>
+		<copy todir="${eclipse.lib.dir}" flatten="true">
+			<first count="1">
+				<sort>
+					<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators" />
+					<resources>
+						<fileset dir="${eclipse.plugins}">
+							<include name="**/org.eclipse.osgi_*.jar" />
+							<exclude name="**/*source*.jar" />
+						</fileset>
+					</resources>
+				</sort>
+			</first>
+		</copy>
+		<copy todir="${eclipse.lib.dir}" flatten="true">
+			<first count="1">
+				<sort>
+					<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators" />
+					<resources>
+						<fileset dir="${eclipse.plugins}">
+							<include name="**/org.eclipse.swt.win32.win32.x86_*.jar" />
+							<exclude name="**/*source*.jar" />
+						</fileset>
+					</resources>
+				</sort>
+			</first>
+		</copy>
+		<copy todir="${eclipse.lib.dir}" flatten="true">
+			<first count="1">
+				<sort>
+					<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators" />
+					<resources>
+						<fileset dir="${eclipse.plugins}">
+							<include name="**/org.eclipse.ui.workbench_*.jar" />
+							<exclude name="**/*source*.jar" />
+						</fileset>
+					</resources>
+				</sort>
+			</first>
+		</copy>
+		<copy todir="${eclipse.lib.dir}" flatten="true">
+			<first count="1">
+				<sort>
+					<date xmlns="antlib:org.apache.tools.ant.types.resources.comparators" />
+					<resources>
+						<fileset dir="${eclipse.plugins}">
+							<include name="**/org.eclipse.jface_*.jar" />
+							<exclude name="**/*source*.jar" />
+						</fileset>
+					</resources>
+				</sort>
+			</first>
+		</copy>
+	</target>
+
+	<target name="build-binary" depends="copy-eclipse-files, compile, create-destination-dir" description="Create runnable binary *.jar archive">
+		<pathconvert property="manifest.classpath" pathsep=" ">
+			<path id="project.classpath">
+				<fileset dir="${eclipse.lib.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+			<flattenmapper />
+		</pathconvert>
+
 		<jar jarfile="${dest.dir}/${dest.name}.jar">
-			<fileset dir=".">
-				<exclude name="**/${bin.dir.name}/" />
-				<exclude name="**/${dest.dir.name}/" />
-			</fileset>
+			<manifest>
+				<attribute name="Developer" value="Cherednik, Oleg" />
+				<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader" />
+				<attribute name="Rsrc-Main-Class" value="cop.swt.widgets.viewers.html.example.Main" />
+				<attribute name="Class-Path" value="." />
+				<attribute name="Rsrc-Class-Path" value="./ ${manifest.classpath}" />
+			</manifest>
+			<zipfileset src="${eclipse.lib.dir}/jar-in-jar-loader.zip" />
+			<zipfileset dir="${bin.dir}" excludes="**/*.jar,**/.svn" />
+			<zipfileset dir="${eclipse.lib.dir}" includes="**/*.jar" />
+			<zipfileset dir="${lib.dir}" includes="**/*.jar" />
 		</jar>
+		<antcall target="remove-eclipselib-dir" />
 	</target>
 
 	<target name="build-release" depends="clean, build-binary" description="Build release version" />
