@@ -1,4 +1,4 @@
-package cop.swt.widgets.segments.primitives;
+package cop.swt.widgets.segments.primitives.drawable;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
@@ -21,6 +21,6 @@ public abstract class DrawableSegment extends SimpleSegment
 			return;
 
 		gc.setForeground(color);
-		gc.drawPolygon(points);
+		gc.drawPolygon(getPoints());
 	}
 }

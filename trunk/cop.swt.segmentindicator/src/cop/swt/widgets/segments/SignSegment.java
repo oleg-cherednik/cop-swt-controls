@@ -3,9 +3,9 @@ package cop.swt.widgets.segments;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
 
-import cop.swt.widgets.segments.primitives.MinusSegment;
-import cop.swt.widgets.segments.primitives.PlusSegment;
-import cop.swt.widgets.segments.primitives.SimpleSegment;
+import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
+import cop.swt.widgets.segments.primitives.fillable.MinusSegment;
+import cop.swt.widgets.segments.primitives.fillable.PlusSegment;
 
 public class SignSegment extends SegmentedIndicator
 {
@@ -69,7 +69,7 @@ public class SignSegment extends SegmentedIndicator
 	@Override
 	protected int getDefaultWidth()
 	{
-		return (scale <= 1) ? BASE_LENGTH : (BASE_LENGTH * scale - scale + 1);
+		return (getScale() <= 1) ? BASE_LENGTH : (BASE_LENGTH * getScale() - getScale() + 1);
 	}
 
 	@Override
@@ -81,19 +81,19 @@ public class SignSegment extends SegmentedIndicator
 	@Override
 	protected void buildVerticalOrientatedIndicator(boolean invert)
 	{
-		int _y = (scale <= 1) ? 2 : (3 + (scale - 2) * 2);
+		int _y = (getScale() <= 1) ? 2 : (3 + (getScale() - 2) * 2);
 
-		segments[PLUS].setBounds(x, invert ? _y : y + _y, scale);
-		segments[MINUS].setBounds(x, invert ? _y : height - _y, scale);
+		segments[PLUS].setBounds(x, invert ? _y : y + _y, getScale());
+		segments[MINUS].setBounds(x, invert ? _y : height - _y, getScale());
 	}
 
 	@Override
 	protected void buildHorizontalOrientatedIndicator(boolean invert)
 	{
-		int _y = (scale <= 1) ? 2 : (3 + (scale - 2) * 2);
+		int _y = (getScale() <= 1) ? 2 : (3 + (getScale() - 2) * 2);
 
-		segments[PLUS].setBounds(x, invert ? _y : y + _y, scale);
-		segments[MINUS].setBounds(x, invert ? y : height - _y - 1, scale);
+		segments[PLUS].setBounds(x, invert ? _y : y + _y, getScale());
+		segments[MINUS].setBounds(x, invert ? y : height - _y - 1, getScale());
 	}
 
 	@Override

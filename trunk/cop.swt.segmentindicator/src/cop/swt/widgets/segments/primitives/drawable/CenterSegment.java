@@ -1,4 +1,4 @@
-package cop.swt.widgets.segments.primitives;
+package cop.swt.widgets.segments.primitives.drawable;
 
 import static cop.swt.widgets.segments.ShapeBasics.createRhombus;
 
@@ -21,12 +21,12 @@ public final class CenterSegment extends DrawableSegment
 	@Override
 	protected int getDefaultHeight()
 	{
-		return (scale < 2) ? 1 : (1 + (scale - 1) * 2);
+		return (getScale() < 2) ? 1 : (1 + (getScale() - 1) * 2);
 	}
 
 	@Override
 	protected int[] getPointArray()
 	{
-		return createRhombus(x, y, width, height, orientation);
+		return createRhombus(x, y, width, height, getOrientation());
 	}
 }

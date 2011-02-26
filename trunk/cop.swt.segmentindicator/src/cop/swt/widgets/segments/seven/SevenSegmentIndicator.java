@@ -4,15 +4,15 @@ import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.VERTICAL;
 
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 import cop.swt.widgets.segments.SegmentedIndicator;
-import cop.swt.widgets.segments.primitives.BottomSegment;
-import cop.swt.widgets.segments.primitives.CenterSegment;
-import cop.swt.widgets.segments.primitives.LeftSegment;
-import cop.swt.widgets.segments.primitives.RightSegment;
-import cop.swt.widgets.segments.primitives.SimpleSegment;
-import cop.swt.widgets.segments.primitives.TopSegment;
+import cop.swt.widgets.segments.primitives.drawable.BottomSegment;
+import cop.swt.widgets.segments.primitives.drawable.CenterSegment;
+import cop.swt.widgets.segments.primitives.drawable.LeftSegment;
+import cop.swt.widgets.segments.primitives.drawable.RightSegment;
+import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
+import cop.swt.widgets.segments.primitives.drawable.TopSegment;
 import cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory;
 
 public abstract class SevenSegmentIndicator extends SegmentedIndicator
@@ -27,9 +27,9 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 
 	protected static final SevenSegmentSymbolFactory factory = SevenSegmentSymbolFactory.getInstance();
 
-	public SevenSegmentIndicator(Shell shell, int orientation)
+	public SevenSegmentIndicator(Canvas canvas, int orientation)
 	{
-		super(shell, orientation);
+		super(canvas, orientation);
 	}
 
 	protected void _setValue(int value)
@@ -76,18 +76,18 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 		int _x = 0, _y = 0, _yy = 0;
 
 		_y = y + height - 1;
-		segments[TOP].setBounds(x + 1, invert ? _y : y, scale);
-		segments[BOTTOM].setBounds(x + 1, invert ? y : _y, scale);
+		segments[TOP].setBounds(x + 1, invert ? _y : y, getScale());
+		segments[BOTTOM].setBounds(x + 1, invert ? y : _y, getScale());
 
 		_x = x + width - 1;
 		_y = y + center + 1;
 		_yy = y + 1;
-		segments[TOP_SIDE_RIGHT].setBounds(invert ? x : _x, invert ? _y : _yy, scale);
-		segments[BOTTOM_SIDE_LEFT].setBounds(invert ? _x : x, invert ? _yy : _y, scale);
-		segments[TOP_SIDE_LEFT].setBounds(invert ? _x : x, invert ? _y : _yy, scale);
-		segments[BOTTOM_SIDE_RIGHT].setBounds(invert ? x : _x, invert ? _yy : _y, scale);
+		segments[TOP_SIDE_RIGHT].setBounds(invert ? x : _x, invert ? _y : _yy, getScale());
+		segments[BOTTOM_SIDE_LEFT].setBounds(invert ? _x : x, invert ? _yy : _y, getScale());
+		segments[TOP_SIDE_LEFT].setBounds(invert ? _x : x, invert ? _y : _yy, getScale());
+		segments[BOTTOM_SIDE_RIGHT].setBounds(invert ? x : _x, invert ? _yy : _y, getScale());
 
-		segments[CENTER].setBounds(x + 1, y + center, scale);
+		segments[CENTER].setBounds(x + 1, y + center, getScale());
 	}
 
 	@Override
@@ -97,18 +97,18 @@ public abstract class SevenSegmentIndicator extends SegmentedIndicator
 		int _x = 0, _xx = 0, _y = 0;
 
 		_x = x + width - 1;
-		segments[TOP].setBounds(invert ? x : _x, y + 1, scale);
-		segments[BOTTOM].setBounds(invert ? _x : x, y + 1, scale);
+		segments[TOP].setBounds(invert ? x : _x, y + 1, getScale());
+		segments[BOTTOM].setBounds(invert ? _x : x, y + 1, getScale());
 
 		_x = x + center + 1;
 		_y = y + height - 1;
 		_xx = x + 1;
-		segments[TOP_SIDE_RIGHT].setBounds(invert ? _xx : _x, invert ? y : _y, scale);
-		segments[BOTTOM_SIDE_LEFT].setBounds(invert ? _x : _xx, invert ? _y : y, scale);
-		segments[TOP_SIDE_LEFT].setBounds(invert ? _xx : _x, invert ? _y : y, scale);
-		segments[BOTTOM_SIDE_RIGHT].setBounds(invert ? _x : _xx, invert ? y : _y, scale);
+		segments[TOP_SIDE_RIGHT].setBounds(invert ? _xx : _x, invert ? y : _y, getScale());
+		segments[BOTTOM_SIDE_LEFT].setBounds(invert ? _x : _xx, invert ? _y : y, getScale());
+		segments[TOP_SIDE_LEFT].setBounds(invert ? _xx : _x, invert ? _y : y, getScale());
+		segments[BOTTOM_SIDE_RIGHT].setBounds(invert ? _x : _xx, invert ? y : _y, getScale());
 
-		segments[CENTER].setBounds(x + center, y + 1, scale);
+		segments[CENTER].setBounds(x + center, y + 1, getScale());
 	}
 
 	@Override

@@ -7,15 +7,14 @@ import static org.eclipse.swt.SWT.COLOR_WHITE;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Widget;
 
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.segments.interfaces.IControl;
 import cop.swt.widgets.segments.interfaces.ISegment;
 
-public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends AbstractSegment implements IControl,
+public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends AbstractSegment implements IControl<N>,
                 Clearable
 {
 	protected boolean visible = true;
@@ -87,29 +86,14 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 		return (segments != null) ? segments.clone() : null;
 	}
 
-	protected static boolean isDisposed(Widget widget)
+	protected static boolean isDisposed(Canvas canvas)
 	{
-		return (widget == null) || widget.isDisposed();
+		return (canvas == null) || canvas.isDisposed();
 	}
 
 	public abstract void setTransparent(boolean enabled);
 
-	public abstract void setShell(Shell shell);
-
-	public N getValue()
-	{
-		return value;
-	}
-
-	public final void setValue(N value)
-	{
-		if(isEqual(value, this.value) || !isValueValid(value))
-			return;
-
-		this.value = value;
-		_setValue();
-		redraw();
-	}
+	public abstract void setCanvas(Canvas canvas);
 
 	protected void _setValue()
 	{};
@@ -153,12 +137,31 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 		else
 			buildVerticalOrientatedIndicator(isInverted(false));
 
+		super.build();
+
 		redraw();
 	}
 
 	/*
 	 * IControl
 	 */
+
+	@Override
+	public N getValue()
+	{
+		return value;
+	}
+
+	@Override
+	public final void setValue(N value)
+	{
+		if(isEqual(value, this.value) || !isValueValid(value))
+			return;
+
+		this.value = value;
+		_setValue();
+		redraw();
+	}
 
 	@Override
 	public void setVisible(boolean visible)

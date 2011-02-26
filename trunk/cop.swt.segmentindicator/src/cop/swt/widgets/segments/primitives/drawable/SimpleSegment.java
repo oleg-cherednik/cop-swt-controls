@@ -1,4 +1,11 @@
-package cop.swt.widgets.segments.primitives;
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
+package cop.swt.widgets.segments.primitives.drawable;
 
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
@@ -13,24 +20,35 @@ import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.segments.AbstractSegment;
 
+/**
+ * Basic class for simple that can't be divided into more smaller segments.
+ * 
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 22.10.2010
+ */
 public abstract class SimpleSegment extends AbstractSegment
 {
 	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
 
-	protected int[] points;
+	private int[] points;
 
 	protected SimpleSegment()
 	{
 		this(DEFAULT_ORIENTATION);
 	}
 
-	public SimpleSegment(int orientation)
+	protected SimpleSegment(int orientation)
 	{
 		super(orientation);
 	}
 
-	abstract protected int[] getPointArray();
+	protected int[] getPoints()
+	{
+		return points;
+	}
+
+	protected abstract int[] getPointArray();
 
 	/*
 	 * AbstractSegment
@@ -39,7 +57,7 @@ public abstract class SimpleSegment extends AbstractSegment
 	@Override
 	protected boolean isHorizontalOrientation()
 	{
-		return isAnyBitSet(orientation, HORIZONTAL_ORIENTATION);
+		return isAnyBitSet(getOrientation(), HORIZONTAL_ORIENTATION);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.isInRangeMinMax;
 import static cop.common.extensions.NumericExtension.toCharArray;
 
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 import cop.swt.widgets.segments.interfaces.ISegmentConfig;
 import cop.swt.widgets.segments.seven.DigitalNumericSevenSegment;
@@ -16,19 +16,19 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 	protected T minimum;
 	protected T maximum;
 
-	public NumberSegmentContainer(Shell shell, int orientation, int totalSegments)
+	protected NumberSegmentContainer(Canvas canvas, int orientation, int totalSegments)
 	{
-		this(shell, orientation, totalSegments, false);
+		this(canvas, orientation, totalSegments, false);
 	}
 
-	public NumberSegmentContainer(Shell shell, int orientation, int totalSegments, boolean signSegment)
+	protected NumberSegmentContainer(Canvas canvas, int orientation, int totalSegments, boolean signSegment)
 	{
-		super(shell, orientation, totalSegments, null);
+		super(canvas, orientation, totalSegments, null);
 	}
 
-	public NumberSegmentContainer(Shell shell, ISegmentConfig config)
+	protected NumberSegmentContainer(Canvas canvas, ISegmentConfig config)
 	{
-		super(shell, config.getOrientation(), config.getTotalSegments(), config);
+		super(canvas, config.getOrientation(), config.getTotalSegments(), config);
 	}
 
 	private void fillSegments()
@@ -96,13 +96,13 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 			case PLUS:
 			case MINUS:
 			default:
-				segments[i++] = new SignSegment(x, y, scale);
+				segments[i++] = new SignSegment(x, y, getScale());
 				break;
 			}
 		}
 
 		for(; i < totalSegments; i++)
-			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
+			segments[i] = new DigitalNumericSevenSegment(x, y, getScale());
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public abstract class NumberSegmentContainer<T extends Number> extends SegmentCo
 		segments = new DigitalNumericSevenSegment[totalSegments];
 
 		for(int i = 0; i < totalSegments; i++)
-			segments[i] = new DigitalNumericSevenSegment(x, y, scale);
+			segments[i] = new DigitalNumericSevenSegment(x, y, getScale());
 	}
 
 	@Override

@@ -12,10 +12,10 @@ import static org.eclipse.swt.SWT.VERTICAL;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 import cop.swt.widgets.segments.interfaces.ISegment;
-import cop.swt.widgets.segments.primitives.SimpleSegment;
+import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
 
 public abstract class SegmentedIndicator extends AbstractSegmentIndicator<SimpleSegment, Character>
 {
@@ -24,19 +24,19 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 
 	private boolean transparent;
 	private GC gc;
-	protected Shell shell;
+	protected Canvas canvas;
 
-	public SegmentedIndicator(Shell shell, int orientation)
+	public SegmentedIndicator(Canvas canvas, int orientation)
 	{
 		super(orientation);
 
-		setShell(shell);
+		setCanvas(canvas);
 		initGC();
 	}
 
-	public Shell getShell()
+	public Canvas getCanvas()
 	{
-		return shell;
+		return canvas;
 	}
 
 	protected void initGC()
@@ -44,13 +44,13 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 		if(gc != null)
 			gc.dispose();
 
-		if(shell != null)
-			gc = new GC(shell);
+		if(canvas != null)
+			gc = new GC(canvas);
 	}
 
 	private void drawParts(Color color)
 	{
-		if(isDisposed(shell))
+		if(isDisposed(canvas))
 			return;
 
 		for(ISegment segment : segments)
@@ -59,13 +59,13 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 
 	protected void drawPart(int mask, int i, int bit)
 	{
-		if(isDisposed(shell) || !visible)
+		if(isDisposed(canvas) || !visible)
 			return;
 
 		if(isBitSet(mask, bit))
 			segments[i].draw(gc, onColor);
 		else if(transparent)
-			segments[i].draw(gc, shell.getBackground());
+			segments[i].draw(gc, canvas.getBackground());
 		else
 			segments[i].draw(gc, offColor);
 	}
@@ -77,27 +77,27 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	@Override
 	public void setPosition(int x, int y)
 	{
-		if(isDisposed(shell))
+		if(isDisposed(canvas))
 			super.setPosition(x, y);
 		else
 		{
 			Rectangle rect = getBounds().union(new Rectangle(x, y, x + this.width, y + this.height));
 
 			super.setPosition(x, y);
-			shell.redraw(rect.x, rect.y, rect.width, rect.height, false);
+			canvas.redraw(rect.x, rect.y, rect.width, rect.height, false);
 		}
 	}
 
 	@Override
 	public void setScale(int scale)
 	{
-		if(isDisposed(shell))
+		if(isDisposed(canvas))
 			super.setScale(scale);
 		else
 		{
 			Rectangle rect = null;
 
-			if(scale < this.scale)
+			if(scale < getScale())
 				rect = getBounds().union(new Rectangle(x, y, x + this.width, y + this.height));
 
 			super.setScale(scale);
@@ -105,21 +105,21 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 			if(rect == null)
 				rect = getBounds().union(new Rectangle(x, y, x + this.width, y + this.height));
 
-			shell.redraw(rect.x, rect.y, rect.width, rect.height, false);
+			canvas.redraw(rect.x, rect.y, rect.width, rect.height, false);
 		}
 	}
 
 	@Override
 	public void setBounds(int x, int y, int scale)
 	{
-		if(isDisposed(shell))
+		if(isDisposed(canvas))
 			super.setBounds(x, y, scale);
 		else
 		{
 			Rectangle rect = getBounds().union(new Rectangle(x, y, x + this.width, y + this.height));
 
 			super.setBounds(x, y, scale);
-			shell.redraw(rect.x, rect.y, rect.width, rect.height, false);
+			canvas.redraw(rect.x, rect.y, rect.width, rect.height, false);
 		}
 	}
 
@@ -142,7 +142,7 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	@Override
 	protected boolean isHorizontalOrientation()
 	{
-		return isAnyBitSet(orientation, HORIZONTAL_ORIENTATION);
+		return isAnyBitSet(getOrientation(), HORIZONTAL_ORIENTATION);
 	}
 
 	@Override
@@ -154,8 +154,8 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 
 	protected void hide()
 	{
-		if(!isDisposed(shell))
-			drawParts(shell.getBackground());
+		if(!isDisposed(canvas))
+			drawParts(canvas.getBackground());
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	@Override
 	protected boolean isInverted(boolean horizontal)
 	{
-		return horizontal ? isBitSet(orientation, LEFT) : isBitSet(orientation, DOWN);
+		return horizontal ? isBitSet(getOrientation(), LEFT) : isBitSet(getOrientation(), DOWN);
 	}
 
 	@Override
@@ -207,12 +207,12 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	}
 
 	@Override
-	public void setShell(Shell shell)
+	public void setCanvas(Canvas canvas)
 	{
-		if(isDisposed(shell) || shell.equals(this.shell))
+		if(isDisposed(canvas) || canvas.equals(this.canvas))
 			return;
 
-		this.shell = shell;
+		this.canvas = canvas;
 
 		initGC();
 		redraw();
@@ -225,8 +225,8 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	@Override
 	public void clear()
 	{
-		if(!isDisposed(shell) && visible)
-			drawParts(transparent ? shell.getBackground() : offColor);
+		if(!isDisposed(canvas) && visible)
+			drawParts(transparent ? canvas.getBackground() : offColor);
 	}
 
 	@Override
