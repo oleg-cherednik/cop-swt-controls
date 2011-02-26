@@ -1,5 +1,6 @@
 package cop.swt.widgets.segments.interfaces;
 
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.interfaces.IShape;
@@ -14,4 +15,6 @@ public interface ISegment extends IShape
 	void setBounds(int x, int y, int scale);
 
 	Rectangle getBounds();
+	
+	Point getSize();
 }

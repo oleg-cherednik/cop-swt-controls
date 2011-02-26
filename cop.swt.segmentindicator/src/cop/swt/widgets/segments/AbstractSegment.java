@@ -3,6 +3,7 @@ package cop.swt.widgets.segments;
 import static org.eclipse.swt.SWT.DEFAULT;
 import static org.eclipse.swt.SWT.NONE;
 
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.segments.interfaces.ISegment;
@@ -13,8 +14,8 @@ public abstract class AbstractSegment implements ISegment
 	protected int y;
 	protected int width;
 	protected int height;
-	protected int scale = 1;
-	protected int orientation;
+	private int scale = 1;
+	private int orientation;
 
 	public AbstractSegment(int orientation)
 	{
@@ -115,6 +116,12 @@ public abstract class AbstractSegment implements ISegment
 	public Rectangle getBounds()
 	{
 		return new Rectangle(x, y, width, height);
+	}
+
+	@Override
+	public Point getSize()
+	{
+		return new Point(width, height);
 	}
 
 	/*

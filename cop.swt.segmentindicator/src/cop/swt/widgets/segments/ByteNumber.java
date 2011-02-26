@@ -2,7 +2,7 @@ package cop.swt.widgets.segments;
 
 import static org.eclipse.swt.SWT.DEFAULT;
 
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 import cop.swt.widgets.segments.interfaces.ISegmentConfig;
 import cop.swt.widgets.segments.tmp.SignPositionEnum;
@@ -27,32 +27,32 @@ public final class ByteNumber extends NumberSegmentContainer<Byte>
 		return createNegativeByteNumber(null, DEFAULT);
 	}
 
-	public static ByteNumber createByteNumber(Shell shell, int orientation)
+	public static ByteNumber createByteNumber(Canvas canvas, int orientation)
 	{
-		return new ByteNumber(shell, orientation, TOTAL_SEGMENTS);
+		return new ByteNumber(canvas, orientation, TOTAL_SEGMENTS);
 	}
 
-	public static ByteNumber createPositiveByteNumber(Shell shell, int orientation)
+	public static ByteNumber createPositiveByteNumber(Canvas canvas, int orientation)
 	{
-		ByteNumber obj = new ByteNumber(shell, orientation, TOTAL_SEGMENTS);
+		ByteNumber obj = new ByteNumber(canvas, orientation, TOTAL_SEGMENTS);
 
 		obj.minimum = 0;
 
 		return obj;
 	}
 
-	public static ByteNumber createNegativeByteNumber(Shell shell, int orientation)
+	public static ByteNumber createNegativeByteNumber(Canvas canvas, int orientation)
 	{
-		ByteNumber obj = new ByteNumber(shell, orientation, TOTAL_SEGMENTS);
+		ByteNumber obj = new ByteNumber(canvas, orientation, TOTAL_SEGMENTS);
 
 		obj.maximum = 0;
 
 		return obj;
 	}
 
-	private ByteNumber(Shell shell, int orientation, int totalSegmens)
+	private ByteNumber(Canvas canvas, int orientation, int totalSegmens)
 	{
-		super(shell, new ByteNumberConfig(SignTypeEnum.PLUS_MINUS, SignPositionEnum.INSIDE, orientation, totalSegmens));
+		super(canvas, new ByteNumberConfig(SignTypeEnum.PLUS_MINUS, SignPositionEnum.INSIDE, orientation, totalSegmens));
 
 		minimum = Byte.MIN_VALUE;
 		maximum = Byte.MAX_VALUE;

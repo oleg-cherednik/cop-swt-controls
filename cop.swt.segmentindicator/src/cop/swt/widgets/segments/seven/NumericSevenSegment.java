@@ -2,7 +2,7 @@ package cop.swt.widgets.segments.seven;
 
 import static cop.common.extensions.StringExtension.isNumber;
 
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 public abstract class NumericSevenSegment extends SevenSegmentIndicator
 {
@@ -11,9 +11,9 @@ public abstract class NumericSevenSegment extends SevenSegmentIndicator
 		super(null, DEFAULT_ORIENTATION);
 	}
 
-	public NumericSevenSegment(Shell shell, int orientation)
+	public NumericSevenSegment(Canvas canvas, int orientation)
 	{
-		super(shell, orientation);
+		super(canvas, orientation);
 	}
 
 	/*

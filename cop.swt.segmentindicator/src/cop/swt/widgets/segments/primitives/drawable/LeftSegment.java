@@ -1,9 +1,9 @@
-package cop.swt.widgets.segments.primitives;
+package cop.swt.widgets.segments.primitives.drawable;
 
 import static cop.swt.widgets.segments.ShapeBasics.createTriangle;
-import static org.eclipse.swt.SWT.UP;
+import static org.eclipse.swt.SWT.RIGHT;
 
-public final class BottomSegment extends DrawableSegment
+public final class LeftSegment extends DrawableSegment
 {
 	public static SimpleSegment createSegment()
 	{
@@ -12,12 +12,12 @@ public final class BottomSegment extends DrawableSegment
 
 	public static SimpleSegment createSegment(boolean invert)
 	{
-		return invert ? new TopSegment() : new BottomSegment();
+		return invert ? new RightSegment() : new LeftSegment();
 	}
 
-	BottomSegment()
+	LeftSegment()
 	{
-		super(UP);
+		super(RIGHT);
 	}
 
 	/*
@@ -27,6 +27,6 @@ public final class BottomSegment extends DrawableSegment
 	@Override
 	protected int[] getPointArray()
 	{
-		return createTriangle(x, y, width, height, orientation);
+		return createTriangle(x, y, width, height, getOrientation());
 	}
 }

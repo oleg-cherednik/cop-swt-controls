@@ -1,7 +1,9 @@
-package cop.swt.widgets.segments.primitives;
+package cop.swt.widgets.segments.primitives.fillable;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+
+import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
 
 public abstract class FillableSegment extends SimpleSegment
 {
@@ -21,7 +23,6 @@ public abstract class FillableSegment extends SimpleSegment
 			return;
 
 		gc.setBackground(color);
-		gc.fillPolygon(points);
+		gc.fillPolygon(getPoints());
 	}
-
 }

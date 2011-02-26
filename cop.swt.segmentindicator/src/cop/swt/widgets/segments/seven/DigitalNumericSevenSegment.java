@@ -1,35 +1,35 @@
 package cop.swt.widgets.segments.seven;
 
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 public class DigitalNumericSevenSegment extends NumericSevenSegment
 {
 	public DigitalNumericSevenSegment()
 	{}
 
-	public DigitalNumericSevenSegment(Shell shell)
+	public DigitalNumericSevenSegment(Canvas canvas)
 	{
-		super(shell, DEFAULT_ORIENTATION);
+		super(canvas, DEFAULT_ORIENTATION);
 	}
 
-	public DigitalNumericSevenSegment(Shell shell, int orientation)
+	public DigitalNumericSevenSegment(Canvas canvas, int orientation)
 	{
-		super(shell, orientation);
+		super(canvas, orientation);
 	}
 
 	public DigitalNumericSevenSegment(int x, int y, int scale)
 	{
 		this(null, DEFAULT_ORIENTATION, x, y, scale);
 	}
-	
-	public DigitalNumericSevenSegment(Shell shell, int x, int y, int scale)
+
+	public DigitalNumericSevenSegment(Canvas canvas, int x, int y, int scale)
 	{
-		this(shell, DEFAULT_ORIENTATION, x, y, scale);
+		this(canvas, DEFAULT_ORIENTATION, x, y, scale);
 	}
 
-	public DigitalNumericSevenSegment(Shell shell, int orientation, int x, int y, int scale)
+	public DigitalNumericSevenSegment(Canvas canvas, int orientation, int x, int y, int scale)
 	{
-		super(shell, DEFAULT_ORIENTATION);
+		super(canvas, DEFAULT_ORIENTATION);
 
 		setBounds(x, y, scale);
 	}

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.segments.interfaces.IControl;
@@ -37,7 +37,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 	protected final ISegmentConfig config;
 
-	public SegmentContainer(Shell shell, int orientation, int totalSegments, ISegmentConfig config)
+	public SegmentContainer(Canvas canvas, int orientation, int totalSegments, ISegmentConfig config)
 	{
 		super(orientation);
 
@@ -46,7 +46,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 		createParts();
 		build();
-		setShell(shell);
+		setCanvas(canvas);
 	}
 
 	public int getSpace()
@@ -79,7 +79,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	@Override
 	protected boolean isInverted(boolean horizontal)
 	{
-		return horizontal ? isBitSet(orientation, DOWN) : isBitSet(orientation, LEFT);
+		return horizontal ? isBitSet(getOrientation(), DOWN) : isBitSet(getOrientation(), LEFT);
 	}
 
 	@Override
@@ -103,13 +103,13 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	}
 
 	@Override
-	public void setShell(Shell shell)
+	public void setCanvas(Canvas canvas)
 	{
 		if(isEmpty(segments))
 			return;
 
 		for(SegmentedIndicator segment : segments)
-			segment.setShell(shell);
+			segment.setCanvas(canvas);
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 		for(ISegment segment : invert ? invertArray(segments) : segments)
 		{
-			segment.setBounds(x, y + offs, scale);
+			segment.setBounds(x, y + offs, getScale());
 			offs += segment.getBounds().height + space;
 		}
 	}
@@ -137,7 +137,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 		for(ISegment segment : invert ? invertArray(segments) : segments)
 		{
-			segment.setBounds(x + offs, y, scale);
+			segment.setBounds(x + offs, y, getScale());
 			offs += segment.getBounds().width + BETWEEN_SEGMENT;
 		}
 	}
@@ -201,7 +201,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	@Override
 	protected boolean isHorizontalOrientation()
 	{
-		return isAnyBitSet(orientation, HORIZONTAL_ORIENTATION);
+		return isAnyBitSet(getOrientation(), HORIZONTAL_ORIENTATION);
 	}
 
 	@Override
@@ -272,7 +272,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 		for(ISegment segment : segments)
 			if(segment instanceof IControl)
-				((IControl)segment).dispose();
+				((IControl<?>)segment).dispose();
 	}
 
 	@Override
@@ -285,7 +285,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 		for(ISegment segment : segments)
 			if(segment instanceof IControl)
-				((IControl)segment).setVisible(visible);
+				((IControl<?>)segment).setVisible(visible);
 	}
 
 	/*
