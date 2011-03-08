@@ -10,18 +10,17 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.segments.SegmentContainer;
-import cop.swt.widgets.segments.interfaces.IControl;
+import cop.swt.widgets.segments.interfaces.ISegmentIndicator;
 
-public class SegmentIndicator<T extends Number> extends Canvas implements PaintListener, DisposeListener, IControl<T>,
-                Clearable
+public class SegmentViewer<T extends Number> extends Canvas implements PaintListener, DisposeListener,
+                ISegmentIndicator<T>
 {
 	private final SegmentContainer<T> obj;
 
 	// public static <T> SegmentIndicator createNumeric;
 
-	protected SegmentIndicator(Composite parent, int style, SegmentContainer<T> obj)
+	protected SegmentViewer(Composite parent, int style, SegmentContainer<T> obj)
 	{
 		super(parent, style);
 		// obj.setOnColor(color)setBackgroundColor(null);
@@ -38,17 +37,6 @@ public class SegmentIndicator<T extends Number> extends Canvas implements PaintL
 		addDisposeListener(this);
 	}
 
-	public void setScale(int scale)
-	{
-		obj.setScale(scale);
-		getParent().layout(true, true);
-	}
-
-	public int getScale()
-	{
-		return obj.getScale();
-	}
-
 	public void setOrientation(int orientation)
 	{
 		obj.setOrientation(orientation);
@@ -59,14 +47,26 @@ public class SegmentIndicator<T extends Number> extends Canvas implements PaintL
 	{
 		return obj.getOrientation();
 	}
-	
+
+	public void setPosition(int x, int y)
+	{
+		obj.setPosition(x, y);
+	}
+
+	/*
+	 * Control
+	 */
+
+	@Override
 	public Rectangle getBounds()
 	{
 		return obj.getBounds();
 	}
-	
-	public void setPosition(int x, int y) {
-		obj.setPosition(x, y);
+
+	@Override
+	public Point getSize()
+	{
+		return obj.getSize();
 	}
 
 	/*
@@ -99,7 +99,7 @@ public class SegmentIndicator<T extends Number> extends Canvas implements PaintL
 	}
 
 	/*
-	 * IControl
+	 * ISegmentIndicator
 	 */
 
 	@Override
@@ -115,9 +115,28 @@ public class SegmentIndicator<T extends Number> extends Canvas implements PaintL
 	}
 
 	@Override
+	public void setScale(int scale)
+	{
+		obj.setScale(scale);
+		getParent().layout(true, true);
+	}
+
+	@Override
+	public int getScale()
+	{
+		return obj.getScale();
+	}
+
+	@Override
 	public void setTransparent(boolean enabled)
 	{
 		obj.setTransparent(enabled);
+	}
+
+	@Override
+	public boolean isTransparent()
+	{
+		return obj.isTransparent();
 	}
 
 	@Override
@@ -132,16 +151,20 @@ public class SegmentIndicator<T extends Number> extends Canvas implements PaintL
 		return obj.getOffColor();
 	}
 
+	/*
+	 * IControl
+	 */
+
 	@Override
-	public void setOnColor(Color color)
+	public void setForeground(Color color)
 	{
-		obj.setOnColor(color);
+		obj.setForeground(color);
 	}
 
 	@Override
-	public Color getOnColor()
+	public Color getForeground()
 	{
-		return obj.getOnColor();
+		return obj.getForeground();
 	}
 
 	/*

@@ -1,27 +1,22 @@
 package cop.swt.widgets.segments.interfaces;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 
-public interface IControl<T>
+public interface IControl
 {
+	Rectangle getBounds();
+
+	Point getSize();
+
 	boolean isVisible();
 
 	void setVisible(boolean visible);
 
-	void setValue(T value);
-
-	T getValue();
-
 	void dispose();
 
-	void setTransparent(boolean enabled);
+	void setForeground(Color color);
 
-	void setOffColor(Color color);
-
-	Color getOffColor();
-
-	void setOnColor(Color color);
-
-	Color getOnColor();
-	// void setBackgroundColor(Color color);
+	Color getForeground();
 }

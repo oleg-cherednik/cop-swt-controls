@@ -10,22 +10,22 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 
-import cop.swt.widgets.interfaces.Clearable;
-import cop.swt.widgets.segments.interfaces.IControl;
 import cop.swt.widgets.segments.interfaces.ISegment;
+import cop.swt.widgets.segments.interfaces.ISegmentIndicator;
 
-public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends AbstractSegment implements IControl<N>,
-                Clearable
+public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends AbstractSegment implements
+                ISegmentIndicator<N>
 {
+	private static final Color DARK_GRAY;
+	private static final Color WHITE;
+
 	protected boolean visible = true;
+	protected boolean transparent;
 	protected T[] segments;
 	protected N value;
 
 	protected Color offColor = DARK_GRAY;
 	protected Color onColor = WHITE;
-
-	private static final Color DARK_GRAY;
-	private static final Color WHITE;
 
 	static
 	{
@@ -35,7 +35,7 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 		WHITE = display.getSystemColor(COLOR_WHITE);
 	}
 
-	public AbstractSegmentIndicator(int orientation)
+	protected AbstractSegmentIndicator(int orientation)
 	{
 		super(orientation);
 	}
@@ -48,12 +48,6 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 			createVerticalOrientatedParts(isInverted(false));
 	}
 
-	protected abstract boolean isInverted(boolean horizontal);
-
-	protected abstract void createHorizontalOrientatedParts(boolean invert);
-
-	protected abstract void createVerticalOrientatedParts(boolean invert);
-
 	public void redraw(int x, int y, int width, int height)
 	{
 		redraw();
@@ -64,13 +58,6 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 		return (segments != null) ? segments.clone() : null;
 	}
 
-	protected static boolean isDisposed(Canvas canvas)
-	{
-		return (canvas == null) || canvas.isDisposed();
-	}
-
-	public abstract void setCanvas(Canvas canvas);
-
 	protected void _setValue()
 	{};
 
@@ -79,7 +66,28 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 		return true;
 	}
 
+	/*
+	 * static
+	 */
+
+	protected static boolean isDisposed(Canvas canvas)
+	{
+		return (canvas == null) || canvas.isDisposed();
+	}
+
+	/*
+	 * abstract
+	 */
+
 	public abstract void redraw();
+
+	public abstract void setCanvas(Canvas canvas);
+
+	protected abstract boolean isInverted(boolean horizontal);
+
+	protected abstract void createHorizontalOrientatedParts(boolean invert);
+
+	protected abstract void createVerticalOrientatedParts(boolean invert);
 
 	protected abstract void rebuild();
 
@@ -90,18 +98,6 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	/*
 	 * AbstractSegment
 	 */
-
-	// @Override
-	// protected int getDefaultWidth()
-	// {
-	// return super.getDefaultHeight();
-	// }
-	//
-	// @Override
-	// protected int getDefaultHeight()
-	// {
-	// return super.getDefaultWidth();
-	// }
 
 	@Override
 	protected void build()
@@ -119,7 +115,7 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	}
 
 	/*
-	 * IControl
+	 * ISegmentIndicator
 	 */
 
 	@Override
@@ -140,15 +136,15 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	}
 
 	@Override
-	public void setVisible(boolean visible)
+	public boolean isTransparent()
 	{
-		this.visible = visible;
+		return transparent;
 	}
 
 	@Override
-	public boolean isVisible()
+	public void setTransparent(boolean enabled)
 	{
-		return visible;
+		transparent = enabled;
 	}
 
 	@Override
@@ -165,16 +161,32 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	}
 
 	@Override
-	public void setOnColor(Color color)
+	public void setForeground(Color color)
 	{
 		onColor = (color != null) ? color : WHITE;
 		redraw();
 	}
 
 	@Override
-	public Color getOnColor()
+	public Color getForeground()
 	{
 		return onColor;
+	}
+
+	/*
+	 * IControl
+	 */
+
+	@Override
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
+	}
+
+	@Override
+	public boolean isVisible()
+	{
+		return visible;
 	}
 
 	/*
@@ -198,11 +210,10 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	@Override
 	public String toString()
 	{
-		StringBuilder builder = new StringBuilder(super.toString());
+		StringBuilder buf = new StringBuilder(super.toString());
 
-		builder.append(", value=");
-		builder.append(value);
+		buf.append(", value=").append(value);
 
-		return builder.toString();
+		return buf.toString();
 	}
 }

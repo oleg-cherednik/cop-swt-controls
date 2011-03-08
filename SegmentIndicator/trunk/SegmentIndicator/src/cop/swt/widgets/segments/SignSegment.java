@@ -7,7 +7,7 @@ import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
 import cop.swt.widgets.segments.primitives.fillable.MinusSegment;
 import cop.swt.widgets.segments.primitives.fillable.PlusSegment;
 
-public class SignSegment extends SegmentedIndicator
+public class SignSegment extends SegmentIndicator
 {
 	protected static final int PLUS = 0;
 	protected static final int MINUS = 1;

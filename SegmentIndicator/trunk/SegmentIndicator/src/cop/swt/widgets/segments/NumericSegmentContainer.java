@@ -33,7 +33,7 @@ public abstract class NumericSegmentContainer<T extends Number> extends SegmentC
 
 	private void fillSegments()
 	{
-		for(SegmentedIndicator segment : segments)
+		for(SegmentIndicator segment : segments)
 		{
 			if(!config.isLeadingZero() || (segment instanceof SignSegment))
 				segment.setValue(null);
@@ -86,7 +86,7 @@ public abstract class NumericSegmentContainer<T extends Number> extends SegmentC
 		if(signPosition != SignPositionEnum.NONE)
 			totalSegments++;
 
-		segments = new SegmentedIndicator[totalSegments];
+		segments = new SegmentIndicator[totalSegments];
 
 		if(signPosition == SignPositionEnum.OUTSIDE)
 		{

@@ -17,16 +17,15 @@ import org.eclipse.swt.widgets.Canvas;
 import cop.swt.widgets.segments.interfaces.ISegment;
 import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
 
-public abstract class SegmentedIndicator extends AbstractSegmentIndicator<SimpleSegment, Character>
+public abstract class SegmentIndicator extends AbstractSegmentIndicator<SimpleSegment, Character>
 {
 	protected static final int DEFAULT_ORIENTATION = VERTICAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = LEFT | RIGHT | HORIZONTAL;
 
-	private boolean transparent;
 	private GC gc;
 	protected Canvas canvas;
 
-	public SegmentedIndicator(Canvas canvas, int orientation)
+	public SegmentIndicator(Canvas canvas, int orientation)
 	{
 		super(orientation);
 
@@ -200,13 +199,6 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	}
 
 	@Override
-	public void setTransparent(boolean enabled)
-	{
-		transparent = enabled;
-		redraw();
-	}
-
-	@Override
 	public void setCanvas(Canvas canvas)
 	{
 		if(isDisposed(canvas) || canvas.equals(this.canvas))
@@ -219,7 +211,7 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	}
 
 	/*
-	 * IControl
+	 * Clearable
 	 */
 
 	@Override
@@ -228,6 +220,10 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 		if(!isDisposed(canvas) && visible)
 			drawParts(transparent ? canvas.getBackground() : offColor);
 	}
+
+	/*
+	 * IControl
+	 */
 
 	@Override
 	public void dispose()
@@ -239,18 +235,14 @@ public abstract class SegmentedIndicator extends AbstractSegmentIndicator<Simple
 	@Override
 	public void setVisible(boolean visible)
 	{
-		if(!(this.visible ^ visible))
+		if(this.visible == visible)
 			return;
 
+		this.visible = visible;
+
 		if(visible)
-		{
-			this.visible = visible;
 			redraw();
-		}
 		else
-		{
 			hide();
-			this.visible = visible;
-		}
 	}
 }

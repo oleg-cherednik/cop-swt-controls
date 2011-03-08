@@ -14,8 +14,6 @@ import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.UP;
 
-import java.util.Arrays;
-
 import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.segments.AbstractSegment;
@@ -28,6 +26,8 @@ import cop.swt.widgets.segments.AbstractSegment;
  */
 public abstract class SimpleSegment extends AbstractSegment
 {
+	private static final int[] EMPTY_INT_ARR = new int[0];
+
 	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
 
@@ -80,14 +80,14 @@ public abstract class SimpleSegment extends AbstractSegment
 	@Override
 	public int[] getShape()
 	{
-		return isNotEmpty(points) ? points.clone() : new int[0];
+		return isNotEmpty(points) ? points.clone() : EMPTY_INT_ARR;
 	}
 
 	@Override
 	public int[] getShape(Rectangle rect)
 	{
 		if(rect == null || isEmpty(points))
-			return new int[0];
+			return EMPTY_INT_ARR;
 
 		int[] arr = new int[points.length];
 		int len = 0;
@@ -101,6 +101,6 @@ public abstract class SimpleSegment extends AbstractSegment
 			arr[len++] = points[i + 1];
 		}
 
-		return Arrays.copyOf(arr, len);
+		return arr;
 	}
 }

@@ -6,7 +6,7 @@ import static org.eclipse.swt.SWT.VERTICAL;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 
-import cop.swt.widgets.segments.SegmentedIndicator;
+import cop.swt.widgets.segments.SegmentIndicator;
 import cop.swt.widgets.segments.primitives.drawable.BottomSegment;
 import cop.swt.widgets.segments.primitives.drawable.CenterSegment;
 import cop.swt.widgets.segments.primitives.drawable.LeftSegment;
@@ -15,7 +15,7 @@ import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
 import cop.swt.widgets.segments.primitives.drawable.TopSegment;
 import cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory;
 
-public abstract class SevenSegmentIndicator extends SegmentedIndicator
+public abstract class SevenSegmentIndicator extends SegmentIndicator
 {
 	protected static final int TOP = 0;
 	protected static final int TOP_SIDE_RIGHT = 1;

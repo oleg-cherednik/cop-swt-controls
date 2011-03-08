@@ -7,34 +7,22 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.segments.interfaces.ISegment;
+import cop.swt.widgets.segments.interfaces.Scaleable;
 
-public abstract class AbstractSegment implements ISegment
+public abstract class AbstractSegment implements ISegment, Scaleable
 {
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
+
 	private int scale = 1;
 	private int orientation;
 
-	public AbstractSegment(int orientation)
+	protected AbstractSegment(int orientation)
 	{
 		setOrientation(orientation);
 		setScale(DEF_SCALE);
-	}
-
-	public int getScale()
-	{
-		return scale;
-	}
-
-	public void setScale(int scale)
-	{
-		if(this.scale == scale)
-			return;
-
-		this.scale = (scale <= DEF_SCALE) ? DEF_SCALE : scale;
-		build();
 	}
 
 	public int getOrientation()
@@ -79,9 +67,33 @@ public abstract class AbstractSegment implements ISegment
 		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
 	}
 
+	/*
+	 * abstract
+	 */
+
 	protected abstract int getDefaultOrientation();
 
 	protected abstract boolean isHorizontalOrientation();
+
+	/*
+	 * Scaleable
+	 */
+
+	@Override
+	public int getScale()
+	{
+		return scale;
+	}
+
+	@Override
+	public void setScale(int scale)
+	{
+		if(this.scale == scale)
+			return;
+
+		this.scale = (scale <= DEF_SCALE) ? DEF_SCALE : scale;
+		build();
+	}
 
 	/*
 	 * ISegment
@@ -131,17 +143,14 @@ public abstract class AbstractSegment implements ISegment
 	@Override
 	public String toString()
 	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("height=");
-		builder.append(height);
-		builder.append(", scale=");
-		builder.append(scale);
-		builder.append(", width=");
-		builder.append(width);
-		builder.append(", x=");
-		builder.append(x);
-		builder.append(", y=");
-		builder.append(y);
-		return builder.toString();
+		StringBuilder buf = new StringBuilder();
+
+		buf.append("height=").append(height);
+		buf.append(", scale=").append(scale);
+		buf.append(", width=").append(width);
+		buf.append(", x=").append(x);
+		buf.append(", y=").append(y);
+
+		return buf.toString();
 	}
 }

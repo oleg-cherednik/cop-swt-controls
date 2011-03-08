@@ -25,7 +25,7 @@ import cop.swt.widgets.segments.interfaces.IControl;
 import cop.swt.widgets.segments.interfaces.ISegment;
 import cop.swt.widgets.segments.interfaces.ISegmentConfig;
 
-public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<SegmentedIndicator, T>
+public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<SegmentIndicator, T>
 {
 	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
@@ -88,7 +88,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		if(isEmpty(segments))
 			return;
 
-		for(SegmentedIndicator segment : segments)
+		for(SegmentIndicator segment : segments)
 			segment.rebuild();
 	}
 
@@ -98,7 +98,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		if(isEmpty(segments))
 			return;
 
-		for(SegmentedIndicator segment : segments)
+		for(SegmentIndicator segment : segments)
 			segment.setCanvas(canvas);
 	}
 
@@ -138,25 +138,13 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		if(isEmpty(segments))
 			return;
 
-		for(SegmentedIndicator segment : segments)
+		for(SegmentIndicator segment : segments)
 			segment.redraw();
 	}
 
 	/*
 	 * AbstractSegment
 	 */
-
-	// @Override
-	// protected int getWidth()
-	// {
-	// return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
-	// }
-	//
-	// @Override
-	// protected int getHeight()
-	// {
-	// return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
-	// }
 
 	@Override
 	protected int getDefaultWidth()
@@ -262,7 +250,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 		for(ISegment segment : segments)
 			if(segment instanceof IControl)
-				((IControl<?>)segment).dispose();
+				((IControl)segment).dispose();
 	}
 
 	@Override
@@ -275,8 +263,12 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 		for(ISegment segment : segments)
 			if(segment instanceof IControl)
-				((IControl<?>)segment).setVisible(visible);
+				((IControl)segment).setVisible(visible);
 	}
+
+	/*
+	 * ISegmentIndicator
+	 */
 
 	@Override
 	public void setTransparent(boolean enabled)
@@ -284,8 +276,12 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 		if(isEmpty(segments))
 			return;
 
-		for(SegmentedIndicator segment : segments)
+		super.setTransparent(enabled);
+
+		for(SegmentIndicator segment : segments)
 			segment.setTransparent(enabled);
+
+		redraw();
 	}
 
 	/*
