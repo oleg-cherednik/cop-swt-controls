@@ -1,4 +1,4 @@
-package cop.swt.widgets.segments;
+package cop.swt.widgets.segments.groups.numeric;
 
 import static cop.common.extensions.CollectionExtension.replaceAll;
 import static cop.common.extensions.CommonExtension.isNull;
@@ -7,6 +7,9 @@ import static cop.common.extensions.NumericExtension.toCharArray;
 
 import org.eclipse.swt.widgets.Canvas;
 
+import cop.swt.widgets.segments.SegmentContainer;
+import cop.swt.widgets.segments.SegmentIndicator;
+import cop.swt.widgets.segments.SignSegment;
 import cop.swt.widgets.segments.interfaces.ISegmentConfig;
 import cop.swt.widgets.segments.seven.DigitalNumericSevenSegment;
 import cop.swt.widgets.segments.tmp.SignPositionEnum;
@@ -47,18 +50,10 @@ public abstract class NumericSegmentContainer<T extends Number> extends SegmentC
 		boolean negative = arr[0] == '-';
 
 		if(isZero(arr))
-		{
 			segments[0].setValue(null);
-			return;
-		}
-
-		if(!negative)
-		{
+		else if(!negative)
 			segments[0].setValue((segments[0] instanceof SignSegment) ? '+' : null);
-			return;
-		}
-
-		if(config.getSignPosition() == SignPositionEnum.OUTSIDE || config.isLeadingZero())
+		else if(config.getSignPosition() == SignPositionEnum.OUTSIDE || config.isLeadingZero())
 		{
 			segments[0].setValue('-');
 			replaceAll(arr, '-', '\0');

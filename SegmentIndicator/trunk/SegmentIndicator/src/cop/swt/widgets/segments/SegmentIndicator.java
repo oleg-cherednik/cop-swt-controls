@@ -63,10 +63,8 @@ public abstract class SegmentIndicator extends AbstractSegmentIndicator<SimpleSe
 
 		if(isBitSet(mask, bit))
 			segments[i].draw(gc, onColor);
-		else if(transparent)
-			segments[i].draw(gc, canvas.getBackground());
 		else
-			segments[i].draw(gc, offColor);
+			segments[i].draw(gc, isTransparent() ? canvas.getBackground() : offColor);
 	}
 
 	/*
@@ -218,7 +216,7 @@ public abstract class SegmentIndicator extends AbstractSegmentIndicator<SimpleSe
 	public void clear()
 	{
 		if(!isDisposed(canvas) && visible)
-			drawParts(transparent ? canvas.getBackground() : offColor);
+			drawParts(isTransparent() ? canvas.getBackground() : offColor);
 	}
 
 	/*

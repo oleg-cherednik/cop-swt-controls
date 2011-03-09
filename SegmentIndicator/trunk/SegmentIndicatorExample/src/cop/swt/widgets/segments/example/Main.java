@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
-import cop.swt.widgets.segments.components.ByteIndicator;
+import cop.swt.widgets.segments.components.numeric.ShortIndicator;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -35,6 +35,9 @@ import cop.swt.widgets.segments.components.ByteIndicator;
  */
 public class Main implements SelectionListener, ModifyListener
 {
+	private static final short MIN = Short.MIN_VALUE;
+	private static final short MAX = Short.MAX_VALUE;
+
 	private Button visibleButton;
 	private Button backgroundButton;
 	private Button transparentCheckBox;
@@ -42,7 +45,7 @@ public class Main implements SelectionListener, ModifyListener
 	private Button rotateButton;
 	private Spinner valueSpinner;
 	private Spinner scaleSpinner;
-	private ByteIndicator segmentIndicator;
+	private ShortIndicator segmentIndicator;
 
 	private Color[] colors;
 	int currColor = 0;
@@ -106,7 +109,7 @@ public class Main implements SelectionListener, ModifyListener
 
 	private void createSegmentIndicator(Composite parent)
 	{
-		segmentIndicator = new ByteIndicator(parent, SWT.NONE);
+		segmentIndicator = new ShortIndicator(parent, SWT.NONE);
 
 		segmentIndicator.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, false));
 		segmentIndicator.setScale(2);
@@ -136,8 +139,8 @@ public class Main implements SelectionListener, ModifyListener
 		valueSpinner = new Spinner(parent, SWT.NONE);
 
 		valueSpinner.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false));
-		valueSpinner.setMinimum(Byte.MIN_VALUE);
-		valueSpinner.setMaximum(Byte.MAX_VALUE);
+		valueSpinner.setMinimum(MIN);
+		valueSpinner.setMaximum(MAX);
 		valueSpinner.addModifyListener(this);
 	}
 
@@ -200,8 +203,8 @@ public class Main implements SelectionListener, ModifyListener
 	{
 		int value = valueSpinner.getSelection();
 
-		if(value >= -128 && value <= 127)
-			segmentIndicator.setValue((byte)value);
+		if(value >= MIN && value <= MAX)
+			segmentIndicator.setValue((short)value);
 	}
 
 	private void onScaleSpinner()
@@ -217,7 +220,6 @@ public class Main implements SelectionListener, ModifyListener
 	private void onClearButton()
 	{
 		segmentIndicator.clear();
-		valueSpinner.setSelection(0);
 	}
 
 	private void onRotateButton()

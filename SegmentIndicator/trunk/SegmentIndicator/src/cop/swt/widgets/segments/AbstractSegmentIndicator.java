@@ -20,7 +20,7 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	private static final Color WHITE;
 
 	protected boolean visible = true;
-	protected boolean transparent;
+	private boolean transparent;
 	protected T[] segments;
 	protected N value;
 

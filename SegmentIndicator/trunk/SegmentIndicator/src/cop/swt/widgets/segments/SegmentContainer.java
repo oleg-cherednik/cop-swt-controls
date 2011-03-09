@@ -37,7 +37,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 	protected final ISegmentConfig config;
 
-	public SegmentContainer(Canvas canvas, int orientation, int totalSegments, ISegmentConfig config)
+	protected SegmentContainer(Canvas canvas, int orientation, int totalSegments, ISegmentConfig config)
 	{
 		super(orientation);
 

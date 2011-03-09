@@ -1,4 +1,4 @@
-package cop.swt.widgets.segments.components;
+package cop.swt.widgets.segments.components.numeric;
 
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -18,15 +18,12 @@ public class SegmentViewer<T extends Number> extends Canvas implements PaintList
 {
 	private final SegmentContainer<T> obj;
 
-	// public static <T> SegmentIndicator createNumeric;
-
 	protected SegmentViewer(Composite parent, int style, SegmentContainer<T> obj)
 	{
 		super(parent, style);
-		// obj.setOnColor(color)setBackgroundColor(null);
 
 		this.obj = obj;
-		obj.setCanvas(this);
+		this.obj.setCanvas(this);
 
 		addListeners();
 	}
@@ -76,7 +73,6 @@ public class SegmentViewer<T extends Number> extends Canvas implements PaintList
 	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed)
 	{
-		checkWidget();
 		return obj.getSize();
 	}
 
