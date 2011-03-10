@@ -4,7 +4,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.segments.groups.numeric.ShortSegment;
 
-public class ShortIndicator extends SegmentViewer<Short>
+public final class ShortIndicator extends SegmentViewer<Short>
 {
 	public ShortIndicator(Composite parent, int style)
 	{

@@ -1,5 +1,6 @@
 package cop.swt.widgets.segments.seven;
 
+import static cop.common.extensions.CollectionExtension.EMPTY_INT_ARR;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.VERTICAL;
 
@@ -58,7 +59,7 @@ public abstract class SevenSegmentIndicator extends SegmentIndicator
 	public int[] getShape(Rectangle rect)
 	{
 		if(rect == null)
-			return new int[0];
+			return EMPTY_INT_ARR;
 
 		// TODO implements
 

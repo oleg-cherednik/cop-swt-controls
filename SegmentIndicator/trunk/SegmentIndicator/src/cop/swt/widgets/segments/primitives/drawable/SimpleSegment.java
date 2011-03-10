@@ -10,6 +10,7 @@ package cop.swt.widgets.segments.primitives.drawable;
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.BitExtension.isAnyBitSet;
+import static cop.common.extensions.CollectionExtension.EMPTY_INT_ARR;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.UP;
@@ -26,8 +27,6 @@ import cop.swt.widgets.segments.AbstractSegment;
  */
 public abstract class SimpleSegment extends AbstractSegment
 {
-	private static final int[] EMPTY_INT_ARR = new int[0];
-
 	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
 	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
 

@@ -5,6 +5,7 @@ import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.toCollection;
 import static cop.common.extensions.BitExtension.isAnyBitSet;
 import static cop.common.extensions.BitExtension.isBitSet;
+import static cop.common.extensions.CollectionExtension.EMPTY_INT_ARR;
 import static cop.common.extensions.CollectionExtension.convertToIntArray;
 import static java.lang.Math.max;
 import static org.eclipse.swt.SWT.DOWN;
@@ -214,7 +215,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	public int[] getShape()
 	{
 		if(isEmpty(segments))
-			return new int[0];
+			return EMPTY_INT_ARR;
 
 		List<Integer> shape = new ArrayList<Integer>();
 
@@ -228,7 +229,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	public int[] getShape(Rectangle rect)
 	{
 		if(isEmpty(segments))
-			return new int[0];
+			return EMPTY_INT_ARR;
 
 		List<Integer> shape = new ArrayList<Integer>();
 
