@@ -7,10 +7,9 @@
  */
 package cop.swt.widgets.segments.primitives.drawable;
 
+import static cop.common.extensions.ArrayExtension.EMPTY_INT_ARR;
 import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.BitExtension.isAnyBitSet;
-import static cop.common.extensions.CollectionExtension.EMPTY_INT_ARR;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.UP;
@@ -79,7 +78,7 @@ public abstract class SimpleSegment extends AbstractSegment
 	@Override
 	public int[] getShape()
 	{
-		return isNotEmpty(points) ? points.clone() : EMPTY_INT_ARR;
+		return isEmpty(points) ? EMPTY_INT_ARR : points.clone();
 	}
 
 	@Override

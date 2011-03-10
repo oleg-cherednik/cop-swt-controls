@@ -1,7 +1,6 @@
 package cop.swt.widgets.segments.groups.numeric;
 
 import static cop.common.extensions.CollectionExtension.replaceAll;
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.NumericExtension.isInRangeMinMax;
 import static cop.common.extensions.NumericExtension.toCharArray;
 
@@ -112,7 +111,7 @@ public abstract class NumericSegmentContainer<T extends Number> extends SegmentC
 	@Override
 	protected void _setValue()
 	{
-		if(isNull(value))
+		if(value == null)
 			clear();
 		else if(isInRangeMinMax(value, minimum, maximum))
 		{

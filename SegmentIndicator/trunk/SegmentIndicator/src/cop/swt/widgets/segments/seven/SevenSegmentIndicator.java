@@ -1,6 +1,6 @@
 package cop.swt.widgets.segments.seven;
 
-import static cop.common.extensions.CollectionExtension.EMPTY_INT_ARR;
+import static cop.common.extensions.ArrayExtension.EMPTY_INT_ARR;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.VERTICAL;
 

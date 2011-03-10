@@ -30,11 +30,6 @@ public final class CommonExtension
 	 */
 	public static <T> boolean isEqual(T obj1, T obj2)
 	{
-		return isNull(obj1) ? isNull(obj2) : obj1.equals(obj2);
-	}
-
-	public static <T> boolean isNull(T obj)
-	{
-		return obj == null;
+		return (obj1 == null) ? (obj2 == null) : obj1.equals(obj2);
 	}
 }

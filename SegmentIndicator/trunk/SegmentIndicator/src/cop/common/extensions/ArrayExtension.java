@@ -6,6 +6,8 @@ import java.util.Collection;
 
 public final class ArrayExtension
 {
+	public static final int[] EMPTY_INT_ARR = new int[0];
+
 	private ArrayExtension()
 	{}
 
@@ -17,11 +19,6 @@ public final class ArrayExtension
 	public static boolean isEmpty(int[] arr)
 	{
 		return arr == null || arr.length == 0;
-	}
-
-	public static boolean isNotEmpty(int[] arr)
-	{
-		return !isEmpty(arr);
 	}
 
 	public static <T> T[] invertArray(T[] arr)

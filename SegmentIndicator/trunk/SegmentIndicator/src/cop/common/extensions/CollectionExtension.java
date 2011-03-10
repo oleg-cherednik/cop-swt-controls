@@ -6,12 +6,12 @@
  */
 package cop.common.extensions;
 
+import static cop.common.extensions.ArrayExtension.EMPTY_INT_ARR;
+
 import java.util.Collection;
 
 public final class CollectionExtension
 {
-	public static final int[] EMPTY_INT_ARR = new int[0];
-
 	private CollectionExtension()
 	{}
 
