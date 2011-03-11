@@ -25,7 +25,7 @@ public abstract class SegmentIndicator extends AbstractSegmentIndicator<SimpleSe
 	private GC gc;
 	protected Canvas canvas;
 
-	public SegmentIndicator(Canvas canvas, int orientation)
+	protected SegmentIndicator(Canvas canvas, int orientation)
 	{
 		super(orientation);
 

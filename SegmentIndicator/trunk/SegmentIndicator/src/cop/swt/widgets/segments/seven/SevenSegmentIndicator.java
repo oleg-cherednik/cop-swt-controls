@@ -1,6 +1,13 @@
 package cop.swt.widgets.segments.seven;
 
 import static cop.common.extensions.ArrayExtension.EMPTY_INT_ARR;
+import static cop.swt.widgets.segments.tmp.factories.BasicSegmentSymbolFactory.SEG_BOTTOM_SIDE_LEFT;
+import static cop.swt.widgets.segments.tmp.factories.BasicSegmentSymbolFactory.SEG_BOTTOM_SIDE_RIGHT;
+import static cop.swt.widgets.segments.tmp.factories.BasicSegmentSymbolFactory.SEG_TOP_SIDE_LEFT;
+import static cop.swt.widgets.segments.tmp.factories.BasicSegmentSymbolFactory.SEG_TOP_SIDE_RIGHT;
+import static cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory.SEG_BOTTOM;
+import static cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory.SEG_CENTER;
+import static cop.swt.widgets.segments.tmp.factories.SevenSegmentSymbolFactory.SEG_TOP;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.VERTICAL;
 
@@ -35,13 +42,13 @@ public abstract class SevenSegmentIndicator extends SegmentIndicator
 
 	protected void _setValue(int value)
 	{
-		drawPart(value, TOP, SevenSegmentSymbolFactory.SEG_TOP);
-		drawPart(value, TOP_SIDE_RIGHT, SevenSegmentSymbolFactory.SEG_TOP_SIDE_RIGHT);
-		drawPart(value, BOTTOM_SIDE_RIGHT, SevenSegmentSymbolFactory.SEG_BOTTOM_SIDE_RIGHT);
-		drawPart(value, BOTTOM, SevenSegmentSymbolFactory.SEG_BOTTOM);
-		drawPart(value, BOTTOM_SIDE_LEFT, SevenSegmentSymbolFactory.SEG_BOTTOM_SIDE_LEFT);
-		drawPart(value, TOP_SIDE_LEFT, SevenSegmentSymbolFactory.SEG_TOP_SIDE_LEFT);
-		drawPart(value, CENTER, SevenSegmentSymbolFactory.SEG_CENTER);
+		drawPart(value, TOP, SEG_TOP);
+		drawPart(value, TOP_SIDE_RIGHT, SEG_TOP_SIDE_RIGHT);
+		drawPart(value, BOTTOM_SIDE_RIGHT, SEG_BOTTOM_SIDE_RIGHT);
+		drawPart(value, BOTTOM, SEG_BOTTOM);
+		drawPart(value, BOTTOM_SIDE_LEFT, SEG_BOTTOM_SIDE_LEFT);
+		drawPart(value, TOP_SIDE_LEFT, SEG_TOP_SIDE_LEFT);
+		drawPart(value, CENTER, SEG_CENTER);
 	}
 
 	/*
@@ -117,13 +124,13 @@ public abstract class SevenSegmentIndicator extends SegmentIndicator
 	{
 		segments = new SimpleSegment[7];
 
-		segments[TOP] = RightSegment.createSegment(invert);
-		segments[BOTTOM] = LeftSegment.createSegment(invert);
-		segments[TOP_SIDE_RIGHT] = BottomSegment.createSegment(invert);
-		segments[TOP_SIDE_LEFT] = TopSegment.createSegment(invert);
-		segments[BOTTOM_SIDE_RIGHT] = BottomSegment.createSegment(invert);
-		segments[BOTTOM_SIDE_LEFT] = TopSegment.createSegment(invert);
-		segments[CENTER] = CenterSegment.createSegment(VERTICAL);
+		segments[TOP] = RightSegment.create(invert);
+		segments[BOTTOM] = LeftSegment.create(invert);
+		segments[TOP_SIDE_RIGHT] = BottomSegment.create(invert);
+		segments[TOP_SIDE_LEFT] = TopSegment.create(invert);
+		segments[BOTTOM_SIDE_RIGHT] = BottomSegment.create(invert);
+		segments[BOTTOM_SIDE_LEFT] = TopSegment.create(invert);
+		segments[CENTER] = CenterSegment.create(VERTICAL);
 	}
 
 	@Override
@@ -131,12 +138,12 @@ public abstract class SevenSegmentIndicator extends SegmentIndicator
 	{
 		segments = new SimpleSegment[7];
 
-		segments[TOP] = TopSegment.createSegment(invert);
-		segments[BOTTOM] = BottomSegment.createSegment(invert);
-		segments[TOP_SIDE_RIGHT] = RightSegment.createSegment(invert);
-		segments[TOP_SIDE_LEFT] = LeftSegment.createSegment(invert);
-		segments[BOTTOM_SIDE_RIGHT] = RightSegment.createSegment(invert);
-		segments[BOTTOM_SIDE_LEFT] = LeftSegment.createSegment(invert);
-		segments[CENTER] = CenterSegment.createSegment(HORIZONTAL);
+		segments[TOP] = TopSegment.create(invert);
+		segments[BOTTOM] = BottomSegment.create(invert);
+		segments[TOP_SIDE_RIGHT] = RightSegment.create(invert);
+		segments[TOP_SIDE_LEFT] = LeftSegment.create(invert);
+		segments[BOTTOM_SIDE_RIGHT] = RightSegment.create(invert);
+		segments[BOTTOM_SIDE_LEFT] = LeftSegment.create(invert);
+		segments[CENTER] = CenterSegment.create(HORIZONTAL);
 	}
 }

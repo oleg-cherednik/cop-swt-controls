@@ -5,12 +5,12 @@ import static org.eclipse.swt.SWT.UP;
 
 public final class BottomSegment extends DrawableSegment
 {
-	public static SimpleSegment createSegment()
+	public static SimpleSegment create()
 	{
-		return createSegment(false);
+		return create(false);
 	}
 
-	public static SimpleSegment createSegment(boolean invert)
+	public static SimpleSegment create(boolean invert)
 	{
 		return invert ? new TopSegment() : new BottomSegment();
 	}

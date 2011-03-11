@@ -1,7 +1,7 @@
 package cop.swt.widgets.segments;
 
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 import cop.swt.widgets.segments.primitives.drawable.SimpleSegment;
 import cop.swt.widgets.segments.primitives.fillable.MinusSegment;
@@ -17,30 +17,19 @@ public class SignSegment extends SegmentIndicator
 		super(null, DEFAULT_ORIENTATION);
 	}
 
-	public SignSegment(Shell shell)
+	public SignSegment(Canvas canas)
 	{
-		super(shell, DEFAULT_ORIENTATION);
+		super(canas, DEFAULT_ORIENTATION);
 	}
 
-	public SignSegment(Shell shell, int orientation)
+	public SignSegment(Canvas canvas, int orientation)
 	{
-		super(shell, orientation);
+		super(canvas, orientation);
 	}
 
 	public SignSegment(int x, int y, int scale)
 	{
-		this(null, DEFAULT_ORIENTATION, x, y, scale);
-	}
-
-	public SignSegment(Shell shell, int x, int y, int scale)
-	{
-		this(shell, DEFAULT_ORIENTATION, x, y, scale);
-	}
-
-	public SignSegment(Shell shell, int orientation, int x, int y, int scale)
-	{
-		super(shell, DEFAULT_ORIENTATION);
-
+		super(null, DEFAULT_ORIENTATION);
 		setBounds(x, y, scale);
 	}
 

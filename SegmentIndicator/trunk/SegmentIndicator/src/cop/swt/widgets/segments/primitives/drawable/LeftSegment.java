@@ -5,12 +5,12 @@ import static org.eclipse.swt.SWT.RIGHT;
 
 public final class LeftSegment extends DrawableSegment
 {
-	public static SimpleSegment createSegment()
+	public static SimpleSegment create()
 	{
-		return createSegment(false);
+		return create(false);
 	}
 
-	public static SimpleSegment createSegment(boolean invert)
+	public static SimpleSegment create(boolean invert)
 	{
 		return invert ? new RightSegment() : new LeftSegment();
 	}

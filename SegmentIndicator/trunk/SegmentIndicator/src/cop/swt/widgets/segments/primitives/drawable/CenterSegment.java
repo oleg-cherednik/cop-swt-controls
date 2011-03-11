@@ -4,7 +4,7 @@ import static cop.swt.widgets.segments.ShapeBasics.createRhombus;
 
 public final class CenterSegment extends DrawableSegment
 {
-	public static SimpleSegment createSegment(int orientation)
+	public static SimpleSegment create(int orientation)
 	{
 		return new CenterSegment(orientation);
 	}
