@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/HtmlViewerFeature_1.0.0.201106131520.jar" id="HtmlViewerFeature" version="1.0.0.201106131520">
+      <category name="new_category_1"/>
+   </feature>
+   <category-def name="new_category_1" label="New Category 1"/>
+   <category-def name="new_category_2" label="New Category 2"/>
+</site>
