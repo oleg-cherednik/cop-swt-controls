@@ -5,11 +5,12 @@ import static java.text.NumberFormat.getCurrencyInstance;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 
 public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
 {
+	private NumberFormat currencyFormat;
+
 	/**
 	 * Closed constructor
 	 * 
@@ -19,24 +20,7 @@ public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
 	protected CurrencyColumnDescription(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
-	}
-
-	@Override
-	protected NumberFormat getNumberFormat(Locale locale)
-	{
-		return getCurrencyInstance(locale);
-	}
-
-	/*
-	 * NumericColumnDescription
-	 */
-
-	@Override
-	protected Number parseNumber(String value) throws ParseException
-	{
-		String symbol = numberFormat.getCurrency().getSymbol(locale);
-
-		return numberFormat.parse(value.endsWith(symbol) ? value : (value + " " + symbol));
+		this.currencyFormat = getCurrencyInstance(locale);
 	}
 
 	/*
@@ -44,9 +28,13 @@ public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
 	 */
 
 	@Override
-	protected String getText(Object obj)
+	protected String getCellText(Object obj)
 	{
-		return isNotNull(obj) ? numberFormat.format(obj) : "";
+		if(obj instanceof Number)
+			return currencyFormat.format(obj);
+
+		return isEmptyable() ? "" : currencyFormat.format(0);
+
 	}
 
 	/*
@@ -59,6 +47,6 @@ public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
 		super.setLocale(locale);
 
 		if(isNotNull(locale))
-			numberFormat = getNumberFormat(locale);
+			currencyFormat = getCurrencyInstance(locale);
 	}
 }

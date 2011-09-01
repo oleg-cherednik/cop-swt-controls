@@ -150,6 +150,10 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	{
 		return null;
 	}
+	
+	protected String getCellText(Object obj) {
+		return getText(obj);
+	}
 
 	protected String getText(Object obj)
 	{
@@ -185,7 +189,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	{
 		Object obj = invoke(item);
 
-		cell.setText(getText(obj));
+		cell.setText(getCellText(obj));
 		cell.setImage(getColumnImage(obj));
 	}
 
