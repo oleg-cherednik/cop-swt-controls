@@ -13,13 +13,12 @@ import java.util.Locale;
 
 public class NumericColumnDescription<T> extends StringColumnDescription<T>
 {
-	protected NumberFormat numberFormat;
+	private NumberFormat numberFormat;
 
 	protected NumericColumnDescription(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
-
-		numberFormat = getNumberFormat(locale);
+		this.numberFormat = getNumberFormat(locale);
 	}
 
 	protected NumberFormat getNumberFormat(Locale locale)
@@ -54,7 +53,10 @@ public class NumericColumnDescription<T> extends StringColumnDescription<T>
 	@Override
 	protected String getText(Object obj)
 	{
-		return isNotNull(obj) ? numberFormat.format(obj) : "";
+		if(obj instanceof Number)
+			return numberFormat.format(obj);
+
+		return isEmptyable() ? "" : numberFormat.format(0);
 	}
 
 	/*
