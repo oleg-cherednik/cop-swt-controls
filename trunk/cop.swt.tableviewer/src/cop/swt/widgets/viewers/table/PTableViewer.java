@@ -71,18 +71,18 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	// private AddListener<T> addListener;
 	// private Set<String> controlNotifiers = new HashSet<String>();
 
-	public PTableViewer(T obj, Composite parent, int style) throws Exception
+	public PTableViewer(Class<T> cls, Composite parent, int style) throws Exception
 	{
-		this(obj, parent, style, null);
+		this(cls, parent, style, null);
 	}
 
-	public PTableViewer(T obj, Composite parent, int style, TableViewerConfig config) throws Exception
+	public PTableViewer(Class<T> cls, Composite parent, int style, TableViewerConfig config) throws Exception
 	{
-		super(obj, new TableViewer(parent, clearBits(style, READ_ONLY) | FULL_SELECTION), config);
+		super(cls, new TableViewer(parent, clearBits(style, READ_ONLY) | FULL_SELECTION), config);
 
 		createColumns();
 		setReadonly(isBitSet(style, READ_ONLY));
-		addListeners(obj);
+		addListeners();
 		createLabelProvider();
 		createFilter();
 		postConstruct();
@@ -121,9 +121,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private void createColumns() throws AnnotationDeclarationException, AnnotationMissingException
 	{
-		Assert.isNotNull(obj);
-
-		List<? extends ColumnDescription<T>> descriptions = getDescriptions(obj.getClass(), getImageProvider());
+		List<? extends ColumnDescription<T>> descriptions = getDescriptions(cls, getImageProvider());
 
 		if(isEmpty(descriptions))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
@@ -134,7 +132,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		for(ColumnDescription<T> description : descriptions)
 		{
-			columns.put(index++, column = new PTableColumn<T>(obj, viewer, description));
+			columns.put(index++, column = new PTableColumn<T>(cls, viewer, description));
 			column.setTableColumnListener(notifyTableColumnListener);
 			column.addPackableListener(this);
 		}
@@ -161,11 +159,8 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		return null;
 	}
 
-	private void addListeners(T obj)
+	private void addListeners()
 	{
-		if(isEmpty(columns) || isNull(obj))
-			return;
-
 		Table table = (Table)widget.getControl();
 
 		table.addListener(Resize, this);
@@ -658,7 +653,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			selectionProvider = getColumnStateSelectionProvider(column);
 			listener = column;
 
-			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(obj, description.getKey(), visibleProvider,
+			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(cls, description.getKey(), visibleProvider,
 			                enabledProvider, selectionProvider, listener));
 		}
 
@@ -676,8 +671,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private PropertyProvider<Boolean> getColumnStateSelectionProvider(final PTableColumn<T> column)
 	{
-		Assert.isNotNull(column);
-
 		PropertyProvider<Boolean> provider = new PropertyProvider<Boolean>()
 		{
 			@Override

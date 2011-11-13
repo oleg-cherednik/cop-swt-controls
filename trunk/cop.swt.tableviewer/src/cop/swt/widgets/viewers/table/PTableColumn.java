@@ -60,19 +60,19 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	private boolean hidden;
 	// private boolean autoColumnWidth = true;
 
-	private final T obj;
+	private final Class<T> cls;
 
 	private TableColumnListener<T> columnListener;
 	private TableColumnSelectionListener selectionListener;
 
 	private MenuItem itemName;
 
-	public PTableColumn(T obj, final TableViewer tableViewer, ColumnDescription<T> description)
+	public PTableColumn(Class<T> cls, final TableViewer tableViewer, ColumnDescription<T> description)
 	{
 		if(description == null)
 			throw new NullPointerException("description == null");
 
-		this.obj = obj;
+		this.cls = cls;
 		this.tableViewer = tableViewer;
 		this.description = description;
 		this.editor = new ColumnEditor<T>(tableViewer, description);
@@ -499,7 +499,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 		try
 		{
-			String str = getTranslation(obj, description.getKey(), locale);
+			String str = getTranslation(cls, description.getKey(), locale);
 
 			columnViewer.getColumn().setText(isNotEmpty(str) ? str : description.getName());
 		}
