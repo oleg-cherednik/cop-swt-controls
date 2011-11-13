@@ -17,7 +17,7 @@ public class TableColumnProperty
 		this(key, null);
 	}
 
-	public <T> TableColumnProperty(PTableColumnInfo<T> columnInfo)
+	public <T> TableColumnProperty(PTableColumn<T> columnInfo)
 	{
 		this(columnInfo.getDescription().getKey(), columnInfo.getViewer().getColumn());
 	}

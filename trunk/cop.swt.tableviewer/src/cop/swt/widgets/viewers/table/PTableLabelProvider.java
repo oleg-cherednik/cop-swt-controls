@@ -21,11 +21,11 @@ import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class PTableLabelProvider<T> extends StyledCellLabelProvider implements IColorProvider, IFontProvider
 {
-	private Map<Integer, PTableColumnInfo<T>> viewerColumns;
+	private Map<Integer, PTableColumn<T>> viewerColumns;
 	private String searchText;
 	private Color systemColor = YELLOW;
 
-	public PTableLabelProvider(Map<Integer, PTableColumnInfo<T>> viewerColumns)
+	public PTableLabelProvider(Map<Integer, PTableColumn<T>> viewerColumns)
 	{
 		this.viewerColumns = viewerColumns;
 	}
@@ -45,7 +45,7 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider implements I
 	{
 		try
 		{
-			PTableColumnInfo<T> viewerColumn = viewerColumns.get(cell.getColumnIndex());
+			PTableColumn<T> viewerColumn = viewerColumns.get(cell.getColumnIndex());
 
 			if(viewerColumn == null)
 				return;

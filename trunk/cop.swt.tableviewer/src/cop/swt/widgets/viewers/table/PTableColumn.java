@@ -45,13 +45,13 @@ import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
 
-public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable, Listener
+public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable, Listener
 {
-	private PViewerSorter<T> sorter;
-	private ColumnEditingSupport<T> editor;
-	private ColumnDescription<T> description;
-	private TableViewerColumn columnViewer;
+	private final PViewerSorter<T> sorter;
+	private final ColumnEditor<T> editor;
 	private final TableViewer tableViewer;
+	private final ColumnDescription<T> description;
+	private final TableViewerColumn columnViewer;
 
 	private Set<Packable> packableListeners = new HashSet<Packable>();
 
@@ -67,7 +67,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 
 	private MenuItem itemName;
 
-	public PTableColumnInfo(T obj, final TableViewer tableViewer, ColumnDescription<T> description)
+	public PTableColumn(T obj, final TableViewer tableViewer, ColumnDescription<T> description)
 	{
 		if(description == null)
 			throw new NullPointerException("description == null");
@@ -75,11 +75,9 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		this.obj = obj;
 		this.tableViewer = tableViewer;
 		this.description = description;
-		this.columnViewer = description.createTableViewerColumn(tableViewer);
-		this.editor = new ColumnEditingSupport<T>(tableViewer, description);
+		this.editor = new ColumnEditor<T>(tableViewer, description);
+		this.columnViewer = description.createTableViewerColumn(tableViewer, editor);
 		this.sorter = new PViewerSorter<T>(tableViewer, description);
-
-		this.columnViewer.setEditingSupport(editor);
 
 		if(description.isHideable() && !description.isVisible())
 			setHidden(true);
@@ -136,7 +134,7 @@ public class PTableColumnInfo<T> implements LocaleSupport, ModifyListenerSupport
 		return columnViewer;
 	}
 
-	ColumnEditingSupport<T> getEditor()
+	ColumnEditor<T> getEditor()
 	{
 		return editor;
 	}

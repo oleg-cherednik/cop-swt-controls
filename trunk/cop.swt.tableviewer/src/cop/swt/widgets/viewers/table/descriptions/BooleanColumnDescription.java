@@ -79,8 +79,6 @@ public class BooleanColumnDescription<T> extends ColumnDescription<T>
 		{
 		case IMAGE_ONLY:
 		case IMAGE_AND_TEXT:
-			Assert.isNotNull(imageProvider);
-
 			return imageProvider.getImage((Boolean)res ? CHECKED_MARKER : UNCHECKED_MARKER);
 		default:
 			return null;
