@@ -18,7 +18,7 @@ import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public class ColumnEditingSupport<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>
+public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>
 {
 	public CellEditor editor;
 	private ColumnDescription<T> description;
@@ -27,12 +27,12 @@ public class ColumnEditingSupport<T> extends EditingSupport implements LocaleSup
 	private IModifyProvider<T> modifyProvider;
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 
-	public ColumnEditingSupport(TableViewer viewer, ColumnDescription<T> description)
+	public ColumnEditor(TableViewer viewer, ColumnDescription<T> description)
 	{
 		this(viewer, description, null);
 	}
 
-	public ColumnEditingSupport(TableViewer viewer, ColumnDescription<T> description, IModifyProvider<T> modifyProvider)
+	public ColumnEditor(TableViewer viewer, ColumnDescription<T> description, IModifyProvider<T> modifyProvider)
 	{
 		super(viewer);
 

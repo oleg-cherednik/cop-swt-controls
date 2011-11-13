@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -150,8 +151,9 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	{
 		return null;
 	}
-	
-	protected String getCellText(Object obj) {
+
+	protected String getCellText(Object obj)
+	{
 		return getText(obj);
 	}
 
@@ -193,12 +195,14 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		cell.setImage(getColumnImage(obj));
 	}
 
-	public TableViewerColumn createTableViewerColumn(TableViewer viewer)
+	public TableViewerColumn createTableViewerColumn(TableViewer viewer, EditingSupport editor)
 	{
-		if(isNull(viewer))
-			throw new NullPointerException("viewer == null");
+		TableViewerColumn viewerColumn = content.createTableColumn(viewer);
 
-		return content.createTableColumn(viewer);
+		if(editor != null)
+			viewerColumn.setEditingSupport(editor);
+
+		return viewerColumn;
 	}
 
 	public ColumnContent getContent()

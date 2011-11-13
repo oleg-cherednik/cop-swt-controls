@@ -12,11 +12,11 @@ import cop.swt.enums.CaseSensitivityEnum;
 
 public class TableFilter<T> extends ViewerFilter
 {
-	private Map<Integer, PTableColumnInfo<T>> viewerColumns;
+	private Map<Integer, PTableColumn<T>> viewerColumns;
 	private String regex;
 	private CaseSensitivityEnum caseSensitivity = CASE_INSENSITIVE;
 
-	public TableFilter(Map<Integer, PTableColumnInfo<T>> viewerColumns)
+	public TableFilter(Map<Integer, PTableColumn<T>> viewerColumns)
 	{
 		this.viewerColumns = viewerColumns;
 	}
@@ -37,7 +37,7 @@ public class TableFilter<T> extends ViewerFilter
 		{
 			Object obj;
 
-			for(PTableColumnInfo<T> viewerColumn : viewerColumns.values())
+			for(PTableColumn<T> viewerColumn : viewerColumns.values())
 			{
 				obj = viewerColumn.getDescription().getTextValue((T)element);
 
