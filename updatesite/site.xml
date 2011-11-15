@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/HtmlViewerFeature_1.0.0.201106131550.jar" id="HtmlViewerFeature" version="1.0.0.201106131550">
-      <category name="new_category_3"/>
+   <feature url="features/HtmlViewerFeature_1.0.0.qualifier.jar" id="HtmlViewerFeature" version="1.0.0.qualifier">
+      <category name="Advanced SWT Controls"/>
    </feature>
-   <category-def name="new_category_3" label="New Category 3"/>
-   <category-def name="new_category_4" label="New Category 4"/>
+   <category-def name="Advanced SWT Controls" label="Advanced SWT Controls"/>
 </site>
