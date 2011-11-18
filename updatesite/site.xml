@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/HtmlViewerFeature_1.0.0.qualifier.jar" id="HtmlViewerFeature" version="1.0.0.qualifier">
-      <category name="Advanced SWT Controls"/>
-   </feature>
-   <category-def name="Advanced SWT Controls" label="Advanced SWT Controls"/>
-</site>
