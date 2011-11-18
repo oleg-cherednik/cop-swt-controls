@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <feature url="features/cop.swt.htmlviewer.feature_1.0.0.jar" id="cop.swt.htmlviewer.feature" version="1.0" os="linux,win32" ws="win32" nl="de,en,ru" arch="x86,x86_64">
+      <category name="cop.swt.controls"/>
+   </feature>
+   <category-def name="cop.swt.controls" label="Advanced SWT Controls"/>
 </site>
