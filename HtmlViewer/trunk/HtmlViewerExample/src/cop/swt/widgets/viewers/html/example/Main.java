@@ -20,7 +20,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
+import cop.swt.widgets.viewers.html.example.exceptions.SimpleException;
+import cop.swt.widgets.viewers.html.example.exceptions.TestException;
 import cop.swt.widgets.viewers.html.example.news.NewsViewer;
 import cop.swt.widgets.viewers.html.example.simple.SimpleViewer;
 
@@ -32,7 +38,12 @@ public class Main extends ApplicationWindow
 {
 	public static void main(String[] args)
 	{
-		new Main().run();
+		try
+		{
+			new Main().run();
+		}
+		catch(TestException e)
+		{}
 	}
 
 	private Main()
@@ -40,11 +51,37 @@ public class Main extends ApplicationWindow
 		super(null);
 	}
 
-	public void run()
+	public void run() throws TestException
 	{
+		LoggerContext lc = (LoggerContext)LoggerFactory.getILoggerFactory();
+		// print logback's internal status
+		StatusPrinter.print(lc);
+
+		Logger log = LoggerFactory.getLogger(Main.class);
+
+		log.trace("trace_trace");
+		log.debug("debug_debug {}-{}", 11, 22);
+		log.info("info_info");
+		log.warn("warn_warn");
+		log.error("error_error");
+
+		// try
+		// {
+		// foo();
+		// }
+		// catch(Exception e)
+		// {
+		// throw new TestException("This is a test exception", e);
+		// }
+
 		setBlockOnOpen(true);
 		open();
 		Display.getCurrent().dispose();
+	}
+
+	private void foo() throws Exception
+	{
+		throw new SimpleException();
 	}
 
 	@Override

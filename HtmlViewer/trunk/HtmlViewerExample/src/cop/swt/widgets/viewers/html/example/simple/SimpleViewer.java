@@ -13,6 +13,7 @@ import static org.eclipse.swt.SWT.NONE;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.slf4j.LoggerFactory;
 
 import cop.swt.widgets.viewers.html.SimpleHtmlViewer;
 
@@ -27,6 +28,8 @@ public class SimpleViewer extends Composite
 	public SimpleViewer(Composite parent, int style)
 	{
 		super(parent, style);
+		
+		LoggerFactory.getLogger(getClass()).debug("SimpleViewer");
 
 		setLayout(new GridLayout());
 		//setBackground(WHITE);
