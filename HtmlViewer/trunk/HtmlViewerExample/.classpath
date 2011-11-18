@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar" sourcepath="lib/slf4j-api-1.6.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/logback-classic-0.9.29.jar"/>
 	<classpathentry kind="lib" path="lib/logback-core-0.9.29.jar"/>
-	<classpathentry kind="lib" path="lib/cop.swt.htmlviewer_v20110221-0803.jar" sourcepath="lib/cop.swt.htmlviewer.source_v20110221-0803.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/HtmlViewer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
