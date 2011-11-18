@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="HtmlViewerFeature"
-      label="HtmlViewerFeature"
-      version="1.0.0.qualifier">
+      id="cop.swt.htmlviewer.feature"
+      label="Html Based Viewer"
+      version="1.0"
+      provider-name="Cherednik, Oleg"
+      os="linux,win32"
+      ws="win32"
+      nl="de,en,ru"
+      arch="x86,x86_64">
 
    <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+      This is a SWT component provides a different features to view a given objects in view form based on html viewer. It containes basic implementation of this functionality and some concret implementations. One of the usage can be in log or history events viewer.
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+      Copyright (C) Cherednik, Oleg (abba-best@mail.ru)
+The copyright of the computer program is the property of Cherednik, Oleg.
    </copyright>
 
    <license url="http://www.example.com/license">
-      [Enter License Description here.]
+      This software is under GNU Leser General Public License (http://www.gnu.org/licenses/lgpl.html)
    </license>
+
+   <url>
+      <discovery label="Advanced SWT controls by Oleg Cherednik (cop)" url="http://code.google.com/p/cop-swt-controls/"/>
+   </url>
 
    <plugin
          id="cop.swt.htmlviewer"
