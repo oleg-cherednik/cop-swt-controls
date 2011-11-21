@@ -14,24 +14,21 @@ import cop.swt.widgets.menu.items.basics.AbstractRadioMenuItem;
 
 public class RadioKeyMenuItem<T> extends AbstractRadioMenuItem
 {
-	private T obj;
+	private Class<T> cls;
 	private String localKey;
 
-	public RadioKeyMenuItem(T obj, String localKey, Listener listener)
+	public RadioKeyMenuItem(Class<T> cls, String localKey, Listener listener)
 	{
-		this(obj, localKey, null, null, null, listener);
+		this(cls, localKey, null, null, null, listener);
 	}
 
-	public RadioKeyMenuItem(T obj, String localKey, PropertyProvider<Boolean> visibleProvider,
+	public RadioKeyMenuItem(Class<T> cls, String localKey, PropertyProvider<Boolean> visibleProvider,
 	                PropertyProvider<Boolean> enabledProvider, PropertyProvider<Boolean> selectionProvider,
 	                Listener listener)
 	{
 		super(MI_COLUMN_DESCRIPTION);
 
-		Assert.isNotNull(obj);
-		Assert.isNotNull(localKey);
-
-		this.obj = obj;
+		this.cls = cls;
 		this.localKey = localKey;
 
 		setSelectionProvider(selectionProvider);
@@ -59,7 +56,7 @@ public class RadioKeyMenuItem<T> extends AbstractRadioMenuItem
 	{
 		try
 		{
-			return getTranslation(obj, localKey, locale);
+			return getTranslation(cls, localKey, locale);
 		}
 		catch(AnnotationDeclarationException e)
 		{

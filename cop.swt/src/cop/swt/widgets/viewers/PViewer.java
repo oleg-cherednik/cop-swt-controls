@@ -89,7 +89,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 {
 	protected final Composite parent;
 	public StructuredViewer widget;
-	protected final T obj;
+	protected final Class<T> cls;
 
 	// protected final ImageProviderImpl imageProvider = new ImageProviderImpl();
 	protected ViewerConfig config;
@@ -106,12 +106,9 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	// listeners
 	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
 
-	protected PViewer(T obj, StructuredViewer viewer, ViewerConfig config)
+	protected PViewer(Class<T> cls, StructuredViewer viewer, ViewerConfig config)
 	{
-		Assert.isNotNull(obj);
-		Assert.isNotNull(viewer);
-
-		this.obj = obj;
+		this.cls = cls;
 		this.widget = viewer;
 		this.parent = widget.getControl().getParent();
 		this.config = config;

@@ -1,3 +1,9 @@
+/**
+ * @licence GNU Leser General Public License
+ *
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.annotations.services;
 
 import static cop.common.extensions.AnnotationExtension.getAnnotatedMethods;
@@ -24,21 +30,17 @@ public class i18nService
 	private i18nService()
 	{}
 
-	public static <T> String getTranslation(T item, String key) throws AnnotationDeclarationException
+	public static <T> String getTranslation(Class<T> cls, String key) throws AnnotationDeclarationException
 	{
-		return getTranslation(item, key, null);
+		return getTranslation(cls, key, null);
 	}
 
-	public static <T> String getTranslation(T item, String key, Locale locale) throws AnnotationDeclarationException
+	public static <T> String getTranslation(Class<T> cls, String key, Locale locale) throws AnnotationDeclarationException
 	{
-		if(isNull(item))
-			throw new NullPointerException("item == null");
-
 		if(isEmpty(key))
 			throw new IllegalArgumentException("key is empty");
 
 		Method[] methods;
-		Class<?> cls = item.getClass();
 
 		if(isNotNull(locale))
 			methods = getAnnotatedMethods(cls, i18n.class, String.class, Locale.class);
@@ -57,9 +59,9 @@ public class i18nService
 		try
 		{
 			if(isNotNull(locale))
-				return (String)invokeMethod(item, methods[0], key, locale);
+				return (String)invokeMethod(null, methods[0], key, locale);
 
-			return (String)invokeMethod(item, methods[0], key);
+			return (String)invokeMethod(null, methods[0], key);
 		}
 		catch(Exception e)
 		{

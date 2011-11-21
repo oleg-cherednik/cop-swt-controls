@@ -11,6 +11,12 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+
+import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
+
 public class NumericColumnDescription<T> extends StringColumnDescription<T>
 {
 	private NumberFormat numberFormat;
@@ -58,6 +64,12 @@ public class NumericColumnDescription<T> extends StringColumnDescription<T>
 
 		return isEmptyable() ? "" : numberFormat.format(0);
 	}
+	
+//	@Override
+//	public CellEditor getCellEditor(Composite parent)
+//	{
+//		return new SpinnerCellEditor(parent, numberFormat, SWT.NONE);
+//	}
 
 	/*
 	 * Localizable

@@ -4,7 +4,7 @@ import static cop.common.beans.JavaBean.getPropertyName;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.ReflectionExtension.isBoolean;
-import static cop.common.extensions.ReflectionExtension.isNumeric;
+import static cop.common.extensions.ReflectionExtension.*;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_TYPE;
 import static cop.swt.widgets.annotations.services.CurrencyService.isCurrency;
 import static cop.swt.widgets.annotations.services.PercentService.isPercent;
@@ -76,6 +76,8 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 				return new CurrencyColumnDescription<T>(obj, locale);
 			if(isPercent(obj))
 				return new PercentColumnDescription<T>(obj, locale);
+			if(isInteger(type))
+				return new IntegerNumberColumnDescription<T>(obj, locale);
 
 			return new NumericColumnDescription<T>(obj, locale);
 		}

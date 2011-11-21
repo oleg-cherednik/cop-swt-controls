@@ -9,9 +9,17 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import cop.swt.widgets.annotations.services.PercentService;
+
 @Inherited
 @Documented
 @Retention(RUNTIME)
-@Target( { FIELD, METHOD })
+@Target({ FIELD, METHOD })
 public @interface Percent
-{}
+{
+	double min() default PercentService.DEF_MINIMUM;
+
+	double max() default PercentService.DEF_MAXIMUM;
+
+	double inc() default PercentService.DEF_INCREMENT;
+}

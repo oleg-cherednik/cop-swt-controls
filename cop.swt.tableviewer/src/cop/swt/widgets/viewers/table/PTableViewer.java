@@ -9,7 +9,6 @@ import static cop.common.extensions.BitExtension.clearBits;
 import static cop.common.extensions.BitExtension.isBitSet;
 import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
 import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.getText;
 import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
@@ -30,7 +29,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
