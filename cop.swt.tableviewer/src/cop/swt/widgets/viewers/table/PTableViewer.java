@@ -12,14 +12,6 @@ import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.StringExtension.getText;
 import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
-import static org.eclipse.swt.SWT.Dispose;
-import static org.eclipse.swt.SWT.FULL_SELECTION;
-import static org.eclipse.swt.SWT.MouseDoubleClick;
-import static org.eclipse.swt.SWT.MouseExit;
-import static org.eclipse.swt.SWT.MouseMove;
-import static org.eclipse.swt.SWT.PaintItem;
-import static org.eclipse.swt.SWT.READ_ONLY;
-import static org.eclipse.swt.SWT.Resize;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -54,7 +47,7 @@ import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 /*
  * ITableColorProvider
- * MarathonLiabilitiesControl
+ * MarathonLia≈bilitiesControl
  */
 public final class PTableViewer<T> extends PViewer<T> implements Packable
 {
@@ -76,10 +69,10 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	public PTableViewer(Class<T> cls, Composite parent, int style, TableViewerConfig config) throws Exception
 	{
-		super(cls, new TableViewer(parent, clearBits(style, READ_ONLY) | FULL_SELECTION), config);
+		super(cls, new TableViewer(parent, clearBits(style, SWT.READ_ONLY) | SWT.FULL_SELECTION), config);
 
 		createColumns();
-		setReadonly(isBitSet(style, READ_ONLY));
+		setReadonly(isBitSet(style, SWT.READ_ONLY));
 		addListeners();
 		createLabelProvider();
 		createFilter();
@@ -161,12 +154,12 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	{
 		Table table = (Table)widget.getControl();
 
-		table.addListener(Resize, this);
-		table.addListener(MouseExit, this);
-		table.addListener(MouseMove, this);
-		table.addListener(MouseDoubleClick, this);
-		table.addListener(Dispose, this);
-		table.addListener(PaintItem, this);
+		table.addListener(SWT.Resize, this);
+		table.addListener(SWT.MouseExit, this);
+		table.addListener(SWT.MouseMove, this);
+		table.addListener(SWT.MouseDoubleClick, this);
+		table.addListener(SWT.Dispose, this);
+		table.addListener(SWT.PaintItem, this);
 	}
 
 	private final Runnable packTask = new Runnable()
@@ -179,17 +172,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 					column.pack();
 		}
 	};
-
-	// private boolean isEditorOn()
-	// {
-	// for(PTableColumnInfo<T> column : columns.values())
-	// {
-	// column.i
-	// }
-	//
-	// return false;
-	//
-	// }
 
 	private String[] getVisibleColumnNames()
 	{
@@ -507,15 +489,15 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		if(event.widget == widget.getControl())
 		{
-			if(event.type == PaintItem)
+			if(event.type == SWT.PaintItem)
 				onPaintItem(event);
-			else if(event.type == MouseDoubleClick)
+			else if(event.type == SWT.MouseDoubleClick)
 				onMouseDoubleClick(event);
-			else if(event.type == MouseMove)
+			else if(event.type == SWT.MouseMove)
 				onMouseMove(event);
-			else if(event.type == MouseExit)
+			else if(event.type == SWT.MouseExit)
 				onMouseExit(event);
-			else if(event.type == Resize)
+			else if(event.type == SWT.Resize)
 				onResize(event);
 		}
 	}

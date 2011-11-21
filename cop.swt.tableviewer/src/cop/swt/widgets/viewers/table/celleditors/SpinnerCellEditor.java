@@ -51,6 +51,7 @@ public class SpinnerCellEditor extends CellEditor
 
 		spinner.addTraverseListener(allowEscape);
 		spinner.addTraverseListener(allowReturn);
+		
 
 		return spinner;
 	}
