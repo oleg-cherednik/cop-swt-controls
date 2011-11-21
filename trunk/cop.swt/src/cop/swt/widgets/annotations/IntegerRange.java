@@ -9,12 +9,17 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import cop.swt.widgets.annotations.services.RangeService;
+
 @Inherited
 @Documented
 @Retention(RUNTIME)
-@Target( { FIELD, METHOD })
-public @interface IntegerDigits
+@Target({ FIELD, METHOD })
+public @interface IntegerRange
 {
-	int min() default 1;
-	int max() default -1;
+	int min() default RangeService.DEF_MINIMUM;
+
+	int max() default RangeService.DEF_MAXIMUM;
+
+	int inc() default RangeService.DEF_INCREMENT;
 }

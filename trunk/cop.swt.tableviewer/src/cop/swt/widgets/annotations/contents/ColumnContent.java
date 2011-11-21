@@ -33,7 +33,6 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 {
 	private String name = DEF_NAME;
 	private String toolTip = DEF_TOOLTIP;
-	// private String unit = DEF_UNIT;
 	private int order = DEF_ORDER;
 	private boolean movable = DEF_MOVABLE;
 	private boolean resizable = DEF_RISIZABLE;
@@ -48,9 +47,6 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 
 	public ColumnContent(Column annotation, Locale locale)
 	{
-		if(isNull(annotation))
-			throw new NullPointerException("annotation is not set");
-
 		setCollator(locale);
 		setName(annotation.name());
 		setToolTip(annotation.toolTip());
@@ -68,9 +64,6 @@ public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport
 
 	public TableViewerColumn createTableColumn(TableViewer viewer)
 	{
-		if(isNull(viewer))
-			throw new NullPointerException("viewer == null");
-
 		TableViewerColumn viewerColumn = new TableViewerColumn(viewer, NONE);
 		TableColumn column = viewerColumn.getColumn();
 

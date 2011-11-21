@@ -1,9 +1,9 @@
 package cop.swt.widgets.viewers.table;
 
+import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isNotEmpty;
-import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.enums.SortDirectionEnum.parseSwtDirection;
 import static cop.swt.widgets.viewers.PViewerSorter.DEFAULT_SORT_DIRECTION;
@@ -29,8 +29,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import cop.common.extensions.StringExtension;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
+import cop.common.extensions.StringExtension;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;

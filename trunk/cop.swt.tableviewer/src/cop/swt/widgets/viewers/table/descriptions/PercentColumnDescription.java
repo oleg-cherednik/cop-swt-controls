@@ -1,10 +1,9 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.swt.extensions.ColorExtension.RED;
 import static cop.swt.extensions.ColorExtension.YELLOW;
-import static java.text.NumberFormat.getNumberInstance;
-import static java.text.NumberFormat.getPercentInstance;
 import static org.eclipse.swt.SWT.PaintItem;
 
 import java.lang.reflect.AccessibleObject;
@@ -12,15 +11,23 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+
+import cop.swt.widgets.annotations.contents.RangeContent;
+import cop.swt.widgets.annotations.services.PercentService;
+import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 
 public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 {
 	private NumberFormat percentFormat;
+	private final RangeContent range;
 
 	/**
 	 * Closed constructor
@@ -31,7 +38,9 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	protected PercentColumnDescription(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
-		this.percentFormat = configNumberFormat(getPercentFormat(locale));
+
+		this.percentFormat = configNumberFormat(NumberFormat.getPercentInstance(locale));
+		this.range = PercentService.getContent(obj, percentFormat.getMaximumFractionDigits());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -78,7 +87,7 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	@Override
 	protected NumberFormat getNumberFormat(Locale locale)
 	{
-		return configNumberFormat(getNumberInstance(locale));
+		return configNumberFormat(NumberFormat.getNumberInstance(locale));
 	}
 
 	@Override
@@ -90,6 +99,12 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	/*
 	 * ColumnDescription
 	 */
+
+	@Override
+	public void setValue(T item, Object value) throws Exception
+	{
+		invoke(item, getNumberValue(type, ((Number)value).doubleValue() / 100));
+	}
 
 	@Override
 	protected String getText(Object obj)
@@ -106,6 +121,13 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 		return (obj instanceof Number) ? percentFormat.format(((Number)obj).doubleValue()) : "";
 	}
 
+	@Override
+	public CellEditor getCellEditor(Composite parent)
+	{
+		NumberFormat nf = configNumberFormat(NumberFormat.getNumberInstance(locale));
+		return new SpinnerCellEditor(parent, nf, range, SWT.NONE);
+	}
+
 	/*
 	 * Localizable
 	 */
@@ -116,7 +138,7 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 		super.setLocale(locale);
 
 		if(isNotNull(locale))
-			percentFormat = configNumberFormat(getPercentFormat(locale));
+			percentFormat = configNumberFormat(NumberFormat.getPercentInstance(locale));
 	}
 
 	/*
@@ -135,13 +157,6 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	/*
 	 * static
 	 */
-
-	private static NumberFormat getPercentFormat(Locale locale)
-	{
-		NumberFormat percentFormat = getPercentInstance(locale);
-		percentFormat.setMinimumFractionDigits(2);
-		return percentFormat;
-	}
 
 	private static NumberFormat configNumberFormat(NumberFormat numberFormat)
 	{

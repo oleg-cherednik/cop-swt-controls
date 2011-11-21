@@ -7,6 +7,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.widgets.Display;
 
+//dsf
 public class SearchUtil {
 	public static int[] getSearchTermOccurrences(String searchTerm,
 			String content) {

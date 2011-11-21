@@ -38,8 +38,6 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 
 		this.description = description;
 		this.modifyProvider = modifyProvider;
-
-		editor = description.getCellEditor(viewer.getTable());
 	}
 
 	public void setReadonlyProvider(IModifyProvider<T> provider)
@@ -90,13 +88,12 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 	@SuppressWarnings("unchecked")
 	protected boolean canEdit(Object element)
 	{
-		System.out.println("ColumnEditingSupport.canEdit()");
+		System.out.println("ColumnEditor.canEdit()");
 
 		if(readonly || !enabled || description.isReadonly())
 			return false;
 
-		TableViewer viewer = (TableViewer)getViewer();
-		Table table = viewer.getTable();
+		Table table = ((TableViewer)getViewer()).getTable();
 		T item = (T)element;
 		String key = description.getKey();
 
@@ -109,7 +106,11 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 	@Override
 	protected CellEditor getCellEditor(Object element)
 	{
-		System.out.println("ColumnEditingSupport.getCellEditor()");
+		System.out.println("ColumnEditor.getCellEditor()");
+
+		if(editor == null)
+			editor = description.getCellEditor(((TableViewer)getViewer()).getTable());
+
 		return editor;
 	}
 
@@ -117,7 +118,7 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 	@SuppressWarnings("unchecked")
 	protected Object getValue(Object element)
 	{
-		System.out.println("ColumnEditingSupport.getValue()");
+		System.out.println("ColumnEditor.getValue()");
 
 		try
 		{
@@ -135,7 +136,7 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 	@SuppressWarnings("unchecked")
 	protected void setValue(Object element, Object value)
 	{
-		System.out.println("ColumnEditingSupport.setValue()");
+		System.out.println("ColumnEditor.setValue()");
 
 		try
 		{
@@ -156,6 +157,6 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 	@Override
 	public void setLocale(Locale locale)
 	{
-		editor = description.getCellEditor(((TableViewer)getViewer()).getTable());
+		//editor = description.getCellEditor(((TableViewer)getViewer()).getTable());
 	}
 }
