@@ -416,7 +416,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		group.setLayout(createLayout(1));
 		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		table = new PTableViewer<ActionTO>(new ActionTO(), group, style, tableConfig);
+		table = new PTableViewer<ActionTO>(ActionTO.class, group, style, tableConfig);
 
 		// table.setBackground(BLACK);
 		// table.setLayout(createLayout());
@@ -481,7 +481,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		group.setLayout(createLayout(1));
 		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		list = new PListViewer<ActionTO>(new ActionTO(), group, style, listConfig);
+		list = new PListViewer<ActionTO>(ActionTO.class, group, style, listConfig);
 		list.beginListenToModel(modelA);
 		// list.a onListModify
 		// list.setTableModel(model);
@@ -544,7 +544,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		group.setLayout(createLayout(1));
 		group.setLayoutData(createLayoutData(1));
 
-		PListViewer<ActionTO> list = new PListViewer<ActionTO>(new ActionTO(), group, SWT.BORDER, listConfig);
+		PListViewer<ActionTO> list = new PListViewer<ActionTO>(ActionTO.class, group, SWT.BORDER, listConfig);
 		list.beginListenToModel(modelA);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		list.widget.getControl().setBackground(MODEL_A_COLOR);
@@ -563,7 +563,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		group.setLayout(createLayout(1));
 		group.setLayoutData(createLayoutData(1));
 
-		PListViewer<ActionTO> list = new PListViewer<ActionTO>(new ActionTO(), group, style, listConfig);
+		PListViewer<ActionTO> list = new PListViewer<ActionTO>(ActionTO.class, group, style, listConfig);
 		list.beginListenToModel(modelB);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		list.widget.getControl().setBackground(MODEL_B_COLOR);
