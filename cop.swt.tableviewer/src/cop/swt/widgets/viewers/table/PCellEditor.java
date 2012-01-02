@@ -13,26 +13,26 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Table;
 
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.viewers.interfaces.IModifyListener;
+import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>
+public class PCellEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>
 {
 	public CellEditor editor;
 	private ColumnDescription<T> description;
 	private boolean readonly;
 	private boolean enabled;
 	private IModifyProvider<T> modifyProvider;
-	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
+	private final Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
 
-	public ColumnEditor(TableViewer viewer, ColumnDescription<T> description)
+	public PCellEditor(TableViewer viewer, ColumnDescription<T> description)
 	{
 		this(viewer, description, null);
 	}
 
-	public ColumnEditor(TableViewer viewer, ColumnDescription<T> description, IModifyProvider<T> modifyProvider)
+	public PCellEditor(TableViewer viewer, ColumnDescription<T> description, IModifyProvider<T> modifyProvider)
 	{
 		super(viewer);
 
@@ -60,14 +60,14 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 	 */
 
 	@Override
-	public void addModifyListener(IModifyListener<T> listener)
+	public void addModifyListener(ItemModifyListener<T> listener)
 	{
 		modifyListeners.add(listener);
 
 	}
 
 	@Override
-	public void removeModifyListener(IModifyListener<T> listener)
+	public void removeModifyListener(ItemModifyListener<T> listener)
 	{
 		modifyListeners.remove(listener);
 	}
@@ -76,7 +76,7 @@ public class ColumnEditor<T> extends EditingSupport implements LocaleSupport, Mo
 	{
 		Table table = ((TableViewer)getViewer()).getTable();
 
-		for(IModifyListener<T> listener : modifyListeners)
+		for(ItemModifyListener<T> listener : modifyListeners)
 			listener.itemModified(table, item, UPDATE);
 	}
 
