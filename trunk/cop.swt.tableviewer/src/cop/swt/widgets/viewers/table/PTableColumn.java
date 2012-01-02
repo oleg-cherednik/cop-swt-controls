@@ -37,7 +37,7 @@ import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.viewers.PViewerSorter;
-import cop.swt.widgets.viewers.interfaces.IModifyListener;
+import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.Packable;
@@ -48,7 +48,7 @@ import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
 public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable, Listener
 {
 	private final PViewerSorter<T> sorter;
-	private final ColumnEditor<T> editor;
+	private final PCellEditor<T> editor;
 	private final TableViewer tableViewer;
 	private final ColumnDescription<T> description;
 	private final TableViewerColumn columnViewer;
@@ -75,7 +75,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		this.cls = cls;
 		this.tableViewer = tableViewer;
 		this.description = description;
-		this.editor = new ColumnEditor<T>(tableViewer, description);
+		this.editor = new PCellEditor<T>(tableViewer, description);
 		this.columnViewer = description.createTableViewerColumn(tableViewer, editor);
 		this.sorter = new PViewerSorter<T>(tableViewer, description);
 
@@ -134,7 +134,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		return columnViewer;
 	}
 
-	ColumnEditor<T> getEditor()
+	PCellEditor<T> getEditor()
 	{
 		return editor;
 	}
@@ -346,13 +346,13 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	 */
 
 	@Override
-	public void addModifyListener(IModifyListener<T> listener)
+	public void addModifyListener(ItemModifyListener<T> listener)
 	{
 		editor.addModifyListener(listener);
 	}
 
 	@Override
-	public void removeModifyListener(IModifyListener<T> listener)
+	public void removeModifyListener(ItemModifyListener<T> listener)
 	{
 		editor.removeModifyListener(listener);
 	}

@@ -75,7 +75,7 @@ import cop.swt.widgets.menu.items.CascadeMenuItem;
 import cop.swt.widgets.menu.items.PushMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
 import cop.swt.widgets.model.interfaces.ModelChangedListener;
-import cop.swt.widgets.viewers.interfaces.IModifyListener;
+import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.SelectionListenerSupport;
 import cop.swt.widgets.viewers.interfaces.ViewerConfig;
@@ -104,7 +104,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	protected ViewerModel<T> model;
 	private boolean standaloneMode;
 	// listeners
-	private Set<IModifyListener<T>> modifyListeners = new HashSet<IModifyListener<T>>();
+	private Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
 
 	protected PViewer(Class<T> cls, StructuredViewer viewer, ViewerConfig config)
 	{
@@ -492,14 +492,14 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	 */
 
 	@Override
-	public void addModifyListener(IModifyListener<T> listener)
+	public void addModifyListener(ItemModifyListener<T> listener)
 	{
 		if(listener != null)
 			modifyListeners.add(listener);
 	}
 
 	@Override
-	public void removeModifyListener(IModifyListener<T> listener)
+	public void removeModifyListener(ItemModifyListener<T> listener)
 	{
 		if(listener != null)
 			modifyListeners.remove(listener);
@@ -507,7 +507,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	private void notifyModifyListener(T item, ModificationTypeEnum type)
 	{
-		for(IModifyListener<T> listener : modifyListeners)
+		for(ItemModifyListener<T> listener : modifyListeners)
 			listener.itemModified(widget.getControl(), item, type);
 	}
 
@@ -720,7 +720,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		{}
 	}
 
-	protected IModifyListener<T> modifyDefaultModel = new IModifyListener<T>()
+	protected ItemModifyListener<T> modifyDefaultModel = new ItemModifyListener<T>()
 	{
 		@Override
 		public void itemModified(Widget widget, T item, ModificationTypeEnum type)

@@ -291,7 +291,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	@Override
 	public void setLocale(Locale locale)
 	{
-		if(isNull(locale))
+		if(locale != null)
 			return;
 
 		this.locale = locale;

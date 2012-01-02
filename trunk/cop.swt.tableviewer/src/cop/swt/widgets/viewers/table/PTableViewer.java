@@ -39,7 +39,7 @@ import cop.swt.widgets.menu.items.PushMenuItem;
 import cop.swt.widgets.menu.items.RadioKeyMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
-import cop.swt.widgets.viewers.interfaces.IModifyListener;
+import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
@@ -275,7 +275,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	 */
 
 	@Override
-	public void addModifyListener(IModifyListener<T> listener)
+	public void addModifyListener(ItemModifyListener<T> listener)
 	{
 		if(listener == null)
 			return;
@@ -287,7 +287,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	}
 
 	@Override
-	public void removeModifyListener(IModifyListener<T> listener)
+	public void removeModifyListener(ItemModifyListener<T> listener)
 	{
 		if(listener == null)
 			return;

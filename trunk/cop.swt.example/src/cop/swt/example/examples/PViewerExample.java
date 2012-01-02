@@ -73,7 +73,7 @@ import cop.swt.tmp.MarketTO;
 import cop.swt.tmp.localization.Name;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.viewers.PViewer;
-import cop.swt.widgets.viewers.interfaces.IModifyListener;
+import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.list.ListViewerConfig;
 import cop.swt.widgets.viewers.list.PListViewer;
 import cop.swt.widgets.viewers.model.ListModel;
@@ -328,7 +328,7 @@ public class PViewerExample implements IExample, LocaleSupport
 			localesCombo.select(2);
 			setLocale(locales[2]);
 
-			new Thread(updateModelA).start();
+			//new Thread(updateModelA).start();
 		}
 		catch(Exception e)
 		{
@@ -777,7 +777,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		}
 	};
 
-	private IModifyListener<ActionTO> modifyTableListener = new IModifyListener<ActionTO>()
+	private ItemModifyListener<ActionTO> modifyTableListener = new ItemModifyListener<ActionTO>()
 	{
 		@Override
 		public void itemModified(Widget widget, ActionTO item, ModificationTypeEnum type)
@@ -802,7 +802,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		}
 	};
 
-	private IModifyListener<ActionTO> modifyListListener = new IModifyListener<ActionTO>()
+	private ItemModifyListener<ActionTO> modifyListListener = new ItemModifyListener<ActionTO>()
 	{
 		@Override
 		public void itemModified(Widget widget, ActionTO item, ModificationTypeEnum type)
@@ -827,7 +827,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		}
 	};
 
-	private IModifyListener<ActionTO> onListModify = new IModifyListener<ActionTO>()
+	private ItemModifyListener<ActionTO> onListModify = new ItemModifyListener<ActionTO>()
 	{
 		// @Override
 		// public void itemModified(Widget widget, ActionTO item, ModificationTypeEnum type)
