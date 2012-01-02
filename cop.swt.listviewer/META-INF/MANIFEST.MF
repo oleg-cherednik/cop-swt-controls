@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PListViewer
+Bundle-SymbolicName: cop.swt.widgets.viewers.list
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: plugin.cop.swt.widgets.viewers.list.Activator
+Require-Bundle: org.eclipse.ui;bundle-version="3.6.1",
+ org.eclipse.core.runtime,
+ cop.common;bundle-version="1.0.0",
+ cop.swt;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: cop.swt.widgets.viewers.list,
+ plugin.cop.swt.widgets.viewers.list
