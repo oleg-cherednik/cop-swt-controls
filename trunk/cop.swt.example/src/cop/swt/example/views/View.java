@@ -15,7 +15,7 @@ import cop.swt.example.examples.PViewerExample;
 
 public class View extends ViewPart
 {
-	public static final String ID = "cop.swt.htmlviewer.example.view";
+	public static final String ID = "cop.swt.example.view";
 
 	@Override
 	public void setFocus()

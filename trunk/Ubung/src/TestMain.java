@@ -8,22 +8,31 @@ public class TestMain
 {
 	public static void main(String[] args)
 	{
-		Display display = Display.getDefault();
-		Image image = new Image(display, "c:\\advertisement.gif"); // filename
-		Shell shell = new Shell(SWT.NO_TRIM);
-		shell.setBounds(10, 10, 200, 200);
-		shell.setBackgroundImage(image);
-		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
-		Label label = new Label(shell, SWT.NONE);
-		label.setText("abdfghl;sdfjksdfg");
-		label.setBounds(10, 10, 100, 100);
-		shell.open();
-		while(!shell.isDisposed())
-		{
-			if(!display.readAndDispatch())
-				display.sleep();
-		}
-		image.dispose();
-		display.dispose();
+		for(int i = 0; i < size(); i++)
+			System.out.println("i: " + i);
+		
+//		Display display = Display.getDefault();
+//		Image image = new Image(display, "c:\\advertisement.gif"); // filename
+//		Shell shell = new Shell(SWT.NO_TRIM);
+//		shell.setBounds(10, 10, 200, 200);
+//		shell.setBackgroundImage(image);
+//		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
+//		Label label = new Label(shell, SWT.NONE);
+//		label.setText("abdfghl;sdfjksdfg");
+//		label.setBounds(10, 10, 100, 100);
+//		shell.open();
+//		while(!shell.isDisposed())
+//		{
+//			if(!display.readAndDispatch())
+//				display.sleep();
+//		}
+//		image.dispose();
+//		display.dispose();
+	}
+	
+	private static int size()
+	{
+		System.out.println("size()");
+		return 10;
 	}
 }

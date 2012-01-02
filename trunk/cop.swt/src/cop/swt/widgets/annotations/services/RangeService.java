@@ -37,9 +37,12 @@ public final class RangeService
 			checkObj(obj);
 			IntegerRange annotation = obj.getAnnotation(IntegerRange.class);
 
-			minimum = annotation.min();
-			maximum = annotation.max();
-			increment = annotation.inc();
+			if(annotation != null)
+			{
+				minimum = annotation.min();
+				maximum = annotation.max();
+				increment = annotation.inc();
+			}
 		}
 
 		return new RangeContent(minimum, maximum, increment);
