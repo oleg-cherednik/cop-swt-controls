@@ -83,7 +83,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 			return new NumericColumnDescription<T>(obj, locale);
 		}
 		if(type.isAssignableFrom(RGB.class))
-			return new ColorColumnDescription<T>(obj, locale);
+			return new ColorColumn<T>(obj, locale);
 
 		try
 		{

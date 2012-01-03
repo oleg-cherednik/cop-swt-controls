@@ -8,16 +8,13 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CompareExtension.compareNumbers;
-import static cop.swt.widgets.annotations.services.ImageTextViewService.DEF_IMAGETEXTVIEW;
-import static cop.swt.widgets.enums.ImageTextViewEnum.TEXT_ONLY;
-import static org.eclipse.swt.SWT.CHECK;
-import static org.eclipse.swt.SWT.READ_ONLY;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
@@ -25,6 +22,7 @@ import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.contents.ImageTextViewContent;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.services.ImageTextViewService;
+import cop.swt.widgets.enums.ImageTextViewEnum;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -37,6 +35,8 @@ public class BooleanColumn<T> extends ColumnDescription<T>
 
 	private final ImageProvider imageProvider;
 	private final ImageTextViewContent viewContent;
+
+	private CellEditor editor;
 
 	protected BooleanColumn(AccessibleObject obj, ImageProvider imageProvider, Locale locale)
 	{
@@ -54,7 +54,8 @@ public class BooleanColumn<T> extends ColumnDescription<T>
 		}
 		catch(AnnotationDeclarationException e)
 		{
-			return new ImageTextViewContent((imageProvider != null) ? DEF_IMAGETEXTVIEW : TEXT_ONLY);
+			ImageTextViewEnum view = ImageTextViewService.DEF_IMAGETEXTVIEW;
+			return new ImageTextViewContent((imageProvider != null) ? view : ImageTextViewEnum.TEXT_ONLY);
 		}
 	}
 
@@ -83,7 +84,10 @@ public class BooleanColumn<T> extends ColumnDescription<T>
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		return new CheckboxCellEditor(parent, CHECK | READ_ONLY);
+		if(editor == null)
+			editor = new CheckboxCellEditor(parent, SWT.CHECK | SWT.READ_ONLY);
+
+		return editor;
 	}
 
 	@Override
