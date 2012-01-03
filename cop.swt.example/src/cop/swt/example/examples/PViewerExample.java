@@ -254,11 +254,12 @@ public class PViewerExample implements IExample, LocaleSupport
 				try
 				{
 					Thread.sleep(1);
+					Widget widget = table.getWidget().getControl();
 
-					if(!table.widget.getControl().isDisposed())
-						table.widget.getControl().getDisplay().syncExec(increasePercent);
-					if(!table.widget.getControl().isDisposed())
-						table.widget.getControl().getDisplay().syncExec(increaseNumber);
+					if(!widget.isDisposed())
+						widget.getDisplay().syncExec(increasePercent);
+					if(!widget.isDisposed())
+						widget.getDisplay().syncExec(increaseNumber);
 				}
 				catch(InterruptedException e)
 				{
@@ -273,7 +274,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		@Override
 		public void run()
 		{
-			if(Thread.currentThread().isInterrupted() || table.widget.getControl().isDisposed())
+			if(Thread.currentThread().isInterrupted() || table.getWidget().getControl().isDisposed())
 				return;
 
 			ActionTO action = modelA.getItem(0);
@@ -296,7 +297,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		@Override
 		public void run()
 		{
-			if(Thread.currentThread().isInterrupted() || table.widget.getControl().isDisposed())
+			if(Thread.currentThread().isInterrupted() || table.getWidget().getControl().isDisposed())
 				return;
 
 			ActionTO action = modelA.getItem(0);
@@ -547,8 +548,8 @@ public class PViewerExample implements IExample, LocaleSupport
 		PListViewer<ActionTO> list = new PListViewer<ActionTO>(ActionTO.class, group, SWT.BORDER, listConfig);
 		list.beginListenToModel(modelA);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		list.widget.getControl().setBackground(MODEL_A_COLOR);
-		list.setReadonly(true);
+		list.getWidget().getControl().setBackground(MODEL_A_COLOR);
+		list.setEditable(true);
 		localeObjects.add(list);
 		list.setLabelName("model");
 		// list.setEnabled(false);
@@ -566,8 +567,8 @@ public class PViewerExample implements IExample, LocaleSupport
 		PListViewer<ActionTO> list = new PListViewer<ActionTO>(ActionTO.class, group, style, listConfig);
 		list.beginListenToModel(modelB);
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		list.widget.getControl().setBackground(MODEL_B_COLOR);
-		list.setReadonly(true);
+		list.getWidget().getControl().setBackground(MODEL_B_COLOR);
+		list.setEditable(true);
 		localeObjects.add(list);
 		list.setLabelName("model");
 		// list.setEnabled(false);
@@ -725,7 +726,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		@Override
 		public void widgetSelected(SelectionEvent e)
 		{
-			table.setReadonly(((Button)e.widget).getSelection());
+			table.setEditable(!((Button)e.widget).getSelection());
 		}
 	};
 
@@ -734,7 +735,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		@Override
 		public void widgetSelected(SelectionEvent e)
 		{
-			list.setReadonly(((Button)e.widget).getSelection());
+			list.setEditable(!((Button)e.widget).getSelection());
 		}
 	};
 
@@ -780,7 +781,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	private ItemModifyListener<ActionTO> modifyTableListener = new ItemModifyListener<ActionTO>()
 	{
 		@Override
-		public void itemModified(Widget widget, ActionTO item, ModificationTypeEnum type)
+		public void itemModified(PViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
 		{
 			if(currentTableModel == MODEL_OWN)
 				return;
@@ -805,7 +806,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	private ItemModifyListener<ActionTO> modifyListListener = new ItemModifyListener<ActionTO>()
 	{
 		@Override
-		public void itemModified(Widget widget, ActionTO item, ModificationTypeEnum type)
+		public void itemModified(PViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
 		{
 			if(currentListModel == MODEL_OWN)
 				return;
@@ -852,7 +853,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		// }
 
 		@Override
-		public void itemModified(Widget widget, ActionTO item, ModificationTypeEnum type)
+		public void itemModified(PViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
 		{
 			// TODO Auto-generated method stub
 

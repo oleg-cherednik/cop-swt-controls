@@ -20,12 +20,9 @@ public class PViewerSorter<T> extends ViewerSorter
 	private Comparator<T> comparator;
 	private final StructuredViewer viewer;
 
-	public PViewerSorter(StructuredViewer viewer, Comparator<T> accessibleObject)
+	public PViewerSorter(PViewer<T> viewer, Comparator<T> accessibleObject)
 	{
-		if(viewer == null || accessibleObject == null)
-			throw new NullPointerException();
-
-		this.viewer = viewer;
+		this.viewer = viewer.getWidget();
 		this.comparator = accessibleObject;
 	}
 

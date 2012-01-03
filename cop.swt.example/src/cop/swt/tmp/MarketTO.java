@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Widget;
 
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.ImageTextView;
-import cop.swt.widgets.viewers.interfaces.IModifyProvider;
+import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 
 public class MarketTO
 {
@@ -93,7 +93,7 @@ public class MarketTO
 		return builder.toString();
 	}
 
-	public static IModifyProvider<MarketTO> checkStrategy = new IModifyProvider<MarketTO>()
+	public static PModifyProvider<MarketTO> checkStrategy = new PModifyProvider<MarketTO>()
 	{
 		@Override
 		public boolean canModify(Widget widget, MarketTO item, String key)

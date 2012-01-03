@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.TableColumn;
 
 import cop.common.extensions.StringExtension;
+import cop.swt.widgets.viewers.table.columns.PTableColumn;
 
 public class TableColumnProperty
 {
@@ -17,10 +18,10 @@ public class TableColumnProperty
 		this(key, null);
 	}
 
-	public <T> TableColumnProperty(PTableColumn<T> columnInfo)
-	{
-		this(columnInfo.getDescription().getKey(), columnInfo.getViewer().getColumn());
-	}
+//	public <T> TableColumnProperty(PTableColumn<T> column)
+//	{
+//		this(column.getDescription().getKey(), column.getViewer().getColumn());
+//	}
 
 	public TableColumnProperty(String key, TableColumn tableColumn)
 	{

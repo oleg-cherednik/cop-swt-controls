@@ -33,6 +33,7 @@ import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.contents.ColumnContent;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.localization.interfaces.Localizable;
+import cop.swt.widgets.viewers.table.PTableViewer;
 
 public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<T>, Comparable<ColumnDescription<T>>
 {
@@ -197,9 +198,9 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		cell.setImage(getColumnImage(obj));
 	}
 
-	public TableViewerColumn createTableViewerColumn(TableViewer viewer, EditingSupport editor)
+	public TableViewerColumn createTableViewerColumn(PTableViewer<T> tableViewer, EditingSupport editor)
 	{
-		TableViewerColumn viewerColumn = content.createTableColumn(viewer);
+		TableViewerColumn viewerColumn = content.createTableColumn(tableViewer.getWidget());
 
 		if(editor != null)
 			viewerColumn.setEditingSupport(editor);

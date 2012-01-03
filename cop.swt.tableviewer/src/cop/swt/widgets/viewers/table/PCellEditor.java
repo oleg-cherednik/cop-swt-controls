@@ -1,6 +1,5 @@
 package cop.swt.widgets.viewers.table;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.UPDATE;
 
 import java.util.HashSet;
@@ -12,42 +11,40 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Table;
 
+import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
-import cop.swt.widgets.viewers.interfaces.IModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
+import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public class PCellEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>
+public class PCellEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>, Editable
 {
+	private final PTableViewer<T> tableViewer;
 	public CellEditor editor;
 	private ColumnDescription<T> description;
-	private boolean readonly;
+	private boolean editable;
 	private boolean enabled;
-	private IModifyProvider<T> modifyProvider;
+	private PModifyProvider<T> modifyProvider;
 	private final Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
 
-	public PCellEditor(TableViewer viewer, ColumnDescription<T> description)
+	public PCellEditor(PTableViewer<T> tableViewer, ColumnDescription<T> description)
 	{
-		this(viewer, description, null);
+		this(tableViewer, description, null);
 	}
 
-	public PCellEditor(TableViewer viewer, ColumnDescription<T> description, IModifyProvider<T> modifyProvider)
+	public PCellEditor(PTableViewer<T> tableViewer, ColumnDescription<T> description, PModifyProvider<T> modifyProvider)
 	{
-		super(viewer);
+		super(tableViewer.getWidget());
 
+		this.tableViewer = tableViewer;
 		this.description = description;
 		this.modifyProvider = modifyProvider;
 	}
 
-	public void setReadonlyProvider(IModifyProvider<T> provider)
+	public void setModifyProvider(PModifyProvider<T> provider)
 	{
 		this.modifyProvider = provider;
-	}
-
-	public void setReadonly(boolean readonly)
-	{
-		this.readonly = readonly;
 	}
 
 	public void setEnabled(boolean enabled)
@@ -74,10 +71,8 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 
 	private void notifyModifyListeners(T item)
 	{
-		Table table = ((TableViewer)getViewer()).getTable();
-
 		for(ItemModifyListener<T> listener : modifyListeners)
-			listener.itemModified(table, item, UPDATE);
+			listener.itemModified(tableViewer, item, UPDATE);
 	}
 
 	/*
@@ -90,14 +85,14 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 	{
 		System.out.println("ColumnEditor.canEdit()");
 
-		if(readonly || !enabled || description.isReadonly())
+		if(!editable || !enabled || description.isReadonly())
 			return false;
 
 		Table table = ((TableViewer)getViewer()).getTable();
 		T item = (T)element;
 		String key = description.getKey();
 
-		if(isNotNull(modifyProvider) && !modifyProvider.canModify(table, item, key))
+		if((modifyProvider != null) && !modifyProvider.canModify(table, item, key))
 			return false;
 
 		return !description.isReadonly();
@@ -151,12 +146,28 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 	}
 
 	/*
+	 * Editable
+	 */
+
+	@Override
+	public void setEditable(boolean editable)
+	{
+		this.editable = editable;
+	}
+
+	@Override
+	public boolean isEditable()
+	{
+		return editable;
+	}
+
+	/*
 	 * Localizable
 	 */
 
 	@Override
 	public void setLocale(Locale locale)
 	{
-		//editor = description.getCellEditor(((TableViewer)getViewer()).getTable());
+		// editor = description.getCellEditor(((TableViewer)getViewer()).getTable());
 	}
 }

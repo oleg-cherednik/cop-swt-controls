@@ -1,4 +1,4 @@
-package cop.swt.widgets.viewers.table;
+package cop.swt.widgets.viewers.table.columns;
 
 import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
 import static cop.common.extensions.CommonExtension.isNotNull;
@@ -32,20 +32,24 @@ import org.eclipse.swt.widgets.TableColumn;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.common.extensions.StringExtension;
 import cop.swt.widgets.enums.SortDirectionEnum;
+import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.viewers.PViewerSorter;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
-import cop.swt.widgets.viewers.interfaces.IModifyProvider;
+import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.Packable;
+import cop.swt.widgets.viewers.table.PCellEditor;
+import cop.swt.widgets.viewers.table.PTableViewer;
+import cop.swt.widgets.viewers.table.TableColumnProperty;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
 
-public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable, Listener
+public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>, Refreshable, Listener, Editable
 {
 	private final PViewerSorter<T> sorter;
 	private final PCellEditor<T> editor;
@@ -67,13 +71,13 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	private MenuItem itemName;
 
-	public PTableColumn(Class<T> cls, final TableViewer tableViewer, ColumnDescription<T> description)
+	public PTableColumn(Class<T> cls, final PTableViewer<T> tableViewer, ColumnDescription<T> description)
 	{
 		if(description == null)
 			throw new NullPointerException("description == null");
 
 		this.cls = cls;
-		this.tableViewer = tableViewer;
+		this.tableViewer = tableViewer.getWidget();
 		this.description = description;
 		this.editor = new PCellEditor<T>(tableViewer, description);
 		this.columnViewer = description.createTableViewerColumn(tableViewer, editor);
@@ -178,10 +182,10 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		}
 	}
 
-	public void setMenu(Menu parent)
+	public Menu addMenuItem(Menu parent)
 	{
 		if(!description.isHideable())
-			return;
+			return parent;
 
 		if(itemName != null)
 			itemName.dispose();
@@ -193,6 +197,8 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		itemName.setText(columnViewer.getColumn().getText());
 		itemName.setSelection(columnViewer.getColumn().getResizable());
 		itemName.addListener(Selection, this);
+
+		return parent;
 	}
 
 	public float getRelativeWidth()
@@ -263,14 +269,9 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		tableViewer.getTable().setRedraw(true);
 	}
 
-	public void setReadonly(boolean readonly)
+	public void setModifyProvider(PModifyProvider<T> provider)
 	{
-		editor.setReadonly(readonly);
-	}
-
-	public void setReadonlyProvider(IModifyProvider<T> provider)
-	{
-		editor.setReadonlyProvider(provider);
+		editor.setModifyProvider(provider);
 	}
 
 	public static float getRelativeWidth(int columnWidth, int totalWidth)
@@ -355,6 +356,22 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	public void removeModifyListener(ItemModifyListener<T> listener)
 	{
 		editor.removeModifyListener(listener);
+	}
+
+	/*
+	 * Editable
+	 */
+
+	@Override
+	public void setEditable(boolean editable)
+	{
+		editor.setEditable(editable);
+	}
+
+	@Override
+	public boolean isEditable()
+	{
+		return editor.isEditable();
 	}
 
 	/*
