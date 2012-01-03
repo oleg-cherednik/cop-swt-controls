@@ -66,11 +66,11 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		Assert.isNotNull(type);
 
 		if(type.isEnum())
-			return new EnumColumnDescription<T>(obj, locale);
+			return new EnumColumn<T>(obj, locale);
 		if(type.isAssignableFrom(Calendar.class))
 			return new CalendarColumnDescription<T>(obj, locale);
 		if(isBoolean(type))
-			return new BooleanColumnDescription<T>(obj, imageProvider, locale);
+			return new BooleanColumn<T>(obj, imageProvider, locale);
 		if(isNumeric(type))
 		{
 			if(isCurrency(obj))
@@ -105,15 +105,17 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 
 	public ColumnDescription(AccessibleObject obj, Locale locale)
 	{
-		if(isNull(obj))
-			throw new NullPointerException("obj == null");
-
 		setObj(obj);
 		setType(obj);
 		setContent(obj, locale);
 
-		this.locale = isNotNull(locale) ? locale : Locale.getDefault();
+		this.locale = (locale != null) ? locale : Locale.getDefault();
+
+		check();
 	}
+
+	protected void check()
+	{}
 
 	private void setObj(AccessibleObject obj)
 	{
@@ -292,7 +294,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	@Override
 	public void setLocale(Locale locale)
 	{
-		if(locale != null)
+		if(locale == null)
 			return;
 
 		this.locale = locale;

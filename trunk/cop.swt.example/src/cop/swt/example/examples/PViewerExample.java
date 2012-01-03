@@ -81,7 +81,7 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
-import cop.swt.widgets.viewers.table.descriptions.BooleanColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.BooleanColumn;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
@@ -926,8 +926,8 @@ class ImageProviderImpl implements ImageProvider
 		// paths.setProperty(StateMenuItem.getKey() + "_" + StateBundleEnum.STATE3.name(), "icons//num3.png");
 		// paths.setProperty("userName", "icons//num3.png");
 
-		paths.setProperty(BooleanColumnDescription.CHECKED_MARKER, "icons//checked.gif");
-		paths.setProperty(BooleanColumnDescription.UNCHECKED_MARKER, "icons//unchecked.gif");
+		paths.setProperty(BooleanColumn.CHECKED_MARKER, "icons//checked.gif");
+		paths.setProperty(BooleanColumn.UNCHECKED_MARKER, "icons//unchecked.gif");
 
 		images = new HashMap<String, Image>();
 	}

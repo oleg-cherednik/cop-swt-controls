@@ -1,6 +1,5 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.swt.widgets.annotations.services.ImageTextViewService.DEF_IMAGETEXTVIEW;
 import static cop.swt.widgets.annotations.services.ImageTextViewService.getImageTextViewContent;
@@ -11,7 +10,6 @@ import static org.eclipse.swt.SWT.READ_ONLY;
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.swt.graphics.Image;
@@ -20,27 +18,29 @@ import org.eclipse.swt.widgets.Composite;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.contents.ImageTextViewContent;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
+import cop.swt.widgets.enums.ImageTextViewEnum;
 
-public class BooleanColumnDescription<T> extends ColumnDescription<T>
+public class BooleanColumn<T> extends ColumnDescription<T>
 {
 	public static final String CHECKED_MARKER = "checked";
 	public static final String UNCHECKED_MARKER = "unchecked";
 
-	private ImageTextViewContent viewContent;
 	private ImageProvider imageProvider;
+	private ImageTextViewContent viewContent;
 
-	protected BooleanColumnDescription(AccessibleObject obj, ImageProvider imageProvider, Locale locale)
+	protected BooleanColumn(AccessibleObject obj, ImageProvider imageProvider, Locale locale)
 	{
 		super(obj, locale);
 
 		try
 		{
 			this.imageProvider = imageProvider;
-			viewContent = getImageTextViewContent(obj);
+			this.viewContent = getImageTextViewContent(obj);
 		}
 		catch(AnnotationDeclarationException e)
 		{
-			viewContent = new ImageTextViewContent(isNotNull(imageProvider) ? DEF_IMAGETEXTVIEW : TEXT_ONLY);
+			ImageTextViewEnum view = (imageProvider != null) ? DEF_IMAGETEXTVIEW : TEXT_ONLY;
+			this.viewContent = new ImageTextViewContent(view);
 		}
 	}
 
@@ -79,6 +79,8 @@ public class BooleanColumnDescription<T> extends ColumnDescription<T>
 		{
 		case IMAGE_ONLY:
 		case IMAGE_AND_TEXT:
+			if(imageProvider == null)
+				return null;
 			return imageProvider.getImage((Boolean)res ? CHECKED_MARKER : UNCHECKED_MARKER);
 		default:
 			return null;

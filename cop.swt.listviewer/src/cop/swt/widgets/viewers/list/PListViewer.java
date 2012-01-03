@@ -7,14 +7,15 @@ import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_ASC;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_DESC;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
-import static org.eclipse.swt.SWT.H_SCROLL;
-import static org.eclipse.swt.SWT.V_SCROLL;
+import static cop.common.extensions.BitExtension.clearBits;
+import static cop.common.extensions.BitExtension.isBitSet;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -39,17 +40,15 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 	private PListLabelProvider<T> labelProvider;
 	private PViewerSorter<T> sorter;
 
-	// private Locale locale = Locale.getDefault();
-
 	public PListViewer(Class<T> cls, Composite parent, int style, ListViewerConfig config) throws Exception
 	{
-		super(cls, new ListViewer(parent, style | V_SCROLL | H_SCROLL), config);
+		super(cls, new ListViewer(parent, clearBits(style, SWT.READ_ONLY) | SWT.V_SCROLL | SWT.H_SCROLL), config);
 
 		((ListViewer)widget).setUseHashlookup(true);
 
 		setLabelName(isNotNull(config) ? config.getLabelName() : "");
 
-		// setReadonly(isBitSet(style, READ_ONLY));
+		setEditable(!isBitSet(style, SWT.READ_ONLY));
 		createLabelProvider();
 		createSorter();
 
