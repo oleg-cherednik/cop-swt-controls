@@ -1,8 +1,14 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.swt.extensions.ColorExtension.getColor;
 import static cop.swt.widgets.comparators.RgbComparator.compareRgb;
-import static org.eclipse.swt.SWT.NONE;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
@@ -10,12 +16,19 @@ import java.util.Locale;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColorCellEditor;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
-public class ColorColumnDescription<T> extends ColumnDescription<T>
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 03.01.2012
+ */
+public class ColorColumn<T> extends ColumnDescription<T>
 {
-	protected ColorColumnDescription(AccessibleObject obj, Locale locale)
+	private CellEditor editor;
+
+	protected ColorColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
 	}
@@ -45,7 +58,9 @@ public class ColorColumnDescription<T> extends ColumnDescription<T>
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		return new ColorCellEditor(parent, NONE);
+		if(editor == null)
+			editor = new ColorCellEditor(parent, SWT.NONE);
+		return editor;
 	}
 
 	@Override
