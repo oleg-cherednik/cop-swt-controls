@@ -1,9 +1,9 @@
 package cop.swt.widgets.viewers.table.columns;
 
-import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.enums.SortDirectionEnum.parseSwtDirection;
 import static cop.swt.widgets.viewers.PViewerSorter.DEFAULT_SORT_DIRECTION;
@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Event;
@@ -29,8 +28,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.common.extensions.StringExtension;
+import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Refreshable;
@@ -39,8 +38,8 @@ import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.viewers.PViewerSorter;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
-import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
+import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
 import cop.swt.widgets.viewers.table.PCellEditor;
 import cop.swt.widgets.viewers.table.PTableViewer;
@@ -53,7 +52,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 {
 	private final PViewerSorter<T> sorter;
 	private final PCellEditor<T> editor;
-	private final TableViewer tableViewer;
+	private final PTableViewer<T> tableViewer;
 	private final ColumnDescription<T> description;
 	private final TableViewerColumn columnViewer;
 
@@ -77,7 +76,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 			throw new NullPointerException("description == null");
 
 		this.cls = cls;
-		this.tableViewer = tableViewer.getWidget();
+		this.tableViewer = tableViewer;
 		this.description = description;
 		this.editor = new PCellEditor<T>(tableViewer, description);
 		this.columnViewer = description.createTableViewerColumn(tableViewer, editor);
@@ -114,8 +113,8 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	public void setSorterDirection(SortDirectionEnum direction)
 	{
 		sorter.setDirection(direction);
-		tableViewer.getTable().setSortDirection(direction.getSwtDirection());
-		tableViewer.getTable().setSortColumn((direction == SORT_OFF) ? null : columnViewer.getColumn());
+		tableViewer.getWidget().getTable().setSortDirection(direction.getSwtDirection());
+		tableViewer.getWidget().getTable().setSortColumn((direction == SORT_OFF) ? null : columnViewer.getColumn());
 
 		if(direction != SORT_OFF)
 			refresh();
@@ -123,7 +122,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	public boolean isSorterOn()
 	{
-		TableColumn column = tableViewer.getTable().getSortColumn();
+		TableColumn column = tableViewer.getWidget().getTable().getSortColumn();
 
 		return isNotNull(column) && column == columnViewer.getColumn();
 	}
@@ -158,7 +157,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		if(this.hidden == hidden)
 			return;
 
-		int tableWidth = tableViewer.getTable().getBounds().width;
+		int tableWidth = tableViewer.getWidget().getTable().getBounds().width;
 
 		this.hidden = hidden;
 
@@ -208,7 +207,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		if(width > 0)
 			return width;
 
-		return getRelativeWidth(getWidth(), tableViewer.getTable().computeSize(DEFAULT, DEFAULT).x);
+		return getRelativeWidth(getWidth(), tableViewer.getWidget().getTable().computeSize(DEFAULT, DEFAULT).x);
 	}
 
 	public void setRelativeWidth()
@@ -221,7 +220,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		if(width < 1)
 			return;
 
-		Table table = tableViewer.getTable();
+		Table table = tableViewer.getWidget().getTable();
 		int tableWidth = table.getBounds().width;
 
 		if(tableWidth == 0)
@@ -253,20 +252,16 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 			return;
 
 		int descWidth = description.getWidth();
+		Table table = tableViewer.getWidget().getTable();
 
-		tableViewer.getTable().setRedraw(false);
+		table.setRedraw(false);
 
 		if(descWidth <= 0)
 			columnViewer.getColumn().pack();
 		else
-		{
-			Table table = tableViewer.getTable();
-			int tableWidth = table.getBounds().width;
+			columnViewer.getColumn().setWidth(getWidthByRelative(descWidth, table.getBounds().width));
 
-			columnViewer.getColumn().setWidth(getWidthByRelative(descWidth, tableWidth));
-		}
-
-		tableViewer.getTable().setRedraw(true);
+		table.setRedraw(true);
 	}
 
 	public void setModifyProvider(PModifyProvider<T> provider)
@@ -387,7 +382,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 			handleMenuItemEvent(event);
 
 		// if(event.item != null) {
-		description.handleEvent(event, tableViewer, columnViewer);
+		description.handleEvent(event, tableViewer.getWidget(), columnViewer);
 		// ActionTO data = (ActionTO)(event.item.getData());
 		// tableViewer.update(data, null);
 		// }
@@ -448,13 +443,13 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	private void onResized(Event event)
 	{
 		if(columnListener != null)
-			columnListener.columnResized(description, null);
+			columnListener.columnResized(tableViewer, description);
 	}
 
 	private void onMove(Event event)
 	{
 		if(columnListener != null)
-			columnListener.columnMoved(description, null);
+			columnListener.columnMoved(tableViewer, description);
 	}
 
 	private void onColumnSelection(Event event)
@@ -468,7 +463,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	private void onColumnSelect(Event event)
 	{
 		TableColumnProperty columnProperty = new TableColumnProperty(description.getKey(), columnViewer.getColumn());
-		selectionListener.columnSelected(tableViewer.getTable(), columnProperty);
+		selectionListener.columnSelected(tableViewer.getWidget().getTable(), columnProperty);
 	}
 
 	private void onColumnSorter(Event event)
@@ -476,7 +471,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		try
 		{
 			TableColumn column = columnViewer.getColumn();
-			Table table = tableViewer.getTable();
+			Table table = tableViewer.getWidget().getTable();
 			int dir = table.getSortDirection();
 			int swt;
 

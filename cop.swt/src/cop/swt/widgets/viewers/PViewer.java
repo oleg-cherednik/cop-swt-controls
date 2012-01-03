@@ -32,11 +32,10 @@ import static org.eclipse.swt.SWT.MouseExit;
 import static org.eclipse.swt.SWT.MouseWheel;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.EventListener;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -56,11 +55,15 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 import cop.common.extensions.BitExtension;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Editable;
+import cop.swt.widgets.interfaces.Enablable;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
@@ -85,12 +88,12 @@ import cop.swt.widgets.viewers.model.interfaces.ModelSupport;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChangedListener<T>,
-                Editable
+                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChangedListener<T>, Editable, Enablable
 {
 	protected final Composite parent;
-	protected final  StructuredViewer widget;
+	protected final StructuredViewer widget;
 	protected final Class<T> cls;
+	protected final Multimap<Class<? extends EventListener>, EventListener> listeners = ArrayListMultimap.create();
 
 	// protected final ImageProviderImpl imageProvider = new ImageProviderImpl();
 	protected ViewerConfig config;
@@ -104,8 +107,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	// model
 	protected ViewerModel<T> model;
 	private boolean standaloneMode;
-	// listeners
-	private Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
 
 	protected PViewer(Class<T> cls, StructuredViewer viewer, ViewerConfig config)
 	{
@@ -139,8 +140,9 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		return widget.getSorter() != null;
 	}
-	
-	public StructuredViewer getWidget() {
+
+	public StructuredViewer getWidget()
+	{
 		return widget;
 	}
 
@@ -149,14 +151,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(standaloneMode)
 			((ListModel<T>)model).swap(index1, index2);
 	}
-
-	protected abstract int getTopIndex();
-
-	protected abstract int[] getSelectionIndices();
-
-	protected abstract void setTopIndex(int index);
-
-	protected abstract void setSelected(int index, boolean selected);
 
 	private void moveItemsUp(int[] indices, boolean keepTopIndex)
 	{
@@ -290,7 +284,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public Boolean getProperty()
 		{
-			return !modifyListeners.isEmpty();
+			return !listeners.isEmpty();
 		}
 	};
 
@@ -397,16 +391,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		model = null;
 	}
 
-	public void setEnabled(boolean enabled)
-	{
-		widget.getControl().setEnabled(enabled);
-	}
-
-	public boolean isEnabled()
-	{
-		return widget.getControl().isEnabled();
-	}
-
 	private final Runnable refreshTask = new Runnable()
 	{
 		@Override
@@ -455,15 +439,23 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	 * abstract
 	 */
 
-	protected abstract List<String[]> toStringArrayList(T[] items);
-
-	protected abstract String[] getProperties();
-
 	public abstract int getItemCount();
 
 	public abstract void selectAll();
 
 	public abstract void deselectAll();
+
+	protected abstract List<String[]> toStringArrayList(T[] items);
+
+	protected abstract String[] getProperties();
+
+	protected abstract int getTopIndex();
+
+	protected abstract int[] getSelectionIndices();
+
+	protected abstract void setTopIndex(int index);
+
+	protected abstract void setSelected(int index, boolean selected);
 
 	/*
 	 * IModelChange
@@ -490,20 +482,21 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	public void addModifyListener(ItemModifyListener<T> listener)
 	{
 		if(listener != null)
-			modifyListeners.add(listener);
+			listeners.put(ItemModifyListener.class, listener);
 	}
 
 	@Override
 	public void removeModifyListener(ItemModifyListener<T> listener)
 	{
 		if(listener != null)
-			modifyListeners.remove(listener);
+			listeners.remove(ItemModifyListener.class, listener);
 	}
 
-	private void notifyModifyListener(T item, ModificationTypeEnum type)
+	@SuppressWarnings("unchecked")
+    private void notifyModifyListener(T item, ModificationTypeEnum type)
 	{
-		for(ItemModifyListener<T> listener : modifyListeners)
-			listener.itemModified(this, item, type);
+		for(EventListener listener : listeners.get(ItemModifyListener.class))
+			((ItemModifyListener<T>)listener).itemModified(this, item, type);
 	}
 
 	/*
@@ -595,7 +588,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		else if(isControlEvent(event))
 			handleControlEvent(event);
 	}
-	
+
 	/*
 	 * Editable
 	 */
@@ -605,11 +598,27 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		this.editable = editable;
 	}
-	
+
 	@Override
 	public boolean isEditable()
 	{
 		return editable;
+	}
+	
+	/*
+	 * Enablable
+	 */
+	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		widget.getControl().setEnabled(enabled);
+	}
+
+	@Override
+	public boolean isEnabled()
+	{
+		return widget.getControl().isEnabled();
 	}
 
 	/*
@@ -702,11 +711,11 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		if(isEmpty(items))
 			return;
 
-		Object[] data1 = new Object[] { ClipboardManager.buildOneStringData(toStringArrayList(items)) };
+		Object[] data = new Object[] { ClipboardManager.buildOneStringData(toStringArrayList(items)) };
 		Transfer[] dataTypes = new Transfer[] { TextTransfer.getInstance() };
 
 		Clipboard cb = new Clipboard(parent.getDisplay());
-		cb.setContents(data1, dataTypes);
+		cb.setContents(data, dataTypes);
 		cb.dispose();
 	}
 

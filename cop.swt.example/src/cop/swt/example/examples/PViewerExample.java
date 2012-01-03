@@ -80,7 +80,6 @@ import cop.swt.widgets.viewers.model.ListModel;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
-import cop.swt.widgets.viewers.table.TableColumnAdapter;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
 import cop.swt.widgets.viewers.table.descriptions.BooleanColumnDescription;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
@@ -753,26 +752,26 @@ public class PViewerExample implements IExample, LocaleSupport
 		}
 	};
 
-	private TableColumnListener<ActionTO> onTableColumn = new TableColumnAdapter<ActionTO>()
+	private TableColumnListener<ActionTO> onTableColumn = new TableColumnListener<ActionTO>()
 	{
 		@Override
-		public void columnMoved(ColumnDescription<ActionTO> movedColumn, List<ColumnDescription<ActionTO>> columns)
+		public void columnMoved(PTableViewer<ActionTO> viewer, ColumnDescription<ActionTO> column)
 		{
-			System.out.print("Column '" + movedColumn.getKey() + "' was moved. Current order:");
+			System.out.print("Column '" + column.getKey() + "' was moved. Current order:");
 
-			for(ColumnDescription<ActionTO> column : columns)
-				System.out.print(" " + column.getKey());
+			for(ColumnDescription<ActionTO> col : viewer.getOrderTableColumns())
+				System.out.print(" " + col.getKey());
 
 			System.out.println();
 		}
 
 		@Override
-		public void columnResized(ColumnDescription<ActionTO> resizeColumn, List<ColumnDescription<ActionTO>> columns)
+		public void columnResized(PTableViewer<ActionTO> viewer, ColumnDescription<ActionTO> column)
 		{
-			System.out.print("Column '" + resizeColumn.getKey() + "' was resized. Current order:");
+			System.out.print("Column '" + column.getKey() + "' was resized. Current order:");
 
-			for(ColumnDescription<ActionTO> column : columns)
-				System.out.print(" " + column.getKey());
+			for(ColumnDescription<ActionTO> col : viewer.getOrderTableColumns())
+				System.out.print(" " + col.getKey());
 
 			System.out.println();
 		}

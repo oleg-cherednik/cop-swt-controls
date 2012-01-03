@@ -47,7 +47,7 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider implements I
 	{
 		try
 		{
-			PTableColumn<T> viewerColumn = columns.getColumns().get(cell.getColumnIndex());
+			PTableColumn<T> viewerColumn = columns.get(cell.getColumnIndex());
 
 			if(viewerColumn == null)
 				return;
