@@ -1,12 +1,13 @@
 package cop.swt.widgets.viewers.table.interfaces;
 
-import java.util.List;
+import java.util.EventListener;
 
+import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public interface TableColumnListener<T>
+public interface TableColumnListener<T> extends EventListener
 {
-	void columnResized(ColumnDescription<T> resizedColumn, List<ColumnDescription<T>> columns);
+	void columnResized(PTableViewer<T> viewer, ColumnDescription<T> column);
 
-	void columnMoved(ColumnDescription<T> movedColumn, List<ColumnDescription<T>> columns);
+	void columnMoved(PTableViewer<T> viewer, ColumnDescription<T> column);
 }

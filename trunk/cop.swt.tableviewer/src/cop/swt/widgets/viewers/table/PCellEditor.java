@@ -12,21 +12,24 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Table;
 
 import cop.swt.widgets.interfaces.Editable;
+import cop.swt.widgets.interfaces.Enablable;
 import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public class PCellEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>, Editable
+public class PCellEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>, Editable,
+                Enablable
 {
 	private final PTableViewer<T> tableViewer;
+	private final Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
+
 	public CellEditor editor;
 	private ColumnDescription<T> description;
 	private boolean editable;
 	private boolean enabled;
 	private PModifyProvider<T> modifyProvider;
-	private final Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
 
 	public PCellEditor(PTableViewer<T> tableViewer, ColumnDescription<T> description)
 	{
@@ -47,11 +50,6 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 		this.modifyProvider = provider;
 	}
 
-	public void setEnabled(boolean enabled)
-	{
-		this.enabled = enabled;
-	}
-
 	/*
 	 * ModifyListenerSupport
 	 */
@@ -60,7 +58,6 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 	public void addModifyListener(ItemModifyListener<T> listener)
 	{
 		modifyListeners.add(listener);
-
 	}
 
 	@Override
@@ -159,6 +156,22 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 	public boolean isEditable()
 	{
 		return editable;
+	}
+
+	/*
+	 * Enablable
+	 */
+
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		this.enabled = enabled;
+	}
+
+	@Override
+	public boolean isEnabled()
+	{
+		return enabled;
 	}
 
 	/*
