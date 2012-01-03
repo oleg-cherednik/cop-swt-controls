@@ -1,81 +1,56 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.algorithms.search.LinearSearch.linearSearch;
 import static cop.common.extensions.ArrayExtension.convertToStringArray;
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.ArrayExtension.isNotEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.swt.widgets.annotations.services.i18nService.getTranslations;
-import static org.eclipse.swt.SWT.READ_ONLY;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
-
-public class EnumColumnDescription<T> extends ColumnDescription<T>
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 03.01.2012
+ */
+public class EnumColumn<T> extends ColumnDescription<T>
 {
-	private Object[] constatns;
+	private final Object[] constatns;
+	private CellEditor editor;
 	private String[] i18n;
 
-	/**
-	 * Closed constructor
-	 * 
-	 * @param obj
-	 * @param locale
-	 */
-	protected EnumColumnDescription(AccessibleObject obj, Locale locale)
+	protected EnumColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
 
-		readI18nAnnotation();
+		this.constatns = type.getEnumConstants();
+		buildLocalizedTexts();
 	}
 
-	private void readI18nAnnotation()
+	private void buildLocalizedTexts()
 	{
 		try
 		{
-			if(!getType().isEnum())
-				return;
-
-			constatns = getType().getEnumConstants();
-			i18n = getTranslations(getType(), locale);
+			i18n = getTranslations(type, locale);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			i18n = convertToStringArray(constatns);
 		}
-	}
 
-	public Object[] getConstatns()
-	{
-		return constatns;
-	}
-
-	public String[] getI18n()
-	{
-		return i18n;
-	}
-
-	public String[] getStringItems()
-	{
-		return isNotEmpty(i18n) ? i18n : convertToStringArray(constatns);
-	}
-
-	public String translate(Object obj)
-	{
-		if(isNull(obj) || isEmpty(i18n))
-			return "" + obj;
-
-		int pos = linearSearch(constatns, obj);
-
-		return (pos >= 0) ? i18n[pos] : ("" + obj);
+		editor = null;
 	}
 
 	/*
@@ -103,7 +78,10 @@ public class EnumColumnDescription<T> extends ColumnDescription<T>
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		return new ComboBoxCellEditor(parent, getStringItems(), READ_ONLY);
+		if(editor == null)
+			editor = new ComboBoxCellEditor(parent, i18n, SWT.READ_ONLY);
+
+		return editor;
 	}
 
 	@Override
@@ -111,8 +89,6 @@ public class EnumColumnDescription<T> extends ColumnDescription<T>
 	{
 		Object str = invoke(item);
 		Object[] values = type.getEnumConstants();
-
-		// ILocalProvider
 		int pos = linearSearch(values, str);
 
 		return (pos < 0) ? 0 : pos;
@@ -130,7 +106,19 @@ public class EnumColumnDescription<T> extends ColumnDescription<T>
 	@Override
 	protected String getText(Object obj)
 	{
-		return isNotNull(obj) ? translate(obj) : "";
+		if(obj == null)
+			return "";
+
+		int pos = linearSearch(constatns, obj);
+
+		return (pos >= 0) ? i18n[pos] : obj.toString();
+	}
+
+	@Override
+	protected void check()
+	{
+		if(!type.isEnum())
+			throw new IllegalArgumentException("Given object is not Enum");
 	}
 
 	/*
@@ -141,15 +129,6 @@ public class EnumColumnDescription<T> extends ColumnDescription<T>
 	public void setLocale(Locale locale)
 	{
 		super.setLocale(locale);
-
-		try
-		{
-			if(isNotNull(locale))
-				i18n = getTranslations(getType(), locale);
-		}
-		catch(AnnotationDeclarationException e)
-		{
-			e.printStackTrace();
-		}
+		buildLocalizedTexts();
 	}
 }

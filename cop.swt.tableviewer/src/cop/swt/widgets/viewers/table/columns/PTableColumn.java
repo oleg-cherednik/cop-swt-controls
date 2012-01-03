@@ -507,7 +507,6 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	public void setLocale(Locale locale)
 	{
 		description.setLocale(locale);
-		editor.setLocale(locale);
 
 		try
 		{

@@ -3,7 +3,6 @@ package cop.swt.widgets.viewers.table;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.UPDATE;
 
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import org.eclipse.jface.viewers.CellEditor;
@@ -13,36 +12,27 @@ import org.eclipse.swt.widgets.Table;
 
 import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Enablable;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
-public class PCellEditor<T> extends EditingSupport implements LocaleSupport, ModifyListenerSupport<T>, Editable,
-                Enablable
+public class PCellEditor<T> extends EditingSupport implements ModifyListenerSupport<T>, Editable, Enablable
 {
 	private final PTableViewer<T> tableViewer;
 	private final Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
+	private final ColumnDescription<T> description;
 
-	public CellEditor editor;
-	private ColumnDescription<T> description;
 	private boolean editable;
 	private boolean enabled;
 	private PModifyProvider<T> modifyProvider;
 
 	public PCellEditor(PTableViewer<T> tableViewer, ColumnDescription<T> description)
 	{
-		this(tableViewer, description, null);
-	}
-
-	public PCellEditor(PTableViewer<T> tableViewer, ColumnDescription<T> description, PModifyProvider<T> modifyProvider)
-	{
 		super(tableViewer.getWidget());
 
 		this.tableViewer = tableViewer;
 		this.description = description;
-		this.modifyProvider = modifyProvider;
 	}
 
 	public void setModifyProvider(PModifyProvider<T> provider)
@@ -98,12 +88,7 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 	@Override
 	protected CellEditor getCellEditor(Object element)
 	{
-		System.out.println("ColumnEditor.getCellEditor()");
-
-		if(editor == null)
-			editor = description.getCellEditor(((TableViewer)getViewer()).getTable());
-
-		return editor;
+		return description.getCellEditor(((TableViewer)getViewer()).getTable());
 	}
 
 	@Override
@@ -172,15 +157,5 @@ public class PCellEditor<T> extends EditingSupport implements LocaleSupport, Mod
 	public boolean isEnabled()
 	{
 		return enabled;
-	}
-
-	/*
-	 * Localizable
-	 */
-
-	@Override
-	public void setLocale(Locale locale)
-	{
-		// editor = description.getCellEditor(((TableViewer)getViewer()).getTable());
 	}
 }
