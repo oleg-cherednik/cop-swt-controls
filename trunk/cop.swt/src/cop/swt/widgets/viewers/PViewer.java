@@ -54,13 +54,13 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Scrollable;
-import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import cop.common.extensions.BitExtension;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.Clearable;
+import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
@@ -85,10 +85,11 @@ import cop.swt.widgets.viewers.model.interfaces.ModelSupport;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 
 public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChangedListener<T>
+                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChangedListener<T>,
+                Editable
 {
 	protected final Composite parent;
-	public StructuredViewer widget;
+	protected final  StructuredViewer widget;
 	protected final Class<T> cls;
 
 	// protected final ImageProviderImpl imageProvider = new ImageProviderImpl();
@@ -98,7 +99,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	private HotKeyManager hotKeyManager;
 	protected MenuManager menuManager;
 	// property flags
-	private boolean readonly;
+	private boolean editable;
 	private final String preferencePage = null;
 	// model
 	protected ViewerModel<T> model;
@@ -134,19 +135,13 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		obj.addListener(MenuDetect, this);
 	}
 
-	public boolean isReadonly()
-	{
-		return readonly;
-	}
-
-	public void setReadonly(boolean readonly)
-	{
-		this.readonly = readonly;
-	}
-
 	public boolean isSorterOn()
 	{
 		return widget.getSorter() != null;
+	}
+	
+	public StructuredViewer getWidget() {
+		return widget;
 	}
 
 	protected void swap(int index1, int index2)
@@ -340,7 +335,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		@Override
 		public Boolean getProperty()
 		{
-			return !isReadonly() && getSelectionSize() != 0;
+			return isEditable() && getSelectionSize() != 0;
 		}
 	};
 
@@ -508,7 +503,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	private void notifyModifyListener(T item, ModificationTypeEnum type)
 	{
 		for(ItemModifyListener<T> listener : modifyListeners)
-			listener.itemModified(widget.getControl(), item, type);
+			listener.itemModified(this, item, type);
 	}
 
 	/*
@@ -600,6 +595,22 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		else if(isControlEvent(event))
 			handleControlEvent(event);
 	}
+	
+	/*
+	 * Editable
+	 */
+
+	@Override
+	public void setEditable(boolean editable)
+	{
+		this.editable = editable;
+	}
+	
+	@Override
+	public boolean isEditable()
+	{
+		return editable;
+	}
 
 	/*
 	 * listeners
@@ -646,10 +657,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		else if(menuItem == SORT_OFF)
 			setSorterOff();
 	}
-
-	/*
-	 * listeners
-	 */
 
 	private void onKeyDown(Event event)
 	{
@@ -705,7 +712,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected void onDeleteMenuItem(Event event)
 	{
-		if(!readonly && getSelectionSize() != 0)
+		if(editable && getSelectionSize() != 0)
 			deleteSelectedItems();
 	}
 
@@ -723,7 +730,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	protected ItemModifyListener<T> modifyDefaultModel = new ItemModifyListener<T>()
 	{
 		@Override
-		public void itemModified(Widget widget, T item, ModificationTypeEnum type)
+		public void itemModified(PViewer<T> viewer, T item, ModificationTypeEnum type)
 		{
 			if(standaloneMode)
 				((ListModel<T>)model).modify(item, type);

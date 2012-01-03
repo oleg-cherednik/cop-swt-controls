@@ -3,22 +3,22 @@ package cop.swt.widgets.viewers.table;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.swt.enums.CaseSensitivityEnum.CASE_INSENSITIVE;
 
-import java.util.Map;
-
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
 import cop.swt.enums.CaseSensitivityEnum;
+import cop.swt.widgets.viewers.table.columns.PTableColumn;
+import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
 
 public class TableFilter<T> extends ViewerFilter
 {
-	private Map<Integer, PTableColumn<T>> viewerColumns;
+	private final PTableColumnSet<T> columns;
 	private String regex;
 	private CaseSensitivityEnum caseSensitivity = CASE_INSENSITIVE;
 
-	public TableFilter(Map<Integer, PTableColumn<T>> viewerColumns)
+	public TableFilter(PTableColumnSet<T> columns)
 	{
-		this.viewerColumns = viewerColumns;
+		this.columns = columns;
 	}
 
 	public void setSearchText(String text)
@@ -37,7 +37,7 @@ public class TableFilter<T> extends ViewerFilter
 		{
 			Object obj;
 
-			for(PTableColumn<T> viewerColumn : viewerColumns.values())
+			for(PTableColumn<T> viewerColumn : columns.getColumns())
 			{
 				obj = viewerColumn.getDescription().getTextValue((T)element);
 

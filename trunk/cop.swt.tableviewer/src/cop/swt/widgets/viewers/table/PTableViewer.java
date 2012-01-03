@@ -14,11 +14,9 @@ import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jface.viewers.TableViewer;
@@ -40,8 +38,10 @@ import cop.swt.widgets.menu.items.RadioKeyMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
-import cop.swt.widgets.viewers.interfaces.IModifyProvider;
+import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
+import cop.swt.widgets.viewers.table.columns.PTableColumn;
+import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
@@ -51,7 +51,7 @@ import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
  */
 public final class PTableViewer<T> extends PViewer<T> implements Packable
 {
-	private Map<Integer, PTableColumn<T>> columns = new HashMap<Integer, PTableColumn<T>>();
+	private final PTableColumnSet<T> columns = new PTableColumnSet<T>();
 	private boolean autoColumnWidth = true;
 	private boolean mouseEnter;
 	private Set<TableColumnListener<T>> tableColumnListeners = new HashSet<TableColumnListener<T>>();
@@ -72,7 +72,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		super(cls, new TableViewer(parent, clearBits(style, SWT.READ_ONLY) | SWT.FULL_SELECTION), config);
 
 		createColumns();
-		setReadonly(isBitSet(style, SWT.READ_ONLY));
+		setEditable(isBitSet(style, SWT.READ_ONLY));
 		addListeners();
 		createLabelProvider();
 		createFilter();
@@ -91,6 +91,11 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		this.autoColumnWidth = autoColumnWidth;
 	}
 
+	public TableViewer getWidget()
+	{
+		return (TableViewer)super.getWidget();
+	}
+
 	// public void setAddListener(AddListener<T> listener)
 	// {
 	// this.addListener = listener;
@@ -99,15 +104,12 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	public void editOnDoubleClick(boolean enabled)
 	{
 		((TableViewer)widget).cancelEditing();
-
-		for(PTableColumn<T> column : columns.values())
-			column.setEditorEnabled(!enabled);
+		columns.setEditorEnabled(!enabled);
 	}
 
-	public void setReadonlyProvider(IModifyProvider<T> provider)
+	public void setModifyProvider(PModifyProvider<T> provider)
 	{
-		for(PTableColumn<T> viewerColumn : columns.values())
-			viewerColumn.setReadonlyProvider(provider);
+		columns.setModifyProvider(provider);
 	}
 
 	private void createColumns() throws AnnotationDeclarationException, AnnotationMissingException
@@ -118,12 +120,10 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
 
 		PTableColumn<T> column;
-		TableViewer viewer = (TableViewer)widget;
-		int index = 0;
 
 		for(ColumnDescription<T> description : descriptions)
 		{
-			columns.put(index++, column = new PTableColumn<T>(cls, viewer, description));
+			columns.add(column = new PTableColumn<T>(cls, this, description));
 			column.setTableColumnListener(notifyTableColumnListener);
 			column.addPackableListener(this);
 		}
@@ -133,21 +133,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private Menu createHeaderMenu()
 	{
-		try
-		{
-			Menu menu = new Menu(parent);
-
-			for(PTableColumn<T> viewerColumn : columns.values())
-				viewerColumn.setMenu(menu);
-
-			return menu;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return null;
+		return columns.addMenuItem(new Menu(parent));
 	}
 
 	private void addListeners()
@@ -168,8 +154,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		public void run()
 		{
 			if(!widget.getControl().isDisposed())
-				for(PTableColumn<T> column : columns.values())
-					column.pack();
+				columns.pack();
 		}
 	};
 
@@ -177,7 +162,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	{
 		List<String> names = new ArrayList<String>();
 
-		for(PTableColumn<T> viewerColumn : columns.values())
+		for(PTableColumn<T> viewerColumn : columns.getColumns())
 			if(!viewerColumn.isHidden())
 				names.add(viewerColumn.getName());
 
@@ -188,7 +173,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	{
 		List<String> names = new ArrayList<String>();
 
-		for(PTableColumn<T> viewerColumn : columns.values())
+		for(PTableColumn<T> viewerColumn : columns.getColumns())
 			if(!viewerColumn.isHidden())
 				names.add(getText(viewerColumn.getColumnString(obj), ""));
 
@@ -281,9 +266,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			return;
 
 		super.addModifyListener(listener);
-
-		for(PTableColumn<T> column : columns.values())
-			column.addModifyListener(listener);
+		columns.addModifyListener(listener);
 	}
 
 	@Override
@@ -293,9 +276,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			return;
 
 		super.removeModifyListener(listener);
-
-		for(PTableColumn<T> column : columns.values())
-			column.removeModifyListener(listener);
+		columns.removeModifyListener(listener);
 	}
 
 	/*
@@ -319,11 +300,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	@Override
 	protected boolean isSortable()
 	{
-		for(PTableColumn<T> column : columns.values())
-			if(column.isSortable())
-				return true;
-
-		return false;
+		return columns.isSortable();
 	}
 
 	@Override
@@ -378,9 +355,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		if(!isSorterOn())
 			return;
 
-		for(PTableColumn<T> column : columns.values())
-			column.setSorterDirection(SORT_OFF);
-
+		columns.setSorterOff();
 		refresh();
 	}
 
@@ -406,20 +381,9 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	protected void setSelected(int index, boolean selected)
 	{
 		if(selected)
-			((TableViewer)widget).getTable().select(index);
+			getWidget().getTable().select(index);
 		else
-			((TableViewer)widget).getTable().deselect(index);
-	}
-
-	@Override
-	public void setReadonly(boolean readonly)
-	{
-		super.setReadonly(readonly);
-
-		((TableViewer)widget).cancelEditing();
-
-		for(PTableColumn<T> viewerColumn : columns.values())
-			viewerColumn.setReadonly(readonly);
+			getWidget().getTable().deselect(index);
 	}
 
 	@Override
@@ -438,6 +402,21 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	{
 		super.refresh();
 		pack();
+	}
+
+	/*
+	 * Editable
+	 */
+
+	@Override
+	public void setEditable(boolean editable)
+	{
+		super.setEditable(editable);
+
+		if(!editable)
+			getWidget().cancelEditing();
+
+		columns.setEditable(editable);
 	}
 
 	/*
@@ -508,7 +487,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private void onPaintItem(Event event)
 	{
-		PTableColumn<T> column = columns.get(event.index);
+		PTableColumn<T> column = columns.getColumns().get(event.index);
 
 		if(column != null)
 			column.handleEvent(event);
@@ -530,10 +509,12 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		if(index < 0)
 			return;
+		
+		PTableColumn<T> column = columns.getColumns().get(index);
 
-		columns.get(index).setEditorEnabled(true);
+		column.setEditorEnabled(true);
 		viewer.editElement(items[0].getData(), index);
-		columns.get(index).setEditorEnabled(false);
+		column.setEditorEnabled(false);
 	}
 
 	private void onMouseExit(Event event)
@@ -559,7 +540,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		table.setRedraw(false);
 
-		for(PTableColumn<T> viewerColumn : columns.values())
+		for(PTableColumn<T> viewerColumn : columns.getColumns())
 			viewerColumn.setRelativeWidth();
 
 		table.setRedraw(true);
@@ -567,7 +548,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private int getSelectedColumnIndex(TableItem item, int x, int y)
 	{
-		for(int i = 0, size = columns.size(); i < size; i++)
+		for(int i = 0, size = columns.getColumns().size(); i < size; i++)
 			if(item.getBounds(i).contains(x, y))
 				return i;
 
@@ -594,14 +575,15 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		{
 			List<ColumnDescription<T>> res = new ArrayList<ColumnDescription<T>>();
 			Table table = ((TableViewer)widget).getTable();
-			PTableColumn<T> info;
+			PTableColumn<T> column;
+			List<PTableColumn<T>> columns = PTableViewer.this.columns.getColumns();
 
 			for(int pos : table.getColumnOrder())
 			{
-				info = columns.get(pos);
+				column = columns.get(pos);
 
-				if(info != null)
-					res.add(info.getDescription());
+				if(column != null)
+					res.add(column.getDescription());
 			}
 
 			return res;
@@ -621,7 +603,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		menuBuilder.addMenuItem(new PushMenuItem(SORT_OFF, null, isSorterOnProvider, this));
 		menuBuilder.addMenuItem(new SeparatorMenuItem());
 
-		for(PTableColumn<T> column : columns.values())
+		for(PTableColumn<T> column : columns.getColumns())
 		{
 			description = column.getDescription();
 
@@ -673,10 +655,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		super.setLocale(locale);
 
 		((TableViewer)widget).cancelEditing();
-
-		for(PTableColumn<T> column : columns.values())
-			column.setLocale(locale);
-
+		columns.setLocale(locale);
 		refresh();
 
 		if(autoColumnWidth)

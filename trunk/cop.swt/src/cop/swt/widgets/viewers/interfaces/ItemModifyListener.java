@@ -7,8 +7,7 @@
  */
 package cop.swt.widgets.viewers.interfaces;
 
-import org.eclipse.swt.widgets.Widget;
-
+import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 
 /**
@@ -17,5 +16,5 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
  */
 public interface ItemModifyListener<T>
 {
-	void itemModified(Widget widget, T item, ModificationTypeEnum type);
+	void itemModified(PViewer<T> widget, T item, ModificationTypeEnum type);
 }

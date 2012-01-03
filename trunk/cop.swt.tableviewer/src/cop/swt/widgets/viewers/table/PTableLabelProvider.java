@@ -5,8 +5,8 @@ import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.swt.extensions.ColorExtension.YELLOW;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
@@ -17,17 +17,19 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 import cop.swt.utils.SearchUtil;
+import cop.swt.widgets.viewers.table.columns.PTableColumn;
+import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
 import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
 
 public class PTableLabelProvider<T> extends StyledCellLabelProvider implements IColorProvider, IFontProvider
 {
-	private Map<Integer, PTableColumn<T>> viewerColumns;
+	private final PTableColumnSet<T> columns;
 	private String searchText;
 	private Color systemColor = YELLOW;
 
-	public PTableLabelProvider(Map<Integer, PTableColumn<T>> viewerColumns)
+	public PTableLabelProvider(PTableColumnSet<T> columns)
 	{
-		this.viewerColumns = viewerColumns;
+		this.columns = columns;
 	}
 
 	public void setSearchText(String text)
@@ -45,7 +47,7 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider implements I
 	{
 		try
 		{
-			PTableColumn<T> viewerColumn = viewerColumns.get(cell.getColumnIndex());
+			PTableColumn<T> viewerColumn = columns.getColumns().get(cell.getColumnIndex());
 
 			if(viewerColumn == null)
 				return;

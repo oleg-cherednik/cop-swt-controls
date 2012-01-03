@@ -59,7 +59,7 @@ public class PListViewer<T> extends PViewer<T> implements LabelSupport
 
 	private void createSorter()
 	{
-		sorter = new PViewerSorter<T>(widget, description);
+		sorter = new PViewerSorter<T>(this, description);
 	}
 
 	@Override
