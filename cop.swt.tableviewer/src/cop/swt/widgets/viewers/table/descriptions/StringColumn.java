@@ -7,6 +7,8 @@
  */
 package cop.swt.widgets.viewers.table.descriptions;
 
+import static cop.common.extensions.CompareExtension.compareStrings;
+
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
@@ -24,12 +26,7 @@ public class StringColumn<T> extends ColumnDescription<T>
 	{
 		super(obj, locale);
 	}
-
-	protected int _compare(Object obj1, Object obj2)
-	{
-		return getCollator().compare(obj1, obj2);
-	}
-
+	
 	/*
 	 * Comparator
 	 */
@@ -39,15 +36,10 @@ public class StringColumn<T> extends ColumnDescription<T>
 	{
 		try
 		{
-			Object obj1 = getValue(item1);
-			Object obj2 = getValue(item2);
+			String str1 = (String)getValue(item1);
+			String str2 = (String)getValue(item2);
 
-			if(obj1 == obj2)
-				return 0;
-			if((obj1 == null) ^ (obj2 == null))
-				return (obj2 == null) ? 1 : -1;
-
-			return _compare(obj1, obj2);
+			return compareStrings(str1, str2, getCollator());
 		}
 		catch(Exception e)
 		{
@@ -62,7 +54,7 @@ public class StringColumn<T> extends ColumnDescription<T>
 	 */
 
 	@Override
-	public Object getCellEditorValue(T item) throws Exception
+	public String getCellEditorValue(T item) throws Exception
 	{
 		return getTextValue(item);
 	}

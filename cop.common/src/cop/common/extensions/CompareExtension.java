@@ -9,10 +9,15 @@ import static cop.common.extensions.ReflectionExtension.isInteger;
 import static cop.common.extensions.ReflectionExtension.isLong;
 import static cop.common.extensions.ReflectionExtension.isShort;
 
+import java.text.Collator;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class CompareExtension
 {
+	private static final Map<Class<?>, Comparator<?>> comparators = new HashMap<Class<?>, Comparator<?>>();
+
 	private CompareExtension()
 	{}
 
@@ -26,16 +31,36 @@ public final class CompareExtension
 		return obj1.compareTo(obj2);
 	}
 
+	public static <T> int compareStrings(String str1, String str2, Collator collator)
+	{
+		if(collator == null)
+			return compareObjects(str1, str2);
+		if(str1 == str2)
+			return 0;
+		if((str1 == null) ^ (str2 == null))
+			return (str2 == null) ? 1 : -1;
+
+		return collator.compare(str1, str2);
+	}
+
+	@SuppressWarnings("unchecked")
 	public static <T extends Comparable<T>> Comparator<T> createComparator(Class<T> obj)
 	{
-		return new Comparator<T>()
+		Comparator<?> comparator = comparators.get(obj);
+
+		if(comparator == null)
 		{
-			@Override
-			public int compare(T obj1, T obj2)
+			comparators.put(obj, comparator = new Comparator<T>()
 			{
-				return compareObjects(obj1, obj2);
-			}
-		};
+				@Override
+				public int compare(T obj1, T obj2)
+				{
+					return compareObjects(obj1, obj2);
+				}
+			});
+		}
+
+		return (Comparator<T>)comparator;
 	}
 
 	public static int compareNumbers(Class<?> type, Object obj1, Object obj2)
