@@ -41,7 +41,7 @@ import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
 import cop.swt.widgets.viewers.table.columns.PTableColumn;
 import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
-import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 /*
@@ -114,12 +114,12 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private void createColumns() throws AnnotationDeclarationException, AnnotationMissingException
 	{
-		List<? extends ColumnDescription<T>> descriptions = getDescriptions(cls, getImageProvider());
+		List<? extends ColumnSettings<T>> descriptions = getDescriptions(cls, getImageProvider());
 
 		if(isEmpty(descriptions))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
 
-		for(ColumnDescription<T> description : descriptions)
+		for(ColumnSettings<T> description : descriptions)
 			columns.add(new PTableColumn<T>(cls, this, description));
 
 		columns.setTableColumnListener(notifyTableColumnListener);
@@ -177,9 +177,9 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		return names.toArray(new String[names.size()]);
 	}
 	
-	public List<ColumnDescription<T>> getOrderTableColumns()
+	public List<ColumnSettings<T>> getOrderTableColumns()
 	{
-		List<ColumnDescription<T>> res = new ArrayList<ColumnDescription<T>>();
+		List<ColumnSettings<T>> res = new ArrayList<ColumnSettings<T>>();
 		Table table = ((TableViewer)widget).getTable();
 		PTableColumn<T> column;
 
@@ -245,14 +245,14 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	}
 
 	@SuppressWarnings("unchecked")
-	private void notifyTableColumnResizedListeners(PTableViewer<T> viewer, ColumnDescription<T> column)
+	private void notifyTableColumnResizedListeners(PTableViewer<T> viewer, ColumnSettings<T> column)
 	{
 		for(EventListener listener : listeners.get(TableColumnListener.class))
 			((TableColumnListener<T>)listener).columnResized(viewer, column);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void notifyTableColumnMovedListeners(PTableViewer<T> viewer, ColumnDescription<T> column)
+	private void notifyTableColumnMovedListeners(PTableViewer<T> viewer, ColumnSettings<T> column)
 	{
 		for(EventListener listener : listeners.get(TableColumnListener.class))
 			((TableColumnListener<T>)listener).columnMoved(viewer, column);
@@ -563,14 +563,14 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	private TableColumnListener<T> notifyTableColumnListener = new TableColumnListener<T>()
 	{
 		@Override
-		public void columnMoved(PTableViewer<T> viewer, ColumnDescription<T> column)
+		public void columnMoved(PTableViewer<T> viewer, ColumnSettings<T> column)
 		{
 			if(!autoColumnWidth)
 				notifyTableColumnMovedListeners(viewer, column);
 		}
 
 		@Override
-		public void columnResized(PTableViewer<T> viewer, ColumnDescription<T> column)
+		public void columnResized(PTableViewer<T> viewer, ColumnSettings<T> column)
 		{
 			if(!autoColumnWidth)
 				notifyTableColumnResizedListeners(viewer, column);
@@ -581,7 +581,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	protected MenuBuilder createSortMenuBuilder()
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
-		ColumnDescription<T> description;
+		ColumnSettings<T> description;
 		PropertyProvider<Boolean> visibleProvider;
 		PropertyProvider<Boolean> enabledProvider;
 		PropertyProvider<Boolean> selectionProvider;

@@ -29,7 +29,7 @@ import cop.swt.widgets.enums.ImageTextViewEnum;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 03.09.2010
  */
-public class BooleanColumn<T> extends ColumnDescription<T>
+public class BooleanColumn<T> extends ColumnSettings<T>
 {
 	public static final String CHECKED_MARKER = "checked";
 	public static final String UNCHECKED_MARKER = "unchecked";

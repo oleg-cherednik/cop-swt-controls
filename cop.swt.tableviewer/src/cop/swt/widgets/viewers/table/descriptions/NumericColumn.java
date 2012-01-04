@@ -28,7 +28,7 @@ import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 20.12.2010
  */
-public class NumericColumn<T> extends ColumnDescription<T>
+public class NumericColumn<T> extends ColumnSettings<T>
 {
 	private NumberFormat numberFormat;
 	protected RangeContent range;

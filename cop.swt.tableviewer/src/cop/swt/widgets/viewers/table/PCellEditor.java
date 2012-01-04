@@ -15,19 +15,19 @@ import cop.swt.widgets.interfaces.Enablable;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.PModifyProvider;
-import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
 
 public class PCellEditor<T> extends EditingSupport implements ModifyListenerSupport<T>, Editable, Enablable
 {
 	private final PTableViewer<T> tableViewer;
 	private final Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
-	private final ColumnDescription<T> description;
+	private final ColumnSettings<T> description;
 
 	private boolean editable;
 	private boolean enabled;
 	private PModifyProvider<T> modifyProvider;
 
-	public PCellEditor(PTableViewer<T> tableViewer, ColumnDescription<T> description)
+	public PCellEditor(PTableViewer<T> tableViewer, ColumnSettings<T> description)
 	{
 		super(tableViewer.getWidget());
 
