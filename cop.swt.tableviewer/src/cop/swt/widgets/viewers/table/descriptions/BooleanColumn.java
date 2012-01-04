@@ -37,8 +37,6 @@ public class BooleanColumn<T> extends ColumnDescription<T>
 	private final ImageProvider imageProvider;
 	private final ImageTextViewContent viewContent;
 
-	private CellEditor editor;
-
 	protected BooleanColumn(AccessibleObject obj, ImageProvider imageProvider, Locale locale)
 	{
 		super(obj, locale);
@@ -87,7 +85,6 @@ public class BooleanColumn<T> extends ColumnDescription<T>
 	{
 		if(editor == null)
 			editor = new CheckboxCellEditor(parent, SWT.CHECK | SWT.READ_ONLY);
-
 		return editor;
 	}
 

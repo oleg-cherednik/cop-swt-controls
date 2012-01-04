@@ -26,8 +26,6 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ColorColumn<T> extends ColumnDescription<T>
 {
-	private CellEditor editor;
-
 	protected ColorColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);

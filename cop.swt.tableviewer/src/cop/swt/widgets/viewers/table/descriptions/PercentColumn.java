@@ -1,3 +1,10 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
@@ -24,7 +31,11 @@ import cop.swt.widgets.annotations.contents.RangeContent;
 import cop.swt.widgets.annotations.services.PercentService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 
-public class PercentColumnDescription<T> extends NumericColumnDescription<T>
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 20.12.2010
+ */
+public class PercentColumn<T> extends NumericColumnDescription<T>
 {
 	private NumberFormat percentFormat;
 	private final RangeContent range;
@@ -35,7 +46,7 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	 * @param obj
 	 * @param locale
 	 */
-	protected PercentColumnDescription(AccessibleObject obj, Locale locale)
+	protected PercentColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
 
@@ -49,7 +60,7 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 		try
 		{
 			double percent = ((Number)invoke((T)event.item.getData())).doubleValue() * 100;
-			drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth(), event.height, percent);
+			drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth() - 2, event.height - 1, percent);
 		}
 		catch(Exception e)
 		{}
@@ -73,9 +84,9 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 			len = (int)((width * value) / 100);
 
 		gc.fillGradientRectangle(x, y, len, height, true);
-		// gc.fillRectangle(event.x, event.y, len, event.height);
-		// gc.fillRoundRectangle(event.x, event.y, len, event.height, 10, 10);
-		// gc.drawRectangle(event.x, event.y, width - 1, event.height - 1);
+//		 gc.fillRectangle(x, y, len, height);
+//		 gc.fillRoundRectangle(x, y, len, height, 10, 10);
+//		 gc.drawRectangle(x, y, width, height);
 		gc.setForeground(foreground);
 		gc.setBackground(background);
 	}
@@ -124,8 +135,13 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		NumberFormat nf = configNumberFormat(NumberFormat.getNumberInstance(locale));
-		return new SpinnerCellEditor(parent, nf, range, SWT.NONE);
+		if(editor == null)
+		{
+			NumberFormat nf = configNumberFormat(NumberFormat.getNumberInstance(locale));
+			editor = new SpinnerCellEditor(parent, nf, range, SWT.NONE);
+		}
+
+		return editor;
 	}
 
 	/*
@@ -139,6 +155,11 @@ public class PercentColumnDescription<T> extends NumericColumnDescription<T>
 
 		if(isNotNull(locale))
 			percentFormat = configNumberFormat(NumberFormat.getPercentInstance(locale));
+
+		if(editor != null)
+			editor.dispose();
+
+		editor = null;
 	}
 
 	/*

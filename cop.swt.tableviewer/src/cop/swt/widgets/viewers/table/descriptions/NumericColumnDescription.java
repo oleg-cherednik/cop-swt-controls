@@ -1,6 +1,12 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.viewers.table.descriptions;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.common.extensions.StringExtension.isNotEmpty;
@@ -11,12 +17,10 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-
-import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
-
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 20.12.2010
+ */
 public class NumericColumnDescription<T> extends StringColumn<T>
 {
 	private NumberFormat numberFormat;
@@ -66,9 +70,18 @@ public class NumericColumnDescription<T> extends StringColumn<T>
 	}
 	
 //	@Override
+//	public Number getCellEditorValue(T item) throws Exception
+//	{
+//		Object value = getValue(item);
+//		return (Number)value;
+//	}
+
+//	@Override
 //	public CellEditor getCellEditor(Composite parent)
 //	{
-//		return new SpinnerCellEditor(parent, numberFormat, SWT.NONE);
+//		if(editor == null)
+//			editor = new SpinnerCellEditor(parent, numberFormat, SWT.NONE);
+//		return editor;
 //	}
 
 	/*
@@ -80,7 +93,7 @@ public class NumericColumnDescription<T> extends StringColumn<T>
 	{
 		super.setLocale(locale);
 
-		if(isNotNull(locale))
+		if(locale != null)
 			numberFormat = getNumberFormat(locale);
 	}
 }

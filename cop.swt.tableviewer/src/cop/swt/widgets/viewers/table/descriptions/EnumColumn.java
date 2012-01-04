@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Composite;
 public class EnumColumn<T> extends ColumnDescription<T>
 {
 	private final Object[] constatns;
-	private CellEditor editor;
 	private String[] i18n;
 
 	protected EnumColumn(AccessibleObject obj, Locale locale)
@@ -35,10 +34,10 @@ public class EnumColumn<T> extends ColumnDescription<T>
 		super(obj, locale);
 
 		this.constatns = type.getEnumConstants();
-		buildLocalizedTexts();
+		buildLocalizedConstants();
 	}
 
-	private void buildLocalizedTexts()
+	private void buildLocalizedConstants()
 	{
 		try
 		{
@@ -83,7 +82,6 @@ public class EnumColumn<T> extends ColumnDescription<T>
 	{
 		if(editor == null)
 			editor = new ComboBoxCellEditor(parent, i18n, SWT.READ_ONLY);
-
 		return editor;
 	}
 
@@ -132,6 +130,6 @@ public class EnumColumn<T> extends ColumnDescription<T>
 	public void setLocale(Locale locale)
 	{
 		super.setLocale(locale);
-		buildLocalizedTexts();
+		buildLocalizedConstants();
 	}
 }
