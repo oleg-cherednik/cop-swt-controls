@@ -99,7 +99,7 @@ public class PCellEditor<T> extends EditingSupport implements ModifyListenerSupp
 
 		try
 		{
-			return description.getEditValue((T)element);
+			return description.getCellEditorValue((T)element);
 		}
 		catch(Exception e)
 		{

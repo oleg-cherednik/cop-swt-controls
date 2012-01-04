@@ -14,14 +14,14 @@ public class LocalizableString<T> extends StringLabelDescription<T>
 	{
 		super(obj, locale);
 
-		try
-		{
-			type.asSubclass(EditLocalizable.class);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			type.asSubclass(EditLocalizable.class);
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 
 	/*

@@ -24,8 +24,8 @@ import cop.swt.widgets.annotations.i18n;
 public class ActionTO implements Cloneable
 {
 	@Label(name = "model")
-//	@Column(name = "user name", order = 1, hideable = false)
-//	private String userName;
+	// @Column(name = "user name", order = 1, hideable = false)
+	// private String userName;
 	@Column(name = "user name", order = 1, sortable = true, hideable = false)
 	private Name userName;
 	@Column(name = "date", order = 2, movabale = true, alignment = SWT.LEFT, sortable = true, hideable = true)
@@ -41,9 +41,9 @@ public class ActionTO implements Cloneable
 	private double percent;
 	@Column(name = "amount", order = 6, movabale = true, sortable = true, hideable = false, emptyable = false)
 	private Double amount;
-	//@Column(order = 4)
+	// @Column(order = 4)
 	// private List<String> titles = new ArrayList<String>();
-	//@Label
+	// @Label
 	@Column(name = "marker", order = 7, sortable = true, hideable = true)
 	@ImageTextView(view = IMAGE_ONLY)
 	private boolean marker;
@@ -75,12 +75,12 @@ public class ActionTO implements Cloneable
 		this.count = count;
 		this.color = color;
 	}
-	
+
 	@Override
-    public ActionTO clone()
+	public ActionTO clone()
 	{
 		ActionTO action = new ActionTO(userName);
-		
+
 		action.date = (Calendar)date.clone();
 		action.number = number;
 		action.price = price;
@@ -90,8 +90,7 @@ public class ActionTO implements Cloneable
 		action.marker = marker;
 		action.count = count;
 		action.color = color;
-		
-		
+
 		return action;
 	}
 
@@ -199,7 +198,7 @@ public class ActionTO implements Cloneable
 	@i18n
 	public static String getLocalizedName(String key, Locale locale)
 	{
-//		System.out.println("getLocalizedName(" + key + ", " + locale + ")");
+		// System.out.println("getLocalizedName(" + key + ", " + locale + ")");
 		if(key.equals("userName"))
 			return BundleEnum1.COL_NAME.i18n(locale);
 		if(key.equals("date"))
@@ -235,6 +234,7 @@ public class ActionTO implements Cloneable
 		buf.append(", price (" + price + ")");
 		buf.append(", percent (" + percent + ")");
 		// buf.append(", titleName (" + titleName + ")");
+		buf.append(", amount (" + amount + ")");
 		buf.append(", marker (" + marker + ")");
 		buf.append(", count (" + count + ")");
 		buf.append(", color (" + color + ")");

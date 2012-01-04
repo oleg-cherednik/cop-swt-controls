@@ -20,8 +20,6 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class StringColumn<T> extends ColumnDescription<T>
 {
-	private CellEditor editor;
-
 	protected StringColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
@@ -64,7 +62,7 @@ public class StringColumn<T> extends ColumnDescription<T>
 	 */
 
 	@Override
-	public Object getEditValue(T item) throws Exception
+	public Object getCellEditorValue(T item) throws Exception
 	{
 		return getTextValue(item);
 	}

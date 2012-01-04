@@ -41,6 +41,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	protected AccessibleObject obj;
 	protected Class<?> type = DEF_TYPE;
 	protected Locale locale;
+	protected CellEditor editor;
 
 	/*
 	 * Static methods
@@ -76,7 +77,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 			if(isCurrency(obj))
 				return new CurrencyColumnDescription<T>(obj, locale);
 			if(isPercent(obj))
-				return new PercentColumnDescription<T>(obj, locale);
+				return new PercentColumn<T>(obj, locale);
 			if(isInteger(type))
 				return new IntegerNumberColumnDescription<T>(obj, locale);
 
@@ -159,7 +160,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		return getPropertyName(obj);
 	}
 
-	public Object getEditValue(T item) throws Exception
+	public Object getCellEditorValue(T item) throws Exception
 	{
 		return getValue(item);
 	}
@@ -208,11 +209,6 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	}
 
 	public abstract CellEditor getCellEditor(Composite parent);
-
-	// public String getUnit()
-	// {
-	//
-	// }
 
 	public AccessibleObject getObject()
 	{
@@ -286,6 +282,11 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 
 		this.locale = locale;
 		this.content.setLocale(locale);
+
+		if(editor != null)
+			editor.dispose();
+
+		editor = null;
 	}
 
 	/*

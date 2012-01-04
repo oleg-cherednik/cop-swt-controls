@@ -4,6 +4,7 @@ import static cop.common.beans.JavaBean.getPropertyName;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.ReflectionExtension.isBoolean;
+import static cop.common.extensions.ReflectionExtension.isLocalizable;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.Collator;
@@ -19,7 +20,6 @@ import cop.localization.interfaces.LocaleSupport;
 import cop.localization.interfaces.Localizable;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.LabelSupport;
-import cop.swt.widgets.viewers.descriptions.LocalizableString;
 
 public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport, Comparator<T> // IColumnDescription<T>,
 // Comparable<ColumnDescription<T>>
@@ -73,14 +73,8 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 		// }
 		// if(type.isAssignableFrom(RGB.class))
 		// return new ColorColumnDescription<T>(obj, locale);
-
-		try
-		{
-			type.asSubclass(Localizable.class);
+		if(isLocalizable(obj))
 			return new LocalizableString<T>(obj, locale);
-		}
-		catch(Exception e)
-		{}
 
 		return new StringLabelDescription<T>(obj, locale);
 	}
