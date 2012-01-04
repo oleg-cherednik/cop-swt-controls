@@ -15,7 +15,7 @@ import cop.swt.widgets.annotations.contents.RangeContent;
 import cop.swt.widgets.annotations.services.CurrencyService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 
-public class CurrencyColumnDescription<T> extends NumericColumnDescription<T>
+public class CurrencyColumnDescription<T> extends NumericColumn<T>
 {
 	private NumberFormat currencyFormat;
 	private final RangeContent range;

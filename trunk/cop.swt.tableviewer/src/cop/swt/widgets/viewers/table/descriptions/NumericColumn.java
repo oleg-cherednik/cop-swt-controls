@@ -21,11 +21,11 @@ import java.util.Locale;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 20.12.2010
  */
-public class NumericColumnDescription<T> extends StringColumn<T>
+public class NumericColumn<T> extends StringColumn<T>
 {
 	private NumberFormat numberFormat;
 
-	protected NumericColumnDescription(AccessibleObject obj, Locale locale)
+	protected NumericColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
 		this.numberFormat = getNumberFormat(locale);
@@ -68,21 +68,21 @@ public class NumericColumnDescription<T> extends StringColumn<T>
 
 		return isEmptyable() ? "" : numberFormat.format(0);
 	}
-	
-//	@Override
-//	public Number getCellEditorValue(T item) throws Exception
-//	{
-//		Object value = getValue(item);
-//		return (Number)value;
-//	}
 
-//	@Override
-//	public CellEditor getCellEditor(Composite parent)
-//	{
-//		if(editor == null)
-//			editor = new SpinnerCellEditor(parent, numberFormat, SWT.NONE);
-//		return editor;
-//	}
+	// @Override
+	// public Number getCellEditorValue(T item) throws Exception
+	// {
+	// Object value = getValue(item);
+	// return (Number)value;
+	// }
+
+	// @Override
+	// public CellEditor getCellEditor(Composite parent)
+	// {
+	// if(editor == null)
+	// editor = new SpinnerCellEditor(parent, numberFormat, SWT.NONE);
+	// return editor;
+	// }
 
 	/*
 	 * Localizable
@@ -93,7 +93,14 @@ public class NumericColumnDescription<T> extends StringColumn<T>
 	{
 		super.setLocale(locale);
 
-		if(locale != null)
-			numberFormat = getNumberFormat(locale);
+		if(locale == null)
+			return;
+
+		numberFormat = getNumberFormat(locale);
+
+		if(editor != null)
+			editor.dispose();
+
+		editor = null;
 	}
 }

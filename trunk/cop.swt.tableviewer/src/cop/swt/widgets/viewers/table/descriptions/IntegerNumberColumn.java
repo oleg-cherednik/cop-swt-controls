@@ -1,6 +1,12 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.viewers.table.descriptions;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
 
 import java.lang.reflect.AccessibleObject;
@@ -15,21 +21,19 @@ import cop.swt.widgets.annotations.contents.RangeContent;
 import cop.swt.widgets.annotations.services.RangeService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 
-public class IntegerNumberColumnDescription<T> extends NumericColumnDescription<T>
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 20.12.2010
+ */
+public class IntegerNumberColumn<T> extends NumericColumn<T>
 {
 	private NumberFormat integerFormat;
 	private final RangeContent range;
 
-	/**
-	 * Closed constructor
-	 * 
-	 * @param obj
-	 * @param locale
-	 */
-	protected IntegerNumberColumnDescription(AccessibleObject obj, Locale locale)
+	protected IntegerNumberColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
-		
+
 		this.integerFormat = NumberFormat.getIntegerInstance(locale);
 		this.range = RangeService.getContent(obj);
 	}
@@ -37,7 +41,7 @@ public class IntegerNumberColumnDescription<T> extends NumericColumnDescription<
 	/*
 	 * ColumnDescription
 	 */
-	
+
 	@Override
 	public void setValue(T item, Object value) throws Exception
 	{
@@ -53,11 +57,13 @@ public class IntegerNumberColumnDescription<T> extends NumericColumnDescription<
 		return isEmptyable() ? "" : integerFormat.format(0);
 
 	}
-	
+
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		return new SpinnerCellEditor(parent, integerFormat, range, SWT.NONE);
+		if(editor == null)
+			editor = new SpinnerCellEditor(parent, integerFormat, range, SWT.NONE);
+		return editor;
 	}
 
 	/*
@@ -69,7 +75,7 @@ public class IntegerNumberColumnDescription<T> extends NumericColumnDescription<
 	{
 		super.setLocale(locale);
 
-		if(isNotNull(locale))
+		if(locale != null)
 			integerFormat = NumberFormat.getIntegerInstance(locale);
 	}
 }
