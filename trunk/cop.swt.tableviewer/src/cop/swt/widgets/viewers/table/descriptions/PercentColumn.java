@@ -124,6 +124,12 @@ public class PercentColumn<T> extends NumericColumn<T>
 
 		return isEmptyable() ? "" : super.getText(0);
 	}
+	
+	@Override
+	public Number getCellEditorValue(T item) throws Exception
+	{
+		return super.getCellEditorValue(item).doubleValue() * 100;
+	}
 
 	@Override
 	protected String getCellText(Object obj)

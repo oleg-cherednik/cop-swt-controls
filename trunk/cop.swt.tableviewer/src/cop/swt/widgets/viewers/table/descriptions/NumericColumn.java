@@ -17,17 +17,26 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+
+import cop.swt.widgets.annotations.contents.RangeContent;
+import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
+
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 20.12.2010
  */
-public class NumericColumn<T> extends StringColumn<T>
+public class NumericColumn<T> extends ColumnDescription<T>
 {
 	private NumberFormat numberFormat;
+	protected RangeContent range;
 
 	protected NumericColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
+
 		this.numberFormat = getNumberFormat(locale);
 	}
 
@@ -39,6 +48,28 @@ public class NumericColumn<T> extends StringColumn<T>
 	protected Number parseNumber(String value) throws ParseException
 	{
 		return numberFormat.parse(value);
+	}
+
+	/*
+	 * Comparator
+	 */
+
+	@Override
+	public int compare(T item1, T item2)
+	{
+		try
+		{
+			Object obj1 = getValue(item1);
+			Object obj2 = getValue(item2);
+
+			return compareNumbers(type, obj1, obj2);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return 0;
 	}
 
 	/*
@@ -55,12 +86,6 @@ public class NumericColumn<T> extends StringColumn<T>
 	}
 
 	@Override
-	protected int _compare(Object obj1, Object obj2)
-	{
-		return compareNumbers(type, obj1, obj2);
-	}
-
-	@Override
 	protected String getText(Object obj)
 	{
 		if(obj instanceof Number)
@@ -69,20 +94,20 @@ public class NumericColumn<T> extends StringColumn<T>
 		return isEmptyable() ? "" : numberFormat.format(0);
 	}
 
-	// @Override
-	// public Number getCellEditorValue(T item) throws Exception
-	// {
-	// Object value = getValue(item);
-	// return (Number)value;
-	// }
+	@Override
+	public Number getCellEditorValue(T item) throws Exception
+	{
+		Object value = getValue(item);
+		return (Number)value;
+	}
 
-	// @Override
-	// public CellEditor getCellEditor(Composite parent)
-	// {
-	// if(editor == null)
-	// editor = new SpinnerCellEditor(parent, numberFormat, SWT.NONE);
-	// return editor;
-	// }
+	@Override
+	public CellEditor getCellEditor(Composite parent)
+	{
+		if(editor == null)
+			editor = new SpinnerCellEditor(parent, numberFormat, range, SWT.NONE);
+		return editor;
+	}
 
 	/*
 	 * Localizable

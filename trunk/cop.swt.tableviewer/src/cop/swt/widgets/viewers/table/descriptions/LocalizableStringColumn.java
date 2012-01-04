@@ -7,6 +7,7 @@
  */
 package cop.swt.widgets.viewers.table.descriptions;
 
+import static cop.common.extensions.CompareExtension.compareStrings;
 import static cop.common.extensions.ReflectionExtension.isLocalizable;
 
 import java.lang.reflect.AccessibleObject;
@@ -40,14 +41,30 @@ public class LocalizableStringColumn<T> extends StringColumn<T>
 	}
 
 	/*
-	 * ColumnDescription
+	 * Comparator
 	 */
 
 	@Override
-	protected int _compare(Object obj1, Object obj2)
+	public int compare(T item1, T item2)
 	{
-		return super._compare(getText(obj1), getText(obj2));
+		try
+		{
+			String str1 = getText(getValue(item1));
+			String str2 = getText(getValue(item2));
+
+			return compareStrings(str1, str2, getCollator());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return 0;
 	}
+
+	/*
+	 * ColumnDescription
+	 */
 
 	@Override
 	protected String getText(Object obj)

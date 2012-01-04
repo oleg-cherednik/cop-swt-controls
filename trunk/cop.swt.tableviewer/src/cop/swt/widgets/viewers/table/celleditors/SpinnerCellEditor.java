@@ -11,7 +11,6 @@ import static cop.swt.widgets.listeners.TraverseListenerSet.allowEscape;
 import static cop.swt.widgets.listeners.TraverseListenerSet.allowReturn;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
@@ -26,7 +25,6 @@ import cop.swt.widgets.annotations.contents.RangeContent;
  */
 public class SpinnerCellEditor extends CellEditor
 {
-	private final NumberFormat nf;
 	private final int multiplier;
 
 	public SpinnerCellEditor(Composite parent, NumberFormat nf, int style)
@@ -40,7 +38,6 @@ public class SpinnerCellEditor extends CellEditor
 
 		postConstruct(nf, range);
 
-		this.nf = nf;
 		this.multiplier = (int)Math.pow(10, getControl().getDigits());
 	}
 
@@ -82,7 +79,10 @@ public class SpinnerCellEditor extends CellEditor
 	@Override
 	protected Object doGetValue()
 	{
-		return (double)((Spinner)getControl()).getSelection() / multiplier;
+		int intValue = getControl().getSelection();
+		double doubleValue = (double)intValue;
+
+		return doubleValue / multiplier;
 	}
 
 	@Override
@@ -94,14 +94,12 @@ public class SpinnerCellEditor extends CellEditor
 	@Override
 	protected void doSetValue(Object value)
 	{
-		try
-		{
-			double num = nf.parse((String)value).doubleValue();
-			((Spinner)getControl()).setSelection((int)(num * multiplier));
-		}
-		catch(ParseException e)
-		{
-			e.printStackTrace();
-		}
+		if(value == null)
+			return;
+
+		double doubleValue = ((Number)value).doubleValue() * multiplier;
+		int intValue = (int)Math.round(doubleValue);
+
+		getControl().setSelection(intValue);
 	}
 }

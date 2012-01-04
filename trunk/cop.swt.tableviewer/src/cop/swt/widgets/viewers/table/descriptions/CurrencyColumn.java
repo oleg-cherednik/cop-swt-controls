@@ -1,3 +1,10 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CommonExtension.isNotNull;
@@ -11,25 +18,21 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.annotations.contents.RangeContent;
 import cop.swt.widgets.annotations.services.CurrencyService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 
-public class CurrencyColumnDescription<T> extends NumericColumn<T>
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 20.12.2010
+ */
+public class CurrencyColumn<T> extends NumericColumn<T>
 {
 	private NumberFormat currencyFormat;
-	private final RangeContent range;
 
-	/**
-	 * Closed constructor
-	 * 
-	 * @param obj
-	 * @param locale
-	 */
-	protected CurrencyColumnDescription(AccessibleObject obj, Locale locale)
+	protected CurrencyColumn(AccessibleObject obj, Locale locale)
 	{
 		super(obj, locale);
-
+		
 		this.currencyFormat = configNumberFormat(NumberFormat.getCurrencyInstance(locale));
 		this.range = CurrencyService.getContent(obj, currencyFormat.getMaximumFractionDigits());
 	}
@@ -70,8 +73,13 @@ public class CurrencyColumnDescription<T> extends NumericColumn<T>
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		NumberFormat nf = configNumberFormat(NumberFormat.getNumberInstance(locale));
-		return new SpinnerCellEditor(parent, nf, range, SWT.NONE);
+		if(editor == null)
+		{
+			NumberFormat nf = configNumberFormat(NumberFormat.getNumberInstance(locale));
+			editor = new SpinnerCellEditor(parent, nf, range, SWT.NONE);
+		}
+
+		return editor;
 	}
 
 	private static NumberFormat configNumberFormat(NumberFormat numberFormat)

@@ -16,8 +16,8 @@ import cop.swt.widgets.annotations.contents.RangeContent;
 
 public final class CurrencyService
 {
-	public static final double DEF_MINIMUM = -Double.MIN_NORMAL;
-	public static final double DEF_MAXIMUM = Double.MIN_NORMAL;
+	public static final double DEF_MINIMUM = -Integer.MIN_VALUE;
+	public static final double DEF_MAXIMUM = Integer.MAX_VALUE;
 	public static final double DEF_INCREMENT = 1;
 
 	private CurrencyService()
@@ -34,10 +34,10 @@ public final class CurrencyService
 
 	public static RangeContent getContent(AccessibleObject obj, int fractionDigits)
 	{
+		int multiplier = (int)Math.pow(10, fractionDigits);
 		double minimum = DEF_MINIMUM;
 		double maximum = DEF_MAXIMUM;
 		double increment = DEF_INCREMENT;
-		int multiplier = (int)Math.pow(10, fractionDigits);
 
 		if(!isNull(obj))
 		{
@@ -48,6 +48,6 @@ public final class CurrencyService
 			increment = annotation.inc();
 		}
 
-		return new RangeContent(minimum, maximum, increment, multiplier);
+		return new RangeContent(minimum / multiplier, maximum / multiplier, increment, multiplier);
 	}
 }

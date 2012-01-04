@@ -60,11 +60,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	public static <T> ColumnDescription<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider,
 	                Locale locale)
 	{
-		Assert.isNotNull(obj, "obj == null");
-
 		Class<?> type = ReflectionExtension.getType(obj, DEF_TYPE);
-
-		Assert.isNotNull(type);
 
 		if(type.isEnum())
 			return new EnumColumn<T>(obj, locale);
@@ -75,7 +71,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		if(isNumeric(type))
 		{
 			if(isCurrency(obj))
-				return new CurrencyColumnDescription<T>(obj, locale);
+				return new CurrencyColumn<T>(obj, locale);
 			if(isPercent(obj))
 				return new PercentColumn<T>(obj, locale);
 			if(isInteger(type))
