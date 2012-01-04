@@ -209,7 +209,7 @@ public final class CollectionExtension
 		}
 	}
 
-	public static <T> void removeDublicatesAndSort(Collection<T> arr)
+	public static <T> void removeDuplicatesAndSort(Collection<T> arr)
 	{
 		try
 		{
