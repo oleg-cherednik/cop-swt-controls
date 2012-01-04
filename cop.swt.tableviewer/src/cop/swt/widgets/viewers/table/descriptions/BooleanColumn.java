@@ -8,6 +8,7 @@
 package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.extensions.CompareExtension.compareNumbers;
+import static cop.common.extensions.ReflectionExtension.isBoolean;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
@@ -26,7 +27,7 @@ import cop.swt.widgets.enums.ImageTextViewEnum;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
- * @since 03.01.2012
+ * @since 03.09.2010
  */
 public class BooleanColumn<T> extends ColumnDescription<T>
 {
@@ -116,5 +117,12 @@ public class BooleanColumn<T> extends ColumnDescription<T>
 		default:
 			return "";
 		}
+	}
+
+	@Override
+	protected void check()
+	{
+		if(!isBoolean(type))
+			throw new IllegalArgumentException("Given object is not Boolean");
 	}
 }

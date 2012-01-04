@@ -14,6 +14,8 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import cop.localization.interfaces.Localizable;
+
 public final class ReflectionExtension
 {
 	private ReflectionExtension()
@@ -119,6 +121,24 @@ public final class ReflectionExtension
 			return ((Method)obj).getReturnType();
 
 		return def;
+	}
+
+	public static boolean isLocalizable(AccessibleObject obj)
+	{
+		Class<?> type = getType(obj);
+
+		if(type == null)
+			return false;
+
+		try
+		{
+			type.asSubclass(Localizable.class);
+			return true;
+		}
+		catch(Exception e)
+		{}
+
+		return false;
 	}
 
 	public static boolean isString(Class<?> type)

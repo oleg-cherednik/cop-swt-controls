@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 
-public class NumericColumnDescription<T> extends StringColumnDescription<T>
+public class NumericColumnDescription<T> extends StringColumn<T>
 {
 	private NumberFormat numberFormat;
 

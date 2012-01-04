@@ -17,8 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
-//import static cop.swt.tmp.localization.InterfaceEnumBundle.*;
+import cop.localization.interfaces.LocaleSupport;
 
 public class ColumnDetailPage implements LocaleSupport
 {

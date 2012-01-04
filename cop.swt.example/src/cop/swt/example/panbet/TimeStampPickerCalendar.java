@@ -26,9 +26,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import cop.common.extensions.CalendarExtension;
 import cop.common.extensions.CommonExtension;
+import cop.localization.interfaces.LocaleSupport;
 import cop.swt.extensions.ColorExtension;
 import cop.swt.widgets.dialogs.CalendarDialog;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 
 /**
  * @author cop

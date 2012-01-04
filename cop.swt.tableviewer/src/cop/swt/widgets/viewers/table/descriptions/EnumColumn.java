@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
- * @since 03.01.2012
+ * @since 03.09.2010
  */
 public class EnumColumn<T> extends ColumnDescription<T>
 {
@@ -49,6 +49,9 @@ public class EnumColumn<T> extends ColumnDescription<T>
 			e.printStackTrace();
 			i18n = convertToStringArray(constatns);
 		}
+
+		if(editor != null)
+			editor.dispose();
 
 		editor = null;
 	}

@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
+import cop.localization.interfaces.LocaleSupport;
 
 public class CalendarCellEditor extends CellEditor implements LocaleSupport
 {

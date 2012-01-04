@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
- * @since 03.01.2012
+ * @since 03.09.2010
  */
 public class ColorColumn<T> extends ColumnDescription<T>
 {
@@ -73,5 +73,12 @@ public class ColorColumn<T> extends ColumnDescription<T>
 	public void update(ViewerCell cell, T item) throws Exception
 	{
 		cell.setBackground(getColor((RGB)invoke(item)));
+	}
+
+	@Override
+	protected void check()
+	{
+		if(!type.isAssignableFrom(RGB.class))
+			throw new IllegalArgumentException("Given object is not RGB");
 	}
 }

@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import cop.localization.interfaces.Localizable;
 import cop.swt.extensions.LocalizationExtension;
-import cop.swt.widgets.localization.interfaces.EditLocalizable;
 
-public class Name implements EditLocalizable
+public class Name implements Localizable
 {
 	private Map<Locale, String> map = new HashMap<Locale, String>();
 
@@ -39,17 +39,17 @@ public class Name implements EditLocalizable
 	 * IEditLocalizable
 	 */
 
-	@Override
-	public void setI18n(String value)
-	{
-		setI18n(value, Locale.getDefault());
-	}
-
-	@Override
-	public void setI18n(String value, Locale locale)
-	{
-		map.put(locale, value);
-	}
+//	@Override
+//	public void setI18n(String value)
+//	{
+//		setI18n(value, Locale.getDefault());
+//	}
+//
+//	@Override
+//	public void setI18n(String value, Locale locale)
+//	{
+//		map.put(locale, value);
+//	}
 
 	/*
 	 * Object

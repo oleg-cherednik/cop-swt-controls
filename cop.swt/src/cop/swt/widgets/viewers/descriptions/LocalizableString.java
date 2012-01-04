@@ -5,8 +5,8 @@ import static cop.common.extensions.CommonExtension.isNotNull;
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
-import cop.swt.widgets.localization.interfaces.EditLocalizable;
-import cop.swt.widgets.localization.interfaces.Localizable;
+import cop.localization.interfaces.EditLocalizable;
+import cop.localization.interfaces.Localizable;
 
 public class LocalizableString<T> extends StringLabelDescription<T>
 {

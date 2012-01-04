@@ -59,6 +59,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import cop.common.extensions.BitExtension;
+import cop.localization.interfaces.LocaleSupport;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.Clearable;
@@ -67,7 +68,6 @@ import cop.swt.widgets.interfaces.Enablable;
 import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menu.MenuBuilder;
 import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;

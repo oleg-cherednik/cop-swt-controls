@@ -13,9 +13,9 @@ import org.eclipse.swt.widgets.MenuItem;
 
 import cop.common.extensions.CollectionExtension;
 import cop.common.structures.EntrySet;
+import cop.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.menu.interfaces.IMenuBuilder;
 import cop.swt.widgets.menu.interfaces.IMenuItem;

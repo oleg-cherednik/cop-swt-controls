@@ -21,9 +21,9 @@ import java.util.ResourceBundle;
 import org.eclipse.core.runtime.Assert;
 
 import cop.common.extensions.StringExtension;
+import cop.localization.interfaces.Localizable;
 import cop.swt.enums.CountryEnum;
 import cop.swt.enums.LanguageEnum;
-import cop.swt.widgets.localization.interfaces.Localizable;
 
 public final class LocalizationExtension
 {
