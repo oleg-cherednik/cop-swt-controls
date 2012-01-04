@@ -19,10 +19,10 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 
+import cop.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.annotations.exceptions.WrongReturnValueException;
 import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.interfaces.Refreshable;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 
 public final class PComboViewer<T> implements LabelSupport, LocaleSupport, Refreshable
 {

@@ -2,9 +2,10 @@ package cop.swt.widgets.viewers.table.descriptions;
 
 import static cop.common.beans.JavaBean.getPropertyName;
 import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
 import static cop.common.extensions.ReflectionExtension.isBoolean;
-import static cop.common.extensions.ReflectionExtension.*;
+import static cop.common.extensions.ReflectionExtension.isInteger;
+import static cop.common.extensions.ReflectionExtension.isLocalizable;
+import static cop.common.extensions.ReflectionExtension.isNumeric;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_TYPE;
 import static cop.swt.widgets.annotations.services.CurrencyService.isCurrency;
 import static cop.swt.widgets.annotations.services.PercentService.isPercent;
@@ -28,11 +29,10 @@ import org.eclipse.swt.widgets.Event;
 
 import cop.common.extensions.ReflectionExtension;
 import cop.common.extensions.StringExtension;
+import cop.localization.interfaces.LocaleSupport;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.contents.ColumnContent;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.localization.interfaces.Localizable;
 import cop.swt.widgets.viewers.table.PTableViewer;
 
 public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<T>, Comparable<ColumnDescription<T>>
@@ -84,24 +84,11 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		}
 		if(type.isAssignableFrom(RGB.class))
 			return new ColorColumn<T>(obj, locale);
+		if(isLocalizable(obj))
+			return new LocalizableStringColumn<T>(obj, locale);
 
-		try
-		{
-			type.asSubclass(Localizable.class);
-			return new LocalizableString<T>(obj, locale);
-		}
-		catch(Exception e)
-		{}
-
-		return new StringColumnDescription<T>(obj, locale);
+		return new StringColumn<T>(obj, locale);
 	}
-
-	/**
-	 * Constructor
-	 * 
-	 * @param obj
-	 * @param locale
-	 */
 
 	public ColumnDescription(AccessibleObject obj, Locale locale)
 	{

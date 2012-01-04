@@ -29,11 +29,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import cop.common.extensions.StringExtension;
+import cop.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Refreshable;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.menu.MenuManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
 import cop.swt.widgets.viewers.PViewerSorter;

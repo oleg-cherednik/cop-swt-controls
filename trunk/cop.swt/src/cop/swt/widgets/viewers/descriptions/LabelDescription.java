@@ -15,10 +15,10 @@ import org.eclipse.swt.graphics.Image;
 
 import cop.common.extensions.ReflectionExtension;
 import cop.common.extensions.StringExtension;
+import cop.localization.interfaces.LocaleSupport;
+import cop.localization.interfaces.Localizable;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.LabelSupport;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.localization.interfaces.Localizable;
 import cop.swt.widgets.viewers.descriptions.LocalizableString;
 
 public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport, Comparator<T> // IColumnDescription<T>,

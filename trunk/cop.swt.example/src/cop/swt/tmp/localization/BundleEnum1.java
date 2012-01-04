@@ -2,8 +2,8 @@ package cop.swt.tmp.localization;
 
 import java.util.Locale;
 
+import cop.localization.interfaces.Localizable;
 import cop.swt.extensions.LocalizationExtension;
-import cop.swt.widgets.localization.interfaces.Localizable;
 
 public enum BundleEnum1 implements Localizable
 {

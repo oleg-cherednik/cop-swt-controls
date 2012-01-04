@@ -81,7 +81,6 @@ Export-Package: com.google.common.annotations,
  cop.swt.widgets.keys.enums;uses:="cop.swt.widgets.keys",
  cop.swt.widgets.keys.listeners;uses:="org.eclipse.swt.events",
  cop.swt.widgets.listeners;uses:="org.eclipse.swt.events",
- cop.swt.widgets.localization.interfaces,
  cop.swt.widgets.menu;
   uses:="cop.swt.widgets.menu.interfaces,
    cop.swt.widgets.localization.interfaces,

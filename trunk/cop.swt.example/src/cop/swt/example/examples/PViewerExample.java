@@ -65,13 +65,13 @@ import org.osgi.framework.Bundle;
 
 import plugin.cop.swt.Activator;
 import cop.common.extensions.NumericExtension;
+import cop.localization.interfaces.LocaleSupport;
 import cop.swt.extensions.ColorExtension;
 import cop.swt.extensions.LocalizationExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.tmp.ActionTO;
 import cop.swt.tmp.MarketTO;
 import cop.swt.tmp.localization.Name;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.list.ListViewerConfig;

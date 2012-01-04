@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import cop.localization.interfaces.LocaleSupport;
 import cop.swt.widgets.MultiTouchButton;
 import cop.swt.widgets.calendar.interfaces.IDateViewer;
 import cop.swt.widgets.calendar.viewers.DayViewer;
@@ -52,7 +53,6 @@ import cop.swt.widgets.calendar.viewers.templates.DefaultCalendarConfig;
 import cop.swt.widgets.calendar.viewers.templates.ICalendarConfig;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Refreshable;
-import cop.swt.widgets.localization.interfaces.LocaleSupport;
 
 public class CalendarViewer extends Composite implements IDateViewer, Refreshable, Clearable, LocaleSupport
 {

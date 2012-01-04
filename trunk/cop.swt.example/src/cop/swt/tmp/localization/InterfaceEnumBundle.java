@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import cop.localization.interfaces.Localizable;
 import cop.swt.extensions.LocalizationExtension;
-import cop.swt.widgets.localization.interfaces.Localizable;
 
 public enum InterfaceEnumBundle implements Localizable
 {
