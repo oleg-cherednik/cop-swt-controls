@@ -81,8 +81,9 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
-import cop.swt.widgets.viewers.table.descriptions.BooleanColumn;
-import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.BooleanColumn;
+import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 public class PViewerExample implements IExample, LocaleSupport
@@ -328,7 +329,7 @@ public class PViewerExample implements IExample, LocaleSupport
 			localesCombo.select(2);
 			setLocale(locales[2]);
 
-			//new Thread(updateModelA).start();
+			// new Thread(updateModelA).start();
 		}
 		catch(Exception e)
 		{
