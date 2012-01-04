@@ -5,7 +5,6 @@ import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.swt.extensions.ColorExtension.YELLOW;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IColorProvider;
@@ -19,7 +18,7 @@ import org.eclipse.swt.graphics.Font;
 import cop.swt.utils.SearchUtil;
 import cop.swt.widgets.viewers.table.columns.PTableColumn;
 import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
-import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 
 public class PTableLabelProvider<T> extends StyledCellLabelProvider implements IColorProvider, IFontProvider
 {
@@ -52,12 +51,12 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider implements I
 			if(viewerColumn == null)
 				return;
 
-			ColumnSettings<T> description = viewerColumn.getDescription();
+			ColumnSettings<T> settings = viewerColumn.getSettings();
 			T element = (T)cell.getElement();
 
-			description.update(cell, element);
+			settings.update(cell, element);
 
-			String str = description.getTextValue(element);
+			String str = settings.getTextValue(element);
 
 			if(isNull(str) || isEmpty(searchText))
 				cell.setStyleRanges(null);

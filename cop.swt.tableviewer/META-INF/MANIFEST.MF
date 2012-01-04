@@ -16,6 +16,7 @@ Export-Package: cop.swt.utils,
  cop.swt.widgets.annotations.services,
  cop.swt.widgets.viewers.table,
  cop.swt.widgets.viewers.table.celleditors,
- cop.swt.widgets.viewers.table.descriptions,
+ cop.swt.widgets.viewers.table.columns,
+ cop.swt.widgets.viewers.table.columns.settings,
  cop.swt.widgets.viewers.table.interfaces,
  plugin.cop.swt.widgets.viewers.table

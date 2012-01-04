@@ -8,9 +8,8 @@ import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.BitExtension.clearBits;
 import static cop.common.extensions.BitExtension.isBitSet;
 import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
-import static cop.common.extensions.CollectionExtension.isEmpty;
 import static cop.common.extensions.StringExtension.getText;
-import static cop.swt.widgets.annotations.services.ColumnService.getDescriptions;
+import static cop.swt.widgets.annotations.services.ColumnService.getColumnsSettings;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
+import cop.common.extensions.CollectionExtension;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.menu.MenuBuilder;
@@ -41,7 +41,8 @@ import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
 import cop.swt.widgets.viewers.table.columns.PTableColumn;
 import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
-import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 /*
@@ -114,13 +115,13 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private void createColumns() throws AnnotationDeclarationException, AnnotationMissingException
 	{
-		List<? extends ColumnSettings<T>> descriptions = getDescriptions(cls, getImageProvider());
+		List<ColumnSettings<T>> columnsSettings = getColumnsSettings(cls, getImageProvider());
 
-		if(isEmpty(descriptions))
+		if(CollectionExtension.isEmpty(columnsSettings))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
 
-		for(ColumnSettings<T> description : descriptions)
-			columns.add(new PTableColumn<T>(cls, this, description));
+		for(ColumnSettings<T> settings : columnsSettings)
+			columns.add(new PTableColumn<T>(cls, this, settings));
 
 		columns.setTableColumnListener(notifyTableColumnListener);
 		columns.addPackableListener(this);
@@ -176,7 +177,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		return names.toArray(new String[names.size()]);
 	}
-	
+
 	public List<ColumnSettings<T>> getOrderTableColumns()
 	{
 		List<ColumnSettings<T>> res = new ArrayList<ColumnSettings<T>>();
@@ -188,7 +189,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			column = columns.get(pos);
 
 			if(column != null)
-				res.add(column.getDescription());
+				res.add(column.getSettings());
 		}
 
 		return res;
@@ -581,7 +582,7 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	protected MenuBuilder createSortMenuBuilder()
 	{
 		MenuBuilder menuBuilder = new MenuBuilder(getImageProvider());
-		ColumnSettings<T> description;
+		ColumnSettings<T> settings;
 		PropertyProvider<Boolean> visibleProvider;
 		PropertyProvider<Boolean> enabledProvider;
 		PropertyProvider<Boolean> selectionProvider;
@@ -592,9 +593,9 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 		for(PTableColumn<T> column : columns.getColumns())
 		{
-			description = column.getDescription();
+			settings = column.getSettings();
 
-			if(!description.isSortable())
+			if(!settings.isSortable())
 				continue;
 
 			visibleProvider = null;
@@ -602,8 +603,8 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 			selectionProvider = getColumnStateSelectionProvider(column);
 			listener = column;
 
-			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(cls, description.getKey(), visibleProvider,
-			                enabledProvider, selectionProvider, listener));
+			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(cls, settings.getKey(), visibleProvider, enabledProvider,
+			                selectionProvider, listener));
 		}
 
 		return menuBuilder;

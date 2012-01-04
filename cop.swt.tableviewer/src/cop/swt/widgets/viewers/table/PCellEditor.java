@@ -15,24 +15,24 @@ import cop.swt.widgets.interfaces.Enablable;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
 import cop.swt.widgets.viewers.interfaces.PModifyProvider;
-import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 
 public class PCellEditor<T> extends EditingSupport implements ModifyListenerSupport<T>, Editable, Enablable
 {
 	private final PTableViewer<T> tableViewer;
 	private final Set<ItemModifyListener<T>> modifyListeners = new HashSet<ItemModifyListener<T>>();
-	private final ColumnSettings<T> description;
+	private final ColumnSettings<T> settings;
 
 	private boolean editable;
 	private boolean enabled;
 	private PModifyProvider<T> modifyProvider;
 
-	public PCellEditor(PTableViewer<T> tableViewer, ColumnSettings<T> description)
+	public PCellEditor(PTableViewer<T> tableViewer, ColumnSettings<T> settings)
 	{
 		super(tableViewer.getWidget());
 
 		this.tableViewer = tableViewer;
-		this.description = description;
+		this.settings = settings;
 	}
 
 	public void setModifyProvider(PModifyProvider<T> provider)
@@ -72,23 +72,23 @@ public class PCellEditor<T> extends EditingSupport implements ModifyListenerSupp
 	{
 		System.out.println("ColumnEditor.canEdit()");
 
-		if(!editable || !enabled || description.isReadonly())
+		if(!editable || !enabled || settings.isReadonly())
 			return false;
 
 		Table table = ((TableViewer)getViewer()).getTable();
 		T item = (T)element;
-		String key = description.getKey();
+		String key = settings.getKey();
 
 		if((modifyProvider != null) && !modifyProvider.canModify(table, item, key))
 			return false;
 
-		return !description.isReadonly();
+		return !settings.isReadonly();
 	}
 
 	@Override
 	protected CellEditor getCellEditor(Object element)
 	{
-		return description.getCellEditor(((TableViewer)getViewer()).getTable());
+		return settings.getCellEditor(((TableViewer)getViewer()).getTable());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class PCellEditor<T> extends EditingSupport implements ModifyListenerSupp
 
 		try
 		{
-			return description.getCellEditorValue((T)element);
+			return settings.getCellEditorValue((T)element);
 		}
 		catch(Exception e)
 		{
@@ -117,7 +117,7 @@ public class PCellEditor<T> extends EditingSupport implements ModifyListenerSupp
 
 		try
 		{
-			description.setValue((T)element, value);
+			settings.setValue((T)element, value);
 			getViewer().update(element, null);
 			notifyModifyListeners((T)element);
 		}

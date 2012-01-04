@@ -9,16 +9,15 @@ import static cop.common.beans.JavaBean.getSetterMethodNameByGetterMethodName;
 import static cop.common.extensions.AnnotationExtension.getAnnotatedFields;
 import static cop.common.extensions.AnnotationExtension.getAnnotatedMethods;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
-import static cop.common.extensions.CollectionExtension.removeDublicatesAndSort;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.common.extensions.CollectionExtension.removeDuplicatesAndSort;
 import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.swt.widgets.viewers.table.descriptions.ColumnSettings.createColumnDescription;
 import static org.eclipse.swt.SWT.LEFT;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -28,7 +27,9 @@ import org.eclipse.core.runtime.Assert;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
-import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
+import cop.swt.widgets.viewers.table.columns.ColumnSettingsContextImpl;
+import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 
 public final class ColumnService
 {
@@ -53,13 +54,9 @@ public final class ColumnService
 	private ColumnService()
 	{}
 
-	@SuppressWarnings("unchecked")
-	public static <T> List<? extends ColumnSettings<T>> getDescriptions(Class<?> item, ImageProvider imageProvider)
+	public static <T> List<ColumnSettings<T>> getColumnsSettings(Class<T> item, ImageProvider imageProvider)
 	                throws AnnotationDeclarationException
 	{
-		if(isNull(item))
-			throw new NullPointerException("item == null");
-
 		checkItemType(item);
 
 		List<ColumnSettings<T>> infos = new ArrayList<ColumnSettings<T>>();
@@ -71,12 +68,12 @@ public final class ColumnService
 			throw new AnnotationDeclarationException("No @Column annotated fields or methods found");
 
 		for(Field field : fields)
-			infos.add((ColumnSettings<T>)getAnnotationInfo(field, imageProvider));
+			infos.add(ColumnService.<T>getAnnotationInfo(field, imageProvider));
 
 		for(Method method : methods)
-			infos.add((ColumnSettings<T>)getAnnotationInfo(method, item, imageProvider));
+			infos.add(ColumnService.<T>getAnnotationInfo(method, item, imageProvider));
 
-		removeDublicatesAndSort(infos);
+		removeDuplicatesAndSort(infos);
 
 		return infos;
 	}
@@ -90,8 +87,14 @@ public final class ColumnService
 		checkMethodParameterNumber(method.getParameterTypes());
 		checkMethodReturnType(method.getReturnType());
 		checkOrderValue(method.getAnnotation(Column.class));
+		
+		ColumnSettingsContextImpl context = new ColumnSettingsContextImpl();
+		
+		context.setImageProvider(imageProvider);
+		context.setObject(method);
+		context.setLocale(Locale.getDefault());
 
-		ColumnSettings<T> column = createColumnDescription(method, imageProvider);
+		ColumnSettings<T> column = AbstractColumnSettings.createColumnSettings(context);
 
 		if(isEmpty(column.getName()))
 			column.getContent().setName(getPropertyNameByMethodName(method.getName()));
@@ -108,8 +111,14 @@ public final class ColumnService
 
 		checkOrderValue(field.getAnnotation(Column.class));
 		checkFieldType(field.getType());
+		
+		ColumnSettingsContextImpl context = new ColumnSettingsContextImpl();
+		
+		context.setImageProvider(imageProvider);
+		context.setObject(field);
+		context.setLocale(Locale.getDefault());
 
-		ColumnSettings<T> column = createColumnDescription(field, imageProvider);
+		ColumnSettings<T> column = AbstractColumnSettings.createColumnSettings(context);
 
 		if(isEmpty(column.getName()))
 			column.getContent().setName(field.getName());
