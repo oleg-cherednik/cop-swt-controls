@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 03.09.2010
  */
-public class EnumColumn<T> extends ColumnDescription<T>
+public class EnumColumn<T> extends ColumnSettings<T>
 {
 	private final Object[] constatns;
 	private String[] i18n;

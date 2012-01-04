@@ -44,7 +44,7 @@ import cop.swt.widgets.viewers.interfaces.Packable;
 import cop.swt.widgets.viewers.table.PCellEditor;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableColumnProperty;
-import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
 
@@ -53,7 +53,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	private final PViewerSorter<T> sorter;
 	private final PCellEditor<T> editor;
 	private final PTableViewer<T> tableViewer;
-	private final ColumnDescription<T> description;
+	private final ColumnSettings<T> description;
 	private final TableViewerColumn columnViewer;
 
 	private Set<Packable> packableListeners = new HashSet<Packable>();
@@ -70,7 +70,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	private MenuItem itemName;
 
-	public PTableColumn(Class<T> cls, final PTableViewer<T> tableViewer, ColumnDescription<T> description)
+	public PTableColumn(Class<T> cls, final PTableViewer<T> tableViewer, ColumnSettings<T> description)
 	{
 		if(description == null)
 			throw new NullPointerException("description == null");
@@ -142,7 +142,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		return editor;
 	}
 
-	public ColumnDescription<T> getDescription()
+	public ColumnSettings<T> getDescription()
 	{
 		return description;
 	}

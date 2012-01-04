@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 03.09.2010
  */
-public class ColorColumn<T> extends ColumnDescription<T>
+public class ColorColumn<T> extends ColumnSettings<T>
 {
 	protected ColorColumn(AccessibleObject obj, Locale locale)
 	{

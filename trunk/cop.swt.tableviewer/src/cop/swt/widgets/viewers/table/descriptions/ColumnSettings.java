@@ -35,7 +35,7 @@ import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.contents.ColumnContent;
 import cop.swt.widgets.viewers.table.PTableViewer;
 
-public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<T>, Comparable<ColumnDescription<T>>
+public abstract class ColumnSettings<T> implements LocaleSupport, Comparator<T>, Comparable<ColumnSettings<T>>
 {
 	protected ColumnContent content;
 	protected AccessibleObject obj;
@@ -47,17 +47,17 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	 * Static methods
 	 */
 
-	public static <T> ColumnDescription<T> createColumnDescription(AccessibleObject obj)
+	public static <T> ColumnSettings<T> createColumnDescription(AccessibleObject obj)
 	{
 		return createColumnDescription(obj, null);
 	}
 
-	public static <T> ColumnDescription<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider)
+	public static <T> ColumnSettings<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider)
 	{
 		return createColumnDescription(obj, imageProvider, Locale.getDefault());
 	}
 
-	public static <T> ColumnDescription<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider,
+	public static <T> ColumnSettings<T> createColumnDescription(AccessibleObject obj, ImageProvider imageProvider,
 	                Locale locale)
 	{
 		Class<?> type = ReflectionExtension.getType(obj, DEF_TYPE);
@@ -87,7 +87,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		return new StringColumn<T>(obj, locale);
 	}
 
-	public ColumnDescription(AccessibleObject obj, Locale locale)
+	public ColumnSettings(AccessibleObject obj, Locale locale)
 	{
 		setObj(obj);
 		setType(obj);
@@ -290,7 +290,7 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	 */
 
 	@Override
-	public int compareTo(ColumnDescription<T> obj)
+	public int compareTo(ColumnSettings<T> obj)
 	{
 		return isNotNull(obj) ? content.compareTo(obj.content) : 1;
 	}

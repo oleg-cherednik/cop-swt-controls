@@ -19,7 +19,7 @@ import org.eclipse.swt.graphics.Font;
 import cop.swt.utils.SearchUtil;
 import cop.swt.widgets.viewers.table.columns.PTableColumn;
 import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
-import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
 
 public class PTableLabelProvider<T> extends StyledCellLabelProvider implements IColorProvider, IFontProvider
 {
@@ -52,7 +52,7 @@ public class PTableLabelProvider<T> extends StyledCellLabelProvider implements I
 			if(viewerColumn == null)
 				return;
 
-			ColumnDescription<T> description = viewerColumn.getDescription();
+			ColumnSettings<T> description = viewerColumn.getDescription();
 			T element = (T)cell.getElement();
 
 			description.update(cell, element);

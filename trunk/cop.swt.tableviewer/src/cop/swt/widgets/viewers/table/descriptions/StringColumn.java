@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 03.09.2010
  */
-public class StringColumn<T> extends ColumnDescription<T>
+public class StringColumn<T> extends ColumnSettings<T>
 {
 	protected StringColumn(AccessibleObject obj, Locale locale)
 	{

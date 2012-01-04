@@ -82,7 +82,7 @@ import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
 import cop.swt.widgets.viewers.table.descriptions.BooleanColumn;
-import cop.swt.widgets.viewers.table.descriptions.ColumnDescription;
+import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 public class PViewerExample implements IExample, LocaleSupport
@@ -755,22 +755,22 @@ public class PViewerExample implements IExample, LocaleSupport
 	private TableColumnListener<ActionTO> onTableColumn = new TableColumnListener<ActionTO>()
 	{
 		@Override
-		public void columnMoved(PTableViewer<ActionTO> viewer, ColumnDescription<ActionTO> column)
+		public void columnMoved(PTableViewer<ActionTO> viewer, ColumnSettings<ActionTO> column)
 		{
 			System.out.print("Column '" + column.getKey() + "' was moved. Current order:");
 
-			for(ColumnDescription<ActionTO> col : viewer.getOrderTableColumns())
+			for(ColumnSettings<ActionTO> col : viewer.getOrderTableColumns())
 				System.out.print(" " + col.getKey());
 
 			System.out.println();
 		}
 
 		@Override
-		public void columnResized(PTableViewer<ActionTO> viewer, ColumnDescription<ActionTO> column)
+		public void columnResized(PTableViewer<ActionTO> viewer, ColumnSettings<ActionTO> column)
 		{
 			System.out.print("Column '" + column.getKey() + "' was resized. Current order:");
 
-			for(ColumnDescription<ActionTO> col : viewer.getOrderTableColumns())
+			for(ColumnSettings<ActionTO> col : viewer.getOrderTableColumns())
 				System.out.print(" " + col.getKey());
 
 			System.out.println();
