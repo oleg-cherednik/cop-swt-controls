@@ -44,7 +44,8 @@ import cop.swt.widgets.viewers.interfaces.Packable;
 import cop.swt.widgets.viewers.table.PCellEditor;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableColumnProperty;
-import cop.swt.widgets.viewers.table.descriptions.ColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
+import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
 
@@ -53,7 +54,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	private final PViewerSorter<T> sorter;
 	private final PCellEditor<T> editor;
 	private final PTableViewer<T> tableViewer;
-	private final ColumnSettings<T> description;
+	private final ColumnSettings<T> settings;
 	private final TableViewerColumn columnViewer;
 
 	private Set<Packable> packableListeners = new HashSet<Packable>();
@@ -70,19 +71,16 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	private MenuItem itemName;
 
-	public PTableColumn(Class<T> cls, final PTableViewer<T> tableViewer, ColumnSettings<T> description)
+	public PTableColumn(Class<T> cls, final PTableViewer<T> tableViewer, ColumnSettings<T> settings)
 	{
-		if(description == null)
-			throw new NullPointerException("description == null");
-
 		this.cls = cls;
 		this.tableViewer = tableViewer;
-		this.description = description;
-		this.editor = new PCellEditor<T>(tableViewer, description);
-		this.columnViewer = description.createTableViewerColumn(tableViewer, editor);
-		this.sorter = new PViewerSorter<T>(tableViewer, description);
+		this.settings = settings;
+		this.editor = new PCellEditor<T>(tableViewer, settings);
+		this.columnViewer = settings.createTableViewerColumn(tableViewer, editor);
+		this.sorter = new PViewerSorter<T>(tableViewer, settings);
 
-		if(description.isHideable() && !description.isVisible())
+		if(settings.isHideable() && !settings.isVisible())
 			setHidden(true);
 
 		addListeners();
@@ -129,7 +127,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	public boolean isSortable()
 	{
-		return description.isSortable();
+		return settings.isSortable();
 	}
 
 	TableViewerColumn getViewer()
@@ -142,9 +140,9 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		return editor;
 	}
 
-	public ColumnSettings<T> getDescription()
+	public ColumnSettings<T> getSettings()
 	{
-		return description;
+		return settings;
 	}
 
 	public boolean isHidden()
@@ -183,7 +181,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	public Menu addMenuItem(Menu parent)
 	{
-		if(!description.isHideable())
+		if(!settings.isHideable())
 			return parent;
 
 		if(itemName != null)
@@ -192,7 +190,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		itemName = new MenuItem(parent, CHECK);
 
 		itemName.setData(MenuManager.MENU_ITEM_PATH, MenuItemEnum.MI_HIDE.name() + MenuManager.MENU_ITEM_PATH_SEPARATOR
-		                + description.getKey() + MenuManager.MENU_ITEM_PATH_SEPARATOR);
+		                + settings.getKey() + MenuManager.MENU_ITEM_PATH_SEPARATOR);
 		itemName.setText(columnViewer.getColumn().getText());
 		itemName.setSelection(columnViewer.getColumn().getResizable());
 		itemName.addListener(Selection, this);
@@ -202,7 +200,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	public float getRelativeWidth()
 	{
-		int width = description.getWidth();
+		int width = settings.getWidth();
 
 		if(width > 0)
 			return width;
@@ -215,7 +213,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		if(hidden)
 			return;
 
-		int width = description.getWidth();
+		int width = settings.getWidth();
 
 		if(width < 1)
 			return;
@@ -243,7 +241,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 	public String getName()
 	{
-		return description.getName();
+		return settings.getName();
 	}
 
 	public void pack()
@@ -251,7 +249,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 		if(hidden)
 			return;
 
-		int descWidth = description.getWidth();
+		int descWidth = settings.getWidth();
 		Table table = tableViewer.getWidget().getTable();
 
 		table.setRedraw(false);
@@ -286,7 +284,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 		try
 		{
-			Object value = description.getTextValue(obj);
+			Object value = settings.getTextValue(obj);
 
 			return isNotNull(value) ? value.toString() : "";
 		}
@@ -382,7 +380,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 			handleMenuItemEvent(event);
 
 		// if(event.item != null) {
-		description.handleEvent(event, tableViewer.getWidget(), columnViewer);
+		settings.handleEvent(event, tableViewer.getWidget(), columnViewer);
 		// ActionTO data = (ActionTO)(event.item.getData());
 		// tableViewer.update(data, null);
 		// }
@@ -400,7 +398,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 		String[] parts = (path != null) ? path.split(MenuManager.MENU_ITEM_PATH_SEPARATOR) : null;
 		int i = parts.length - 1;
-		String key = description.getKey();
+		String key = settings.getKey();
 
 		return key.equals(parts[i]);
 	}
@@ -427,7 +425,7 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 		if(MenuItemEnum.MI_SORT.name().equals(parts[i - 1]))
 		{
-			if(description.isSortable())
+			if(settings.isSortable())
 				onColumnSorter(event);
 		}
 		else if(MenuItemEnum.MI_HIDE.name().equals(parts[i - 1]))
@@ -443,26 +441,26 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	private void onResized(Event event)
 	{
 		if(columnListener != null)
-			columnListener.columnResized(tableViewer, description);
+			columnListener.columnResized(tableViewer, settings);
 	}
 
 	private void onMove(Event event)
 	{
 		if(columnListener != null)
-			columnListener.columnMoved(tableViewer, description);
+			columnListener.columnMoved(tableViewer, settings);
 	}
 
 	private void onColumnSelection(Event event)
 	{
 		if(selectionListener != null)
 			onColumnSelect(event);
-		if(description.isSortable())
+		if(settings.isSortable())
 			onColumnSorter(event);
 	}
 
 	private void onColumnSelect(Event event)
 	{
-		TableColumnProperty columnProperty = new TableColumnProperty(description.getKey(), columnViewer.getColumn());
+		TableColumnProperty columnProperty = new TableColumnProperty(settings.getKey(), columnViewer.getColumn());
 		selectionListener.columnSelected(tableViewer.getWidget().getTable(), columnProperty);
 	}
 
@@ -506,18 +504,18 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	@Override
 	public void setLocale(Locale locale)
 	{
-		description.setLocale(locale);
+		settings.setLocale(locale);
 
 		try
 		{
-			String str = getTranslation(cls, description.getKey(), locale);
+			String str = getTranslation(cls, settings.getKey(), locale);
 
-			columnViewer.getColumn().setText(isNotEmpty(str) ? str : description.getName());
+			columnViewer.getColumn().setText(isNotEmpty(str) ? str : settings.getName());
 		}
 		catch(AnnotationDeclarationException e)
 		{
 			e.printStackTrace();
-			columnViewer.getColumn().setText(description.getName());
+			columnViewer.getColumn().setText(settings.getName());
 		}
 	}
 
@@ -528,6 +526,6 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 	@Override
 	public String toString()
 	{
-		return description.getKey();
+		return settings.getKey();
 	}
 }

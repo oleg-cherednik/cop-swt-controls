@@ -39,7 +39,7 @@ public class TableFilter<T> extends ViewerFilter
 
 			for(PTableColumn<T> viewerColumn : columns.getColumns())
 			{
-				obj = viewerColumn.getDescription().getTextValue((T)element);
+				obj = viewerColumn.getSettings().getTextValue((T)element);
 
 				if(obj != null && caseSensitivity.matches(obj.toString(), regex))
 					return true;
