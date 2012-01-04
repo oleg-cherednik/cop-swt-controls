@@ -7,11 +7,9 @@
  */
 package cop.swt.widgets.viewers.table.descriptions;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.swt.extensions.ColorExtension.RED;
 import static cop.swt.extensions.ColorExtension.YELLOW;
-import static org.eclipse.swt.SWT.PaintItem;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
@@ -35,7 +33,7 @@ import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 20.12.2010
  */
-public class PercentColumn<T> extends NumericColumnDescription<T>
+public class PercentColumn<T> extends NumericColumn<T>
 {
 	private NumberFormat percentFormat;
 	private final RangeContent range;
@@ -60,7 +58,8 @@ public class PercentColumn<T> extends NumericColumnDescription<T>
 		try
 		{
 			double percent = ((Number)invoke((T)event.item.getData())).doubleValue() * 100;
-			drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth() - 2, event.height - 1, percent);
+			drawProgressBar(event.gc, event.x, event.y, columnViewer.getColumn().getWidth() - 2, event.height - 1,
+			                percent);
 		}
 		catch(Exception e)
 		{}
@@ -84,9 +83,9 @@ public class PercentColumn<T> extends NumericColumnDescription<T>
 			len = (int)((width * value) / 100);
 
 		gc.fillGradientRectangle(x, y, len, height, true);
-//		 gc.fillRectangle(x, y, len, height);
-//		 gc.fillRoundRectangle(x, y, len, height, 10, 10);
-//		 gc.drawRectangle(x, y, width, height);
+		// gc.fillRectangle(x, y, len, height);
+		// gc.fillRoundRectangle(x, y, len, height, 10, 10);
+		// gc.drawRectangle(x, y, width, height);
 		gc.setForeground(foreground);
 		gc.setBackground(background);
 	}
@@ -153,13 +152,8 @@ public class PercentColumn<T> extends NumericColumnDescription<T>
 	{
 		super.setLocale(locale);
 
-		if(isNotNull(locale))
+		if(locale != null)
 			percentFormat = configNumberFormat(NumberFormat.getPercentInstance(locale));
-
-		if(editor != null)
-			editor.dispose();
-
-		editor = null;
 	}
 
 	/*
@@ -171,7 +165,7 @@ public class PercentColumn<T> extends NumericColumnDescription<T>
 	{
 		super.handleEvent(event, tableViewer, columnViewer);
 
-		if(event.type == PaintItem)
+		if(event.type == SWT.PaintItem)
 			drawProgressBar(event, columnViewer);
 	}
 

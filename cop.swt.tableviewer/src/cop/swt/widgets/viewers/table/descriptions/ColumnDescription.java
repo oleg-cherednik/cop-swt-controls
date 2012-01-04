@@ -79,9 +79,9 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 			if(isPercent(obj))
 				return new PercentColumn<T>(obj, locale);
 			if(isInteger(type))
-				return new IntegerNumberColumnDescription<T>(obj, locale);
+				return new IntegerNumberColumn<T>(obj, locale);
 
-			return new NumericColumnDescription<T>(obj, locale);
+			return new NumericColumn<T>(obj, locale);
 		}
 		if(type.isAssignableFrom(RGB.class))
 			return new ColorColumn<T>(obj, locale);
@@ -145,11 +145,6 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 		return null;
 	}
 
-	protected String getCellText(Object obj)
-	{
-		return getText(obj);
-	}
-
 	protected String getText(Object obj)
 	{
 		return StringExtension.getText(obj, "");
@@ -163,6 +158,11 @@ public abstract class ColumnDescription<T> implements LocaleSupport, Comparator<
 	public Object getCellEditorValue(T item) throws Exception
 	{
 		return getValue(item);
+	}
+
+	protected String getCellText(Object obj)
+	{
+		return getText(obj);
 	}
 
 	public final String getTextValue(T item) throws Exception
