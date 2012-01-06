@@ -9,7 +9,6 @@ package cop.swt.widgets.viewers.interfaces;
 
 import java.util.EventListener;
 
-import cop.swt.widgets.viewers.PViewer;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 
 /**
@@ -18,5 +17,5 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
  */
 public interface ItemModifyListener<T> extends EventListener
 {
-	void itemModified(PViewer<T> widget, T item, ModificationTypeEnum type);
+	void itemModified(IViewer<T> viewer, T item, ModificationTypeEnum type);
 }

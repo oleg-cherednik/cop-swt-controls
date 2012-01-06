@@ -12,6 +12,7 @@ import static cop.common.extensions.ArrayExtension.convertToStringArray;
 import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.swt.widgets.annotations.services.i18nService.getTranslations;
 
+import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
 import org.eclipse.jface.viewers.CellEditor;
@@ -19,7 +20,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -30,9 +31,9 @@ public class EnumColumn<T> extends AbstractColumnSettings<T>
 	private final Object[] constatns;
 	private String[] i18n;
 
-	protected EnumColumn(ColumnSettingsContext context)
+	protected EnumColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 
 		this.constatns = type.getEnumConstants();
 		buildLocalizedConstants();

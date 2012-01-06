@@ -10,6 +10,8 @@ package cop.swt.widgets.viewers.table.columns.settings;
 import static cop.swt.extensions.ColorExtension.getColor;
 import static cop.swt.widgets.comparators.RgbComparator.compareRgb;
 
+import java.lang.reflect.AccessibleObject;
+
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColorCellEditor;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -17,7 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -25,9 +27,9 @@ import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
  */
 public class ColorColumn<T> extends AbstractColumnSettings<T>
 {
-	protected ColorColumn(ColumnSettingsContext context)
+	protected ColorColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 	}
 
 	/*

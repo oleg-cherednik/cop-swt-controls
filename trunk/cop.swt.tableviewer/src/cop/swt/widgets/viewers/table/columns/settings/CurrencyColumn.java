@@ -10,6 +10,7 @@ package cop.swt.widgets.viewers.table.columns.settings;
 import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
 
+import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -19,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.annotations.services.CurrencyService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -29,9 +30,9 @@ public class CurrencyColumn<T> extends NumericColumn<T>
 {
 	private NumberFormat currencyFormat;
 
-	protected CurrencyColumn(ColumnSettingsContext context)
+	protected CurrencyColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 
 		this.currencyFormat = configNumberFormat(NumberFormat.getCurrencyInstance(locale));
 		this.range = CurrencyService.getContent(obj, currencyFormat.getMaximumFractionDigits());

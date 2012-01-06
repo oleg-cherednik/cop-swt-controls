@@ -30,11 +30,11 @@ import cop.swt.widgets.menu.MenuBuilder;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.PushMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
-import cop.swt.widgets.viewers.PViewer;
+import cop.swt.widgets.viewers.AbstractViewer;
 import cop.swt.widgets.viewers.PViewerSorter;
 import cop.swt.widgets.viewers.descriptions.LabelDescription;
 
-public class PListViewer<T> extends PViewer<T> implements LabelSupport
+public class PListViewer<T> extends AbstractViewer<T, ListViewer, ListViewerConfig> implements LabelSupport
 {
 	private LabelDescription<T> description;
 	private PListLabelProvider<T> labelProvider;

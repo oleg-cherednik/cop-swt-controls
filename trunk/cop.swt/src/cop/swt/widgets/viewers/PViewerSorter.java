@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
 import cop.swt.widgets.enums.SortDirectionEnum;
+import cop.swt.widgets.viewers.interfaces.IViewer;
 
 public class PViewerSorter<T> extends ViewerSorter
 {
@@ -20,7 +21,7 @@ public class PViewerSorter<T> extends ViewerSorter
 	private Comparator<T> comparator;
 	private final StructuredViewer viewer;
 
-	public PViewerSorter(PViewer<T> viewer, Comparator<T> accessibleObject)
+	public PViewerSorter(IViewer<T> viewer, Comparator<T> accessibleObject)
 	{
 		this.viewer = viewer.getWidget();
 		this.comparator = accessibleObject;

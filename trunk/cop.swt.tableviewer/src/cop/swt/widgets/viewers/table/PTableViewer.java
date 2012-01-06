@@ -35,21 +35,22 @@ import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.PushMenuItem;
 import cop.swt.widgets.menu.items.RadioKeyMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
-import cop.swt.widgets.viewers.PViewer;
+import cop.swt.widgets.viewers.AbstractViewer;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 import cop.swt.widgets.viewers.table.columns.PTableColumn;
 import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
-import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
 import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
+import cop.swt.widgets.viewers.table.interfaces.PTableColumnProvider;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 
 /*
  * ITableColorProvider
  * MarathonLia≈bilitiesControl
  */
-public final class PTableViewer<T> extends PViewer<T> implements Packable
+public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableViewerConfig> implements Packable
 {
 	private final PTableColumnSet<T> columns = new PTableColumnSet<T>();
 
@@ -63,10 +64,10 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 	// private AddListener<T> addListener;
 	// private Set<String> controlNotifiers = new HashSet<String>();
 
-	public PTableViewer(Class<T> cls, Composite parent, int style) throws Exception
-	{
-		this(cls, parent, style, null);
-	}
+//	public PTableViewer(Class<T> cls, Composite parent, int style) throws Exception
+//	{
+//		this(cls, parent, style, null);
+//	}
 
 	public PTableViewer(Class<T> cls, Composite parent, int style, TableViewerConfig config) throws Exception
 	{
@@ -92,11 +93,6 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 		this.autoColumnWidth = autoColumnWidth;
 	}
 
-	public TableViewer getWidget()
-	{
-		return (TableViewer)super.getWidget();
-	}
-
 	// public void setAddListener(AddListener<T> listener)
 	// {
 	// this.addListener = listener;
@@ -115,7 +111,8 @@ public final class PTableViewer<T> extends PViewer<T> implements Packable
 
 	private void createColumns() throws AnnotationDeclarationException, AnnotationMissingException
 	{
-		List<ColumnSettings<T>> columnsSettings = getColumnsSettings(cls, getImageProvider());
+		PTableColumnProvider columnProvider = getConfig().getColumnProvider();
+		List<ColumnSettings<T>> columnsSettings = getColumnsSettings(cls, columnProvider, getConfig());
 
 		if(CollectionExtension.isEmpty(columnsSettings))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");

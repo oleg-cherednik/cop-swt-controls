@@ -23,7 +23,7 @@ import cop.swt.widgets.annotations.contents.ImageTextViewContent;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.services.ImageTextViewService;
 import cop.swt.widgets.enums.ImageTextViewEnum;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -37,9 +37,9 @@ public class BooleanColumn<T> extends AbstractColumnSettings<T>
 	private final ImageProvider imageProvider;
 	private final ImageTextViewContent viewContent;
 
-	protected BooleanColumn(ColumnSettingsContext context)
+	protected BooleanColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 
 		this.imageProvider = context.getImageProvider();
 		this.viewContent = getImageTextViewContent(obj);

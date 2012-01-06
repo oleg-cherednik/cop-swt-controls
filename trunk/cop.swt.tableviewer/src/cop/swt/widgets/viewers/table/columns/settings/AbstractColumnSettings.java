@@ -1,3 +1,10 @@
+/**
+ * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * 
+ * $Id$
+ * $HeadURL$
+ */
 package cop.swt.widgets.viewers.table.columns.settings;
 
 import static cop.common.beans.JavaBean.getPropertyName;
@@ -22,8 +29,12 @@ import cop.common.extensions.StringExtension;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.contents.ColumnContent;
 import cop.swt.widgets.viewers.table.PTableViewer;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
+/**
+ * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @since 03.09.2010
+ */
 public abstract class AbstractColumnSettings<T> implements ColumnSettings<T>
 {
 	protected ColumnContent content;
@@ -32,18 +43,9 @@ public abstract class AbstractColumnSettings<T> implements ColumnSettings<T>
 	protected Locale locale;
 	protected CellEditor editor;
 
-	/*
-	 * Static methods
-	 */
-
-	public static <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+	protected AbstractColumnSettings(AccessibleObject obj, ColumnContext context)
 	{
-		return ColumnTypeEnum.parseType(context.getObject()).createColumnSettings(context);
-	}
-
-	protected AbstractColumnSettings(ColumnSettingsContext context)
-	{
-		this.obj = context.getObject();
+		this.obj = obj;
 		this.type = ReflectionExtension.getType(obj, DEF_TYPE);
 		this.locale = (context.getLocale() != null) ? context.getLocale() : Locale.getDefault();
 		this.content = new ColumnContent(obj.getAnnotation(Column.class), locale);
