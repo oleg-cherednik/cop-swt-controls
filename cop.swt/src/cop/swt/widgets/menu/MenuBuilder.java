@@ -12,7 +12,7 @@ import cop.swt.widgets.menu.interfaces.IMenuItem;
 
 public class MenuBuilder implements IMenuBuilder, ImageProviderSupport
 {
-	private ImageProvider imageProvider;
+	private final ImageProvider imageProvider;
 	private List<IMenuItem> menuItems = new ArrayList<IMenuItem>();
 
 	public MenuBuilder(ImageProvider imageProvider)
@@ -37,7 +37,7 @@ public class MenuBuilder implements IMenuBuilder, ImageProviderSupport
 	{
 		return menuItems;
 	}
-	
+
 	/*
 	 * IImageProvider
 	 */

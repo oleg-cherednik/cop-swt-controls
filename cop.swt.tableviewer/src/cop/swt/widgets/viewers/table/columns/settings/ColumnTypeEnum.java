@@ -21,7 +21,7 @@ import java.util.Calendar;
 
 import org.eclipse.swt.graphics.RGB;
 
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -32,147 +32,147 @@ public enum ColumnTypeEnum
 	ENUM
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return type.isEnum();
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new EnumColumn<T>(context);
+			return new EnumColumn<T>(obj, context);
 		}
 	},
 	CALENDAR
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return type.isAssignableFrom(Calendar.class);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new CalendarColumnDescription<T>(context);
+			return new CalendarColumnDescription<T>(obj, context);
 		}
 	},
 	BOOLEAN
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return isBoolean(type);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new BooleanColumn<T>(context);
+			return new BooleanColumn<T>(obj, context);
 		}
 	},
 	CURRENCY
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return NUMERIC.check(type, obj) && isCurrency(obj);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new CurrencyColumn<T>(context);
+			return new CurrencyColumn<T>(obj, context);
 		}
 	},
 	PERCENT
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return NUMERIC.check(type, obj) && isPercent(obj);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new PercentColumn<T>(context);
+			return new PercentColumn<T>(obj, context);
 		}
 	},
 	INTEGER
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return NUMERIC.check(type, obj) && isInteger(type);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new IntegerNumberColumn<T>(context);
+			return new IntegerNumberColumn<T>(obj, context);
 		}
 	},
 	NUMERIC
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return isNumeric(type);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new NumericColumn<T>(context);
+			return new NumericColumn<T>(obj, context);
 		}
 	},
 	COLOR
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return type.isAssignableFrom(RGB.class);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new ColorColumn<T>(context);
+			return new ColorColumn<T>(obj, context);
 		}
 	},
 	LOCALIZABLE_STRING
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return isLocalizable(obj);
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new LocalizableStringColumn<T>(context);
+			return new LocalizableStringColumn<T>(obj, context);
 		}
 	},
 	STRING
 	{
 		@Override
-		protected boolean check(Class<?> type, AccessibleObject obj)
+		public boolean check(Class<?> type, AccessibleObject obj)
 		{
 			return true;
 		}
 
 		@Override
-		public <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context)
+		public <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context)
 		{
-			return new StringColumn<T>(context);
+			return new StringColumn<T>(obj, context);
 		}
 	};
 
-	protected abstract boolean check(Class<?> type, AccessibleObject obj);
+	public abstract boolean check(Class<?> type, AccessibleObject obj);
 
-	public abstract <T> ColumnSettings<T> createColumnSettings(ColumnSettingsContext context);
+	public abstract <T> ColumnSettings<T> createColumnSettings(AccessibleObject obj, ColumnContext context);
 
 	/*
 	 * static

@@ -11,6 +11,7 @@ import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.swt.extensions.ColorExtension.RED;
 import static cop.swt.extensions.ColorExtension.YELLOW;
 
+import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -27,7 +28,7 @@ import org.eclipse.swt.widgets.Event;
 import cop.swt.widgets.annotations.contents.RangeContent;
 import cop.swt.widgets.annotations.services.PercentService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -38,9 +39,9 @@ public class PercentColumn<T> extends NumericColumn<T>
 	private NumberFormat percentFormat;
 	private final RangeContent range;
 
-	protected PercentColumn(ColumnSettingsContext context)
+	protected PercentColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 
 		this.percentFormat = configNumberFormat(NumberFormat.getPercentInstance(locale));
 		this.range = PercentService.getContent(obj, percentFormat.getMaximumFractionDigits());

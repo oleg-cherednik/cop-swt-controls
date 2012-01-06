@@ -9,9 +9,12 @@ package cop.swt.widgets.viewers.table.columns.settings;
 
 import static cop.common.extensions.CompareExtension.compareStrings;
 import static cop.common.extensions.ReflectionExtension.isLocalizable;
+
+import java.lang.reflect.AccessibleObject;
+
 import cop.localization.interfaces.EditLocalizable;
 import cop.localization.interfaces.Localizable;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -19,9 +22,9 @@ import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
  */
 public class LocalizableStringColumn<T> extends StringColumn<T>
 {
-	protected LocalizableStringColumn(ColumnSettingsContext context)
+	protected LocalizableStringColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 		checkForEditable();
 	}
 

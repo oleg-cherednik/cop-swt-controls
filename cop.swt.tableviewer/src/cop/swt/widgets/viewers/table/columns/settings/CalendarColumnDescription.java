@@ -4,6 +4,7 @@ import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.CompareExtension.compareObjects;
 import static cop.swt.widgets.viewers.table.celleditors.CalendarCellEditor.getDateFormat;
 
+import java.lang.reflect.AccessibleObject;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -11,15 +12,15 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.viewers.table.celleditors.CalendarCellEditor;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 public class CalendarColumnDescription<T> extends AbstractColumnSettings<T>
 {
 	private CalendarCellEditor cellEditor;
 
-	protected CalendarColumnDescription(ColumnSettingsContext context)
+	protected CalendarColumnDescription(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 	}
 
 	/*
@@ -47,7 +48,7 @@ public class CalendarColumnDescription<T> extends AbstractColumnSettings<T>
 	@Override
 	public CellEditor getCellEditor(Composite parent)
 	{
-		return null;//cellEditor = new CalendarCellEditor(parent, NONE, locale);
+		return null;// cellEditor = new CalendarCellEditor(parent, NONE, locale);
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.ArrayExtension.isNotEmpty;
 import static cop.common.extensions.ArrayExtension.removeDublicatesAndSort;
 import static cop.common.extensions.CollectionExtension.EMPTY_LIST;
-import static cop.common.extensions.CommonExtension.isNotNull;
 import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.common.extensions.StringExtension.isNotEmpty;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
@@ -49,7 +48,6 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Scrollable;
@@ -59,13 +57,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import cop.common.extensions.BitExtension;
-import cop.localization.interfaces.LocaleSupport;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
-import cop.swt.widgets.interfaces.Clearable;
-import cop.swt.widgets.interfaces.Editable;
-import cop.swt.widgets.interfaces.Enablable;
-import cop.swt.widgets.interfaces.Refreshable;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.menu.MenuBuilder;
@@ -77,26 +70,22 @@ import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.CascadeMenuItem;
 import cop.swt.widgets.menu.items.PushMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
-import cop.swt.widgets.model.interfaces.ModelChangedListener;
+import cop.swt.widgets.viewers.interfaces.IViewer;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
-import cop.swt.widgets.viewers.interfaces.ModifyListenerSupport;
-import cop.swt.widgets.viewers.interfaces.SelectionListenerSupport;
 import cop.swt.widgets.viewers.interfaces.ViewerConfig;
 import cop.swt.widgets.viewers.model.ListModel;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
-import cop.swt.widgets.viewers.model.interfaces.ModelSupport;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 
-public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, ModifyListenerSupport<T>,
-                SelectionListenerSupport, Clearable, Refreshable, Listener, ModelChangedListener<T>, Editable, Enablable
+public abstract class AbstractViewer<T, V extends StructuredViewer, C extends ViewerConfig> implements IViewer<T>
 {
 	protected final Composite parent;
-	protected final StructuredViewer widget;
+	protected final V widget;
 	protected final Class<T> cls;
 	protected final Multimap<Class<? extends EventListener>, EventListener> listeners = ArrayListMultimap.create();
 
 	// protected final ImageProviderImpl imageProvider = new ImageProviderImpl();
-	protected ViewerConfig config;
+	protected final C config;
 
 	// manager
 	private HotKeyManager hotKeyManager;
@@ -108,10 +97,10 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	protected ViewerModel<T> model;
 	private boolean standaloneMode;
 
-	protected PViewer(Class<T> cls, StructuredViewer viewer, ViewerConfig config)
+	protected AbstractViewer(Class<T> cls, V widget, C config)
 	{
 		this.cls = cls;
-		this.widget = viewer;
+		this.widget = widget;
 		this.parent = widget.getControl().getParent();
 		this.config = config;
 
@@ -139,11 +128,6 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	public boolean isSorterOn()
 	{
 		return widget.getSorter() != null;
-	}
-
-	public StructuredViewer getWidget()
-	{
-		return widget;
 	}
 
 	protected void swap(int index1, int index2)
@@ -219,7 +203,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 
 	protected final ImageProvider getImageProvider()
 	{
-		return isNotNull(config) ? config.getImageProvider() : null;
+		return (config != null) ? config.getImageProvider() : null;
 	}
 
 	protected IMenuBuilder createMenuBuilder()
@@ -435,6 +419,11 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 		return menu;
 	}
 
+	protected final C getConfig()
+	{
+		return config;
+	}
+
 	/*
 	 * abstract
 	 */
@@ -493,7 +482,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	}
 
 	@SuppressWarnings("unchecked")
-    private void notifyModifyListener(T item, ModificationTypeEnum type)
+	private void notifyModifyListener(T item, ModificationTypeEnum type)
 	{
 		for(EventListener listener : listeners.get(ItemModifyListener.class))
 			((ItemModifyListener<T>)listener).itemModified(this, item, type);
@@ -604,11 +593,11 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	{
 		return editable;
 	}
-	
+
 	/*
 	 * Enablable
 	 */
-	
+
 	@Override
 	public void setEnabled(boolean enabled)
 	{
@@ -619,6 +608,16 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	public boolean isEnabled()
 	{
 		return widget.getControl().isEnabled();
+	}
+
+	/*
+	 * IViewer
+	 */
+
+	@Override
+	public final V getWidget()
+	{
+		return widget;
 	}
 
 	/*
@@ -739,7 +738,7 @@ public abstract class PViewer<T> implements ModelSupport<T>, LocaleSupport, Modi
 	protected ItemModifyListener<T> modifyDefaultModel = new ItemModifyListener<T>()
 	{
 		@Override
-		public void itemModified(PViewer<T> viewer, T item, ModificationTypeEnum type)
+		public void itemModified(IViewer<T> viewer, T item, ModificationTypeEnum type)
 		{
 			if(standaloneMode)
 				((ListModel<T>)model).modify(item, type);

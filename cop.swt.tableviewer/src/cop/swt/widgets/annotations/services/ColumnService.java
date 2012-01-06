@@ -17,19 +17,18 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 
-import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContextImpl;
-import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
+import cop.swt.widgets.viewers.table.columns.PTableColumnProviderImpl;
 import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
+import cop.swt.widgets.viewers.table.interfaces.PTableColumnProvider;
 
 public final class ColumnService
 {
@@ -54,8 +53,8 @@ public final class ColumnService
 	private ColumnService()
 	{}
 
-	public static <T> List<ColumnSettings<T>> getColumnsSettings(Class<T> item, ImageProvider imageProvider)
-	                throws AnnotationDeclarationException
+	public static <T> List<ColumnSettings<T>> getColumnsSettings(Class<T> item, PTableColumnProvider columnProvider,
+	                ColumnContext columnContext) throws AnnotationDeclarationException
 	{
 		checkItemType(item);
 
@@ -68,17 +67,18 @@ public final class ColumnService
 			throw new AnnotationDeclarationException("No @Column annotated fields or methods found");
 
 		for(Field field : fields)
-			infos.add(ColumnService.<T>getAnnotationInfo(field, imageProvider));
+			infos.add(ColumnService.<T> getAnnotationInfo(field, columnProvider, columnContext));
 
 		for(Method method : methods)
-			infos.add(ColumnService.<T>getAnnotationInfo(method, item, imageProvider));
+			infos.add(ColumnService.<T> getAnnotationInfo(method, item, columnProvider, columnContext));
 
 		removeDuplicatesAndSort(infos);
 
 		return infos;
 	}
 
-	private static <T> ColumnSettings<T> getAnnotationInfo(Method method, Class<?> cls, ImageProvider imageProvider)
+	private static <T> ColumnSettings<T> getAnnotationInfo(Method method, Class<?> cls,
+	                PTableColumnProvider columnProvider, ColumnContext columnContext)
 	                throws AnnotationDeclarationException
 	{
 		Assert.isNotNull(method);
@@ -87,14 +87,8 @@ public final class ColumnService
 		checkMethodParameterNumber(method.getParameterTypes());
 		checkMethodReturnType(method.getReturnType());
 		checkOrderValue(method.getAnnotation(Column.class));
-		
-		ColumnSettingsContextImpl context = new ColumnSettingsContextImpl();
-		
-		context.setImageProvider(imageProvider);
-		context.setObject(method);
-		context.setLocale(Locale.getDefault());
 
-		ColumnSettings<T> column = AbstractColumnSettings.createColumnSettings(context);
+		ColumnSettings<T> column = PTableColumnProviderImpl.createColumnSettings(method, columnProvider, columnContext);
 
 		if(isEmpty(column.getName()))
 			column.getContent().setName(getPropertyNameByMethodName(method.getName()));
@@ -104,21 +98,15 @@ public final class ColumnService
 		return column;
 	}
 
-	private static <T> ColumnSettings<T> getAnnotationInfo(Field field, ImageProvider imageProvider)
-	                throws AnnotationDeclarationException
+	private static <T> ColumnSettings<T> getAnnotationInfo(Field field, PTableColumnProvider columnProvider,
+	                ColumnContext columnContext) throws AnnotationDeclarationException
 	{
 		Assert.isNotNull(field);
 
 		checkOrderValue(field.getAnnotation(Column.class));
 		checkFieldType(field.getType());
-		
-		ColumnSettingsContextImpl context = new ColumnSettingsContextImpl();
-		
-		context.setImageProvider(imageProvider);
-		context.setObject(field);
-		context.setLocale(Locale.getDefault());
 
-		ColumnSettings<T> column = AbstractColumnSettings.createColumnSettings(context);
+		ColumnSettings<T> column = PTableColumnProviderImpl.createColumnSettings(field, columnProvider, columnContext);
 
 		if(isEmpty(column.getName()))
 			column.getContent().setName(field.getName());

@@ -1,14 +1,11 @@
 package cop.swt.widgets.viewers.table.columns;
 
-import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
 import cop.swt.images.ImageProvider;
 
-public interface ColumnSettingsContext
+public interface ColumnContext
 {
-	AccessibleObject getObject();
-
 	ImageProvider getImageProvider();
 
 	Locale getLocale();

@@ -12,6 +12,7 @@ import static cop.common.extensions.ReflectionExtension.getNumberValue;
 import static cop.common.extensions.StringExtension.isNotEmpty;
 import static java.text.NumberFormat.getNumberInstance;
 
+import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -22,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.widgets.annotations.contents.RangeContent;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -33,9 +34,9 @@ public class NumericColumn<T> extends AbstractColumnSettings<T>
 	private NumberFormat numberFormat;
 	protected RangeContent range;
 
-	protected NumericColumn(ColumnSettingsContext context)
+	protected NumericColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 
 		this.numberFormat = getNumberFormat(locale);
 	}

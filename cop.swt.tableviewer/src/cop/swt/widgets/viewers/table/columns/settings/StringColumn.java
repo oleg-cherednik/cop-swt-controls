@@ -9,11 +9,13 @@ package cop.swt.widgets.viewers.table.columns.settings;
 
 import static cop.common.extensions.CompareExtension.compareStrings;
 
+import java.lang.reflect.AccessibleObject;
+
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -21,9 +23,9 @@ import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
  */
 public class StringColumn<T> extends AbstractColumnSettings<T>
 {
-	protected StringColumn(ColumnSettingsContext context)
+	protected StringColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 	}
 
 	/*

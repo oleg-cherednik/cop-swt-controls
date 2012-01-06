@@ -9,6 +9,7 @@ package cop.swt.widgets.viewers.table.columns.settings;
 
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
 
+import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -16,10 +17,9 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.annotations.contents.RangeContent;
 import cop.swt.widgets.annotations.services.RangeService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
-import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -28,11 +28,10 @@ import cop.swt.widgets.viewers.table.columns.ColumnSettingsContext;
 public class IntegerNumberColumn<T> extends NumericColumn<T>
 {
 	private NumberFormat integerFormat;
-	private final RangeContent range;
 
-	protected IntegerNumberColumn(ColumnSettingsContext context)
+	protected IntegerNumberColumn(AccessibleObject obj, ColumnContext context)
 	{
-		super(context);
+		super(obj, context);
 
 		this.integerFormat = NumberFormat.getIntegerInstance(locale);
 		this.range = RangeService.getContent(obj);

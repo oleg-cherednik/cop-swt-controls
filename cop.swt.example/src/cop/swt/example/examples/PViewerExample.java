@@ -72,7 +72,7 @@ import cop.swt.images.ImageProvider;
 import cop.swt.tmp.ActionTO;
 import cop.swt.tmp.MarketTO;
 import cop.swt.tmp.localization.Name;
-import cop.swt.widgets.viewers.PViewer;
+import cop.swt.widgets.viewers.interfaces.IViewer;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.list.ListViewerConfig;
 import cop.swt.widgets.viewers.list.PListViewer;
@@ -81,7 +81,7 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
-import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
+import cop.swt.widgets.viewers.table.columns.ColumnContext;
 import cop.swt.widgets.viewers.table.columns.settings.BooleanColumn;
 import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
@@ -117,6 +117,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	{
 		tableConfig = new TableViewerConfig();
 		tableConfig.setImageProvider(IMAGE_PROVIDER);
+		tableConfig.setLocale(locales[0]);
 	}
 
 	{
@@ -575,7 +576,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> void setModel(PViewer<T> viewer, boolean isModelA, boolean isModelB)
+	private <T> void setModel(IViewer<T> viewer, boolean isModelA, boolean isModelB)
 	{
 		if(isModelA)
 			viewer.beginListenToModel((ViewerModel<T>)modelA);
@@ -781,7 +782,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	private ItemModifyListener<ActionTO> modifyTableListener = new ItemModifyListener<ActionTO>()
 	{
 		@Override
-		public void itemModified(PViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
+		public void itemModified(IViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
 		{
 			if(currentTableModel == MODEL_OWN)
 				return;
@@ -806,7 +807,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	private ItemModifyListener<ActionTO> modifyListListener = new ItemModifyListener<ActionTO>()
 	{
 		@Override
-		public void itemModified(PViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
+		public void itemModified(IViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
 		{
 			if(currentListModel == MODEL_OWN)
 				return;
@@ -853,7 +854,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		// }
 
 		@Override
-		public void itemModified(PViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
+		public void itemModified(IViewer<ActionTO> viewer, ActionTO item, ModificationTypeEnum type)
 		{
 			// TODO Auto-generated method stub
 
