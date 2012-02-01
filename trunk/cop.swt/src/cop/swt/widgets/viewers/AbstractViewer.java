@@ -79,13 +79,11 @@ import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 
 public abstract class AbstractViewer<T, V extends StructuredViewer, C extends ViewerConfig> implements IViewer<T>
 {
-	protected final Composite parent;
 	protected final V widget;
-	protected final Class<T> cls;
-	protected final Multimap<Class<? extends EventListener>, EventListener> listeners = ArrayListMultimap.create();
-
-	// protected final ImageProviderImpl imageProvider = new ImageProviderImpl();
 	protected final C config;
+	protected final Class<T> cls;
+	protected final Composite parent;
+	protected final Multimap<Class<? extends EventListener>, EventListener> listeners = ArrayListMultimap.create();
 
 	// manager
 	private HotKeyManager hotKeyManager;
@@ -419,11 +417,6 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 		return menu;
 	}
 
-	protected final C getConfig()
-	{
-		return config;
-	}
-
 	/*
 	 * abstract
 	 */
@@ -451,7 +444,6 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 	 */
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void modelChanged(T... items) // TODO maybe it's better to give an update type
 	{
 		if(isEmpty(items))

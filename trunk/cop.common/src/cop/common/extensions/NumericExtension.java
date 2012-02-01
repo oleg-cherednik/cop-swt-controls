@@ -19,7 +19,7 @@ public final class NumericExtension
 {
 	private NumericExtension()
 	{}
-
+	
 	// public static int setInRange(Integer value, Integer minimum, Integer maximum)
 	// {
 	// if(value != null && isInRangeMinMax(value, minimum, maximum))

@@ -7,19 +7,11 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.ReflectionExtension.getNumberValue;
-
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
-import java.util.Locale;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-
-import cop.swt.widgets.annotations.services.CurrencyService;
-import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
+import cop.common.RangeContent;
+import cop.swt.widgets.annotations.services.DoubleRangeService;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
@@ -28,66 +20,29 @@ import cop.swt.widgets.viewers.table.columns.ColumnContext;
  */
 public class CurrencyColumn<T> extends NumericColumn<T>
 {
-	private NumberFormat currencyFormat;
-
 	protected CurrencyColumn(AccessibleObject obj, ColumnContext context)
 	{
 		super(obj, context);
-
-		this.currencyFormat = configNumberFormat(NumberFormat.getCurrencyInstance(locale));
-		this.range = CurrencyService.getContent(obj, currencyFormat.getMaximumFractionDigits());
 	}
 
 	/*
-	 * Localizable
+	 * NumericColumn
 	 */
 
 	@Override
-	public void setLocale(Locale locale)
+	protected NumberFormat getNumberFormat()
 	{
-		super.setLocale(locale);
+		NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 
-		if(isNotNull(locale))
-			currencyFormat = configNumberFormat(NumberFormat.getCurrencyInstance(locale));
-	}
-
-	/*
-	 * ColumnDescription
-	 */
-
-	@Override
-	public void setValue(T item, Object value) throws Exception
-	{
-		invoke(item, getNumberValue(type, (Number)value));
-	}
-
-	@Override
-	protected String getCellText(Object obj)
-	{
-		if(obj instanceof Number)
-			return currencyFormat.format(obj);
-
-		return isEmptyable() ? "" : currencyFormat.format(0);
-
-	}
-
-	@Override
-	public CellEditor getCellEditor(Composite parent)
-	{
-		if(editor == null)
-		{
-			NumberFormat nf = configNumberFormat(NumberFormat.getNumberInstance(locale));
-			editor = new SpinnerCellEditor(parent, nf, range, SWT.NONE);
-		}
-
-		return editor;
-	}
-
-	private static NumberFormat configNumberFormat(NumberFormat numberFormat)
-	{
 		numberFormat.setMinimumFractionDigits(2);
 		numberFormat.setMaximumFractionDigits(2);
 
 		return numberFormat;
+	}
+
+	@Override
+	protected RangeContent getRange()
+	{
+		return DoubleRangeService.getContent(obj, numberFormat.getMaximumFractionDigits());
 	}
 }

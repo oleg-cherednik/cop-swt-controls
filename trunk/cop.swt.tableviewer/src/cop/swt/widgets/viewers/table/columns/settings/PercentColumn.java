@@ -14,20 +14,16 @@ import static cop.swt.extensions.ColorExtension.YELLOW;
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
 
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
-import cop.swt.widgets.annotations.contents.RangeContent;
+import cop.common.RangeContent;
 import cop.swt.widgets.annotations.services.PercentService;
-import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
@@ -36,15 +32,9 @@ import cop.swt.widgets.viewers.table.columns.ColumnContext;
  */
 public class PercentColumn<T> extends NumericColumn<T>
 {
-	private NumberFormat percentFormat;
-	private final RangeContent range;
-
 	protected PercentColumn(AccessibleObject obj, ColumnContext context)
 	{
 		super(obj, context);
-
-		this.percentFormat = configNumberFormat(NumberFormat.getPercentInstance(locale));
-		this.range = PercentService.getContent(obj, percentFormat.getMaximumFractionDigits());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -86,23 +76,33 @@ public class PercentColumn<T> extends NumericColumn<T>
 	}
 
 	/*
-	 * NumericColumnDescription
+	 * NumericColumn
 	 */
 
 	@Override
-	protected NumberFormat getNumberFormat(Locale locale)
+	protected NumberFormat getNumberFormat()
 	{
-		return configNumberFormat(NumberFormat.getNumberInstance(locale));
+		NumberFormat numberFormat = NumberFormat.getPercentInstance(locale);
+
+		numberFormat.setMinimumFractionDigits(2);
+		numberFormat.setMaximumFractionDigits(2);
+
+		return numberFormat;
 	}
 
 	@Override
+	protected RangeContent getRange()
+	{
+		return PercentService.getContent(obj, numberFormat.getMaximumFractionDigits());
+	}
+
 	protected Number parseNumber(String value) throws ParseException
 	{
 		return super.parseNumber(value).doubleValue() / 100;
 	}
 
 	/*
-	 * ColumnDescription
+	 * ColumnSettings
 	 */
 
 	@Override
@@ -114,10 +114,14 @@ public class PercentColumn<T> extends NumericColumn<T>
 	@Override
 	protected String getText(Object obj)
 	{
-		if(obj instanceof Number)
-			return super.getText(((Number)obj).doubleValue() * 100);
+		String str;
 
-		return isEmptyable() ? "" : super.getText(0);
+		if(obj instanceof Number)
+			str = super.getText(((Number)obj).doubleValue() * 100);
+		else
+			str = isEmptyable() ? "" : super.getText(0);
+
+		return str;
 	}
 
 	@Override
@@ -127,58 +131,11 @@ public class PercentColumn<T> extends NumericColumn<T>
 	}
 
 	@Override
-	protected String getCellText(Object obj)
-	{
-		return (obj instanceof Number) ? percentFormat.format(((Number)obj).doubleValue()) : "";
-	}
-
-	@Override
-	public CellEditor getCellEditor(Composite parent)
-	{
-		if(editor == null)
-		{
-			NumberFormat nf = configNumberFormat(NumberFormat.getNumberInstance(locale));
-			editor = new SpinnerCellEditor(parent, nf, range, SWT.NONE);
-		}
-
-		return editor;
-	}
-
-	/*
-	 * Localizable
-	 */
-
-	@Override
-	public void setLocale(Locale locale)
-	{
-		super.setLocale(locale);
-
-		if(locale != null)
-			percentFormat = configNumberFormat(NumberFormat.getPercentInstance(locale));
-	}
-
-	/*
-	 * ColumnDescription
-	 */
-
-	@Override
 	public void handleEvent(Event event, TableViewer tableViewer, TableViewerColumn columnViewer)
 	{
 		super.handleEvent(event, tableViewer, columnViewer);
 
 		if(event.type == SWT.PaintItem)
 			drawProgressBar(event, columnViewer);
-	}
-
-	/*
-	 * static
-	 */
-
-	private static NumberFormat configNumberFormat(NumberFormat numberFormat)
-	{
-		numberFormat.setMinimumFractionDigits(2);
-		numberFormat.setMaximumFractionDigits(2);
-
-		return numberFormat;
 	}
 }

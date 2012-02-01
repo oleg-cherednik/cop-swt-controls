@@ -7,18 +7,11 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.ReflectionExtension.getNumberValue;
-
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
-import java.util.Locale;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-
-import cop.swt.widgets.annotations.services.RangeService;
-import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
+import cop.common.RangeContent;
+import cop.swt.widgets.annotations.services.IntegerRangeService;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
@@ -27,54 +20,24 @@ import cop.swt.widgets.viewers.table.columns.ColumnContext;
  */
 public class IntegerNumberColumn<T> extends NumericColumn<T>
 {
-	private NumberFormat integerFormat;
-
 	protected IntegerNumberColumn(AccessibleObject obj, ColumnContext context)
 	{
 		super(obj, context);
-
-		this.integerFormat = NumberFormat.getIntegerInstance(locale);
-		this.range = RangeService.getContent(obj);
 	}
 
 	/*
-	 * ColumnDescription
+	 * NumericColumn
 	 */
 
 	@Override
-	public void setValue(T item, Object value) throws Exception
+	protected NumberFormat getNumberFormat()
 	{
-		invoke(item, getNumberValue(type, (Number)value));
+		return NumberFormat.getIntegerInstance(locale);
 	}
 
 	@Override
-	protected String getCellText(Object obj)
+	protected RangeContent getRange()
 	{
-		if(obj instanceof Number)
-			return integerFormat.format(obj);
-
-		return isEmptyable() ? "" : integerFormat.format(0);
-
-	}
-
-	@Override
-	public CellEditor getCellEditor(Composite parent)
-	{
-		if(editor == null)
-			editor = new SpinnerCellEditor(parent, integerFormat, range, SWT.NONE);
-		return editor;
-	}
-
-	/*
-	 * Localizable
-	 */
-
-	@Override
-	public void setLocale(Locale locale)
-	{
-		super.setLocale(locale);
-
-		if(locale != null)
-			integerFormat = NumberFormat.getIntegerInstance(locale);
+		return IntegerRangeService.getContent(obj);
 	}
 }

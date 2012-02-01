@@ -1,5 +1,8 @@
 package cop.swt.widgets.annotations;
 
+import static cop.swt.widgets.annotations.services.IntegerRangeService.DEF_INCREMENT;
+import static cop.swt.widgets.annotations.services.IntegerRangeService.DEF_MAXIMUM;
+import static cop.swt.widgets.annotations.services.IntegerRangeService.DEF_MINIMUM;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -9,17 +12,15 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import cop.swt.widgets.annotations.services.RangeService;
-
 @Inherited
 @Documented
 @Retention(RUNTIME)
 @Target({ FIELD, METHOD })
 public @interface IntegerRange
 {
-	int min() default RangeService.DEF_MINIMUM;
+	int min() default DEF_MINIMUM;
 
-	int max() default RangeService.DEF_MAXIMUM;
+	int max() default DEF_MAXIMUM;
 
-	int inc() default RangeService.DEF_INCREMENT;
+	int inc() default DEF_INCREMENT;
 }

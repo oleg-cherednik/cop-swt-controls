@@ -17,7 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Spinner;
 
-import cop.swt.widgets.annotations.contents.RangeContent;
+import cop.common.RangeContent;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -46,13 +46,9 @@ public class SpinnerCellEditor extends CellEditor
 		Spinner spinner = getControl();
 
 		spinner.setDigits(nf.getMaximumFractionDigits());
-
-		if(range != null)
-		{
-			spinner.setMinimum(range.getMinimum());
-			spinner.setMaximum(range.getMaximum());
-			spinner.setIncrement(range.getIncrement());
-		}
+		spinner.setMinimum(range.getMinimum());
+		spinner.setMaximum(range.getMaximum());
+		spinner.setIncrement(range.getIncrement());
 	}
 
 	/*

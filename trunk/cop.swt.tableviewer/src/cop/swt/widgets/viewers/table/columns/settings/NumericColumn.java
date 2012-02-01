@@ -9,8 +9,6 @@ package cop.swt.widgets.viewers.table.columns.settings;
 
 import static cop.common.extensions.CompareExtension.compareNumbers;
 import static cop.common.extensions.ReflectionExtension.getNumberValue;
-import static cop.common.extensions.StringExtension.isNotEmpty;
-import static java.text.NumberFormat.getNumberInstance;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
@@ -21,7 +19,8 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.swt.widgets.annotations.contents.RangeContent;
+import cop.common.RangeContent;
+import cop.swt.widgets.annotations.services.DoubleRangeService;
 import cop.swt.widgets.viewers.table.celleditors.SpinnerCellEditor;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
@@ -31,19 +30,25 @@ import cop.swt.widgets.viewers.table.columns.ColumnContext;
  */
 public class NumericColumn<T> extends AbstractColumnSettings<T>
 {
-	private NumberFormat numberFormat;
+	protected NumberFormat numberFormat;
 	protected RangeContent range;
 
 	protected NumericColumn(AccessibleObject obj, ColumnContext context)
 	{
 		super(obj, context);
 
-		this.numberFormat = getNumberFormat(locale);
+		this.numberFormat = getNumberFormat();
+		this.range = getRange();
 	}
 
-	protected NumberFormat getNumberFormat(Locale locale)
+	protected NumberFormat getNumberFormat()
 	{
-		return getNumberInstance(locale);
+		return NumberFormat.getNumberInstance(locale);
+	}
+
+	protected RangeContent getRange()
+	{
+		return DoubleRangeService.getContent(obj, numberFormat.getMaximumFractionDigits());
 	}
 
 	protected Number parseNumber(String value) throws ParseException
@@ -74,23 +79,25 @@ public class NumericColumn<T> extends AbstractColumnSettings<T>
 	}
 
 	/*
-	 * ColumnDescription
+	 * ColumnSettings
 	 */
 
 	@Override
 	public void setValue(T item, Object value) throws Exception
 	{
-		if(isNotEmpty((String)value))
-			invoke(item, getNumberValue(type, parseNumber((String)value)));
-		else if(!type.isPrimitive() && isEmptyable())
-			invoke(item, (Object)null);
+		invoke(item, getNumberValue(type, (Number)value));
 	}
 
 	@Override
 	protected String getText(Object obj)
 	{
 		if(obj instanceof Number)
-			return numberFormat.format(obj);
+		{
+//			if(Double.isNaN(((Number)obj).doubleValue()))
+//				return "";
+//			else
+				return numberFormat.format(obj);
+		}
 
 		return isEmptyable() ? "" : numberFormat.format(0);
 	}
@@ -98,8 +105,7 @@ public class NumericColumn<T> extends AbstractColumnSettings<T>
 	@Override
 	public Number getCellEditorValue(T item) throws Exception
 	{
-		Object value = getValue(item);
-		return (Number)value;
+		return (Number)super.getCellEditorValue(item);
 	}
 
 	@Override
@@ -121,12 +127,10 @@ public class NumericColumn<T> extends AbstractColumnSettings<T>
 
 		if(locale == null)
 			return;
-
-		numberFormat = getNumberFormat(locale);
-
 		if(editor != null)
 			editor.dispose();
 
 		editor = null;
+		numberFormat = getNumberFormat();
 	}
 }
