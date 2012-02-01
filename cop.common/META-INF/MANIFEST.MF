@@ -12,6 +12,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: cop.algorithms.search,
  cop.algorithms.sort,
+ cop.common,
  cop.common.beans,
  cop.common.enums,
  cop.common.exceptions,

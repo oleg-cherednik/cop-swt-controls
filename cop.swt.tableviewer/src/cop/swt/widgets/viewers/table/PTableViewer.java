@@ -39,7 +39,6 @@ import cop.swt.widgets.viewers.AbstractViewer;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
 import cop.swt.widgets.viewers.interfaces.PModifyProvider;
 import cop.swt.widgets.viewers.interfaces.Packable;
-import cop.swt.widgets.viewers.table.columns.ColumnContext;
 import cop.swt.widgets.viewers.table.columns.PTableColumn;
 import cop.swt.widgets.viewers.table.columns.PTableColumnSet;
 import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
@@ -64,10 +63,10 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 	// private AddListener<T> addListener;
 	// private Set<String> controlNotifiers = new HashSet<String>();
 
-//	public PTableViewer(Class<T> cls, Composite parent, int style) throws Exception
-//	{
-//		this(cls, parent, style, null);
-//	}
+	// public PTableViewer(Class<T> cls, Composite parent, int style) throws Exception
+	// {
+	// this(cls, parent, style, null);
+	// }
 
 	public PTableViewer(Class<T> cls, Composite parent, int style, TableViewerConfig config) throws Exception
 	{
@@ -111,8 +110,8 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 
 	private void createColumns() throws AnnotationDeclarationException, AnnotationMissingException
 	{
-		PTableColumnProvider columnProvider = getConfig().getColumnProvider();
-		List<ColumnSettings<T>> columnsSettings = getColumnsSettings(cls, columnProvider, getConfig());
+		PTableColumnProvider columnProvider = config.getColumnProvider();
+		List<ColumnSettings<T>> columnsSettings = getColumnsSettings(cls, columnProvider, config);
 
 		if(CollectionExtension.isEmpty(columnsSettings))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");

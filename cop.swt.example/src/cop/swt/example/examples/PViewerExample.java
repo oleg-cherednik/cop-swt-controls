@@ -175,7 +175,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		Name nameRI = new Name("Rodionov, Ivan_us", "Rodionov, Ivan_uk", "Rodionov, Ivan_de", "Родионов, Иван");
 
 		Calendar date = Calendar.getInstance();
-		ActionTO action0 = new ActionTO(nameCO, date, getNumber(), getPrice(), getPercent(), getAmount(), true, ONE,
+		ActionTO action0 = new ActionTO(nameCO, date, getNumber(), Double.NEGATIVE_INFINITY, getPercent(), getAmount(), true, ONE,
 		                RED.getRGB());
 		date.add(Calendar.DAY_OF_YEAR, 1);
 		ActionTO action1 = new ActionTO(namePN, date, getNumber(), getPrice(), getPercent(), getAmount(), true, TWO,

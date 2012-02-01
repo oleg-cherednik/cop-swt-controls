@@ -1,4 +1,4 @@
-package cop.swt.widgets.annotations.contents;
+package cop.common;
 
 public final class RangeContent
 {

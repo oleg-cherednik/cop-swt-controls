@@ -10,8 +10,8 @@ import static cop.common.extensions.CommonExtension.isNull;
 
 import java.lang.reflect.AccessibleObject;
 
+import cop.common.RangeContent;
 import cop.swt.widgets.annotations.Percent;
-import cop.swt.widgets.annotations.contents.RangeContent;
 
 public final class PercentService
 {
