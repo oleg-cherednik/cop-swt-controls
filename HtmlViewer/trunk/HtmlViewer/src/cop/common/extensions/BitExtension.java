@@ -13,8 +13,7 @@ package cop.common.extensions;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 16.08.2010
  */
-public final class BitExtension
-{
+public final class BitExtension {
 	/**
 	 * Clear selected bit(s) in giving value
 	 * 
@@ -22,8 +21,7 @@ public final class BitExtension
 	 * @param bit bit or bit set to clear in the value
 	 * @return <code>value</code> with cleared selected bits
 	 */
-	public static int clearBits(int value, int bits)
-	{
+	public static int clearBits(int value, int bits) {
 		return value & ~bits;
 	}
 }

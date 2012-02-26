@@ -13,8 +13,7 @@ import cop.swt.widgets.viewers.html.interfaces.IName;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 16.08.2010
  */
-public enum HtmlColorEnum implements IName
-{
+public enum HtmlColorEnum implements IName {
 	BLACK("black", 0x0),
 	SILVER("silver", 0xC0C0C0),
 	GRAY("gray", 0x808080),
@@ -68,14 +67,12 @@ public enum HtmlColorEnum implements IName
 	private String name;
 	private int number;
 
-	private HtmlColorEnum(String name, int number)
-	{
+	private HtmlColorEnum(String name, int number) {
 		this.name = name;
 		this.number = number;
 	}
 
-	public int getNumber()
-	{
+	public int getNumber() {
 		return number;
 	}
 
@@ -84,8 +81,7 @@ public enum HtmlColorEnum implements IName
 	 */
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 }

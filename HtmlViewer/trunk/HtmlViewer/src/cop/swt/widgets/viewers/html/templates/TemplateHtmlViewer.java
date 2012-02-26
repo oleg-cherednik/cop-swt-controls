@@ -17,12 +17,10 @@ import cop.swt.widgets.viewers.html.HtmlViewer;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 16.08.2010
  */
-public class TemplateHtmlViewer<T> extends HtmlViewer<T>
-{
+public class TemplateHtmlViewer<T> extends HtmlViewer<T> {
 	private final IHtmlTemplate<T> template;
 
-	public TemplateHtmlViewer(Composite parent, int style, IHtmlTemplate<T> template)
-	{
+	public TemplateHtmlViewer(Composite parent, int style, IHtmlTemplate<T> template) {
 		super(parent, style, template.getHtmlDocument());
 
 		this.template = template;
@@ -33,30 +31,23 @@ public class TemplateHtmlViewer<T> extends HtmlViewer<T>
 	 */
 
 	@Override
-	public void println(T obj)
-	{
+	public void println(T obj) {
 		addTextLn(template.getHtml(obj));
 	}
 
 	@Override
-	public void print(T obj)
-	{
-		try
-		{
+	public void print(T obj) {
+		try {
 			super.addText(template.getHtml(obj));
-		}
-		catch(Exception e)
-		{}
+		} catch (Exception e) {}
 	}
 
 	@Override
-	public void print(Collection<T> objs)
-	{
+	public void print(Collection<T> objs) {
 		int i = 0;
 
-		for(T obj : objs)
-		{
-			if(i++ > 0)
+		for (T obj : objs) {
+			if (i++ > 0)
 				addText("\n" + template.getDelimeter() + "\n");
 
 			addText(template.getHtml(obj));

@@ -11,7 +11,6 @@ package cop.swt.widgets.viewers.html.interfaces;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public interface IName
-{
+public interface IName {
 	String getName();
 }

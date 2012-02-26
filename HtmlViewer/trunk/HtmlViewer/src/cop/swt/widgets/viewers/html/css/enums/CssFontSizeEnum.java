@@ -13,14 +13,12 @@ import cop.swt.widgets.viewers.html.interfaces.IName;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 04.01.2011
  */
-public enum CssFontSizeEnum implements IName
-{
+public enum CssFontSizeEnum implements IName {
 	PT("pt");
 
 	private String name;
 
-	private CssFontSizeEnum(String name)
-	{
+	private CssFontSizeEnum(String name) {
 		this.name = name;
 	}
 
@@ -29,8 +27,7 @@ public enum CssFontSizeEnum implements IName
 	 */
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 }

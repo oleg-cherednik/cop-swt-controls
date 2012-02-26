@@ -13,10 +13,8 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class TemplateTab extends Composite
-{
-	public TemplateTab(Composite parent, int style)
-	{
+public class TemplateTab extends Composite {
+	public TemplateTab(Composite parent, int style) {
 		super(parent, style);
 	}
 
@@ -25,6 +23,5 @@ public class TemplateTab extends Composite
 	 */
 
 	@Override
-	protected void checkSubclass()
-	{}
+	protected void checkSubclass() {}
 }

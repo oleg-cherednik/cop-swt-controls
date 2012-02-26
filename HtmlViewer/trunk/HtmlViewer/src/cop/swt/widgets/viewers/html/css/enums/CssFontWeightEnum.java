@@ -13,8 +13,7 @@ import cop.swt.widgets.viewers.html.interfaces.IName;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public enum CssFontWeightEnum implements IName
-{
+public enum CssFontWeightEnum implements IName {
 	NORMAL("normal"),
 	BOLD("bold"),
 	BOLDER("bolder"),
@@ -32,8 +31,7 @@ public enum CssFontWeightEnum implements IName
 
 	private String name;
 
-	private CssFontWeightEnum(String name)
-	{
+	private CssFontWeightEnum(String name) {
 		this.name = name;
 	}
 
@@ -42,8 +40,7 @@ public enum CssFontWeightEnum implements IName
 	 */
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 }

@@ -21,12 +21,10 @@ import cop.swt.widgets.viewers.html.templates.TemplateHtmlViewer;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class NewsViewer extends Composite
-{
+public class NewsViewer extends Composite {
 	private HtmlViewer<NewsTO> htmlViewer;
 
-	public NewsViewer(Composite parent, int style)
-	{
+	public NewsViewer(Composite parent, int style) {
 		super(parent, style);
 
 		setLayout(new GridLayout());
@@ -34,30 +32,25 @@ public class NewsViewer extends Composite
 		createPartControl();
 	}
 
-	protected HtmlViewer<NewsTO> getHtmlViewer()
-	{
+	protected HtmlViewer<NewsTO> getHtmlViewer() {
 		return htmlViewer;
 	}
 
-	private void createPartControl()
-	{
+	private void createPartControl() {
 		createHtmlViewerPart();
 		refresh();
 	}
 
-	private void createHtmlViewerPart()
-	{
+	private void createHtmlViewerPart() {
 		htmlViewer = new TemplateHtmlViewer<NewsTO>(this, NONE, new NewsHtmlTemplate());
 		htmlViewer.setLayoutData(new GridData(FILL, FILL, true, true));
 	}
 
-	public void refresh()
-	{
+	public void refresh() {
 		refreshCore();
 	}
 
-	protected void refreshCore()
-	{
+	protected void refreshCore() {
 		htmlViewer.clear();
 		htmlViewer.print(NewsGenerator.news);
 	}

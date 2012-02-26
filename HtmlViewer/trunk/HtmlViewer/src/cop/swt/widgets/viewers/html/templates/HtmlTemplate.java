@@ -17,8 +17,7 @@ import cop.swt.widgets.viewers.html.HtmlTag;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 16.08.2010
  */
-public abstract class HtmlTemplate<T> implements IHtmlTemplate<T>
-{
+public abstract class HtmlTemplate<T> implements IHtmlTemplate<T> {
 	protected static final String MACRO_DELIMETER = "%";
 	protected static final HtmlTag PART_DELIMETER = HtmlTag.create("hr");
 
@@ -26,20 +25,17 @@ public abstract class HtmlTemplate<T> implements IHtmlTemplate<T>
 	private final HtmlTag partDelimeter;
 	private final String template;
 
-	protected HtmlTemplate()
-	{
+	protected HtmlTemplate() {
 		this(null, null);
 	}
 
-	protected HtmlTemplate(String macroDelimeter, HtmlTag partDelimeter)
-	{
+	protected HtmlTemplate(String macroDelimeter, HtmlTag partDelimeter) {
 		this.macroDelimeter = isEmpty(macroDelimeter) ? MACRO_DELIMETER : macroDelimeter;
 		this.partDelimeter = (partDelimeter == null) ? PART_DELIMETER : partDelimeter;
 		this.template = getTemplate();
 	}
 
-	protected final String getMacro(String macro)
-	{
+	protected final String getMacro(String macro) {
 		return isEmpty(macro) ? "" : (macroDelimeter + macro + macroDelimeter);
 	}
 
@@ -52,21 +48,19 @@ public abstract class HtmlTemplate<T> implements IHtmlTemplate<T>
 	 */
 
 	@Override
-	public final HtmlTag getDelimeter()
-	{
+	public final HtmlTag getDelimeter() {
 		return partDelimeter;
 	}
 
 	@Override
-	public final String getHtml(T obj)
-	{
-		if(obj == null || isEmpty(template))
+	public final String getHtml(T obj) {
+		if (obj == null || isEmpty(template))
 			return "";
 
 		StringTokenizer st = new StringTokenizer(template, macroDelimeter);
 		StringBuilder buf = new StringBuilder(1024);
 
-		while(st.hasMoreTokens())
+		while (st.hasMoreTokens())
 			buf.append(getMacroValue(st.nextToken(), obj));
 
 		return "" + buf;

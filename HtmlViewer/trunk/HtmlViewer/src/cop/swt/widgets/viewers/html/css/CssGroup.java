@@ -7,19 +7,15 @@
  */
 package cop.swt.widgets.viewers.html.css;
 
-import java.io.IOException;
-
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public abstract class CssGroup extends CssSet
-{
+public abstract class CssGroup extends CssSet {
 	private final String name;
 	private final String marker;
 
-	public CssGroup(String name, String marker)
-	{
+	public CssGroup(String name, String marker) {
 		this.name = name;
 		this.marker = marker;
 	}
@@ -29,9 +25,8 @@ public abstract class CssGroup extends CssSet
 	 */
 
 	@Override
-	public Appendable append(Appendable buf) throws IOException
-	{
-		if(buf == null || isEmpty())
+	public StringBuilder append(StringBuilder buf) {
+		if (buf == null || isEmpty())
 			return buf;
 
 		buf.append(marker).append(name).append("{");

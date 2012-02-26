@@ -11,15 +11,12 @@ package cop.swt.widgets.viewers.html.document;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class SimpleHtml extends HtmlDocument
-{
-	public void println(String html)
-	{
+public class SimpleHtml extends HtmlDocument {
+	public void println(String html) {
 		partBody.append(html).append(HTML_TAG_NEW_LINE).append("\n");
 	}
 
-	public void print(String html)
-	{
+	public void print(String html) {
 		partBody.append(html);
 	}
 }

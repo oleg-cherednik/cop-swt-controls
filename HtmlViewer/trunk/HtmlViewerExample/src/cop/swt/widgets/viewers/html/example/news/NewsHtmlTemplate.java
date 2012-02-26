@@ -23,7 +23,6 @@ import static cop.swt.widgets.viewers.html.enums.HtmlColorEnum.GRAY;
 import static cop.swt.widgets.viewers.html.enums.HtmlColorEnum.RED;
 import static java.text.DateFormat.SHORT;
 
-import java.io.IOException;
 import java.text.DateFormat;
 
 import cop.swt.widgets.viewers.html.HtmlContext;
@@ -39,8 +38,7 @@ import cop.swt.widgets.viewers.html.templates.HtmlTemplate;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
-{
+public class NewsHtmlTemplate extends HtmlTemplate<NewsTO> {
 	private static final HtmlTag HTML_TAG_NEW_LINE = HtmlTag.create("br");
 	private static final HtmlTag HTML_TAG_PARAGRAPH = HtmlTag.create("p");
 	private static final HtmlTag HTML_TAG_SPAN = HtmlTag.create("span");
@@ -59,59 +57,42 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 	 */
 
 	@Override
-	protected String getMacroValue(String macro, NewsTO news)
-	{
-		if(isEmpty(macro) || news == null)
+	protected String getMacroValue(String macro, NewsTO news) {
+		if (isEmpty(macro) || news == null)
 			return macro;
 
-		if(macro.equalsIgnoreCase(MACRO_REPORTER))
+		if (macro.equalsIgnoreCase(MACRO_REPORTER))
 			return news.getReporter();
-
-		if(macro.equalsIgnoreCase(MACRO_TITLE))
+		if (macro.equalsIgnoreCase(MACRO_TITLE))
 			return news.getTitle();
-
-		if(macro.equalsIgnoreCase(MACRO_DATE))
+		if (macro.equalsIgnoreCase(MACRO_DATE))
 			return df.format(news.getDate().getTime());
-
-		if(macro.equalsIgnoreCase(MACRO_NOTE))
+		if (macro.equalsIgnoreCase(MACRO_NOTE))
 			return news.getNote();
-
-		if(macro.equalsIgnoreCase(MACRO_BODY))
+		if (macro.equalsIgnoreCase(MACRO_BODY))
 			return news.getBody();
-
-		if(macro.equalsIgnoreCase(MACRO_SECTION))
+		if (macro.equalsIgnoreCase(MACRO_SECTION))
 			return news.getSection();
 
 		return macro;
 	}
 
 	@Override
-	protected String getTemplate()
-	{
-		try
-		{
-			StringBuilder buf = new StringBuilder(255);
-			HtmlContext context = new HtmlContext();
+	protected String getTemplate() {
+		StringBuilder buf = new StringBuilder(255);
+		HtmlContext context = new HtmlContext();
 
-			cssDate(buf, context).append(", ");
-			cssSection(buf, context).append(" ");
-			cssReporter(buf, context).append(HTML_TAG_NEW_LINE + "\n");
-			cssTitle(buf, context).append(HTML_TAG_NEW_LINE + "\n");
-			cssNote(buf, context).append("\n" + HTML_TAG_PARAGRAPH + "\n");
-			buf.append(getMacro(MACRO_BODY));
+		cssDate(buf, context).append(", ");
+		cssSection(buf, context).append(" ");
+		cssReporter(buf, context).append(HTML_TAG_NEW_LINE + "\n");
+		cssTitle(buf, context).append(HTML_TAG_NEW_LINE + "\n");
+		cssNote(buf, context).append("\n" + HTML_TAG_PARAGRAPH + "\n");
+		buf.append(getMacro(MACRO_BODY));
 
-			return buf.toString();
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		return null;
+		return buf.toString();
 	}
 
-	private static CssStyleList createStyles()
-	{
+	private static CssStyleList createStyles() {
 		CssStyleList styles = new CssStyleList();
 
 		styles.add(styleSection());
@@ -124,8 +105,7 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 		return styles;
 	}
 
-	private static CssGroup styleSection()
-	{
+	private static CssGroup styleSection() {
 		CssId cssSection = createCssId(MACRO_SECTION);
 
 		cssSection.add(CSS_FONT_WEIGHT, BOLD);
@@ -134,8 +114,7 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 		return cssSection;
 	}
 
-	private static CssGroup styleReporter()
-	{
+	private static CssGroup styleReporter() {
 		CssId cssReporter = createCssId(MACRO_REPORTER);
 
 		cssReporter.add(CSS_FONT_STYLE, ITALIC);
@@ -144,8 +123,7 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 		return cssReporter;
 	}
 
-	private static CssGroup styleTitle()
-	{
+	private static CssGroup styleTitle() {
 		CssId cssTitle = createCssId(MACRO_TITLE);
 
 		cssTitle.add(CSS_FONT_SIZE, "16", PT);
@@ -153,8 +131,7 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 		return cssTitle;
 	}
 
-	private static CssGroup styleDate()
-	{
+	private static CssGroup styleDate() {
 		CssId cssDate = createCssId(MACRO_DATE);
 
 		cssDate.add(CSS_FONT_STYLE, ITALIC);
@@ -164,8 +141,7 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 		return cssDate;
 	}
 
-	private static CssGroup styleNote()
-	{
+	private static CssGroup styleNote() {
 		CssId cssNote = createCssId(MACRO_NOTE);
 
 		cssNote.add(CSS_FONT_STYLE, ITALIC);
@@ -175,13 +151,11 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 		return cssNote;
 	}
 
-	private static CssGroup styleBody()
-	{
+	private static CssGroup styleBody() {
 		return createCssId(MACRO_BODY);
 	}
 
-	private StringBuilder cssDate(StringBuilder buf, HtmlContext context) throws IOException
-	{
+	private StringBuilder cssDate(StringBuilder buf, HtmlContext context) {
 		context.clear();
 
 		CssContext cssDate = context.getStyle();
@@ -195,32 +169,28 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 		return buf;
 	}
 
-	private StringBuilder cssSection(StringBuilder buf, HtmlContext context) throws IOException
-	{
+	private StringBuilder cssSection(StringBuilder buf, HtmlContext context) {
 		context.clear();
 		context.setStyleId(MACRO_SECTION);
 		HTML_TAG_SPAN.append(buf, getMacro(MACRO_SECTION), context);
 		return buf;
 	}
 
-	private StringBuilder cssReporter(StringBuilder buf, HtmlContext context) throws IOException
-	{
+	private StringBuilder cssReporter(StringBuilder buf, HtmlContext context) {
 		context.clear();
 		context.setStyleId(MACRO_REPORTER);
 		HTML_TAG_SPAN.append(buf, "(by " + getMacro(MACRO_REPORTER) + ")", context);
 		return buf;
 	}
 
-	private StringBuilder cssTitle(StringBuilder buf, HtmlContext context) throws IOException
-	{
+	private StringBuilder cssTitle(StringBuilder buf, HtmlContext context) {
 		context.clear();
 		context.setStyleId(MACRO_TITLE);
 		HTML_TAG_SPAN.append(buf, getMacro(MACRO_TITLE), context);
 		return buf;
 	}
 
-	private StringBuilder cssNote(StringBuilder buf, HtmlContext context) throws IOException
-	{
+	private StringBuilder cssNote(StringBuilder buf, HtmlContext context) {
 		context.clear();
 		context.setStyleId(MACRO_NOTE);
 		HTML_TAG_SPAN.append(buf, "(" + getMacro(MACRO_NOTE) + ")", context);
@@ -232,8 +202,7 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO>
 	 */
 
 	@Override
-	public HtmlDocument getHtmlDocument()
-	{
+	public HtmlDocument getHtmlDocument() {
 		return new HtmlDocument(createStyles());
 	}
 }

@@ -13,8 +13,7 @@ import cop.swt.widgets.viewers.html.interfaces.IName;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public enum CssTextAllignEnum implements IName
-{
+public enum CssTextAllignEnum implements IName {
 	LEFT("left"),
 	RIGHT("right"),
 	CENTER("center"),
@@ -22,8 +21,7 @@ public enum CssTextAllignEnum implements IName
 
 	private String name;
 
-	private CssTextAllignEnum(String name)
-	{
+	private CssTextAllignEnum(String name) {
 		this.name = name;
 	}
 
@@ -32,8 +30,7 @@ public enum CssTextAllignEnum implements IName
 	 */
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 }

@@ -23,7 +23,7 @@ public class Activator implements BundleActivator {
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop(BundleContext bundleContext) throws Exception {
+	public void stop(@SuppressWarnings("unused") BundleContext bundleContext) throws Exception {
 		Activator.context = null;
 	}
 

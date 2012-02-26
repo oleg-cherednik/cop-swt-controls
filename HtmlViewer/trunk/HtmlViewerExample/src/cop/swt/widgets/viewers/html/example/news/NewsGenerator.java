@@ -19,19 +19,16 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public final class NewsGenerator extends Thread
-{
+public final class NewsGenerator extends Thread {
 	public static final List<NewsTO> news = new ArrayList<NewsTO>(5);
 
-	static
-	{
+	static {
 		news.add(createNews1());
 		news.add(createNews2());
 		news.add(createNews3());
 	}
 
-	private static NewsTO createNews1()
-	{
+	private static NewsTO createNews1() {
 		LoggerFactory.getLogger("NewsGenerator").debug("NewsGenerator1");
 		Calendar date = Calendar.getInstance();
 		date.set(2010, DECEMBER, 26, 17, 30, 00);
@@ -45,8 +42,7 @@ public final class NewsGenerator extends Thread
 		return new NewsTO(section, reporter, title, date, note, body);
 	}
 
-	private static NewsTO createNews2()
-	{
+	private static NewsTO createNews2() {
 		LoggerFactory.getLogger("NewsGenerator").debug("NewsGenerator2");
 		Calendar date = Calendar.getInstance();
 		date.set(2010, DECEMBER, 26, 18, 22, 00);
@@ -60,8 +56,7 @@ public final class NewsGenerator extends Thread
 		return new NewsTO(section, reporter, title, date, note, body);
 	}
 
-	private static NewsTO createNews3()
-	{
+	private static NewsTO createNews3() {
 		LoggerFactory.getLogger("NewsGenerator").debug("NewsGenerator3");
 		Calendar date = Calendar.getInstance();
 		date.set(2010, DECEMBER, 25, 23, 02, 00);
@@ -81,8 +76,7 @@ public final class NewsGenerator extends Thread
 	 */
 
 	@Override
-	public void run()
-	{
+	public void run() {
 
 	}
 }

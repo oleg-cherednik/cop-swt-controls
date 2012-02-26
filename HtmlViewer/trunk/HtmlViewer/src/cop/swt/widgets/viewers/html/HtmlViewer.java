@@ -23,87 +23,72 @@ import cop.swt.widgets.viewers.html.document.HtmlDocument;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 16.08.2010
  */
-public abstract class HtmlViewer<T>
-{
+public abstract class HtmlViewer<T> {
 	private final Browser browser;
 	private final HtmlDocument html;
 
-	public HtmlViewer(Composite parent, int style)
-	{
+	public HtmlViewer(Composite parent, int style) {
 		this(parent, style, new HtmlDocument());
 	}
 
-	public HtmlViewer(Composite parent, int style, HtmlDocument html)
-	{
+	public HtmlViewer(Composite parent, int style, HtmlDocument html) {
 		this.html = html;
 		this.browser = new Browser(parent, checkStyle(style));
 	}
 
-	protected static int checkStyle(int style)
-	{
+	protected static int checkStyle(int style) {
 		return clearBits(style, H_SCROLL | V_SCROLL);
 	}
 
-	public void clear()
-	{
+	public void clear() {
 		html.clear();
 		refresh();
 	}
 
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return html.isEmpty();
 	}
 
-	public void println()
-	{
+	public void println() {
 		html.println();
 		refresh();
 	}
 
-	public void setText(String html)
-	{
+	public void setText(String html) {
 		this.html.setText(html);
 		refresh();
 	}
 
-	public String getText()
-	{
+	public String getText() {
 		return html.getText();
 	}
 
-	public void refresh()
-	{
+	public void refresh() {
 		browser.setText(html.toString());
 	}
 
-	protected void addText(String html)
-	{
+	protected void addText(String html) {
 		addText(html, false);
 		refresh();
 	}
 
-	protected void addTextLn(String html)
-	{
+	protected void addTextLn(String html) {
 		addText(html, true);
 		refresh();
 	}
 
-	protected void addText(String html, boolean newLine)
-	{
+	protected void addText(String html, boolean newLine) {
 		this.html.addText(html);
 
-		if(newLine)
+		if (newLine)
 			this.html.println();
 	}
 
-	public void setLayout(Layout layout)
-	{
+	public void setLayout(Layout layout) {
 		browser.setLayout(layout);
 	}
 
-	public void setLayoutData(Object layoutData)
-	{
+	public void setLayoutData(Object layoutData) {
 		browser.setLayoutData(layoutData);
 	}
 

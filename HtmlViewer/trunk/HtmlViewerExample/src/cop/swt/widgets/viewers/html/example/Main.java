@@ -25,8 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
-import cop.swt.widgets.viewers.html.example.exceptions.SimpleException;
-import cop.swt.widgets.viewers.html.example.exceptions.TestException;
 import cop.swt.widgets.viewers.html.example.news.NewsViewer;
 import cop.swt.widgets.viewers.html.example.simple.SimpleViewer;
 
@@ -34,24 +32,18 @@ import cop.swt.widgets.viewers.html.example.simple.SimpleViewer;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class Main extends ApplicationWindow
-{
-	public static void main(String[] args)
-	{
-		try
-		{
+public class Main extends ApplicationWindow {
+	public static void main(String[] args) {
+		//try {
 			new Main().run();
-		}
-		catch(TestException e)
-		{}
+		//} catch (TestException e) {}
 	}
 
-	private Main()
-	{
+	private Main() {
 		super(null);
 	}
 
-	public void run() throws TestException
+	public void run()// throws TestException
 	{
 		LoggerContext lc = (LoggerContext)LoggerFactory.getILoggerFactory();
 		// print logback's internal status
@@ -79,14 +71,13 @@ public class Main extends ApplicationWindow
 		Display.getCurrent().dispose();
 	}
 
-	private void foo() throws Exception
-	{
-		throw new SimpleException();
-	}
+	// private void foo() throws Exception
+	// {
+	// throw new SimpleException();
+	// }
 
 	@Override
-	protected void configureShell(Shell shell)
-	{
+	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 
 		shell.setText("HtmlViewer example");
@@ -94,8 +85,7 @@ public class Main extends ApplicationWindow
 	}
 
 	@Override
-	protected Control createContents(Composite parent)
-	{
+	protected Control createContents(Composite parent) {
 		Composite composite = createComposite(parent);
 
 		createTabPart(composite);
@@ -103,8 +93,7 @@ public class Main extends ApplicationWindow
 		return composite;
 	}
 
-	private Composite createComposite(Composite parent)
-	{
+	private static Composite createComposite(Composite parent) {
 		Composite composite = new Composite(parent, NONE);
 
 		composite.setLayout(new GridLayout());
@@ -113,8 +102,7 @@ public class Main extends ApplicationWindow
 		return composite;
 	}
 
-	private void createTabPart(Composite parent)
-	{
+	private static void createTabPart(Composite parent) {
 		CTabFolder tabFolder = new CTabFolder(parent, BORDER);
 		tabFolder.setLayoutData(new GridData(FILL, FILL, true, true));
 
@@ -122,8 +110,7 @@ public class Main extends ApplicationWindow
 		addTabPage("News", new NewsViewer(tabFolder, NONE));
 	}
 
-	private static void addTabPage(String title, Control control)
-	{
+	private static void addTabPage(String title, Control control) {
 		CTabFolder parent = (CTabFolder)control.getParent();
 		CTabItem tabItem = new CTabItem(parent, NONE);
 

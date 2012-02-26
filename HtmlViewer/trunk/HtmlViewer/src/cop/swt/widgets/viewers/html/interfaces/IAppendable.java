@@ -13,9 +13,8 @@ import java.io.IOException;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public interface IAppendable
-{
+public interface IAppendable {
 	boolean isEmpty();
 
-	Appendable append(Appendable buf) throws IOException;
+	StringBuilder append(StringBuilder buf) throws IOException;
 }

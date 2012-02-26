@@ -14,22 +14,19 @@ import java.util.Map;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public final class CssClass extends CssGroup
-{
+public final class CssClass extends CssGroup {
 	private static final Map<String, CssClass> map = new HashMap<String, CssClass>();
 
-	public static CssClass createCssClass(String name)
-	{
+	public static CssClass createCssClass(String name) {
 		CssClass obj = map.get(name);
 
-		if(obj == null)
+		if (obj == null)
 			map.put(name, obj = new CssClass(name));
 
 		return obj;
 	}
 
-	private CssClass(String name)
-	{
+	private CssClass(String name) {
 		super(name, "");
 	}
 }

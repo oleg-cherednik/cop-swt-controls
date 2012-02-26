@@ -7,11 +7,11 @@
  */
 package cop.swt.widgets.viewers.html.css;
 
-import java.io.IOException;
+import static cop.swt.widgets.viewers.html.HtmlExtension.printBuffer;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static cop.swt.widgets.viewers.html.HtmlExtension.*;
 import cop.swt.widgets.viewers.html.css.enums.CssPropertyEnum;
 import cop.swt.widgets.viewers.html.interfaces.IAppendable;
 import cop.swt.widgets.viewers.html.interfaces.IName;
@@ -20,29 +20,24 @@ import cop.swt.widgets.viewers.html.interfaces.IName;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class CssSet implements IAppendable
-{
+public class CssSet implements IAppendable {
 	protected static final int BASE_LENGTH = 80;
 
 	private final Map<CssPropertyEnum, String> properties = new LinkedHashMap<CssPropertyEnum, String>();
 
-	public void add(CssPropertyEnum property, IName value)
-	{
+	public void add(CssPropertyEnum property, IName value) {
 		properties.put(property, value.getName());
 	}
 
-	public void add(CssPropertyEnum property, String value1, IName value2)
-	{
+	public void add(CssPropertyEnum property, String value1, IName value2) {
 		properties.put(property, value1 + value2.getName());
 	}
 
-	public String get(CssPropertyEnum property)
-	{
+	public String get(CssPropertyEnum property) {
 		return properties.get(property);
 	}
 
-	public void clear()
-	{
+	public void clear() {
 		properties.clear();
 	}
 
@@ -50,18 +45,16 @@ public class CssSet implements IAppendable
 	 * IAppendable
 	 */
 
-	public final boolean isEmpty()
-	{
+	public final boolean isEmpty() {
 		return properties.isEmpty();
 	}
 
 	@Override
-	public Appendable append(Appendable buf) throws IOException
-	{
-		if(buf == null || properties.isEmpty())
+	public StringBuilder append(StringBuilder buf) {
+		if (buf == null || properties.isEmpty())
 			return buf;
 
-		for(Map.Entry<CssPropertyEnum, String> one : properties.entrySet())
+		for (Map.Entry<CssPropertyEnum, String> one : properties.entrySet())
 			buf.append(one.getKey().getName()).append(":").append(one.getValue()).append(";");
 
 		return buf;
@@ -72,8 +65,7 @@ public class CssSet implements IAppendable
 	 */
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		String str = printBuffer(this);
 		System.out.println(str);
 		return str;

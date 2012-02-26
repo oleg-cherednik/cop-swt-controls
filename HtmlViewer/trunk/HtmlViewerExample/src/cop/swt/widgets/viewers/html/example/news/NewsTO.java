@@ -13,8 +13,7 @@ import java.util.Calendar;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public final class NewsTO
-{
+public final class NewsTO {
 	private final String section;
 	private final String reporter;
 	private final String title;
@@ -22,8 +21,7 @@ public final class NewsTO
 	private final String note;
 	private final String body;
 
-	public NewsTO(String section, String reporter, String title, Calendar date, String note, String body)
-	{
+	public NewsTO(String section, String reporter, String title, Calendar date, String note, String body) {
 		this.section = section;
 		this.reporter = reporter;
 		this.title = title;
@@ -32,33 +30,27 @@ public final class NewsTO
 		this.body = body;
 	}
 
-	public String getSection()
-	{
+	public String getSection() {
 		return section;
 	}
 
-	public String getReporter()
-	{
+	public String getReporter() {
 		return reporter;
 	}
 
-	public String getTitle()
-	{
+	public String getTitle() {
 		return title;
 	}
 
-	public Calendar getDate()
-	{
+	public Calendar getDate() {
 		return date;
 	}
 
-	public String getNote()
-	{
+	public String getNote() {
 		return note;
 	}
 
-	public String getBody()
-	{
+	public String getBody() {
 		return body;
 	}
 }

@@ -13,8 +13,7 @@ import cop.swt.widgets.viewers.html.interfaces.IName;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public enum CssTextDecorationEnum implements IName
-{
+public enum CssTextDecorationEnum implements IName {
 	NONE("none"),
 	UNDERLINE("underline"),
 	OVERLINE("overline"),
@@ -23,8 +22,7 @@ public enum CssTextDecorationEnum implements IName
 
 	private String name;
 
-	private CssTextDecorationEnum(String name)
-	{
+	private CssTextDecorationEnum(String name) {
 		this.name = name;
 	}
 
@@ -33,8 +31,7 @@ public enum CssTextDecorationEnum implements IName
 	 */
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 }
