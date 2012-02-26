@@ -34,11 +34,7 @@ public class HtmlContext implements IAppendable {
 
 	public void setStyleId(String styleId) {
 		this.styleId = styleId;
-	}
-
-	public void clear() {
-		styleId = null;
-		style.clear();
+		this.style.clear();
 	}
 
 	/*
@@ -55,11 +51,10 @@ public class HtmlContext implements IAppendable {
 		if (buf == null || isEmpty())
 			return buf;
 
-		if (StringExtension.isNotEmpty(styleId))
+		if (!StringExtension.isEmpty(styleId))
 			buf.append("id=\"" + styleId + "\"");
-
 		if (!style.isEmpty())
-			style.append(StringExtension.isNotEmpty(styleId) ? buf.append(" ") : buf);
+			style.append(StringExtension.isEmpty(styleId) ? buf : buf.append(" "));
 
 		return buf;
 	}

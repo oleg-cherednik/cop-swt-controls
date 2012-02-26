@@ -28,9 +28,8 @@ import java.text.DateFormat;
 import cop.swt.widgets.viewers.html.HtmlContext;
 import cop.swt.widgets.viewers.html.HtmlTag;
 import cop.swt.widgets.viewers.html.css.CssContext;
-import cop.swt.widgets.viewers.html.css.CssGroup;
-import cop.swt.widgets.viewers.html.css.CssId;
-import cop.swt.widgets.viewers.html.css.CssStyleList;
+import cop.swt.widgets.viewers.html.css.CssSet;
+import cop.swt.widgets.viewers.html.css.CssStyleSet;
 import cop.swt.widgets.viewers.html.document.HtmlDocument;
 import cop.swt.widgets.viewers.html.templates.HtmlTemplate;
 
@@ -42,14 +41,6 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO> {
 	private static final HtmlTag HTML_TAG_NEW_LINE = HtmlTag.create("br");
 	private static final HtmlTag HTML_TAG_PARAGRAPH = HtmlTag.create("p");
 	private static final HtmlTag HTML_TAG_SPAN = HtmlTag.create("span");
-
-	private static final String MACRO_SECTION = "section";
-	private static final String MACRO_REPORTER = "reporter";
-	private static final String MACRO_TITLE = "title";
-	private static final String MACRO_DATE = "date";
-	private static final String MACRO_NOTE = "note";
-	private static final String MACRO_BODY = "text";
-
 	private static final DateFormat df = DateFormat.getDateTimeInstance(SHORT, SHORT);
 
 	/*
@@ -57,24 +48,13 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO> {
 	 */
 
 	@Override
-	protected String getMacroValue(String macro, NewsTO news) {
-		if (isEmpty(macro) || news == null)
-			return macro;
+	protected boolean setMacroValue(StringBuilder buf, String name, NewsTO obj) {
+		MacroEnum macro = MacroEnum.parseString(name);
 
-		if (macro.equalsIgnoreCase(MACRO_REPORTER))
-			return news.getReporter();
-		if (macro.equalsIgnoreCase(MACRO_TITLE))
-			return news.getTitle();
-		if (macro.equalsIgnoreCase(MACRO_DATE))
-			return df.format(news.getDate().getTime());
-		if (macro.equalsIgnoreCase(MACRO_NOTE))
-			return news.getNote();
-		if (macro.equalsIgnoreCase(MACRO_BODY))
-			return news.getBody();
-		if (macro.equalsIgnoreCase(MACRO_SECTION))
-			return news.getSection();
+		if (macro != null)
+			macro.setMacroValue(buf, obj);
 
-		return macro;
+		return macro != null;
 	}
 
 	@Override
@@ -82,119 +62,14 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO> {
 		StringBuilder buf = new StringBuilder(255);
 		HtmlContext context = new HtmlContext();
 
-		cssDate(buf, context).append(", ");
-		cssSection(buf, context).append(" ");
-		cssReporter(buf, context).append(HTML_TAG_NEW_LINE + "\n");
-		cssTitle(buf, context).append(HTML_TAG_NEW_LINE + "\n");
-		cssNote(buf, context).append("\n" + HTML_TAG_PARAGRAPH + "\n");
-		buf.append(getMacro(MACRO_BODY));
+		MacroEnum.DATE.add(buf, context, this).append(", ");
+		MacroEnum.SECTION.add(buf, context, this).append(" ");
+		MacroEnum.REPORTER.add(buf, context, this).append(HTML_TAG_NEW_LINE).append("\n");
+		MacroEnum.TITLE.add(buf, context, this).append(HTML_TAG_NEW_LINE).append("\n");
+		MacroEnum.NOTE.add(buf, context, this).append("\n").append(HTML_TAG_PARAGRAPH).append("\n");
+		MacroEnum.BODY.add(buf, context, this);
 
 		return buf.toString();
-	}
-
-	private static CssStyleList createStyles() {
-		CssStyleList styles = new CssStyleList();
-
-		styles.add(styleSection());
-		styles.add(styleReporter());
-		styles.add(styleTitle());
-		styles.add(styleDate());
-		styles.add(styleNote());
-		styles.add(styleBody());
-
-		return styles;
-	}
-
-	private static CssGroup styleSection() {
-		CssId cssSection = createCssId(MACRO_SECTION);
-
-		cssSection.add(CSS_FONT_WEIGHT, BOLD);
-		cssSection.add(CSS_TEXT_COLOR, RED);
-
-		return cssSection;
-	}
-
-	private static CssGroup styleReporter() {
-		CssId cssReporter = createCssId(MACRO_REPORTER);
-
-		cssReporter.add(CSS_FONT_STYLE, ITALIC);
-		cssReporter.add(CSS_FONT_SIZE, "12", PT);
-
-		return cssReporter;
-	}
-
-	private static CssGroup styleTitle() {
-		CssId cssTitle = createCssId(MACRO_TITLE);
-
-		cssTitle.add(CSS_FONT_SIZE, "16", PT);
-
-		return cssTitle;
-	}
-
-	private static CssGroup styleDate() {
-		CssId cssDate = createCssId(MACRO_DATE);
-
-		cssDate.add(CSS_FONT_STYLE, ITALIC);
-		cssDate.add(CSS_TEXT_COLOR, BLACK);
-		cssDate.add(CSS_TEXT_DECORATION, UNDERLINE);
-
-		return cssDate;
-	}
-
-	private static CssGroup styleNote() {
-		CssId cssNote = createCssId(MACRO_NOTE);
-
-		cssNote.add(CSS_FONT_STYLE, ITALIC);
-		cssNote.add(CSS_TEXT_COLOR, GRAY);
-		cssNote.add(CSS_FONT_SIZE, "12", PT);
-
-		return cssNote;
-	}
-
-	private static CssGroup styleBody() {
-		return createCssId(MACRO_BODY);
-	}
-
-	private StringBuilder cssDate(StringBuilder buf, HtmlContext context) {
-		context.clear();
-
-		CssContext cssDate = context.getStyle();
-
-		cssDate.add(CSS_FONT_STYLE, ITALIC);
-		cssDate.add(CSS_TEXT_COLOR, BLACK);
-		cssDate.add(CSS_TEXT_DECORATION, UNDERLINE);
-
-		HTML_TAG_SPAN.append(buf, getMacro(MACRO_DATE), context);
-
-		return buf;
-	}
-
-	private StringBuilder cssSection(StringBuilder buf, HtmlContext context) {
-		context.clear();
-		context.setStyleId(MACRO_SECTION);
-		HTML_TAG_SPAN.append(buf, getMacro(MACRO_SECTION), context);
-		return buf;
-	}
-
-	private StringBuilder cssReporter(StringBuilder buf, HtmlContext context) {
-		context.clear();
-		context.setStyleId(MACRO_REPORTER);
-		HTML_TAG_SPAN.append(buf, "(by " + getMacro(MACRO_REPORTER) + ")", context);
-		return buf;
-	}
-
-	private StringBuilder cssTitle(StringBuilder buf, HtmlContext context) {
-		context.clear();
-		context.setStyleId(MACRO_TITLE);
-		HTML_TAG_SPAN.append(buf, getMacro(MACRO_TITLE), context);
-		return buf;
-	}
-
-	private StringBuilder cssNote(StringBuilder buf, HtmlContext context) {
-		context.clear();
-		context.setStyleId(MACRO_NOTE);
-		HTML_TAG_SPAN.append(buf, "(" + getMacro(MACRO_NOTE) + ")", context);
-		return buf;
 	}
 
 	/*
@@ -203,6 +78,191 @@ public class NewsHtmlTemplate extends HtmlTemplate<NewsTO> {
 
 	@Override
 	public HtmlDocument getHtmlDocument() {
-		return new HtmlDocument(createStyles());
+		return new HtmlDocument(MacroEnum.createCssStyles());
+	}
+
+	/*
+	 * enum
+	 */
+
+	private enum MacroEnum {
+		SECTION("section") {
+			@Override
+			public CssSet createCss() {
+				CssSet css = super.createCss();
+
+				css.add(CSS_FONT_WEIGHT, BOLD);
+				css.add(CSS_TEXT_COLOR, RED);
+
+				return css;
+			}
+
+			@Override
+			public StringBuilder add(StringBuilder buf, HtmlContext context, NewsHtmlTemplate template) {
+				context.setStyleId(getName());
+				HTML_TAG_SPAN.append(buf, getMacro(template), context);
+				return buf;
+			}
+
+			@Override
+			public StringBuilder setMacroValue(StringBuilder buf, NewsTO obj) {
+				return buf.append(obj.getSection());
+			}
+		},
+		REPORTER("reporter") {
+			@Override
+			public CssSet createCss() {
+				CssSet css = super.createCss();
+
+				css.add(CSS_FONT_STYLE, ITALIC);
+				css.add(CSS_FONT_SIZE, "12", PT);
+
+				return css;
+			}
+
+			@Override
+			public StringBuilder add(StringBuilder buf, HtmlContext context, NewsHtmlTemplate template) {
+				context.setStyleId(getName());
+				HTML_TAG_SPAN.append(buf, "(by " + getMacro(template) + ")", context);
+				return buf;
+			}
+
+			@Override
+			public StringBuilder setMacroValue(StringBuilder buf, NewsTO obj) {
+				return buf.append(obj.getReporter());
+			}
+		},
+		TITLE("title") {
+			@Override
+			public CssSet createCss() {
+				CssSet css = super.createCss();
+
+				css.add(CSS_FONT_SIZE, "16", PT);
+
+				return css;
+			}
+
+			@Override
+			public StringBuilder add(StringBuilder buf, HtmlContext context, NewsHtmlTemplate template) {
+				context.setStyleId(getName());
+				HTML_TAG_SPAN.append(buf, getMacro(template), context);
+				return buf;
+			}
+
+			@Override
+			public StringBuilder setMacroValue(StringBuilder buf, NewsTO obj) {
+				return buf.append(obj.getTitle());
+			}
+		},
+		DATE("date") {
+			@Override
+			public CssSet createCss() {
+				CssSet css = super.createCss();
+
+				css.add(CSS_FONT_STYLE, ITALIC);
+				css.add(CSS_TEXT_COLOR, BLACK);
+				css.add(CSS_TEXT_DECORATION, UNDERLINE);
+
+				return css;
+			}
+
+			@Override
+			public StringBuilder add(StringBuilder buf, HtmlContext context, NewsHtmlTemplate template) {
+				context.setStyleId(getName());
+
+				CssContext cssDate = context.getStyle();
+
+				cssDate.add(CSS_FONT_STYLE, ITALIC);
+				cssDate.add(CSS_TEXT_COLOR, BLACK);
+				cssDate.add(CSS_TEXT_DECORATION, UNDERLINE);
+
+				HTML_TAG_SPAN.append(buf, getMacro(template), context);
+
+				return buf;
+			}
+
+			@Override
+			public StringBuilder setMacroValue(StringBuilder buf, NewsTO obj) {
+				return buf.append(df.format(obj.getDate().getTime()));
+			}
+		},
+		NOTE("note") {
+			@Override
+			public CssSet createCss() {
+				CssSet css = super.createCss();
+
+				css.add(CSS_FONT_STYLE, ITALIC);
+				css.add(CSS_TEXT_COLOR, GRAY);
+				css.add(CSS_FONT_SIZE, "12", PT);
+
+				return css;
+			}
+
+			@Override
+			public StringBuilder add(StringBuilder buf, HtmlContext context, NewsHtmlTemplate template) {
+				context.setStyleId(getName());
+				HTML_TAG_SPAN.append(buf, "(" + getMacro(template) + ")", context);
+				return buf;
+			}
+
+			@Override
+			public StringBuilder setMacroValue(StringBuilder buf, NewsTO obj) {
+				return buf.append(obj.getNote());
+			}
+		},
+		BODY("text") {
+			@Override
+			public StringBuilder setMacroValue(StringBuilder buf, NewsTO obj) {
+				return buf.append(obj.getBody());
+			}
+		};
+
+		private final String name;
+
+		MacroEnum(String name) {
+			this.name = name;
+		}
+
+		public CssSet createCss() {
+			return createCssId(name);
+		}
+
+		public final String getName() {
+			return name;
+		}
+
+		protected final String getMacro(NewsHtmlTemplate template) {
+			return template.getMacro(name);
+		}
+
+		public StringBuilder add(StringBuilder buf, HtmlContext context, NewsHtmlTemplate template) {
+			return buf.append(getMacro(template));
+		}
+
+		public StringBuilder setMacroValue(StringBuilder buf, NewsTO obj) {
+			return buf;
+		}
+
+		/*
+		 * static
+		 */
+
+		public static CssStyleSet createCssStyles() {
+			CssStyleSet styles = new CssStyleSet();
+
+			for (MacroEnum macro : values())
+				styles.add(macro.createCss());
+
+			return styles;
+		}
+
+		public static MacroEnum parseString(String name) {
+			if (!isEmpty(name))
+				for (MacroEnum macro : values())
+					if (macro.name.equals(name))
+						return macro;
+
+			return null;
+		}
 	}
 }

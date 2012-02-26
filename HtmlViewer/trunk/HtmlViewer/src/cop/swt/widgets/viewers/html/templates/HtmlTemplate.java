@@ -41,7 +41,7 @@ public abstract class HtmlTemplate<T> implements IHtmlTemplate<T> {
 
 	protected abstract String getTemplate();
 
-	protected abstract String getMacroValue(String macro, T obj);
+	protected abstract boolean setMacroValue(StringBuilder buf, String name, T obj);
 
 	/**
 	 * HtmlTemplate
@@ -60,9 +60,13 @@ public abstract class HtmlTemplate<T> implements IHtmlTemplate<T> {
 		StringTokenizer st = new StringTokenizer(template, macroDelimeter);
 		StringBuilder buf = new StringBuilder(1024);
 
-		while (st.hasMoreTokens())
-			buf.append(getMacroValue(st.nextToken(), obj));
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
 
-		return "" + buf;
+			if (!setMacroValue(buf, token, obj))
+				buf.append(token);
+		}
+
+		return buf.toString();
 	}
 }

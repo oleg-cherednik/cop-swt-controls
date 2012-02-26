@@ -9,8 +9,8 @@ package cop.swt.widgets.viewers.html.css;
 
 import static cop.swt.widgets.viewers.html.HtmlExtension.printBuffer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import cop.swt.widgets.viewers.html.interfaces.IAppendable;
 
@@ -18,21 +18,18 @@ import cop.swt.widgets.viewers.html.interfaces.IAppendable;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
  */
-public class CssStyleList implements IAppendable {
-	private final List<CssGroup> groups = new ArrayList<CssGroup>();
+public class CssStyleSet implements IAppendable {
+	private final Set<CssSet> groups = new HashSet<CssSet>();
 
-	public CssStyleList() {}
+	public CssStyleSet() {}
 
-	public void add(CssGroup group) {
+	public void add(CssSet group) {
 		if (group != null && !group.isEmpty())
 			groups.add(group);
 	}
 
 	public boolean isEmpty() {
-		if (groups.isEmpty())
-			return true;
-
-		for (CssGroup group : groups)
+		for (CssSet group : groups)
 			if (!group.isEmpty())
 				return false;
 
@@ -50,7 +47,7 @@ public class CssStyleList implements IAppendable {
 
 		boolean newLine = false;
 
-		for (CssGroup group : groups) {
+		for (CssSet group : groups) {
 			if (group.isEmpty())
 				continue;
 

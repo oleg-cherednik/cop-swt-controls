@@ -14,8 +14,6 @@ import static cop.swt.widgets.viewers.html.HtmlExtension.openTag;
 import java.util.HashMap;
 import java.util.Map;
 
-import cop.common.extensions.StringExtension;
-
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 05.01.2011
@@ -57,7 +55,7 @@ public final class HtmlTag {
 	}
 
 	public StringBuilder append(StringBuilder buf, String content, HtmlContext context) {
-		if (buf != null && StringExtension.isNotEmpty(content))
+		if (buf != null && !isEmpty(content))
 			open(buf, context).append(content).append(close());
 
 		return buf;

@@ -7,10 +7,9 @@
  */
 package cop.swt.widgets.viewers.html.document;
 
-import static cop.common.extensions.StringExtension.isNotEmpty;
 import cop.common.extensions.StringExtension;
 import cop.swt.widgets.viewers.html.HtmlTag;
-import cop.swt.widgets.viewers.html.css.CssStyleList;
+import cop.swt.widgets.viewers.html.css.CssStyleSet;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
@@ -32,11 +31,11 @@ public class HtmlDocument {
 		this(null, null);
 	}
 
-	public HtmlDocument(CssStyleList styles) {
+	public HtmlDocument(CssStyleSet styles) {
 		this(null, styles);
 	}
 
-	public HtmlDocument(String title, CssStyleList styles) {
+	public HtmlDocument(String title, CssStyleSet styles) {
 		partHead = createHeadPart(title, styles);
 	}
 
@@ -44,7 +43,7 @@ public class HtmlDocument {
 		partBody.replace(0, partBody.length(), "");
 	}
 
-	private static String createHeadPart(String title, CssStyleList styles) {
+	private static String createHeadPart(String title, CssStyleSet styles) {
 		if (StringExtension.isEmpty(title) && (styles == null || styles.isEmpty()))
 			return null;
 
@@ -59,11 +58,11 @@ public class HtmlDocument {
 	}
 
 	private static void addTitlePart(StringBuilder buf, String title) {
-		if (StringExtension.isNotEmpty(title))
+		if (!StringExtension.isEmpty(title))
 			buf.append("\n").append(HTML_PART_TITLE.open()).append(title).append(HTML_PART_TITLE.close());
 	}
 
-	private static void addStylesPart(StringBuilder buf, CssStyleList styles) {
+	private static void addStylesPart(StringBuilder buf, CssStyleSet styles) {
 		if (styles == null || styles.isEmpty())
 			return;
 
@@ -89,7 +88,7 @@ public class HtmlDocument {
 	}
 
 	protected void addHeadPart(StringBuilder buf) {
-		if (isNotEmpty(partHead))
+		if (!StringExtension.isEmpty(partHead))
 			buf.append("\n").append(partHead);
 	}
 
