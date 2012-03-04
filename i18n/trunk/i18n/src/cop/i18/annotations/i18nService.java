@@ -7,8 +7,15 @@
  */
 package cop.i18.annotations;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import cop.common.annotations.exceptions.AnnotationDeclarationException;
 
@@ -18,6 +25,7 @@ import cop.common.annotations.exceptions.AnnotationDeclarationException;
  */
 public class i18nService {
 	private static final String[] NO_STRING = new String[0];
+	private static final Method[] NO_METHODS = new Method[0];
 
 	private i18nService() {}
 
@@ -31,7 +39,7 @@ public class i18nService {
 			throw new IllegalArgumentException("key is empty");
 
 		Class<?> parameterType = (locale != null) ? Locale.class : null;
-		Method[] methods = AnnotationExt.getAnnotatedMethods(cls, i18n.class, String.class, parameterType);
+		Method[] methods = getAnnotatedMethods(cls, i18n.class, String.class, parameterType);
 
 		if (methods.length == 0)
 			return "";
@@ -65,7 +73,7 @@ public class i18nService {
 		if (isEmpty(constants))
 			return NO_STRING;
 
-		Method[] methods = AnnotationExt.getAnnotatedMethods(item, i18n.class, Locale.class);
+		Method[] methods = getAnnotatedMethods(item, i18n.class, Locale.class);
 
 		if (isEmpty(methods))
 			return NO_STRING;
@@ -148,29 +156,28 @@ public class i18nService {
 	//
 	// return i18n;
 	// }
-	
+
 	/*
 	 * static
 	 */
-	
-	private static boolean isEmpty(String str)
-	{
+
+	private static boolean isEmpty(String str) {
 		return str == null || str.trim().isEmpty();
 	}
-	
+
 	private static <T> boolean isEmpty(T[] arr) {
 		return arr == null || arr.length == 0;
 	}
-	
-//	private static <T> Object invokeMethod(T item, Method method) throws Exception
-//	{
-//		if(method == null)
-//			return null;
-//
-//		method.setAccessible(true);
-//
-//		return method.invoke(item);
-//	}
+
+	// private static <T> Object invokeMethod(T item, Method method) throws Exception
+	// {
+	// if(method == null)
+	// return null;
+	//
+	// method.setAccessible(true);
+	//
+	// return method.invoke(item);
+	// }
 
 	private static <T> Object invokeMethod(T item, Method method, Object... args) throws Exception {
 		if (method == null)
@@ -179,5 +186,56 @@ public class i18nService {
 		method.setAccessible(true);
 
 		return method.invoke(item, args);
+	}
+
+//	private static <T extends Annotation> Method[] getAnnotatedMethods(Class<?> cls, Class<T> annotationClass) {
+//		return getAnnotatedMethods(cls, annotationClass, (Class<?>)null);
+//	}
+
+	private static <T extends Annotation> Method[] getAnnotatedMethods(Class<?> cls, Class<T> annotationClass,
+	                Class<?>... parameterTypes) {
+		if (cls == null)
+			return NO_METHODS;
+
+		List<Method> methods = new ArrayList<Method>();
+
+		for (Method method : getMethods(cls))
+			if (isAnnotated(method, annotationClass) && isSameParameters(method, parameterTypes))
+				methods.add(method);
+
+		return methods.isEmpty() ? NO_METHODS : methods.toArray(new Method[methods.size()]);
+	}
+
+	private static Method[] getMethods(Class<?> cls) {
+		if (cls == null)
+			return NO_METHODS;
+
+		Set<Method> methods = new HashSet<Method>();
+
+		for (Method method : cls.getDeclaredMethods())
+			methods.add(method);
+
+		for (Method method : cls.getMethods())
+			methods.add(method);
+
+		return methods.toArray(new Method[methods.size()]);
+	}
+
+	private static <T extends Annotation> boolean isAnnotated(AccessibleObject obj, Class<T> annotationClass) {
+		if (obj == null)
+			return false;
+		if (annotationClass != null)
+			return obj.getAnnotation(annotationClass) != null;
+
+		return isEmpty(obj.getAnnotations());
+	}
+
+	private static boolean isSameParameters(Method method, Class<?>... parameterTypes) {
+		if (method == null)
+			return false;
+		if (isEmpty(parameterTypes))
+			return true;
+
+		return Arrays.equals(method.getParameterTypes(), parameterTypes);
 	}
 }

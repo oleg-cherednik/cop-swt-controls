@@ -78,14 +78,6 @@ public final class LocalizationExt {
 		return res;
 	}
 
-	public static String i18n(Object obj, String key) {
-		return LocaleStore._i18n(obj, key);
-	}
-
-	public static String i18n(Object obj, String key, Locale locale) {
-		return LocaleStore._i18n(obj, key, locale);
-	}
-//
 //	private static ResourceBundle getBundle(Object bundle, Locale locale) {
 //		String baseName = "i18n." + bundle.getClass().getSimpleName();
 //		ClassLoader loader = bundle.getClass().getClassLoader();
