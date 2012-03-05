@@ -5,7 +5,7 @@
  * $Id$
  * $HeadURL$
  */
-package cop.common.annotations.exceptions;
+package cop.i18.exceptions;
 
 /**
  * Exception declares any error while using self-defined annotations.
@@ -13,20 +13,20 @@ package cop.common.annotations.exceptions;
  * @author Oleg Cherednik
  * @since 16.08.2010
  */
-public class AnnotationDeclarationException extends Exception {
+public class i18nDeclarationException extends Exception {
 	private static final long serialVersionUID = 1907237273650425166L;
 
-	public AnnotationDeclarationException() {}
+	public i18nDeclarationException() {}
 
-	public AnnotationDeclarationException(String message) {
+	public i18nDeclarationException(String message) {
 		super(message);
 	}
 
-	public AnnotationDeclarationException(String message, Throwable cause) {
+	public i18nDeclarationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public AnnotationDeclarationException(Throwable cause) {
+	public i18nDeclarationException(Throwable cause) {
 		super(cause);
 	}
 }

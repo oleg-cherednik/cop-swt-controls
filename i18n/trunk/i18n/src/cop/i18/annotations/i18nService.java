@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import cop.common.annotations.exceptions.AnnotationDeclarationException;
+import cop.i18.exceptions.i18nDeclarationException;
 
 /**
  * @author Oleg Cherednik
@@ -29,12 +29,12 @@ public class i18nService {
 
 	private i18nService() {}
 
-	public static <T> String getTranslation(Class<T> cls, String key) throws AnnotationDeclarationException {
+	public static <T> String getTranslation(Class<T> cls, String key) throws i18nDeclarationException {
 		return getTranslation(cls, key, null);
 	}
 
 	public static <T> String getTranslation(Class<T> cls, String key, Locale locale)
-	                throws AnnotationDeclarationException {
+	                throws i18nDeclarationException {
 		if (isEmpty(key))
 			throw new IllegalArgumentException("key is empty");
 
@@ -45,10 +45,10 @@ public class i18nService {
 			return "";
 
 		if (methods.length > 1)
-			throw new AnnotationDeclarationException("There're to many methods annotatated with @i18n. Can't choose.");
+			throw new i18nDeclarationException("There're to many methods annotatated with @i18n. Can't choose.");
 
 		if (methods[0].getReturnType() != String.class)
-			throw new AnnotationDeclarationException("Method annotatated with @i18n must return String or String[]");
+			throw new i18nDeclarationException("Method annotatated with @i18n must return String or String[]");
 
 		try {
 			return (String)invokeMethod(null, methods[0], key, locale);
@@ -61,7 +61,7 @@ public class i18nService {
 
 	// TODO write checks
 	// for ENUM
-	public static String[] getTranslations(Class<?> item, Locale locale) throws AnnotationDeclarationException {
+	public static String[] getTranslations(Class<?> item, Locale locale) throws i18nDeclarationException {
 		if (item == null)
 			throw new NullPointerException("item == null");
 
@@ -79,7 +79,7 @@ public class i18nService {
 			return NO_STRING;
 
 		if (methods.length > 1)
-			throw new AnnotationDeclarationException("There're to many methods annotatated with @i18n. Can't choose.");
+			throw new i18nDeclarationException("There're to many methods annotatated with @i18n. Can't choose.");
 
 		// if(methods.length > 2)
 		// throw new AnnotationDeclarationException(
