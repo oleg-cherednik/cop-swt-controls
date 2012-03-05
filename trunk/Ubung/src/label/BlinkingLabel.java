@@ -1,9 +1,9 @@
 package label;
 
-import static cop.common.extensions.BitExtension.clearBits;
-import static cop.common.extensions.BitExtension.isBitSet;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.common.ext.BitExt.clearBits;
+import static cop.common.ext.BitExt.isBitSet;
+import static cop.common.ext.CommonExt.isNotNull;
+import static cop.common.ext.CommonExt.isNull;
 import static cop.swt.extensions.ColorExtension.getInvertedColor;
 import static org.eclipse.swt.SWT.BACKGROUND;
 import static org.eclipse.swt.SWT.FOREGROUND;

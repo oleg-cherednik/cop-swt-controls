@@ -1,6 +1,5 @@
 
 
-import static cop.common.extensions.CommonExtension.isNull;
 import static org.eclipse.swt.SWT.Selection;
 
 import java.util.ArrayList;
@@ -110,7 +109,7 @@ public class MultiTouchButton extends Button
 
 	private void cancelRepeater()
 	{
-		if(isNull(repeater))
+		if(repeater != null)
 			return;
 
 		repeater.cancel();
