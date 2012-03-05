@@ -23,7 +23,7 @@ import cop.i18.exceptions.i18nDeclarationException;
  * @author Oleg Cherednik
  * @since 16.08.2010
  */
-public class i18nService {
+public final class i18nService {
 	private static final String[] NO_STRING = new String[0];
 	private static final Method[] NO_METHODS = new Method[0];
 

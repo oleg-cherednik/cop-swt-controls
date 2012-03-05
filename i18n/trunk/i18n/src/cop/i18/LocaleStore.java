@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import cop.i18.exceptions.LocaleStoreKeyDuplicationException;
+import cop.i18.exceptions.KeyDuplicationException;
 
 /**
  * @author Oleg Cherednik
@@ -20,24 +20,24 @@ public final class LocaleStore {
 	private final Locale defLocale;
 
 	public static synchronized void registerStore(Class<?> cls, String root, Locale defLocale)
-	                throws LocaleStoreKeyDuplicationException {
+	                throws KeyDuplicationException {
 		registerStore(cls, DEFAULT_KEY, root, defLocale, true);
 	}
 
 	public static synchronized void registerStore(Class<?> cls, String key, String storeRoot, Locale defLocale)
-	                throws LocaleStoreKeyDuplicationException {
+	                throws KeyDuplicationException {
 		registerStore(cls, key, storeRoot, defLocale, false);
 	}
 
 	public static synchronized void registerStore(Class<?> cls, String key, String root, Locale defLocale, boolean def)
-	                throws LocaleStoreKeyDuplicationException {
+	                throws KeyDuplicationException {
 		int hashCode = cls.getClassLoader().hashCode();
 		LocalStoreDecorator unit = MAP.get(hashCode);
 
 		if (unit == null)
 			MAP.put(hashCode, unit = new LocalStoreDecorator());
 		else if (unit.containsKey(key))
-			throw new LocaleStoreKeyDuplicationException(key);
+			throw new KeyDuplicationException(key);
 
 		unit.addLocalStore(key, new LocaleStore(root, defLocale), def);
 	}
