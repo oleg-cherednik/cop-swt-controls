@@ -1,6 +1,6 @@
 package swtcalendar.org.vafada.swtcalendar;
 
-import static cop.common.extensions.CalendarExtension.getMonths;
+import static cop.common.ext.CalendarExt.getMonths;
 import static java.util.Calendar.MONTH;
 import static org.eclipse.swt.SWT.DROP_DOWN;
 import static org.eclipse.swt.SWT.READ_ONLY;

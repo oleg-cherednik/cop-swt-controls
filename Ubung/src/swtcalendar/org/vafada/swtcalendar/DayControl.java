@@ -1,6 +1,6 @@
 package swtcalendar.org.vafada.swtcalendar;
 
-import static cop.common.extensions.CalendarExtension.isDay;
+import static cop.common.ext.CalendarExt.isDay;
 import static java.lang.Integer.parseInt;
 import static org.eclipse.swt.SWT.CENTER;
 import static org.eclipse.swt.SWT.FILL;

@@ -1,8 +1,8 @@
 package shell.temp;
 
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.common.ext.ArrayExt.isEmpty;
+import static cop.common.ext.CollectionExt.isEmpty;
+import static cop.common.ext.CommonExt.isNull;
 import static java.lang.Math.max;
 
 import java.util.ArrayList;
