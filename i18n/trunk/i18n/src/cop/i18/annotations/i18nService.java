@@ -1,6 +1,6 @@
 /**
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
- * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Oleg Cherednik</a>
  * 
  * $Id$
  * $HeadURL$
@@ -33,8 +33,7 @@ public final class i18nService {
 		return getTranslation(cls, key, null);
 	}
 
-	public static <T> String getTranslation(Class<T> cls, String key, Locale locale)
-	                throws i18nDeclarationException {
+	public static <T> String getTranslation(Class<T> cls, String key, Locale locale) throws i18nDeclarationException {
 		if (isEmpty(key))
 			throw new IllegalArgumentException("key is empty");
 
@@ -188,9 +187,9 @@ public final class i18nService {
 		return method.invoke(item, args);
 	}
 
-//	private static <T extends Annotation> Method[] getAnnotatedMethods(Class<?> cls, Class<T> annotationClass) {
-//		return getAnnotatedMethods(cls, annotationClass, (Class<?>)null);
-//	}
+	// private static <T extends Annotation> Method[] getAnnotatedMethods(Class<?> cls, Class<T> annotationClass) {
+	// return getAnnotatedMethods(cls, annotationClass, (Class<?>)null);
+	// }
 
 	private static <T extends Annotation> Method[] getAnnotatedMethods(Class<?> cls, Class<T> annotationClass,
 	                Class<?>... parameterTypes) {

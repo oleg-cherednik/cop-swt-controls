@@ -1,6 +1,6 @@
 /**
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
- * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Oleg Cherednik</a>
  * 
  * $Id$
  * $HeadURL$
@@ -25,5 +25,4 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target(METHOD)
-public @interface i18n
-{}
+public @interface i18n {}
