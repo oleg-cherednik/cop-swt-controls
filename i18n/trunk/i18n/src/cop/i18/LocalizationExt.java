@@ -10,6 +10,10 @@ package cop.i18;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * @author Oleg Cherednik
+ * @since 16.08.2010
+ */
 public final class LocalizationExt {
 	public static final String[] EMPTY_STR_ARR = new String[0];
 
@@ -37,31 +41,6 @@ public final class LocalizationExt {
 		return getNotEmptyText(map.get(locale), getNotEmptyText(map.get(DEFAULT_LOCALE), def));
 	}
 
-	// public static Locale createLocale(LanguageEnum language, CountryEnum country) {
-	// Assert.isLegal(isNotNull(language));
-	//
-	// if (isNotNull(country))
-	// return new Locale(language.getCode(), country.getCode());
-	//
-	// return new Locale(language.getCode());
-	// }
-	//
-	// public static String[] getLanguagesName(LanguageEnum[] languages) {
-	// return getLanguagesName(languages, null);
-	// }
-	//
-	// public static String[] getLanguagesName(LanguageEnum[] languages, Locale locale) {
-	// if (isEmpty(languages))
-	// return new String[0];
-	//
-	// List<String> names = new ArrayList<String>();
-	//
-	// for (LanguageEnum language : languages)
-	// names.add(language.getLocalizedName(locale));
-	//
-	// return names.toArray(new String[0]);
-	// }
-	//
 	public static String[] i18n(Localizable[] objs) {
 		return i18n(objs, getDefaultApplicationLocale());
 	}
@@ -78,13 +57,6 @@ public final class LocalizationExt {
 		return res;
 	}
 
-//	private static ResourceBundle getBundle(Object bundle, Locale locale) {
-//		String baseName = "i18n." + bundle.getClass().getSimpleName();
-//		ClassLoader loader = bundle.getClass().getClassLoader();
-//
-//		return ResourceBundle.getBundle(baseName, locale, loader);
-//	}
-//
 	private static boolean isEmpty(Map<?, ?> map) {
 		return map == null || map.isEmpty();
 	}
