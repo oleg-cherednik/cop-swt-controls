@@ -2,8 +2,8 @@
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
  * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Oleg Cherednik</a>
  * 
- * $Id: EditLocalizable.java 379 2012-03-08 14:32:57Z oleg.cherednik $
- * $HeadURL: https://cop-swt-controls.googlecode.com/svn/i18n/trunk/i18n/src/cop/i18/EditLocalizable.java $
+ * $Id$
+ * $HeadURL$
  */
 package cop.swt.widgets;
 
