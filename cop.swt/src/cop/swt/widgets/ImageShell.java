@@ -26,13 +26,13 @@ import org.eclipse.swt.widgets.Shell;
  * @author Oleg Cherednik
  * @since 08.03.2012
  */
-public class ImageWindow extends Shell implements Listener {
+public class ImageShell extends Shell implements Listener {
 	private final Image image;
 
 	private int x;
 	private int y;
 
-	public ImageWindow(Display display, ImageData imageData) {
+	public ImageShell(Display display, ImageData imageData) {
 		super(display, SWT.NO_TRIM);
 
 		this.image = new Image(display, imageData);
