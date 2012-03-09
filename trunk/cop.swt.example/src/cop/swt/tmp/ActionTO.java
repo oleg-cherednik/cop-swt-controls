@@ -1,6 +1,6 @@
 package cop.swt.tmp;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CommonExt.isNotNull;
 import static cop.swt.widgets.enums.ImageTextViewEnum.IMAGE_ONLY;
 
 import java.text.DateFormat;
@@ -10,6 +10,7 @@ import java.util.Locale;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 
+import cop.i18.annotations.i18n;
 import cop.swt.tmp.localization.BundleEnum1;
 import cop.swt.tmp.localization.BundleEnum2;
 import cop.swt.tmp.localization.CountEnum;
@@ -19,7 +20,6 @@ import cop.swt.widgets.annotations.Currency;
 import cop.swt.widgets.annotations.ImageTextView;
 import cop.swt.widgets.annotations.Label;
 import cop.swt.widgets.annotations.Percent;
-import cop.swt.widgets.annotations.i18n;
 
 public class ActionTO implements Cloneable
 {

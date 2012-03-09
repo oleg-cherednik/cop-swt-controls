@@ -5,18 +5,15 @@ import static cop.swt.extensions.ColorExtension.WHITE;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import org.eclipse.nebula.widgets.formattedtext.DateFormatter;
-import org.eclipse.nebula.widgets.formattedtext.FormattedText;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 
-import cop.swt.extensions.LocalizationExtension;
+import cop.i18.LocalizationExt;
 import cop.swt.extensions.ColorExtension;
 
-@SuppressWarnings("unused")
 public class NumericExample implements IExample
 {
 	@Override
@@ -24,7 +21,7 @@ public class NumericExample implements IExample
 	{
 		parent = createComposite(parent);
 		
-		Locale locale = LocalizationExtension.RU;
+		Locale locale = LocalizationExt.RU;
 		
 		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
 		
@@ -50,7 +47,7 @@ public class NumericExample implements IExample
 
 	}
 	
-	private Composite createComposite(Composite parent)
+	private static Composite createComposite(Composite parent)
 	{
 		Composite composite = new Composite(parent, SWT.NONE);
 

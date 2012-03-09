@@ -2,12 +2,12 @@ package cop.swt.tmp.localization;
 
 import java.util.Locale;
 
-import cop.localization.interfaces.Localizable;
-import cop.swt.extensions.LocalizationExtension;
-import cop.swt.widgets.annotations.i18n;
+import cop.i18.LocaleStore;
+import cop.i18.Localizable;
+import cop.i18.LocalizationExt;
+import cop.i18.annotations.i18n;
 
-public enum CountEnum implements Localizable
-{
+public enum CountEnum implements Localizable {
 	ONE,
 	TWO,
 	THREE,
@@ -20,15 +20,13 @@ public enum CountEnum implements Localizable
 	TEN;
 
 	@i18n
-	public static String[] getLocalizedName()
-	{
+	public static String[] getLocalizedName() {
 		return getLocalizedName(Locale.getDefault());
 	}
 
 	@i18n
-	public static String[] getLocalizedName(Locale locale)
-	{
-		return LocalizationExtension.i18n(values(), locale);
+	public static String[] getLocalizedName(Locale locale) {
+		return LocalizationExt.i18n(values(), locale);
 	}
 
 	/*
@@ -36,14 +34,12 @@ public enum CountEnum implements Localizable
 	 */
 
 	@Override
-	public String i18n()
-	{
-		return LocalizationExtension.i18n(this, name());
+	public String i18n() {
+		return LocaleStore._i18n(this, name());
 	}
 
 	@Override
-	public String i18n(Locale locale)
-	{
-		return LocalizationExtension.i18n(this, name(), locale);
+	public String i18n(Locale locale) {
+		return LocaleStore._i18n(this, name(), locale);
 	}
 }

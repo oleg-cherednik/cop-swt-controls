@@ -1,55 +1,45 @@
 package cop.swt.tmp;
 
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import cop.extensions.StringExt;
 
-public class Person
-{
+public class Person {
 	private String surname; // Cherednik
 	private String firstName; // Oleg
 	private String middleName; // Petrovich
 
-	public Person()
-	{}
+	public Person() {}
 
-	public Person(String surname, String firstName)
-	{
+	public Person(String surname, String firstName) {
 		this(surname, firstName, null);
 	}
 
-	public Person(String surname, String firstName, String middleName)
-	{
+	public Person(String surname, String firstName, String middleName) {
 		setSurname(surname);
 		setFirstName(firstName);
 		setMiddleName(middleName);
 	}
 
-	public String getFirstName()
-	{
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public String getSurname()
-	{
+	public String getSurname() {
 		return surname;
 	}
 
-	public String getSecondName()
-	{
+	public String getSecondName() {
 		return middleName;
 	}
 
-	public void setFirstName(String firstName)
-	{
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public void setSurname(String surname)
-	{
+	public void setSurname(String surname) {
 		this.surname = surname;
 	}
 
-	public void setMiddleName(String middleName)
-	{
+	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
 
@@ -58,19 +48,18 @@ public class Person
 	 */
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuilder buf = new StringBuilder();
 
-		if(isNotEmpty(surname))
+		if (!StringExt.isEmpty(surname))
 			buf.append(surname);
-		if(isNotEmpty(firstName))
+		if (!StringExt.isEmpty(firstName))
 			buf.append("" + firstName);
-		if(isNotEmpty(middleName))
+		if (!StringExt.isEmpty(middleName))
 			buf.append("" + middleName);
 
 		String str = ("" + buf).trim();
 
-		return isNotEmpty(str) ? str : "[no name]";
+		return StringExt.isEmpty(str) ? "[no name]" : str;
 	}
 }

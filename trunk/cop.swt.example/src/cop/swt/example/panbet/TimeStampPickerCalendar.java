@@ -24,9 +24,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import cop.common.extensions.CalendarExtension;
-import cop.common.extensions.CommonExtension;
-import cop.localization.interfaces.LocaleSupport;
+import cop.extensions.CalendarExt;
+import cop.extensions.CommonExt;
+import cop.i18.LocaleSupport;
 import cop.swt.extensions.ColorExtension;
 import cop.swt.widgets.dialogs.CalendarDialog;
 
@@ -143,7 +143,7 @@ public final class TimeStampPickerCalendar extends Composite implements LocaleSu
 						date.set(MINUTE, minute);
 					}
 					else
-						CalendarExtension.setTime(date, time);
+						CalendarExt.setTime(date, time);
 
 					dateTimePicker.setDate(date.getTime());
 
@@ -297,7 +297,7 @@ public final class TimeStampPickerCalendar extends Composite implements LocaleSu
 	@Override
 	public void setLocale(Locale locale)
 	{
-		if(CommonExtension.isNotNull(locale))
+		if(CommonExt.isNotNull(locale))
 			this.locale = locale;
 	}
 }

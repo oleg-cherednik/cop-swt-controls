@@ -1,9 +1,8 @@
 package cop.swt.tmp;
 
 import static com.ibm.icu.util.Currency.LONG_NAME;
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.swt.extensions.LocalizationExtension.createLocale;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.CommonExt.isNotNull;
 
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -12,6 +11,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.Assert;
 
 import com.ibm.icu.util.Currency;
+
 import cop.swt.enums.CountryEnum;
 import cop.swt.enums.LanguageEnum;
 import cop.swt.widgets.annotations.Label;
@@ -107,5 +107,14 @@ public final class CurrencyComboWrapper
 	public String toString()
 	{
 		return currency.getCurrencyCode() + " (" + currency.getSymbol() + ")";
+	}
+	
+	public static Locale createLocale(LanguageEnum language, CountryEnum country) {
+		Assert.isLegal(isNotNull(language));
+
+		if (isNotNull(country))
+			return new Locale(language.getCode(), country.getCode());
+
+		return new Locale(language.getCode());
 	}
 }

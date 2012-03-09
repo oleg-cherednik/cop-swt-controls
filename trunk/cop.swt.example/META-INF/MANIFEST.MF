@@ -10,7 +10,9 @@ Require-Bundle: org.eclipse.ui,
  cop.swt;bundle-version="1.0.0",
  cop.common;bundle-version="1.0.0",
  cop.swt.widgets.viewers.table;bundle-version="1.0.0",
- cop.swt.widgets.viewers.list;bundle-version="1.0.0"
+ cop.swt.widgets.viewers.list;bundle-version="1.0.0",
+ cop.i18n;bundle-version="1.0.0",
+ cop.extensions;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: cop.swt.example.application,
