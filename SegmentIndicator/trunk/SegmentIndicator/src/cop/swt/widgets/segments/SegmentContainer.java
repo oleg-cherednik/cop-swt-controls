@@ -8,16 +8,11 @@ import static cop.common.extensions.BitExt.isAnyBitSet;
 import static cop.common.extensions.BitExt.isBitSet;
 import static cop.common.extensions.CollectionExtension.convertToIntArray;
 import static java.lang.Math.max;
-import static org.eclipse.swt.SWT.DOWN;
-import static org.eclipse.swt.SWT.HORIZONTAL;
-import static org.eclipse.swt.SWT.LEFT;
-import static org.eclipse.swt.SWT.RIGHT;
-import static org.eclipse.swt.SWT.UP;
-import static org.eclipse.swt.SWT.VERTICAL;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 
@@ -27,8 +22,8 @@ import cop.swt.widgets.segments.interfaces.ISegment;
 import cop.swt.widgets.segments.interfaces.ISegmentConfig;
 
 public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<SegmentIndicator, T> {
-	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
-	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
+	protected static final int DEFAULT_ORIENTATION = SWT.HORIZONTAL | SWT.UP;
+	protected static final int HORIZONTAL_ORIENTATION = SWT.UP | SWT.DOWN | SWT.HORIZONTAL;
 
 	private static final int BETWEEN_SEGMENT = 1;
 
@@ -57,13 +52,13 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 	}
 
 	private static int getSegmentOrientation(int orientation) {
-		int mask = UP | DOWN | RIGHT | LEFT;
+		int mask = SWT.UP | SWT.DOWN | SWT.RIGHT | SWT.LEFT;
 		int res = orientation & mask;
 
-		if (isBitSet(orientation, HORIZONTAL))
-			res |= HORIZONTAL;
-		if (isBitSet(orientation, VERTICAL))
-			res |= VERTICAL;
+		if (isBitSet(orientation, SWT.HORIZONTAL))
+			res |= SWT.HORIZONTAL;
+		if (isBitSet(orientation, SWT.VERTICAL))
+			res |= SWT.VERTICAL;
 
 		return res;
 	}
@@ -74,7 +69,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 	@Override
 	protected boolean isInverted(boolean horizontal) {
-		return horizontal ? isBitSet(orientation, DOWN) : isBitSet(orientation, LEFT);
+		return horizontal ? isBitSet(orientation, SWT.DOWN) : isBitSet(orientation, SWT.LEFT);
 	}
 
 	@Override

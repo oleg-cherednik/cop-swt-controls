@@ -7,7 +7,6 @@
  */
 package cop.swt.widgets.segments.example;
 
-import static cop.common.extensions.BitExtension.isBitSet;
 import static org.eclipse.swt.SWT.COLOR_BLACK;
 import static org.eclipse.swt.SWT.COLOR_CYAN;
 import static org.eclipse.swt.SWT.COLOR_MAGENTA;
@@ -27,6 +26,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 
+import cop.common.extensions.BitExt;
+import cop.swt.widgets.segments.components.numeric.SegmentViewer;
 import cop.swt.widgets.segments.components.numeric.ShortIndicator;
 
 /**
@@ -45,7 +46,7 @@ public class Main implements SelectionListener, ModifyListener
 	private Button rotateButton;
 	private Spinner valueSpinner;
 	private Spinner scaleSpinner;
-	private ShortIndicator segmentIndicator;
+	private SegmentViewer<Short> segmentIndicator;
 
 	private Color[] colors;
 	int currColor = 0;
@@ -226,13 +227,13 @@ public class Main implements SelectionListener, ModifyListener
 	{
 		int orientation = segmentIndicator.getOrientation();
 
-		if(isBitSet(orientation, SWT.UP))
+		if(BitExt.isBitSet(orientation, SWT.UP))
 			segmentIndicator.setOrientation(SWT.RIGHT);
-		else if(isBitSet(orientation, SWT.RIGHT))
+		else if(BitExt.isBitSet(orientation, SWT.RIGHT))
 			segmentIndicator.setOrientation(SWT.DOWN);
-		else if(isBitSet(orientation, SWT.DOWN))
+		else if(BitExt.isBitSet(orientation, SWT.DOWN))
 			segmentIndicator.setOrientation(SWT.LEFT);
-		else if(isBitSet(orientation, SWT.LEFT))
+		else if(BitExt.isBitSet(orientation, SWT.LEFT))
 			segmentIndicator.setOrientation(SWT.UP);
 	}
 
