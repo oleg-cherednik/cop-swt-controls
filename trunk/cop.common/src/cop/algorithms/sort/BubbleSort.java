@@ -7,8 +7,8 @@
  */
 package cop.algorithms.sort;
 
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.CommonExt.isNull;
 import cop.common.predicates.comparators.MoreOrEqual;
 
 /**

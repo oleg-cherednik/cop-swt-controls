@@ -7,7 +7,7 @@
  */
 package cop.algorithms.sort;
 
-import static cop.common.extensions.CollectionExtension.convertToIntArray;
+import static cop.extensions.CollectionExt.convertToIntArray;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -26,9 +26,8 @@ import org.junit.runners.Suite;
  * @author <a href="mailto:abba-bestl@mail.ru">Cherednik, Oleg</a>
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { InsertionSortTest.class, SelectionSortTest.class, BubbleSortTest.class, ShakerSortTest.class })
-public class SortTestSuit
-{
+@Suite.SuiteClasses({ InsertionSortTest.class, SelectionSortTest.class, BubbleSortTest.class, ShakerSortTest.class })
+public class SortTestSuit {
 	protected static final String FILENAME = "numbers.txt";
 	protected static final String FILEPATH = "test/resources";
 	protected static final int READ_ALL = -1;
@@ -38,8 +37,7 @@ public class SortTestSuit
 	public static int[] sortedIntArray;
 
 	@BeforeClass
-	public static void beforeAllTests() throws Exception
-	{
+	public static void beforeAllTests() throws Exception {
 		unsortedIntArray = readDataFile();
 		sortedIntArray = sortArray(unsortedIntArray);
 
@@ -48,51 +46,36 @@ public class SortTestSuit
 		assertEquals(sortedIntArray.length, unsortedIntArray.length);
 	}
 
-	protected static int[] readDataFile() throws Exception
-	{
+	protected static int[] readDataFile() throws Exception {
 		List<Integer> arr = new ArrayList<Integer>();
 		BufferedReader in = null;
 		FileReader fr = null;
 
-		try
-		{
+		try {
 			fr = new FileReader(FILEPATH + "/" + FILENAME);
 			in = new BufferedReader(fr);
 			String str = in.readLine();
 			int i = 0;
 
-			while((str != null) && (TOTAL == READ_ALL || (TOTAL > 0 && i++ < TOTAL)))
-			{
+			while ((str != null) && (TOTAL == READ_ALL || (TOTAL > 0 && i++ < TOTAL))) {
 				arr.add(Integer.parseInt(str));
 				str = in.readLine();
 			}
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			if(in != null)
-			{
-				try
-				{
+		} finally {
+			if (in != null) {
+				try {
 					in.close();
-				}
-				catch(IOException e)
-				{}
+				} catch (IOException e) {}
 
 				in = null;
 			}
 
-			if(fr != null)
-			{
-				try
-				{
+			if (fr != null) {
+				try {
 					fr.close();
-				}
-				catch(IOException e)
-				{}
+				} catch (IOException e) {}
 
 				fr = null;
 			}
@@ -101,9 +84,8 @@ public class SortTestSuit
 		return convertToIntArray(arr);
 	}
 
-	protected static int[] sortArray(int[] arr)
-	{
-		if(arr == null)
+	protected static int[] sortArray(int[] arr) {
+		if (arr == null)
 			return null;
 
 		int[] sortedArray = Arrays.copyOf(arr, arr.length);

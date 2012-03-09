@@ -10,8 +10,8 @@ package cop.algorithms.sort;
 import static cop.algorithms.sort.InsertionSort.insertionSort;
 import static cop.algorithms.sort.SortTestSuit.sortedIntArray;
 import static cop.algorithms.sort.SortTestSuit.unsortedIntArray;
-import static cop.common.extensions.ArrayExtension.convertToIntegerArray;
-import static cop.common.extensions.CompareExtension.createComparator;
+import static cop.extensions.ArrayExt.convertToIntegerArray;
+import static cop.extensions.CompareExt.createComparator;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,15 +26,13 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:abba-bestl@mail.ru">Cherednik, Oleg</a>
  */
-public class InsertionSortTest
-{
+public class InsertionSortTest {
 	private int[] arr;
 	private Integer[] arr1;
 	private Comparator<Integer> cmp = createComparator(Integer.class);
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		assertNotNull(unsortedIntArray);
 		assertNotNull(sortedIntArray);
 		assertEquals(sortedIntArray.length, unsortedIntArray.length);
@@ -50,16 +48,14 @@ public class InsertionSortTest
 	}
 
 	@Test
-	public void testInsertionSort()
-	{
+	public void testInsertionSort() {
 		assertNull(insertionSort(null));
 		assertArrayEquals(insertionSort(new int[0]), new int[0]);
 		assertArrayEquals(insertionSort(arr), sortedIntArray);
 	}
 
 	@Test
-	public void testTemplateInsertionSort()
-	{
+	public void testTemplateInsertionSort() {
 		assertNull(insertionSort(null, null));
 		assertNull(insertionSort(null, cmp));
 		assertArrayEquals(insertionSort(new Integer[0], null), new Integer[0]);

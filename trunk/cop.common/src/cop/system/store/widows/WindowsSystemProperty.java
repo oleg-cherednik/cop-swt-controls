@@ -1,6 +1,6 @@
 package cop.system.store.widows;
 
-import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.extensions.StringExt.isEmpty;
 
 import java.util.HashMap;
 import java.util.Map;
