@@ -9,11 +9,10 @@ package shell.image;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 
 /**
  * @author Oleg Cherednik
@@ -35,6 +34,9 @@ public class ProgressShell extends ImageShell implements PaintModel {
 	}
 
 	public void setSelection(Integer selection) {
+		if (this.selection == selection)
+			return;
+
 		this.selection = selection;
 		redraw();
 	}
@@ -51,19 +53,17 @@ public class ProgressShell extends ImageShell implements PaintModel {
 	 */
 
 	@Override
-	protected void onPaint(GC gc) {
+	protected void onPaint(Event e) {
 		if (selection == null)
-			super.onPaint(gc);
+			super.onPaint(e);
 		else {
-			Color foreground = gc.getForeground();
-			Color background = gc.getBackground();
+			Color foreground = e.gc.getForeground();
+			Color background = e.gc.getBackground();
 
-			Rectangle bounds = getBounds();
-			int length = getLength(selection, bounds.width);
-			paintModel.paint(gc, length, bounds.width, bounds.height);
+			paintModel.paint(e, getLength(selection, e.width));
 
-			gc.setForeground(foreground);
-			gc.setBackground(background);
+			e.gc.setForeground(foreground);
+			e.gc.setBackground(background);
 		}
 	}
 
@@ -71,12 +71,12 @@ public class ProgressShell extends ImageShell implements PaintModel {
 	 * PaintModel
 	 */
 
-	public void paint(GC gc, int length, int width, int height) {
-		gc.setForeground(RED);
-		gc.setBackground(YELLOW);
+	public void paint(Event e, int length) {
+		e.gc.setForeground(RED);
+		e.gc.setBackground(YELLOW);
 
-		gc.fillGradientRectangle(0, 0, length, height, false);
-		// gc.fillRectangle(0, 0, length, height);
+		e.gc.fillGradientRectangle(0, 0, length, e.height, false);
+		// e.gc.fillRectangle(0, 0, length, height);
 	}
 
 	/*

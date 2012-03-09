@@ -46,6 +46,7 @@ public class ImageShellExample {
 		
 		
 		shell.setLocation(67, 67);
+		ctrlShell.setLocation(67, 250);
 		shell.open();
 		ctrlShell.open();
 

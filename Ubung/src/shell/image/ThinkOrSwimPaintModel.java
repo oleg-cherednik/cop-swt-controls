@@ -1,8 +1,8 @@
 package shell.image;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 
 public final class ThinkOrSwimPaintModel implements PaintModel {
 	public static final ThinkOrSwimPaintModel INCTANCE = new ThinkOrSwimPaintModel();
@@ -22,24 +22,24 @@ public final class ThinkOrSwimPaintModel implements PaintModel {
 	 */
 
 	@Override
-	public void paint(GC gc, int length, int width, int height) {
-		gc.setBackground(LIGHT_GREEN);
-		gc.fillRectangle(0, 0, length, height);
+	public void paint(Event e, int length) {
+		e.gc.setBackground(LIGHT_GREEN);
+		e.gc.fillRectangle(0, 0, length, e.height);
 
 		if (length > X1) {
-			gc.setBackground(DARK_GREEN);
-			gc.fillRectangle(X1, 0, length - X1, height);
+			e.gc.setBackground(DARK_GREEN);
+			e.gc.fillRectangle(X1, 0, length - X1, e.height);
 		}
 		if (length > X2) {
-			gc.setBackground(DARK_GREEN);
-			gc.fillRectangle(X1, 0, length - X2, Y);
+			e.gc.setBackground(DARK_GREEN);
+			e.gc.fillRectangle(X1, 0, length - X2, Y);
 
-			gc.setBackground(LIGHT_GREEN);
-			gc.fillRectangle(X2, Y, length - X2, height - Y);
+			e.gc.setBackground(LIGHT_GREEN);
+			e.gc.fillRectangle(X2, Y, length - X2, e.height - Y);
 		}
 		if (length > X3) {
-			gc.setBackground(DARK_GREEN);
-			gc.fillRectangle(X3, 0, length - X3, height);
+			e.gc.setBackground(DARK_GREEN);
+			e.gc.fillRectangle(X3, 0, length - X3, e.height);
 		}
 	}
 }
