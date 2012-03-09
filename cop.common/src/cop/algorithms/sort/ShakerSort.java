@@ -7,8 +7,8 @@
  */
 package cop.algorithms.sort;
 
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.CommonExt.isNull;
 
 import java.util.Comparator;
 
@@ -33,13 +33,11 @@ import cop.common.predicates.comparators.MoreOrEqual;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 16.08.2010
  */
-public final class ShakerSort
-{
+public final class ShakerSort {
 	/**
 	 * Closed constructor
 	 */
-	private ShakerSort()
-	{}
+	private ShakerSort() {}
 
 	/**
 	 * Sort given array using shaker sort algorithm.<br>
@@ -48,9 +46,8 @@ public final class ShakerSort
 	 * @param arr array to sort
 	 * @return just return <b>arr</b> parameter
 	 */
-	public static int[] shakerSort(int[] arr)
-	{
-		if(isEmpty(arr))
+	public static int[] shakerSort(int[] arr) {
+		if (isEmpty(arr))
 			return arr;
 
 		int j = 0;
@@ -58,11 +55,9 @@ public final class ShakerSort
 		int size = arr.length - 1;
 		boolean noSwap = true;
 
-		for(int i = 0; i < arr.length; i++, noSwap = true)
-		{
-			for(j = size; j > i; j--)
-			{
-				if(arr[j] >= arr[j - 1])
+		for (int i = 0; i < arr.length; i++, noSwap = true) {
+			for (j = size; j > i; j--) {
+				if (arr[j] >= arr[j - 1])
 					continue;
 
 				noSwap = false;
@@ -73,14 +68,13 @@ public final class ShakerSort
 				arr[j - 1] = tmp;
 			}
 
-			if(noSwap)
+			if (noSwap)
 				break;
-			else
-				noSwap = true;
 
-			for(j = i + 1; j < size; j++)
-			{
-				if(arr[j] <= arr[j + 1])
+			noSwap = true;
+
+			for (j = i + 1; j < size; j++) {
+				if (arr[j] <= arr[j + 1])
 					continue;
 
 				noSwap = false;
@@ -90,7 +84,7 @@ public final class ShakerSort
 				arr[j + 1] = tmp;
 			}
 
-			if(noSwap)
+			if (noSwap)
 				break;
 		}
 
@@ -105,9 +99,8 @@ public final class ShakerSort
 	 * @param cmp comparator
 	 * @return just return <b>arr</b> parameter
 	 */
-	public static <T> T[] shakerSort(T[] arr, Comparator<T> cmp)
-	{
-		if(isEmpty(arr) || isNull(cmp))
+	public static <T> T[] shakerSort(T[] arr, Comparator<T> cmp) {
+		if (isEmpty(arr) || isNull(cmp))
 			return arr;
 
 		int j = 0;
@@ -118,11 +111,9 @@ public final class ShakerSort
 		MoreOrEqual<T> moreOrEqual = new MoreOrEqual<T>(cmp);
 		LessOrEqual<T> lessOrEqual = new LessOrEqual<T>(cmp);
 
-		for(int i = 0; i < arr.length; i++, noSwap = true)
-		{
-			for(j = size; j > i; j--)
-			{
-				if(moreOrEqual.check(arr[j], arr[j - 1]))
+		for (int i = 0; i < arr.length; i++, noSwap = true) {
+			for (j = size; j > i; j--) {
+				if (moreOrEqual.check(arr[j], arr[j - 1]))
 					continue;
 
 				noSwap = false;
@@ -133,14 +124,13 @@ public final class ShakerSort
 				arr[j - 1] = tmp;
 			}
 
-			if(noSwap)
+			if (noSwap)
 				break;
-			else
-				noSwap = true;
 
-			for(j = i + 1; j < size; j++)
-			{
-				if(lessOrEqual.check(arr[j], arr[j + 1]))
+			noSwap = true;
+
+			for (j = i + 1; j < size; j++) {
+				if (lessOrEqual.check(arr[j], arr[j + 1]))
 					continue;
 
 				noSwap = false;
@@ -151,7 +141,7 @@ public final class ShakerSort
 				arr[j + 1] = tmp;
 			}
 
-			if(noSwap)
+			if (noSwap)
 				break;
 		}
 

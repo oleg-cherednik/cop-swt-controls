@@ -1,6 +1,6 @@
 package cop.system.store.widows;
 
-import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.extensions.StringExt.isEmpty;
 import static java.util.regex.Pattern.compile;
 
 import java.io.IOException;
@@ -45,7 +45,7 @@ class WindowsRegistry implements SystemProperty, PropertyPath
 			{}
 		}
 
-		private byte[] toArray(List<Byte> list)
+		private static byte[] toArray(List<Byte> list)
 		{
 			if(list == null)
 				return null;
