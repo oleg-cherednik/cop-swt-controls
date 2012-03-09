@@ -1,6 +1,6 @@
 /**
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
- * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Oleg Cherednik</a>
  * 
  * $Id$
  * $HeadURL$
@@ -12,7 +12,7 @@ import java.util.Collection;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @author Oleg Cherednik
  * @since 16.08.2010
  */
 public class SimpleHtmlViewer extends HtmlViewer<String> {

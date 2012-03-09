@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @author Oleg Cherednik
  * @since 05.01.2011
  */
 public final class CssId extends CssGroup {

@@ -1,6 +1,6 @@
 /**
  * <b>License</b>: <a href="http://www.gnu.org/licenses/lgpl.html">GNU Leser General Public License</a>
- * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * <b>Copyright</b>: <a href="mailto:abba-best@mail.ru">Oleg Cherednik</a>
  * 
  * $Id$
  * $HeadURL$
@@ -22,7 +22,7 @@ import cop.swt.widgets.viewers.html.interfaces.IAppendable;
  * For simple html tags {@link HtmlColorEnum} can be used.<br>
  * This class provides methods to use complex html tags with number of parameters.
  * 
- * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
+ * @author Oleg Cherednik
  * @since 23.12.2009
  * @see HtmlColorEnum
  */
