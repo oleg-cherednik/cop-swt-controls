@@ -1,7 +1,7 @@
 package shell.image;
 
-import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Event;
 
 public interface PaintModel {
-	void paint(GC gc, int length, int width, int height);
+	void paint(Event e, int length);
 }

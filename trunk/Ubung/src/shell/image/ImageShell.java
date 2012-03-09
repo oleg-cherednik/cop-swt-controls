@@ -40,8 +40,19 @@ public class ImageShell extends RegionShell {
 		addListener(SWT.Paint, this);
 	}
 
-	protected void onPaint(GC gc) {
-		gc.drawImage(image, 0, 0);
+	protected void onPaint(Event e) {
+		e.gc.drawImage(image, 0, 0);
+	}
+
+	/*
+	 * Widget
+	 */
+
+	@Override
+	public void dispose() {
+		if (image != null)
+			image.dispose();
+		super.dispose();
 	}
 
 	/*
@@ -51,7 +62,7 @@ public class ImageShell extends RegionShell {
 	@Override
 	public void handleEvent(Event e) {
 		if (e.type == SWT.Paint)
-			onPaint(e.gc);
+			onPaint(e);
 		else
 			super.handleEvent(e);
 	}
