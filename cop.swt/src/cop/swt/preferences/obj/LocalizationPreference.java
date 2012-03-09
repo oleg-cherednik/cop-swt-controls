@@ -1,11 +1,12 @@
 package cop.swt.preferences.obj;
 
-import static cop.swt.extensions.LocalizationExtension.createLocale;
-import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.extensions.StringExt.isEmpty;
 import static cop.swt.enums.CountryEnum.parseCountryEnum;
 import static cop.swt.enums.LanguageEnum.parseLanguageEnum;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -13,12 +14,13 @@ import org.eclipse.jface.bindings.keys.ParseException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
+import cop.extensions.ArrayExt;
+import cop.i18.Localizable;
+import cop.i18.LocalizationExt;
 import cop.swt.enums.CountryEnum;
 import cop.swt.enums.LanguageEnum;
-//import cop.swt.tmp.CurrencyComboWrapper;
 
-public final class LocalizationPreference extends AbstractPreference
-{
+public final class LocalizationPreference extends AbstractPreference {
 	private static final String PROP_LOCALE_LANGUAGE = "LOCALE_LANGUAGE";
 	private static final String PROP_LOCALE_COUNTRY = "LOCALE_COUNTRY";
 	private static final String PROP_LOCALE_LANGUAGE_DEF = "LOCALE_LANGUAGE_DEF";
@@ -28,12 +30,11 @@ public final class LocalizationPreference extends AbstractPreference
 
 	private LanguageEnum language;
 	private CountryEnum country;
-	//private CurrencyComboWrapper currency;
+	// private CurrencyComboWrapper currency;
 	private boolean useDefaultLanguage;
 	private boolean useDefaultCountry;
 
-	static
-	{
+	static {
 		properties = new HashSet<String>();
 
 		properties.add(PROP_LOCALE_LANGUAGE);
@@ -43,155 +44,126 @@ public final class LocalizationPreference extends AbstractPreference
 		properties.add(PROP_LOCALE_CURRENCY);
 	}
 
-	public LocalizationPreference(IPreferenceStore store)
-	{
+	public LocalizationPreference(IPreferenceStore store) {
 		super(store);
 
-		try
-		{
+		try {
 			read();
-		}
-		catch(ParseException e)
-		{
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void dispose()
-	{
+	public void dispose() {
 		properties.clear();
 	}
 
-	public Locale getLocale()
-	{
+	public Locale getLocale() {
 		return createLocale(language, country);
 	}
 
-	public LanguageEnum getLanguage()
-	{
+	public LanguageEnum getLanguage() {
 		return language;
 	}
 
-	public CountryEnum getCountry()
-	{
+	public CountryEnum getCountry() {
 		return country;
 	}
 
-//	public CurrencyComboWrapper getCurrency()
-//	{
-//		return currency;
-//	}
+	// public CurrencyComboWrapper getCurrency()
+	// {
+	// return currency;
+	// }
 
-	public boolean isUseDefaultLanguage()
-	{
+	public boolean isUseDefaultLanguage() {
 		return useDefaultLanguage;
 	}
 
-	public boolean isUseDefaultCountry()
-	{
+	public boolean isUseDefaultCountry() {
 		return useDefaultCountry;
 	}
 
-	public void setLanguage(LanguageEnum language)
-	{
+	public void setLanguage(LanguageEnum language) {
 		this.language = language;
 	}
 
-	public void setCountry(CountryEnum country)
-	{
+	public void setCountry(CountryEnum country) {
 		this.country = country;
 	}
 
-//	public void setCurrency(CurrencyComboWrapper currency)
-//	{
-//		this.currency = currency;
-//	}
+	// public void setCurrency(CurrencyComboWrapper currency)
+	// {
+	// this.currency = currency;
+	// }
 
-	public void setUseDefaultLanguage(boolean useDefaultLanguage)
-	{
+	public void setUseDefaultLanguage(boolean useDefaultLanguage) {
 		this.useDefaultLanguage = useDefaultLanguage;
 	}
 
-	public void setUseDefaultCountry(boolean useDefaultCountry)
-	{
+	public void setUseDefaultCountry(boolean useDefaultCountry) {
 		this.useDefaultCountry = useDefaultCountry;
 	}
 
-	public void save()
-	{
+	public void save() {
 		store.setValue(PROP_LOCALE_LANGUAGE, language.getCode());
 		store.setValue(PROP_LOCALE_COUNTRY, country.getCode());
 		store.setValue(PROP_LOCALE_LANGUAGE_DEF, useDefaultLanguage);
 		store.setValue(PROP_LOCALE_COUNTRY_DEF, useDefaultCountry);
-		//store.setValue(PROP_LOCALE_CURRENCY, currency.getCode());
+		// store.setValue(PROP_LOCALE_CURRENCY, currency.getCode());
 	}
 
-	private void saveDefaults()
-	{
+	private void saveDefaults() {
 		store.setDefault(PROP_LOCALE_LANGUAGE, language.getCode());
 		store.setDefault(PROP_LOCALE_COUNTRY, country.getCode());
 		store.setDefault(PROP_LOCALE_LANGUAGE_DEF, useDefaultLanguage);
 		store.setDefault(PROP_LOCALE_COUNTRY_DEF, useDefaultCountry);
-		//store.setDefault(PROP_LOCALE_CURRENCY, currency.getCode());
+		// store.setDefault(PROP_LOCALE_CURRENCY, currency.getCode());
 	}
 
-	public void read() throws ParseException
-	{
+	public void read() throws ParseException {
 		restoreDefaults();
 
-		if(store.contains(PROP_LOCALE_LANGUAGE))
+		if (store.contains(PROP_LOCALE_LANGUAGE))
 			language = parseLanguageEnum(store.getString(PROP_LOCALE_LANGUAGE));
-		if(store.contains(PROP_LOCALE_COUNTRY))
+		if (store.contains(PROP_LOCALE_COUNTRY))
 			country = parseCountryEnum(store.getString(PROP_LOCALE_COUNTRY));
 
 		useDefaultLanguage = store.getBoolean(PROP_LOCALE_LANGUAGE_DEF);
 		useDefaultCountry = store.getBoolean(PROP_LOCALE_COUNTRY_DEF);
 
-//		if(store.contains(PROP_LOCALE_COUNTRY))
-//			currency = new CurrencyComboWrapper(store.getString(PROP_LOCALE_CURRENCY));
+		// if(store.contains(PROP_LOCALE_COUNTRY))
+		// currency = new CurrencyComboWrapper(store.getString(PROP_LOCALE_CURRENCY));
 	}
 
-	public void restoreDefaults() throws ParseException
-	{
-		try
-		{
+	public void restoreDefaults() {
+		try {
 			Locale locale = Locale.getDefault();
 
 			this.language = parseLanguageEnum(locale);
 			this.country = parseCountryEnum(locale);
 			this.useDefaultLanguage = true;
 			this.useDefaultCountry = true;
-//			this.currency = new CurrencyComboWrapper(language, country);
+			// this.currency = new CurrencyComboWrapper(language, country);
 
 			saveDefaults();
-		}
-		catch(ParseException e)
-		{
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void updateLanguage(String code)
-	{
-		try
-		{
+	private void updateLanguage(String code) {
+		try {
 			language = parseLanguageEnum(code);
-		}
-		catch(ParseException e)
-		{
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void updateCountry(String code)
-	{
-		try
-		{
+	private void updateCountry(String code) {
+		try {
 			country = parseCountryEnum(code);
-		}
-		catch(ParseException e)
-		{
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
@@ -201,8 +173,7 @@ public final class LocalizationPreference extends AbstractPreference
 	 */
 
 	@Override
-	protected Set<String> getProperties()
-	{
+	protected Set<String> getProperties() {
 		return properties;
 	}
 
@@ -211,24 +182,58 @@ public final class LocalizationPreference extends AbstractPreference
 	 */
 
 	@Override
-	public void propertyChange(PropertyChangeEvent event)
-	{
+	public void propertyChange(PropertyChangeEvent event) {
 		String property = event.getProperty();
 
-		if(isEmpty(property))
+		if (isEmpty(property))
 			return;
 
-		if(PROP_LOCALE_LANGUAGE.equals(property))
+		if (PROP_LOCALE_LANGUAGE.equals(property))
 			updateLanguage("" + event.getNewValue());
-		else if(PROP_LOCALE_COUNTRY.equals(property))
+		else if (PROP_LOCALE_COUNTRY.equals(property))
 			updateCountry("" + event.getNewValue());
 		// if(PROP_LOCALE_CURRENCY.equals(property))
 		// country = CountryEnum.parseCountryEnum("" + event.getNewValue());
-		else if(PROP_LOCALE_LANGUAGE_DEF.equals(property))
+		else if (PROP_LOCALE_LANGUAGE_DEF.equals(property))
 			useDefaultLanguage = (Boolean)event.getNewValue();
-		else if(PROP_LOCALE_COUNTRY_DEF.equals(property))
+		else if (PROP_LOCALE_COUNTRY_DEF.equals(property))
 			useDefaultCountry = (Boolean)event.getNewValue();
 
 		// private CurrencyComboWrapper currency;
+	}
+
+	/*
+	 * 
+	 */
+
+	public static Locale createLocale(LanguageEnum language, CountryEnum country) {
+		if (country != null)
+			return new Locale(language.getCode(), country.getCode());
+
+		return new Locale(language.getCode());
+	}
+
+	public static String[] getLanguagesName(LanguageEnum[] languages) {
+		return getLanguagesName(languages, null);
+	}
+
+	public static String[] getLanguagesName(LanguageEnum[] languages, Locale locale) {
+		if (ArrayExt.isEmpty(languages))
+			return new String[0];
+
+		List<String> names = new ArrayList<String>();
+
+		for (LanguageEnum language : languages)
+			names.add(language.getLocalizedName(locale));
+
+		return names.toArray(new String[0]);
+	}
+
+	public static String[] i18n(Localizable[] objs) {
+		return LocalizationExt.i18n(objs, getDefaultApplicationLocale());
+	}
+
+	public static Locale getDefaultApplicationLocale() {
+		return Locale.getDefault();
 	}
 }

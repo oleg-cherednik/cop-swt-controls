@@ -13,14 +13,14 @@ import static cop.swt.widgets.keys.enums.KeyEnum.KEY_P;
 
 import java.util.Locale;
 
-import cop.swt.extensions.LocalizationExtension;
-import cop.swt.widgets.annotations.i18n;
+import cop.i18.LocaleStore;
+import cop.i18.LocalizationExt;
+import cop.i18.annotations.i18n;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.enums.KeyEnum;
 import cop.swt.widgets.menu.interfaces.MenuItemKey;
 
-public enum MenuItemEnum implements MenuItemKey
-{
+public enum MenuItemEnum implements MenuItemKey {
 	// MI_EXPORT(new PushMenuItem("Export...", new HotKeyGroup(KEY_CTRL, KEY_E), null)),
 	// MI_PRINT(new PushMenuItem("Print...", new HotKeyGroup(KEY_CTRL, KEY_P), "icons//print//print16.png")),
 	// MI_SORT(new PushMenuItem("Sort...", "icons//sort//sort16.png")),
@@ -45,34 +45,28 @@ public enum MenuItemEnum implements MenuItemKey
 
 	private HotKey accelerator = EMPTY_HOT_KEY;
 
-	private MenuItemEnum()
-	{}
+	private MenuItemEnum() {}
 
-	private MenuItemEnum(KeyEnum... accelerator)
-	{
+	private MenuItemEnum(KeyEnum... accelerator) {
 		this(createHotKey(accelerator));
 	}
 
-	private MenuItemEnum(HotKey accelerator)
-	{
+	private MenuItemEnum(HotKey accelerator) {
 		this.accelerator = accelerator;
 	}
 
-	public HotKey getAccelerator()
-	{
+	public HotKey getAccelerator() {
 		return accelerator;
 	}
 
 	@i18n
-	public static String[] getLocalizedName()
-	{
-		return LocalizationExtension.i18n(values());
+	public static String[] getLocalizedName() {
+		return LocalizationExt.i18n(values());
 	}
 
 	@i18n
-	public static String[] getLocalizedName(Locale locale)
-	{
-		return LocalizationExtension.i18n(values(), locale);
+	public static String[] getLocalizedName(Locale locale) {
+		return LocalizationExt.i18n(values(), locale);
 	}
 
 	/*
@@ -80,23 +74,20 @@ public enum MenuItemEnum implements MenuItemKey
 	 */
 
 	@Override
-	public String i18n()
-	{
-		return LocalizationExtension.i18n(this, name());
+	public String i18n() {
+		return LocaleStore._i18n(this, name());
 	}
 
 	@Override
-	public String i18n(Locale locale)
-	{
-		return LocalizationExtension.i18n(this, name(), locale);
+	public String i18n(Locale locale) {
+		return LocaleStore._i18n(this, name(), locale);
 	}
 
 	/*
 	 * MenuKey
 	 */
 
-	public String getKey()
-	{
+	public String getKey() {
 		return name();
 	}
 }

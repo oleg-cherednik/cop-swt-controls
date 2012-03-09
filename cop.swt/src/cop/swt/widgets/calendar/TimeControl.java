@@ -1,18 +1,18 @@
 package cop.swt.widgets.calendar;
 
-import static cop.common.extensions.CalendarExtension.HOUR12_MAX;
-import static cop.common.extensions.CalendarExtension.HOUR12_MIN;
-import static cop.common.extensions.CalendarExtension.HOUR24_MAX;
-import static cop.common.extensions.CalendarExtension.HOUR24_MIN;
-import static cop.common.extensions.CalendarExtension.MINUTE_MAX;
-import static cop.common.extensions.CalendarExtension.MINUTE_MIN;
-import static cop.common.extensions.CalendarExtension.SECOND_MAX;
-import static cop.common.extensions.CalendarExtension.SECOND_MIN;
-import static cop.common.extensions.CalendarExtension.convertHour24To12;
-import static cop.common.extensions.CalendarExtension.createTimeCalendar;
-import static cop.common.extensions.CollectionExtension.addNotNull;
-import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.common.extensions.StringExtension.replaceAll;
+import static cop.extensions.CalendarExt.HOUR12_MAX;
+import static cop.extensions.CalendarExt.HOUR12_MIN;
+import static cop.extensions.CalendarExt.HOUR24_MAX;
+import static cop.extensions.CalendarExt.HOUR24_MIN;
+import static cop.extensions.CalendarExt.MINUTE_MAX;
+import static cop.extensions.CalendarExt.MINUTE_MIN;
+import static cop.extensions.CalendarExt.SECOND_MAX;
+import static cop.extensions.CalendarExt.SECOND_MIN;
+import static cop.extensions.CalendarExt.convertHour24To12;
+import static cop.extensions.CalendarExt.createTimeCalendar;
+import static cop.extensions.CollectionExt.addNotNull;
+import static cop.extensions.StringExt.isEmpty;
+import static cop.extensions.StringExt.replaceAll;
 import static cop.swt.widgets.calendar.TimeFormatPartEnum.AMPM;
 import static cop.swt.widgets.calendar.TimeFormatPartEnum.AMPM_0;
 import static cop.swt.widgets.calendar.TimeFormatPartEnum.HOUR12;
@@ -178,7 +178,7 @@ public class TimeControl extends DateTimeControl
 		// ((EnumText)ctrl).setText(val);
 	}
 
-	private AmPmEnum getAmPm()
+	private static AmPmEnum getAmPm()
 	{
 		// for(Control ctrl : getControl(AMPM_PART))
 		// if(ctrl instanceof EnumText)

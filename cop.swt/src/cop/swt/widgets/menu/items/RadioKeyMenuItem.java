@@ -1,14 +1,13 @@
 package cop.swt.widgets.menu.items;
 
-import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
 import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_COLUMN_DESCRIPTION;
 
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Listener;
 
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
+import cop.i18.annotations.i18nService;
+import cop.i18.exceptions.i18nDeclarationException;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.basics.AbstractRadioMenuItem;
 
@@ -56,9 +55,9 @@ public class RadioKeyMenuItem<T> extends AbstractRadioMenuItem
 	{
 		try
 		{
-			return getTranslation(cls, localKey, locale);
+			return i18nService.getTranslation(cls, localKey, locale);
 		}
-		catch(AnnotationDeclarationException e)
+		catch(i18nDeclarationException e)
 		{
 			e.printStackTrace();
 			return _getKey();

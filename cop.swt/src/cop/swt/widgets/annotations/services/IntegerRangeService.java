@@ -4,8 +4,8 @@
  */
 package cop.swt.widgets.annotations.services;
 
-import static cop.common.extensions.ReflectionExtension.getType;
-import static cop.common.extensions.ReflectionExtension.isInteger;
+import static cop.extensions.ReflectionExt.getType;
+import static cop.extensions.ReflectionExt.isInteger;
 
 import java.lang.reflect.AccessibleObject;
 

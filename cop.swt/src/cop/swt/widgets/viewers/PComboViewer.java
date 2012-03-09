@@ -1,9 +1,8 @@
 package cop.swt.widgets.viewers;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.isInRangeMin;
+import static cop.extensions.CollectionExt.isEmpty;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.NumericExt.isInRangeMin;
 import static cop.swt.widgets.annotations.services.LabelService.getItemName;
 
 import java.util.ArrayList;
@@ -19,7 +18,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.extensions.ArrayExt;
+import cop.i18.LocaleSupport;
 import cop.swt.widgets.annotations.exceptions.WrongReturnValueException;
 import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.interfaces.Refreshable;
@@ -74,10 +74,10 @@ public final class PComboViewer<T> implements LabelSupport, LocaleSupport, Refre
 
 		IStructuredSelection sel = new IStructuredSelection()
 		{
-			private List<T> list = new ArrayList<T>();
+			private List<T> list1 = new ArrayList<T>();
 
 			{
-				list.add(item);
+				list1.add(item);
 			}
 
 			@Override
@@ -115,7 +115,7 @@ public final class PComboViewer<T> implements LabelSupport, LocaleSupport, Refre
 			@Override
 			public Iterator iterator()
 			{
-				return list.iterator();
+				return list1.iterator();
 			}
 
 			@Override
@@ -337,7 +337,7 @@ public final class PComboViewer<T> implements LabelSupport, LocaleSupport, Refre
 		list.clear();
 		combo.removeAll();
 
-		if(isEmpty(items))
+		if(ArrayExt.isEmpty(items))
 			return;
 
 		for(T item : items)

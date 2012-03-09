@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 import cop.swt.preferences.obj.LocalizationPreference;
-import static cop.common.extensions.CommonExtension.*;
+import static cop.extensions.CommonExt.*;
 import cop.swt.enums.CountryEnum;
 import cop.swt.enums.LanguageEnum;
 //import cop.swt.tmp.CurrencyComboWrapper;
@@ -67,7 +67,7 @@ public class LocalizationPreferencePage extends AbstractPreferencePage
 		createCurrencyCombo(composite);
 	}
 
-	private Composite createCompositeGroup(Composite parent, String str, GridLayout layout)
+	private static Composite createCompositeGroup(Composite parent, String str, GridLayout layout)
 	{
 		Assert.isNotNull(parent);
 
@@ -76,7 +76,7 @@ public class LocalizationPreferencePage extends AbstractPreferencePage
 		return createComposite(group, layout);
 	}
 
-	private Group createGroup(Composite parent, String str)
+	private static Group createGroup(Composite parent, String str)
 	{
 		Assert.isNotNull(parent);
 
@@ -90,7 +90,7 @@ public class LocalizationPreferencePage extends AbstractPreferencePage
 		return group;
 	}
 
-	private Composite createComposite(Composite parent, GridLayout layout)
+	private static Composite createComposite(Composite parent, GridLayout layout)
 	{
 		Assert.isNotNull(parent);
 
@@ -102,7 +102,7 @@ public class LocalizationPreferencePage extends AbstractPreferencePage
 		return composite;
 	}
 
-	private void createLabel(Composite parent, String str)
+	private static void createLabel(Composite parent, String str)
 	{
 		Assert.isNotNull(parent);
 

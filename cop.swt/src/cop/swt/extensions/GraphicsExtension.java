@@ -7,7 +7,7 @@
  */
 package cop.swt.extensions;
 
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNull;
 import static cop.swt.extensions.ColorExtension.*;
 
 import org.eclipse.swt.graphics.Color;

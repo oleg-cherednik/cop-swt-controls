@@ -5,12 +5,10 @@
 package cop.swt.widgets.viewers;
 
 import static cop.algorithms.search.LinearSearch.linearSearch;
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.ArrayExtension.isNotEmpty;
-import static cop.common.extensions.ArrayExtension.removeDublicatesAndSort;
-import static cop.common.extensions.CollectionExtension.EMPTY_LIST;
-import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.ArrayExt.removeDublicatesAndSort;
+import static cop.extensions.CollectionExt.EMPTY_LIST;
+import static cop.extensions.StringExt.isEmpty;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.keys.HotKey.keyCtrlDown;
 import static cop.swt.widgets.keys.HotKey.keyCtrlUp;
@@ -56,7 +54,9 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import cop.common.extensions.BitExtension;
+import cop.extensions.ArrayExt;
+import cop.extensions.BitExt;
+import cop.extensions.StringExt;
 import cop.managers.ClipboardManager;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.keys.HotKey;
@@ -141,7 +141,7 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 
 		int size = ((ListModel<T>)model).getItemCount();
 
-		if(isEmpty(indices) || size == 0)
+		if(ArrayExt.isEmpty(indices) || size == 0)
 			return;
 
 		int topIndex = getTopIndex();
@@ -173,7 +173,7 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 
 		int size = ((ListModel<T>)model).getItemCount();
 
-		if(isEmpty(indices) || size == 0)
+		if(ArrayExt.isEmpty(indices) || size == 0)
 			return;
 
 		int topIndex = getTopIndex();
@@ -275,7 +275,7 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 		@Override
 		public Boolean getProperty()
 		{
-			return isNotEmpty(preferencePage);
+			return StringExt.isNotEmpty(preferencePage);
 		}
 	};
 
@@ -284,7 +284,7 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 		@Override
 		public Boolean getProperty()
 		{
-			return BitExtension.isBitSet(widget.getControl().getStyle(), SWT.MULTI);
+			return BitExt.isBitSet(widget.getControl().getStyle(), SWT.MULTI);
 		}
 	};
 
@@ -362,7 +362,7 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 	{
 		T[] items = getSelectedItems();
 
-		if(isNotEmpty(items))
+		if(!isEmpty(items))
 			for(T item : items)
 				notifyModifyListener(item, REMOVE);
 	}
@@ -446,7 +446,7 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 	@Override
 	public void modelChanged(T... items) // TODO maybe it's better to give an update type
 	{
-		if(isEmpty(items))
+		if(ArrayExt.isEmpty(items))
 			widget.setInput(model.getElements(null));
 		else
 			widget.update(items, getProperties());
@@ -681,13 +681,13 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 			moveItemsUp(getSelectionIndices(), true);
 		else
 			moveItemsDown(getSelectionIndices(), true);
-	};
+	}
 
 	private void onMouseExit(Event event)
 	{
 		if(hotKeyManager != null)
 			hotKeyManager.clear();
-	};
+	}
 
 	protected void onMenuDetect(Event event)
 	{
@@ -699,7 +699,7 @@ public abstract class AbstractViewer<T, V extends StructuredViewer, C extends Vi
 	{
 		T[] items = getSelectedItems();
 
-		if(isEmpty(items))
+		if(ArrayExt.isEmpty(items))
 			return;
 
 		Object[] data = new Object[] { ClipboardManager.buildOneStringData(toStringArrayList(items)) };

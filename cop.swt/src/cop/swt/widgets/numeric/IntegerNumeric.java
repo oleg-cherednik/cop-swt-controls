@@ -4,12 +4,12 @@
  */
 package cop.swt.widgets.numeric;
 
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.countLength;
-import static cop.common.extensions.NumericExtension.isInRangeMinMax;
-import static cop.common.extensions.NumericExtension.isLess;
-import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.common.extensions.StringExtension.replace;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.NumericExt.countLength;
+import static cop.extensions.NumericExt.isInRangeMinMax;
+import static cop.extensions.NumericExt.isLess;
+import static cop.extensions.StringExt.isEmpty;
+import static cop.extensions.StringExt.replace;
 import static java.lang.Math.abs;
 import static java.text.NumberFormat.getIntegerInstance;
 import static org.eclipse.swt.SWT.NONE;

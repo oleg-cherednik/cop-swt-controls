@@ -4,15 +4,15 @@
  */
 package cop.swt.widgets.annotations.services;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.ReflectionExtension.getFieldValue;
-import static cop.common.extensions.ReflectionExtension.getType;
-import static cop.common.extensions.ReflectionExtension.invokeMethod;
-import static cop.common.extensions.ReflectionExtension.isNumeric;
-import static cop.common.extensions.ReflectionExtension.isString;
-import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.common.extensions.StringExtension.isEqual;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.ReflectionExt.getFieldValue;
+import static cop.extensions.ReflectionExt.getType;
+import static cop.extensions.ReflectionExt.invokeMethod;
+import static cop.extensions.ReflectionExt.isNumeric;
+import static cop.extensions.ReflectionExt.isString;
+import static cop.extensions.StringExt.isEmpty;
+import static cop.extensions.StringExt.isEqual;
 import static cop.swt.widgets.viewers.descriptions.LabelDescription.createLabelDescription;
 
 import java.lang.reflect.AccessibleObject;
@@ -24,7 +24,7 @@ import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
 
-import cop.common.extensions.AnnotationExtension;
+import cop.extensions.AnnotationExt;
 import cop.swt.widgets.annotations.Label;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.WrongReturnValueException;
@@ -37,35 +37,30 @@ import cop.swt.widgets.viewers.descriptions.LabelDescription;
  * @see Label
  * @see ILabelName
  */
-public final class LabelService
-{
+public final class LabelService {
 	/**
 	 * Closed constructor
 	 */
-	private LabelService()
-	{}
+	private LabelService() {}
 
 	public static <T> LabelDescription<T> getDescription(Class<?> item, String labelName)
-	                throws AnnotationDeclarationException
-	{
-		if(isNull(item))
+	                throws AnnotationDeclarationException {
+		if (isNull(item))
 			throw new NullPointerException("item == null");
 
 		checkItemType(item);
 
 		AccessibleObject obj = getAnnotatedItem(item, labelName);
 
-		if(obj instanceof Field)
+		if (obj instanceof Field)
 			return getAnnotationInfo((Field)obj, labelName);
-		if(obj instanceof Method)
+		if (obj instanceof Method)
 			return getAnnotationInfo((Method)obj, labelName, item);
 
 		return null;
 	}
 
-	private static <T> LabelDescription<T> getAnnotationInfo(Method method, String labelName, Class<?> cls)
-	                throws AnnotationDeclarationException
-	{
+	private static <T> LabelDescription<T> getAnnotationInfo(Method method, String labelName, Class<?> cls) {
 		Assert.isNotNull(method);
 		Assert.isNotNull(cls);
 
@@ -85,9 +80,7 @@ public final class LabelService
 		return column;
 	}
 
-	private static <T> LabelDescription<T> getAnnotationInfo(Field field, String labelName)
-	                throws AnnotationDeclarationException
-	{
+	private static <T> LabelDescription<T> getAnnotationInfo(Field field, String labelName) {
 		Assert.isNotNull(field);
 
 		// checkOrderValue(field.getAnnotation(Column.class));
@@ -125,8 +118,7 @@ public final class LabelService
 	 * @see Label
 	 * @see ILabelName
 	 */
-	public static <T> String getItemName(T item) throws WrongReturnValueException
-	{
+	public static <T> String getItemName(T item) throws WrongReturnValueException {
 		return getItemName(item, null);
 	}
 
@@ -157,51 +149,42 @@ public final class LabelService
 	 * @see Label
 	 * @see ILabelName
 	 */
-	public static <T> String getItemName(T item, String labelName) throws WrongReturnValueException
-	{
+	public static <T> String getItemName(T item, String labelName) throws WrongReturnValueException {
 		return getItemName(item, labelName, null);
 	}
 
-	public static <T> String getItemName(T item, String labelName, Locale locale) throws WrongReturnValueException
-	{
-		if(isNull(item))
+	public static <T> String getItemName(T item, String labelName, Locale locale) throws WrongReturnValueException {
+		if (isNull(item))
 			throw new NullPointerException("item == null");
 
-		try
-		{
+		try {
 			Class<?> cls = item.getClass();
 
-			if(isString(cls) || isNumeric(cls))
+			if (isString(cls) || isNumeric(cls))
 				return getItemDefaultName(item);
 
 			AccessibleObject obj = getAnnotatedItem(item.getClass(), labelName);
 
 			return isNotNull(obj) ? getResultString(item, obj, locale) : getItemDefaultName(item);
-		}
-		catch(AnnotationDeclarationException e)
-		{
+		} catch (AnnotationDeclarationException e) {
 			e.printStackTrace();
 		}
 
 		return getItemDefaultName(item);
 	}
 
-	public static <T> Class<?> getItemClass(T item, String labelName) throws WrongReturnValueException
-	{
-		if(isNull(item))
+	public static <T> Class<?> getItemClass(T item, String labelName) {
+		if (isNull(item))
 			throw new NullPointerException("item == null");
 
-		try
-		{
+		try {
 			Class<?> cls = item.getClass();
 
-			if(isString(cls) || isNumeric(cls))
+			if (isString(cls) || isNumeric(cls))
 				return cls;
 
 			return getType(getAnnotatedItem(item.getClass(), labelName), String.class);
-		}
-		catch(AnnotationDeclarationException e)
-		{
+		} catch (AnnotationDeclarationException e) {
 			e.printStackTrace();
 		}
 
@@ -231,9 +214,8 @@ public final class LabelService
 	// }
 
 	public static AccessibleObject getAnnotatedItem(Class<?> cls, String labelName)
-	                throws AnnotationDeclarationException
-	{
-		if(isNull(cls))
+	                throws AnnotationDeclarationException {
+		if (isNull(cls))
 			return null;
 
 		checkItemType(cls);
@@ -245,10 +227,10 @@ public final class LabelService
 		int fieldsNum = fields.length;
 		int total = methodsNum + fieldsNum;
 
-		if(total == 0)
+		if (total == 0)
 			return null;
 
-		if(total > 1)
+		if (total > 1)
 			throw new AnnotationDeclarationException("Annotation '@Label' must be declared only once");
 
 		return (methodsNum == 1) ? methods[0] : fields[0];
@@ -264,13 +246,12 @@ public final class LabelService
 	 * @throws WrongReturnValueException
 	 * @see {@link Object#toString()}
 	 */
-	private static <T> String getItemDefaultName(T item) throws WrongReturnValueException
-	{
+	private static <T> String getItemDefaultName(T item) throws WrongReturnValueException {
 		Assert.isNotNull(item);
 
 		String name = item.toString();
 
-		if(isEmpty(name))
+		if (isEmpty(name))
 			throw new WrongReturnValueException("Please, check toString() method for 'item' class."
 			                + " It must return not empty string!");
 
@@ -287,21 +268,19 @@ public final class LabelService
 	 * @see Label
 	 * @see Method
 	 */
-	private static Method[] getAnnotatedMethods(Class<?> cls, String labelName)
-	{
+	private static Method[] getAnnotatedMethods(Class<?> cls, String labelName) {
 		Assert.isNotNull(cls);
 
 		List<Method> methods = new ArrayList<Method>();
 
-		for(Method method : AnnotationExtension.getAnnotatedMethods(cls, Label.class))
-			if(isSameLabelName(labelName, method.getAnnotation(Label.class)))
+		for (Method method : AnnotationExt.getAnnotatedMethods(cls, Label.class))
+			if (isSameLabelName(labelName, method.getAnnotation(Label.class)))
 				methods.add(method);
 
 		return methods.toArray(new Method[0]);
 	}
 
-	private static boolean isSameLabelName(String labelName, Label annotation)
-	{
+	private static boolean isSameLabelName(String labelName, Label annotation) {
 		Assert.isNotNull(annotation);
 
 		return isEqual(labelName, annotation.name());
@@ -317,61 +296,54 @@ public final class LabelService
 	 * @see Label
 	 * @see Field
 	 */
-	private static Field[] getAnnotatedFields(Class<?> cls, String labelName)
-	{
+	private static Field[] getAnnotatedFields(Class<?> cls, String labelName) {
 		Assert.isNotNull(cls);
 
 		List<Field> fields = new ArrayList<Field>();
 
-		for(Field field : AnnotationExtension.getAnnotatedFields(cls, Label.class))
-			if(isSameLabelName(labelName, field.getAnnotation(Label.class)))
+		for (Field field : AnnotationExt.getAnnotatedFields(cls, Label.class))
+			if (isSameLabelName(labelName, field.getAnnotation(Label.class)))
 				fields.add(field);
 
 		return fields.toArray(new Field[0]);
 	}
 
-	public static <T> Object getResultValue(T item, AccessibleObject obj, Locale locale) throws Exception
-	{
+	public static <T> Object getResultValue(T item, AccessibleObject obj, Locale locale) throws Exception {
 		Assert.isNotNull(obj);
 
-		if(isNull(item))
+		if (isNull(item))
 			return null;
 
-		if(obj instanceof Field)
+		if (obj instanceof Field)
 			return getResultValue(item, (Field)obj);
 
 		return getResultValue(item, (Method)obj, locale);
 	}
 
 	private static <T> String getResultString(T item, AccessibleObject obj, Locale locale)
-	                throws AnnotationDeclarationException
-	{
+	                throws AnnotationDeclarationException {
 		Assert.isNotNull(item);
 		Assert.isNotNull(obj);
 
-		try
-		{
+		try {
 			Object res = getResultValue(item, obj, locale);
 
-			if(isNull(res))
+			if (isNull(res))
 				throw new AnnotationDeclarationException("Field/metod annotatated with '@Label' returns null");
 
 			String str = res.toString();
 
-			if(isEmpty(res.toString()))
+			if (isEmpty(res.toString()))
 				throw new AnnotationDeclarationException("Field/method annotatated with '@Label' must return not"
 				                + " empty string");
 
 			return str;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new AnnotationDeclarationException(e);
 		}
 	}
 
-	private static <T> Object getResultValue(T item, Method method, Locale locale) throws Exception
-	{
+	private static <T> Object getResultValue(T item, Method method, Locale locale) throws Exception {
 		Assert.isNotNull(item);
 		Assert.isNotNull(method);
 		// Assert.isLegal(!(item instanceof String), "item must not be String");
@@ -383,41 +355,38 @@ public final class LabelService
 
 		Object res = null;
 
-		if(isNotNull(locale))
+		if (isNotNull(locale))
 			res = invokeMethod(item, method, locale);
-		else if(method.getParameterTypes().length == 1)
+		else if (method.getParameterTypes().length == 1)
 			res = invokeMethod(item, method, (Object)null);
 		else
 			res = invokeMethod(item, method);
 
-		if(isNull(res))
+		if (isNull(res))
 			throw new AnnotationDeclarationException("Method annotatated with '@Label' must return not null value");
 
 		return res;
 	}
 
-	private static void checkMethodArguments(Method method) throws AnnotationDeclarationException
-	{
+	private static void checkMethodArguments(Method method) throws AnnotationDeclarationException {
 		Assert.isNotNull(method);
 
 		Class<?>[] arguments = method.getParameterTypes();
 
-		if(arguments.length > 1 || arguments.length == 1 && !arguments[0].isAssignableFrom(Locale.class))
+		if (arguments.length > 1 || arguments.length == 1 && !arguments[0].isAssignableFrom(Locale.class))
 			throw new AnnotationDeclarationException(
 			                "Method annotatated with '@Label' can optionally have only 'Locale' argument");
 	}
 
-	private static void checkMethodReturnType(Method method) throws AnnotationDeclarationException
-	{
+	private static void checkMethodReturnType(Method method) throws AnnotationDeclarationException {
 		Assert.isNotNull(method);
 
-		if(method.getReturnType() == void.class)
+		if (method.getReturnType() == void.class)
 			throw new AnnotationDeclarationException("Method annotatated with '@Label' must return value");
 
 	}
 
-	private static <T> Object getResultValue(T item, Field field) throws Exception
-	{
+	private static <T> Object getResultValue(T item, Field field) throws Exception {
 		Assert.isNotNull(item);
 		Assert.isNotNull(field);
 
@@ -430,15 +399,14 @@ public final class LabelService
 		return res;
 	}
 
-	private static void checkItemType(Class<?> type)
-	{
+	private static void checkItemType(Class<?> type) {
 		Assert.isNotNull(type);
 
-		if(isString(type))
+		if (isString(type))
 			throw new IllegalArgumentException("item can't be String type");
-		if(isNumeric(type))
+		if (isNumeric(type))
 			throw new IllegalArgumentException("item must not be Number type");
-		if(type.isPrimitive())
+		if (type.isPrimitive())
 			throw new IllegalArgumentException("item can't be primitive type");
 	}
 }

@@ -1,6 +1,6 @@
 package cop.swt.preferences;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CommonExt.isNotNull;
 import static org.eclipse.swt.SWT.CHECK;
 import static org.eclipse.swt.SWT.RADIO;
 

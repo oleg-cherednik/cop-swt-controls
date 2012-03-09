@@ -8,7 +8,7 @@ import org.eclipse.swt.printing.Printer;
 import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.swt.widgets.Shell;
 
-import static cop.common.extensions.CommonExtension.*;
+import static cop.extensions.CommonExt.*;
 
 public class PrinterManager
 {

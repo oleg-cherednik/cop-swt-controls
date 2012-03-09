@@ -1,18 +1,17 @@
 package cop.swt.widgets.viewers.descriptions;
 
 import static cop.algorithms.search.LinearSearch.linearSearch;
-import static cop.common.extensions.ArrayExtension.convertToStringArray;
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.ArrayExtension.isNotEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.CompareExtension.compareNumbers;
-import static cop.swt.widgets.annotations.services.i18nService.getTranslations;
+import static cop.extensions.ArrayExt.convertToStringArray;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.CompareExt.compareNumbers;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
+import cop.i18.annotations.i18nService;
+import cop.i18.exceptions.i18nDeclarationException;
 
 public class EnumLabelDescription<T> extends LabelDescription<T>
 {
@@ -40,7 +39,7 @@ public class EnumLabelDescription<T> extends LabelDescription<T>
 				return;
 
 			constatns = getType().getEnumConstants();
-			i18n = getTranslations(getType(), locale);
+			i18n = i18nService.getTranslations(getType(), locale);
 		}
 		catch(Exception e)
 		{
@@ -60,7 +59,7 @@ public class EnumLabelDescription<T> extends LabelDescription<T>
 
 	public String[] getStringItems()
 	{
-		return isNotEmpty(i18n) ? i18n : convertToStringArray(constatns);
+		return isEmpty(i18n) ? convertToStringArray(constatns) : i18n;
 	}
 
 	public String translate(Object obj)
@@ -134,9 +133,9 @@ public class EnumLabelDescription<T> extends LabelDescription<T>
 		try
 		{
 			if(isNotNull(locale))
-				i18n = getTranslations(getType(), locale);
+				i18n = i18nService.getTranslations(getType(), locale);
 		}
-		catch(AnnotationDeclarationException e)
+		catch(i18nDeclarationException e)
 		{
 			e.printStackTrace();
 		}

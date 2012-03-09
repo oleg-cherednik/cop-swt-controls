@@ -1,6 +1,6 @@
 package cop.swt.widgets.comparators;
 
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNull;
 
 import java.util.Comparator;
 
@@ -18,7 +18,6 @@ public class EnumComparator<T> implements Comparator<T>
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public int compare(T obj1, T obj2)
 	{
 		return compareEnum((Enum)obj1, (Enum)obj2);

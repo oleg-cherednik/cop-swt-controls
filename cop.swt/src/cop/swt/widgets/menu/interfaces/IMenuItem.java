@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Listener;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.keys.HotKey;
 

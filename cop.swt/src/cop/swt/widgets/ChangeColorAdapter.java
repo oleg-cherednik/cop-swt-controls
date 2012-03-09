@@ -5,7 +5,7 @@
 package cop.swt.widgets;
 
 import static cop.swt.extensions.ColorExtension.getColor;
-import static cop.common.extensions.CommonExtension.getValue;
+import static cop.extensions.CommonExt.getValue;
 
 import org.eclipse.swt.graphics.Color;
 

@@ -1,15 +1,12 @@
 package cop.swt.preferences.detailpages;
 
-import static cop.common.extensions.CommonExtension.*;
-import static org.eclipse.swt.SWT.CHECK;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
 import static org.eclipse.swt.SWT.FILL;
-import static org.eclipse.swt.SWT.NONE;
 
 import java.util.Locale;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -17,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 
 public class ColumnDetailPage implements LocaleSupport
 {

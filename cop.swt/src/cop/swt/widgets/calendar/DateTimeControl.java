@@ -1,8 +1,8 @@
 package cop.swt.widgets.calendar;
 
-import static cop.common.extensions.BitExtension.isBitSet;
-import static cop.common.extensions.CollectionExtension.addNotNull;
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.extensions.BitExt.isBitSet;
+import static cop.extensions.CollectionExt.addNotNull;
+import static cop.extensions.CollectionExt.isEmpty;
 import static cop.swt.widgets.enums.DateTimePartEnum.BACKGROUND_PART;
 import static cop.swt.widgets.enums.DateTimePartEnum.ENABLE_BUTTON_PART;
 import static cop.swt.widgets.enums.DateTimePartEnum.SEPARATOR_PART;

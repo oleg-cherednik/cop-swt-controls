@@ -11,9 +11,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-import cop.common.extensions.CollectionExtension;
+import cop.extensions.CollectionExt;
 import cop.common.structures.EntrySet;
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.keys.HotKeyManager;
 import cop.swt.widgets.menu.enums.MenuItemEnum;
@@ -44,7 +44,7 @@ public final class MenuManager implements LocaleSupport
 
 	public boolean isEmpty()
 	{
-		return CollectionExtension.isEmpty(menuItems);
+		return CollectionExt.isEmpty(menuItems);
 	}
 
 	private void addMenuItems(IMenuBuilder menuBuilder)

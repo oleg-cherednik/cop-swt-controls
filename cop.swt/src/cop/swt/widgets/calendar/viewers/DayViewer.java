@@ -1,19 +1,18 @@
 package cop.swt.widgets.calendar.viewers;
 
-import static cop.common.enums.TitleTypeEnum.TWO_CHARS;
-import static cop.common.extensions.CalendarExtension.WEEK_DAYS_NUM;
-import static cop.common.extensions.CalendarExtension.createCalendar;
-import static cop.common.extensions.CalendarExtension.getWeekdaysTitles;
-import static cop.common.extensions.CalendarExtension.isDateSame;
-import static cop.common.extensions.CalendarExtension.isDay;
-import static cop.common.extensions.CalendarExtension.isDaySame;
-import static cop.common.extensions.CalendarExtension.isMonth;
-import static cop.common.extensions.CalendarExtension.isMonthsSame;
-import static cop.common.extensions.CalendarExtension.isYear;
+import static cop.extensions.CalendarExt.WEEK_DAYS_NUM;
+import static cop.extensions.CalendarExt.createCalendar;
+import static cop.extensions.CalendarExt.getWeekdaysTitles;
+import static cop.extensions.CalendarExt.isDateSame;
+import static cop.extensions.CalendarExt.isDay;
+import static cop.extensions.CalendarExt.isDaySame;
+import static cop.extensions.CalendarExt.isMonth;
+import static cop.extensions.CalendarExt.isMonthsSame;
+import static cop.extensions.CalendarExt.isYear;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.NumericExt.isInRangeMinMax;
 import static cop.algorithms.search.LinearSearch.linearSearch;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.isInRangeMinMax;
 import static cop.swt.extensions.ColorExtension.DARK_RED;
 import static cop.swt.widgets.calendar.viewers.templates.AbstractCalendarConfig.applyTemplate;
 import static cop.swt.widgets.keys.enums.KeyEnum.parseKeyEnum;
@@ -65,6 +64,7 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import cop.extensions.enums.TitleTypeEnum;
 import cop.swt.widgets.calendar.interfaces.IDayViewer;
 import cop.swt.widgets.calendar.viewers.templates.CalendarConfigUnit;
 import cop.swt.widgets.calendar.viewers.templates.DefaultCalendarConfig;
@@ -517,26 +517,26 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 
 	private class WeekdayTitleSet implements Refreshable
 	{
-		private Label[] titles;
+		private Label[] titles1;
 
 		public WeekdayTitleSet()
 		{
-			titles = new Label[WEEK_DAYS_NUM];
+			titles1 = new Label[WEEK_DAYS_NUM];
 
 			for(int i = 0; i < WEEK_DAYS_NUM; i++)
 			{
-				titles[i] = createLabelSell(null);
-				applyTemplate(titles[i], viewTemplate.getWeekdayTitlePart(DayViewer.this));
+				titles1[i] = createLabelSell(null);
+				applyTemplate(titles1[i], viewTemplate.getWeekdayTitlePart(DayViewer.this));
 			}
 		}
 
 		@Override
 		public void refresh()
 		{
-			String[] weekdays = getWeekdaysTitles(TWO_CHARS, locale);
+			String[] weekdays = getWeekdaysTitles(TitleTypeEnum.TWO_CHARS, locale);
 			int firstWeekday = date.getFirstDayOfWeek();
 
-			for(Label title : titles)
+			for(Label title : titles1)
 			{
 				if(firstWeekday > WEEK_DAYS_NUM)
 					firstWeekday -= WEEK_DAYS_NUM;
@@ -544,11 +544,11 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 				title.setText(weekdays[firstWeekday]);
 
 				if(firstWeekday == SUNDAY)
-					applyTemplate(title, viewTemplate.getSundayPart(titles[3]));
+					applyTemplate(title, viewTemplate.getSundayPart(titles1[3]));
 				else if(firstWeekday == SATURDAY)
-					applyTemplate(title, viewTemplate.getSaturdayPart(titles[3]));
+					applyTemplate(title, viewTemplate.getSaturdayPart(titles1[3]));
 				else
-					applyTemplate(title, viewTemplate.getWeekdayTitlePart(titles[3]));
+					applyTemplate(title, viewTemplate.getWeekdayTitlePart(titles1[3]));
 
 				firstWeekday++;
 			}
@@ -557,13 +557,13 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 
 	private class WeekNumberSet implements Refreshable
 	{
-		private Label[] numbers = new Label[WEEKS_NUM];
+		private Label[] numbers1 = new Label[WEEKS_NUM];
 		private int size;
 
 		public void add()
 		{
-			if(size < numbers.length)
-				numbers[size++] = createLabelSell(null);
+			if(size < numbers1.length)
+				numbers1[size++] = createLabelSell(null);
 		}
 
 		@Override
@@ -571,7 +571,7 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 		{
 			Calendar tmp = (Calendar)firstShowDay.clone();
 
-			for(Label number : numbers)
+			for(Label number : numbers1)
 			{
 				number.setText("" + tmp.get(WEEK_OF_YEAR));
 				tmp.add(DAY_OF_MONTH, WEEK_DAYS_NUM);
@@ -583,18 +583,18 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 	private class DaySet implements Refreshable
 	{
 		private int dayOffset;
-		private DaySell[] days = new DaySell[WEEKS_NUM * WEEK_DAYS_NUM];
+		private DaySell[] days1 = new DaySell[WEEKS_NUM * WEEK_DAYS_NUM];
 		private int size;
 		private boolean focusControl;
 
 		public void add()
 		{
-			if(size == days.length)
+			if(size == days1.length)
 				return;
 
-			days[size] = new DaySell(DayViewer.this);
-			days[size].addMouseListener(notifyMouseMainDoubleClick);
-			days[size].addMouseListener(setFocusOnMainMouseClick);
+			days1[size] = new DaySell(DayViewer.this);
+			days1[size].addMouseListener(notifyMouseMainDoubleClick);
+			days1[size].addMouseListener(setFocusOnMainMouseClick);
 
 			size++;
 		}
@@ -605,7 +605,7 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 			Calendar tmp = (Calendar)firstShowDay.clone();
 			Calendar today = Calendar.getInstance(locale);
 
-			for(DaySell day : days)
+			for(DaySell day : days1)
 			{
 				day.setDate(tmp);
 				CalendarConfigUnit parentTemplate = viewTemplate.getBodyPart(DayViewer.this);
@@ -661,12 +661,12 @@ public class DayViewer extends Composite implements IDayViewer, Refreshable, Cle
 
 		public DaySell getSelectedDayControl()
 		{
-			return days[date.get(DAY_OF_MONTH) - 1 - dayOffset];
+			return days1[date.get(DAY_OF_MONTH) - 1 - dayOffset];
 		}
 
 		private int findDay(DaySell daySell)
 		{
-			return linearSearch(days, daySell);
+			return linearSearch(days1, daySell);
 		}
 
 		private Calendar getFirstShowDate()

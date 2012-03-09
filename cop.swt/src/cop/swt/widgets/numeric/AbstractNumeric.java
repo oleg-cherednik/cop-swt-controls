@@ -4,18 +4,18 @@
  */
 package cop.swt.widgets.numeric;
 
-import static cop.common.extensions.CommonExtension.isEqual;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.countDigits;
-import static cop.common.extensions.NumericExtension.getRange;
-import static cop.common.extensions.NumericExtension.isGreater;
-import static cop.common.extensions.NumericExtension.isGreaterOrEqual;
-import static cop.common.extensions.NumericExtension.isInRange;
-import static cop.common.extensions.NumericExtension.isInRangeMinMax;
-import static cop.common.extensions.NumericExtension.isLess;
-import static cop.common.extensions.NumericExtension.isLessOrEqual;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.CommonExt.isEqual;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.NumericExt.countDigits;
+import static cop.extensions.NumericExt.getRange;
+import static cop.extensions.NumericExt.isGreater;
+import static cop.extensions.NumericExt.isGreaterOrEqual;
+import static cop.extensions.NumericExt.isInRange;
+import static cop.extensions.NumericExt.isInRangeMinMax;
+import static cop.extensions.NumericExt.isLess;
+import static cop.extensions.NumericExt.isLessOrEqual;
+import static cop.extensions.StringExt.isNotEmpty;
 import static cop.swt.widgets.keys.enums.KeyEnum.parseKeyEnum;
 import static cop.swt.widgets.keys.listeners.KeyListenerSet.doClearKey;
 import static cop.swt.widgets.keys.listeners.KeyListenerSet.isArrow;
@@ -48,8 +48,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import cop.common.extensions.CollectionExtension;
-import cop.common.extensions.StringExtension;
+import cop.extensions.CollectionExt;
+import cop.extensions.StringExt;
 import cop.swt.widgets.ColorText;
 import cop.swt.widgets.dirty.DirtyObserver;
 import cop.swt.widgets.dirty.NumericDirtyObserver;
@@ -152,7 +152,7 @@ public abstract class AbstractNumeric<T extends Number> extends ColorText implem
 
 	protected boolean isBreakValue(T value)
 	{
-		return (isNull(value) || CollectionExtension.isEmpty(breakList)) ? false : !breakList.contains(value);
+		return (isNull(value) || CollectionExt.isEmpty(breakList)) ? false : !breakList.contains(value);
 	}
 
 	protected void refreshGridLayout()
@@ -233,7 +233,7 @@ public abstract class AbstractNumeric<T extends Number> extends ColorText implem
 
 	private void refreshBreakList()
 	{
-		if(CollectionExtension.isEmpty(breakList))
+		if(CollectionExt.isEmpty(breakList))
 			return;
 
 		Set<T> values = new TreeSet<T>();
@@ -282,7 +282,7 @@ public abstract class AbstractNumeric<T extends Number> extends ColorText implem
 	{
 		String str = super.getText();
 
-		return StringExtension.isEmpty(str) ? defaultText : str;
+		return StringExt.isEmpty(str) ? defaultText : str;
 	}
 
 	protected final void setSuperText(String text)
@@ -309,7 +309,7 @@ public abstract class AbstractNumeric<T extends Number> extends ColorText implem
 		{
 			String str = getText();
 
-			if(StringExtension.isEmpty(str) && nullValueEnabled)
+			if(StringExt.isEmpty(str) && nullValueEnabled)
 				return null;
 
 			return arithmeticStrategy.getValue(nf.parse(str).doubleValue());

@@ -1,6 +1,6 @@
 package cop.swt.widgets.viewers;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
+import static cop.extensions.CollectionExt.isEmpty;
 
 import java.util.ArrayList;
 import java.util.Collection;

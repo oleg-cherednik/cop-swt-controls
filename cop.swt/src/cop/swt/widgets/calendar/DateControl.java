@@ -1,11 +1,11 @@
 package cop.swt.widgets.calendar;
 
-import static cop.common.extensions.BitExtension.isBitSet;
-import static cop.common.extensions.CalendarExtension.DAY_MAX;
-import static cop.common.extensions.CalendarExtension.DAY_MIN;
-import static cop.common.extensions.CalendarExtension.MONTH_MAX;
-import static cop.common.extensions.CalendarExtension.MONTH_MIN;
-import static cop.common.extensions.CollectionExtension.addNotNull;
+import static cop.extensions.BitExt.isBitSet;
+import static cop.extensions.CalendarExt.DAY_MAX;
+import static cop.extensions.CalendarExt.DAY_MIN;
+import static cop.extensions.CalendarExt.MONTH_MAX;
+import static cop.extensions.CalendarExt.MONTH_MIN;
+import static cop.extensions.CollectionExt.addNotNull;
 import static cop.swt.widgets.calendar.DateFormatPartEnum.T_DAY;
 import static cop.swt.widgets.calendar.DateFormatPartEnum.T_DAY_0;
 import static cop.swt.widgets.calendar.DateFormatPartEnum.T_DAY_WEEK_LONG;

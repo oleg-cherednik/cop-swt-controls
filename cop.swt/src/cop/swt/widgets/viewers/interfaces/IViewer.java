@@ -3,7 +3,7 @@ package cop.swt.widgets.viewers.interfaces;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.widgets.Listener;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 import cop.swt.widgets.interfaces.Clearable;
 import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Enablable;

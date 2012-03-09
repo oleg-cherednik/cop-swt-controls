@@ -1,7 +1,7 @@
 package cop.swt.widgets.keys;
 
 import static cop.algorithms.search.LinearSearch.linearSearch;
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CommonExt.isNotNull;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_ALT;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_CTRL;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_DELETE;

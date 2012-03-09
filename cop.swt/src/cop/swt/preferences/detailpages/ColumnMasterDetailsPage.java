@@ -15,7 +15,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 import cop.swt.preferences.obj.LocalizationPreference;
 import cop.swt.widgets.viewers.PComboViewer;
 

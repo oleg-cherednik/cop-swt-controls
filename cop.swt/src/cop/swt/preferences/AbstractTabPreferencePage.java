@@ -1,7 +1,7 @@
 package cop.swt.preferences;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.StringExt.isNotEmpty;
 import static org.eclipse.swt.SWT.FILL;
 
 import org.eclipse.core.runtime.Assert;

@@ -1,6 +1,6 @@
 package cop.swt.widgets.dirty;
 
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNull;
 
 import org.eclipse.swt.widgets.Text;
 

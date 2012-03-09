@@ -1,8 +1,8 @@
 package cop.swt.widgets.viewers;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CollectionExt.isEmpty;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

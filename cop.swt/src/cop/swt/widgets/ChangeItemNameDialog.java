@@ -129,7 +129,7 @@ class ChangeItemNameDialog
 //		return calendar;
 //	}
 
-	private Layout createLayout()
+	private static Layout createLayout()
 	{
 		GridLayout gridLayout = new GridLayout(1, false);
 
@@ -139,7 +139,7 @@ class ChangeItemNameDialog
 		return gridLayout;
 	}
 
-	private GridData createLayoutData()
+	private static GridData createLayoutData()
 	{
 		return new GridData(FILL, FILL, false, false);
 	}

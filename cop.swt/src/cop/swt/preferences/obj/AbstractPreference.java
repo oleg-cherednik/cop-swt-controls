@@ -1,6 +1,6 @@
 package cop.swt.preferences.obj;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CommonExt.isNotNull;
 
 import java.util.HashSet;
 import java.util.Set;

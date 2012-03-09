@@ -1,6 +1,6 @@
 package cop.swt.widgets.viewers.descriptions;
 
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNull;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;

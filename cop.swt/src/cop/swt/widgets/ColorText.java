@@ -4,9 +4,9 @@
  */
 package cop.swt.widgets;
 
-import static cop.common.extensions.CommonExtension.getValue;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.getValue;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
 import static cop.swt.widgets.enums.ColorRuleCheckTypeEnum.START_CHECK_FROM_FIRST_KEY_PRESSED;
 import static cop.swt.widgets.enums.ColorRuleCheckTypeEnum.START_CHECK_FROM_INIT;
 import static org.eclipse.swt.SWT.NONE;

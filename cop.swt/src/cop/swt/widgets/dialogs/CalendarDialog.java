@@ -120,7 +120,7 @@ public class CalendarDialog
 		calendar.addKeyListener(onKeyPress);
 	}
 
-	private Layout createLayout()
+	private static Layout createLayout()
 	{
 		GridLayout gridLayout = new GridLayout(1, false);
 

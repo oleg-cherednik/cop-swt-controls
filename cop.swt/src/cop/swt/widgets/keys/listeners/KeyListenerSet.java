@@ -18,8 +18,6 @@ import java.util.Locale;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 import cop.swt.widgets.keys.enums.KeyEnum;
 

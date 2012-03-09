@@ -9,7 +9,7 @@ import static java.lang.Integer.parseInt;
 
 import java.util.Properties;
 
-import cop.common.extensions.StringExtension;
+import cop.extensions.StringExt;
 
 public class PropertiesWrapper extends Properties
 {
@@ -26,7 +26,7 @@ public class PropertiesWrapper extends Properties
 
 	public void replaceExistingProperty(String key, String value)
 	{
-		if(StringExtension.isEmpty(key))
+		if(StringExt.isEmpty(key))
 			return;
 
 		if(isExists(key))
@@ -35,7 +35,7 @@ public class PropertiesWrapper extends Properties
 
 	public void setOnlyNewProperty(String key, String value)
 	{
-		if(StringExtension.isEmpty(key))
+		if(StringExt.isEmpty(key))
 			return;
 
 		if(!isExists(key))
@@ -44,7 +44,7 @@ public class PropertiesWrapper extends Properties
 
 	public boolean isExists(String key)
 	{
-		if(StringExtension.isEmpty(key))
+		if(StringExt.isEmpty(key))
 			return false;
 
 		String notExists = "not_exists";
