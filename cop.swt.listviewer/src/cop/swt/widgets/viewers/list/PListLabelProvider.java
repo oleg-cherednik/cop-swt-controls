@@ -1,8 +1,8 @@
 package cop.swt.widgets.viewers.list;
 
-import static cop.common.extensions.ArrayExtension.EMPTY_STR_ARR;
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.ArrayExt.EMPTY_STR_ARR;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.CommonExt.isNotNull;
 
 import java.util.HashMap;
 import java.util.Map;

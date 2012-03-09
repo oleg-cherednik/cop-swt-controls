@@ -1,6 +1,6 @@
 package cop.swt.widgets.viewers.list;
 
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.StringExt.isNotEmpty;
 import cop.swt.widgets.interfaces.LabelSupport;
 import cop.swt.widgets.viewers.AbstractViewerConfig;
 

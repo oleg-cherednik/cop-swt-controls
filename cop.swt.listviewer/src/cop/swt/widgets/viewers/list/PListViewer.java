@@ -1,14 +1,14 @@
 package cop.swt.widgets.viewers.list;
 
-import static cop.common.extensions.ArrayExtension.ONE_ITEM_STR_ARR;
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.ArrayExt.ONE_ITEM_STR_ARR;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.BitExt.clearBits;
+import static cop.extensions.BitExt.isBitSet;
+import static cop.extensions.CollectionExt.EMPTY_STR_ARR_LIST;
+import static cop.extensions.CommonExt.isNotNull;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_ASC;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_DESC;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
-import static cop.common.extensions.BitExtension.clearBits;
-import static cop.common.extensions.BitExtension.isBitSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class PListViewer<T> extends AbstractViewer<T, ListViewer, ListViewerConf
 	{
 		super(cls, new ListViewer(parent, clearBits(style, SWT.READ_ONLY) | SWT.V_SCROLL | SWT.H_SCROLL), config);
 
-		((ListViewer)widget).setUseHashlookup(true);
+		widget.setUseHashlookup(true);
 
 		setLabelName(isNotNull(config) ? config.getLabelName() : "");
 
@@ -64,7 +64,7 @@ public class PListViewer<T> extends AbstractViewer<T, ListViewer, ListViewerConf
 	@Override
 	public int getItemCount()
 	{
-		return ((ListViewer)widget).getList().getItemCount();
+		return widget.getList().getItemCount();
 	}
 
 	private void createLabelProvider()
@@ -209,41 +209,41 @@ public class PListViewer<T> extends AbstractViewer<T, ListViewer, ListViewerConf
 	public void selectAll()
 	{
 		if(getSelectionSize() != getItemCount())
-			((ListViewer)widget).getList().selectAll();
+			widget.getList().selectAll();
 	}
 
 	@Override
 	public void deselectAll()
 	{
 		if(getSelectionSize() != 0)
-			((ListViewer)widget).getList().deselectAll();
+			widget.getList().deselectAll();
 	}
 
 	@Override
 	protected int getTopIndex()
 	{
-		return ((ListViewer)widget).getList().getTopIndex();
+		return widget.getList().getTopIndex();
 	}
 
 	@Override
 	protected int[] getSelectionIndices()
 	{
-		return ((ListViewer)widget).getList().getSelectionIndices();
+		return widget.getList().getSelectionIndices();
 	}
 
 	@Override
 	protected void setTopIndex(int index)
 	{
-		((ListViewer)widget).getList().setTopIndex(index);
+		widget.getList().setTopIndex(index);
 	}
 
 	@Override
-	protected void setSelected(int index, boolean selected)
+	protected void setSelected(int index, boolean widget)
 	{
-		if(selected)
-			((ListViewer)widget).getList().select(index);
-		else
-			((ListViewer)widget).getList().deselect(index);
+//		if(selected)
+//			((ListViewer)widget).getList().select(index);
+//		else
+//			((ListViewer)widget).getList().deselect(index);
 	}
 
 	/*
