@@ -7,7 +7,7 @@
  */
 package cop.swt.widgets.viewers.table.columns;
 
-import static cop.common.extensions.ReflectionExtension.getType;
+import static cop.extensions.ReflectionExt.getType;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_TYPE;
 
 import java.lang.reflect.AccessibleObject;

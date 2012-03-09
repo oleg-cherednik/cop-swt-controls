@@ -25,7 +25,7 @@ public class TableViewerConfig extends AbstractViewerConfig implements ColumnCon
 
 	public void setLocale(Locale locale)
 	{
-		this.locale = locale;;
+		this.locale = locale;
 	}
 
 	/*

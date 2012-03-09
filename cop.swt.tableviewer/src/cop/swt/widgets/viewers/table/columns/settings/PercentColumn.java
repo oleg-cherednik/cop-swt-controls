@@ -7,7 +7,7 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.ReflectionExtension.getNumberValue;
+import static cop.extensions.ReflectionExt.getNumberValue;
 import static cop.swt.extensions.ColorExtension.RED;
 import static cop.swt.extensions.ColorExtension.YELLOW;
 
@@ -96,7 +96,8 @@ public class PercentColumn<T> extends NumericColumn<T>
 		return PercentService.getContent(obj, numberFormat.getMaximumFractionDigits());
 	}
 
-	protected Number parseNumber(String value) throws ParseException
+	@Override
+    protected Number parseNumber(String value) throws ParseException
 	{
 		return super.parseNumber(value).doubleValue() / 100;
 	}

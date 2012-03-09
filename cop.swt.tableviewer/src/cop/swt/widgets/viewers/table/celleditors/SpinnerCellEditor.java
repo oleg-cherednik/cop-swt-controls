@@ -76,7 +76,7 @@ public class SpinnerCellEditor extends CellEditor
 	protected Object doGetValue()
 	{
 		int intValue = getControl().getSelection();
-		double doubleValue = (double)intValue;
+		double doubleValue = intValue;
 
 		return doubleValue / multiplier;
 	}

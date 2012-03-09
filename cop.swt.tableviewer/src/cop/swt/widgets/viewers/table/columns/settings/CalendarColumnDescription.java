@@ -1,7 +1,7 @@
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CompareExtension.compareObjects;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CompareExt.compareObjects;
 import static cop.swt.widgets.viewers.table.celleditors.CalendarCellEditor.getDateFormat;
 
 import java.lang.reflect.AccessibleObject;

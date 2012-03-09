@@ -7,8 +7,8 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.beans.JavaBean.getPropertyName;
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.beans.JavaBean.getPropertyName;
+import static cop.extensions.CommonExt.isNotNull;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_TYPE;
 
 import java.lang.reflect.AccessibleObject;
@@ -24,8 +24,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
-import cop.common.extensions.ReflectionExtension;
-import cop.common.extensions.StringExtension;
+import cop.extensions.ReflectionExt;
+import cop.extensions.StringExt;
 import cop.swt.widgets.annotations.Column;
 import cop.swt.widgets.annotations.contents.ColumnContent;
 import cop.swt.widgets.viewers.table.PTableViewer;
@@ -46,7 +46,7 @@ public abstract class AbstractColumnSettings<T> implements ColumnSettings<T>
 	protected AbstractColumnSettings(AccessibleObject obj, ColumnContext context)
 	{
 		this.obj = obj;
-		this.type = ReflectionExtension.getType(obj, DEF_TYPE);
+		this.type = ReflectionExt.getType(obj, DEF_TYPE);
 		this.locale = (context.getLocale() != null) ? context.getLocale() : Locale.getDefault();
 		this.content = new ColumnContent(obj.getAnnotation(Column.class), locale);
 
@@ -68,12 +68,12 @@ public abstract class AbstractColumnSettings<T> implements ColumnSettings<T>
 
 	public Object invoke(T item) throws Exception
 	{
-		return ReflectionExtension.invoke(item, obj);
+		return ReflectionExt.invoke(item, obj);
 	}
 
 	public Object invoke(T item, Object... args) throws Exception
 	{
-		return ReflectionExtension.invoke(item, obj, args);
+		return ReflectionExt.invoke(item, obj, args);
 	}
 
 	protected Image getColumnImage(Object res)
@@ -83,7 +83,7 @@ public abstract class AbstractColumnSettings<T> implements ColumnSettings<T>
 
 	protected String getText(Object obj)
 	{
-		return StringExtension.getText(obj, "");
+		return StringExt.getText(obj, "");
 	}
 
 	public String getKey()

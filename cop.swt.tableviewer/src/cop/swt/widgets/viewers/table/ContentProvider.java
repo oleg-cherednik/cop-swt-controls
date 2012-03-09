@@ -1,6 +1,6 @@
 package cop.swt.widgets.viewers.table;
 
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
+import static cop.extensions.CollectionExt.isNotEmpty;
 
 import java.util.Collection;
 

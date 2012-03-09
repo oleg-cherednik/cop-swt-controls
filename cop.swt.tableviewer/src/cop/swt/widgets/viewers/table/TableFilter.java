@@ -1,6 +1,6 @@
 package cop.swt.widgets.viewers.table;
 
-import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.extensions.StringExt.isEmpty;
 import static cop.swt.enums.CaseSensitivityEnum.CASE_INSENSITIVE;
 
 import org.eclipse.jface.viewers.Viewer;

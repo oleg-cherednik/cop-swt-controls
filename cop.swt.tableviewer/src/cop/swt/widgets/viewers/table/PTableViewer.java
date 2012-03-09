@@ -4,11 +4,11 @@
  */
 package cop.swt.widgets.viewers.table;
 
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.BitExtension.clearBits;
-import static cop.common.extensions.BitExtension.isBitSet;
-import static cop.common.extensions.CollectionExtension.EMPTY_STR_ARR_LIST;
-import static cop.common.extensions.StringExtension.getText;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.BitExt.clearBits;
+import static cop.extensions.BitExt.isBitSet;
+import static cop.extensions.CollectionExt.EMPTY_STR_ARR_LIST;
+import static cop.extensions.StringExt.getText;
 import static cop.swt.widgets.annotations.services.ColumnService.getColumnsSettings;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 
@@ -27,13 +27,12 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import cop.common.extensions.CollectionExtension;
+import cop.extensions.CollectionExt;
 import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.exceptions.AnnotationMissingException;
 import cop.swt.widgets.menu.MenuBuilder;
 import cop.swt.widgets.menu.interfaces.PropertyProvider;
 import cop.swt.widgets.menu.items.PushMenuItem;
-import cop.swt.widgets.menu.items.RadioKeyMenuItem;
 import cop.swt.widgets.menu.items.SeparatorMenuItem;
 import cop.swt.widgets.viewers.AbstractViewer;
 import cop.swt.widgets.viewers.interfaces.ItemModifyListener;
@@ -99,7 +98,7 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 
 	public void editOnDoubleClick(boolean enabled)
 	{
-		((TableViewer)widget).cancelEditing();
+		widget.cancelEditing();
 		columns.setEditorEnabled(enabled);
 	}
 
@@ -113,7 +112,7 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 		PTableColumnProvider columnProvider = config.getColumnProvider();
 		List<ColumnSettings<T>> columnsSettings = getColumnsSettings(cls, columnProvider, config);
 
-		if(CollectionExtension.isEmpty(columnsSettings))
+		if(CollectionExt.isEmpty(columnsSettings))
 			throw new AnnotationMissingException("No column found. Use @Column annotation.");
 
 		for(ColumnSettings<T> settings : columnsSettings)
@@ -177,7 +176,7 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 	public List<ColumnSettings<T>> getOrderTableColumns()
 	{
 		List<ColumnSettings<T>> res = new ArrayList<ColumnSettings<T>>();
-		Table table = ((TableViewer)widget).getTable();
+		Table table = widget.getTable();
 		PTableColumn<T> column;
 
 		for(int pos : table.getColumnOrder())
@@ -339,10 +338,8 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 		if(getSelectionSize() == getItemCount())
 			return;
 
-		TableViewer viewer = (TableViewer)widget;
-
-		viewer.cancelEditing();
-		viewer.getTable().selectAll();
+		widget.cancelEditing();
+		widget.getTable().selectAll();
 	}
 
 	@Override
@@ -351,10 +348,8 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 		if(getSelectionSize() == 0)
 			return;
 
-		TableViewer viewer = (TableViewer)widget;
-
-		viewer.cancelEditing();
-		viewer.getTable().deselectAll();
+		widget.cancelEditing();
+		widget.getTable().deselectAll();
 	}
 
 	@Override
@@ -397,7 +392,7 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 	@Override
 	protected void postConstruct()
 	{
-		final Table table = ((TableViewer)widget).getTable();
+		final Table table = widget.getTable();
 
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -442,12 +437,12 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 
 	public void setLinesVisible(boolean show)
 	{
-		((TableViewer)widget).getTable().setLinesVisible(show);
+		widget.getTable().setLinesVisible(show);
 	}
 
 	public void setHeaderVisible(boolean show)
 	{
-		((TableViewer)widget).getTable().setHeaderVisible(show);
+		widget.getTable().setHeaderVisible(show);
 	}
 
 	private void createLabelProvider()
@@ -496,15 +491,14 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 	private void onPaintItem(Event event)
 	{
 		columns.handleEvent(event);
-	};
+	}
 
 	private void onMouseDoubleClick(Event event)
 	{
 		if(event.button != 1)
 			return;
 
-		TableViewer viewer = (TableViewer)widget;
-		Table table = viewer.getTable();
+		Table table = widget.getTable();
 		TableItem[] items = table.getSelection();
 
 		if(isEmpty(items) || items.length != 1)
@@ -518,26 +512,26 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 		PTableColumn<T> column = columns.get(index);
 
 		column.setEditorEnabled(true);
-		viewer.editElement(items[0].getData(), index);
+		widget.editElement(items[0].getData(), index);
 		column.setEditorEnabled(false);
 	}
 
 	private void onMouseExit(Event event)
 	{
 		mouseEnter = false;
-	};
+	}
 
 	private void onMouseMove(Event event)
 	{
 		mouseEnter = true;
-	};
+	}
 
 	private void onResize(Event event)
 	{
 		if(!autoColumnWidth)
 			return;
 
-		Table table = ((TableViewer)widget).getTable();
+		Table table = widget.getTable();
 		int tableWidth = table.getBounds().width;
 
 		if(tableWidth == 0)
@@ -546,7 +540,7 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 		table.setRedraw(false);
 		columns.setRelativeWidth();
 		table.setRedraw(true);
-	};
+	}
 
 	private int getSelectedColumnIndex(TableItem item, int x, int y)
 	{
@@ -596,11 +590,11 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 
 			visibleProvider = null;
 			enabledProvider = null;
-			selectionProvider = getColumnStateSelectionProvider(column);
+			//selectionProvider = getColumnStateSelectionProvider(column);
 			listener = column;
 
-			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(cls, settings.getKey(), visibleProvider, enabledProvider,
-			                selectionProvider, listener));
+//			menuBuilder.addMenuItem(new RadioKeyMenuItem<T>(cls, settings.getKey(), visibleProvider, enabledProvider,
+//			                selectionProvider, listener));
 		}
 
 		return menuBuilder;
@@ -615,19 +609,19 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 		}
 	};
 
-	private PropertyProvider<Boolean> getColumnStateSelectionProvider(final PTableColumn<T> column)
-	{
-		PropertyProvider<Boolean> provider = new PropertyProvider<Boolean>()
-		{
-			@Override
-			public Boolean getProperty()
-			{
-				return column.isSorterOn();
-			}
-		};
-
-		return provider;
-	}
+//	private PropertyProvider<Boolean> getColumnStateSelectionProvider(final PTableColumn<T> column)
+//	{
+//		PropertyProvider<Boolean> provider = new PropertyProvider<Boolean>()
+//		{
+//			@Override
+//			public Boolean getProperty()
+//			{
+//				return column.isSorterOn();
+//			}
+//		};
+//
+//		return provider;
+//	}
 
 	/*
 	 * Localizable
@@ -638,7 +632,7 @@ public final class PTableViewer<T> extends AbstractViewer<T, TableViewer, TableV
 	{
 		super.setLocale(locale);
 
-		((TableViewer)widget).cancelEditing();
+		widget.cancelEditing();
 		columns.setLocale(locale);
 		refresh();
 

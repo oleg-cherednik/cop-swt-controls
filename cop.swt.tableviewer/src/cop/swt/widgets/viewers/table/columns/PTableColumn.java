@@ -1,9 +1,8 @@
 package cop.swt.widgets.viewers.table.columns;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.StringExtension.isNotEmpty;
-import static cop.swt.widgets.annotations.services.i18nService.getTranslation;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.StringExt.isNotEmpty;
 import static cop.swt.widgets.enums.SortDirectionEnum.SORT_OFF;
 import static cop.swt.widgets.enums.SortDirectionEnum.parseSwtDirection;
 import static cop.swt.widgets.viewers.PViewerSorter.DEFAULT_SORT_DIRECTION;
@@ -28,9 +27,10 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import cop.common.extensions.StringExtension;
-import cop.localization.interfaces.LocaleSupport;
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
+import cop.extensions.StringExt;
+import cop.i18.LocaleSupport;
+import cop.i18.annotations.i18nService;
+import cop.i18.exceptions.i18nDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Refreshable;
@@ -44,7 +44,6 @@ import cop.swt.widgets.viewers.interfaces.Packable;
 import cop.swt.widgets.viewers.table.PCellEditor;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableColumnProperty;
-import cop.swt.widgets.viewers.table.columns.settings.AbstractColumnSettings;
 import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnSelectionListener;
@@ -393,10 +392,14 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 		String path = (String)event.widget.getData(MenuManager.MENU_ITEM_PATH);
 
-		if(StringExtension.isEmpty(path))
+		if(StringExt.isEmpty(path))
 			return false;
 
 		String[] parts = (path != null) ? path.split(MenuManager.MENU_ITEM_PATH_SEPARATOR) : null;
+		
+		if(parts == null)
+			return false;
+		
 		int i = parts.length - 1;
 		String key = settings.getKey();
 
@@ -508,11 +511,11 @@ public class PTableColumn<T> implements LocaleSupport, ModifyListenerSupport<T>,
 
 		try
 		{
-			String str = getTranslation(cls, settings.getKey(), locale);
+			String str = i18nService.getTranslation(cls, settings.getKey(), locale);
 
 			columnViewer.getColumn().setText(isNotEmpty(str) ? str : settings.getName());
 		}
-		catch(AnnotationDeclarationException e)
+		catch(i18nDeclarationException e)
 		{
 			e.printStackTrace();
 			columnViewer.getColumn().setText(settings.getName());

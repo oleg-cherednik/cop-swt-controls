@@ -1,7 +1,7 @@
 package cop.swt.widgets.viewers.table.celleditors;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
 import static java.text.DateFormat.SHORT;
 import static org.eclipse.swt.SWT.NONE;
 
@@ -10,14 +10,11 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 
 public class CalendarCellEditor extends CellEditor implements LocaleSupport
 {
