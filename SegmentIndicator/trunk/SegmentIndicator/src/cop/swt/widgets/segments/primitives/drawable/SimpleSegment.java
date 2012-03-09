@@ -9,7 +9,7 @@ package cop.swt.widgets.segments.primitives.drawable;
 
 import static cop.common.extensions.ArrayExtension.EMPTY_INT_ARR;
 import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.BitExtension.isAnyBitSet;
+import static cop.common.extensions.BitExt.isAnyBitSet;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.UP;

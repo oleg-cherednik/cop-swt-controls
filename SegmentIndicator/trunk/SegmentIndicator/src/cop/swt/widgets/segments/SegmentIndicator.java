@@ -1,7 +1,7 @@
 package cop.swt.widgets.segments;
 
-import static cop.common.extensions.BitExtension.isAnyBitSet;
-import static cop.common.extensions.BitExtension.isBitSet;
+import static cop.common.extensions.BitExt.isAnyBitSet;
+import static cop.common.extensions.BitExt.isBitSet;
 import static org.eclipse.swt.SWT.DOWN;
 import static org.eclipse.swt.SWT.HORIZONTAL;
 import static org.eclipse.swt.SWT.LEFT;
@@ -127,6 +127,8 @@ public abstract class SegmentIndicator extends AbstractSegmentIndicator<SimpleSe
 	@Override
 	protected int getWidth()
 	{
+		int h = getDefaultHeight();
+		int w = getDefaultWidth();
 		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
 	}
 

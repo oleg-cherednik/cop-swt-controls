@@ -17,7 +17,7 @@ public class SixteenSegmentSymbolFactory extends FourteenSegmentSymbolFactory
 		                | SEG_BOTTOM_LEFT | SEG_TOP_CENTER | SEG_BOTTOM_CENTER);
 		symbols.put('E', SEG_TOP_RIGHT | SEG_TOP_LEFT | SEG_TOP_SIDE_LEFT | SEG_BOTTOM_SIDE_LEFT | SEG_BOTTOM_LEFT
 		                | SEG_BOTTOM_RIGHT | SEG_CENTER_LEFT | SEG_CENTER_RIGHT);
-		symbols.put('f', SEG_TOP_RIGHT | SEG_TOP_LEFT | SEG_TOP_SIDE_LEFT | SEG_BOTTOM_SIDE_LEFT | SEG_CENTER_LEFT
+		symbols.put('F', SEG_TOP_RIGHT | SEG_TOP_LEFT | SEG_TOP_SIDE_LEFT | SEG_BOTTOM_SIDE_LEFT | SEG_CENTER_LEFT
 		                | SEG_CENTER_RIGHT);
 
 		symbols.put('a', symbols.get('A'));

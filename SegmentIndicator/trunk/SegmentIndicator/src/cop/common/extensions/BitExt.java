@@ -12,7 +12,7 @@ package cop.common.extensions;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 16.08.2010
  */
-public final class BitExtension
+public final class BitExt
 {
 	/**
 	 * Checks if any bits of giving bit set are set or not

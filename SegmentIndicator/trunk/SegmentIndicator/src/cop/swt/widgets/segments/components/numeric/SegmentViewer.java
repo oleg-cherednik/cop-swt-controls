@@ -34,13 +34,15 @@ public class SegmentViewer<T extends Number> extends Canvas implements PaintList
 		addDisposeListener(this);
 	}
 
-	public void setOrientation(int orientation)
+	@Override
+    public void setOrientation(int orientation)
 	{
 		obj.setOrientation(orientation);
 		getParent().layout(true, true);
 	}
 
-	public int getOrientation()
+	@Override
+    public int getOrientation()
 	{
 		return obj.getOrientation();
 	}
@@ -73,6 +75,7 @@ public class SegmentViewer<T extends Number> extends Canvas implements PaintList
 	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed)
 	{
+		System.out.println(obj.getSize());
 		return obj.getSize();
 	}
 

@@ -1,12 +1,10 @@
 package cop.swt.widgets.segments.primitives.fillable;
 
-import static cop.swt.widgets.segments.ShapeBasics.createPlus;
 import static org.eclipse.swt.SWT.HORIZONTAL;
+import cop.swt.widgets.segments.primitives.PlusShape;
 
-public final class PlusSegment extends FillableSegment
-{
-	public PlusSegment()
-	{
+public final class PlusSegment extends FillableSegment {
+	public PlusSegment() {
 		super(HORIZONTAL);
 	}
 
@@ -15,14 +13,12 @@ public final class PlusSegment extends FillableSegment
 	 */
 
 	@Override
-	protected int getDefaultWidth()
-	{
+	protected int getDefaultWidth() {
 		return (getScale() <= 1) ? BASE_LENGTH : (BASE_LENGTH * getScale() - getScale() + 1);
 	}
 
 	@Override
-	protected int getDefaultHeight()
-	{
+	protected int getDefaultHeight() {
 		return (getScale() <= 1) ? (BASE_LENGTH - 1) : ((BASE_LENGTH - 1) * getScale());
 	}
 
@@ -31,8 +27,7 @@ public final class PlusSegment extends FillableSegment
 	 */
 
 	@Override
-	protected int[] getPointArray()
-	{
-		return createPlus(x, y, width, height, getOrientation());
+	protected int[] getPointArray() {
+		return PlusShape.create().getShape(x, y, width, height, getOrientation());
 	}
 }

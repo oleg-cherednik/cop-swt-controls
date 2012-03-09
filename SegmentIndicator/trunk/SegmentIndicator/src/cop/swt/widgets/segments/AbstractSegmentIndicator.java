@@ -14,8 +14,7 @@ import cop.swt.widgets.segments.interfaces.ISegment;
 import cop.swt.widgets.segments.interfaces.ISegmentIndicator;
 
 public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends AbstractSegment implements
-                ISegmentIndicator<N>
-{
+                ISegmentIndicator<N> {
 	private static final Color DARK_GRAY;
 	private static final Color WHITE;
 
@@ -27,42 +26,35 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	protected Color offColor = DARK_GRAY;
 	protected Color onColor = WHITE;
 
-	static
-	{
+	static {
 		Display display = Display.getCurrent();
 
 		DARK_GRAY = display.getSystemColor(COLOR_DARK_GRAY);
 		WHITE = display.getSystemColor(COLOR_WHITE);
 	}
 
-	protected AbstractSegmentIndicator(int orientation)
-	{
+	protected AbstractSegmentIndicator(int orientation) {
 		super(orientation);
 	}
 
-	protected void createParts()
-	{
-		if(isHorizontalOrientation())
+	protected void createParts() {
+		if (isHorizontalOrientation())
 			createHorizontalOrientatedParts(isInverted(true));
 		else
 			createVerticalOrientatedParts(isInverted(false));
 	}
 
-	public void redraw(int x, int y, int width, int height)
-	{
+	public void redraw(int x, int y, int width, int height) {
 		redraw();
 	}
 
-	public ISegment[] getParts()
-	{
+	public ISegment[] getParts() {
 		return (segments != null) ? segments.clone() : null;
 	}
 
-	protected void _setValue()
-	{};
+	protected void _setValue() {}
 
-	protected/* abstract */boolean isValueValid(N value)
-	{
+	protected/* abstract */boolean isValueValid(N value) {
 		return true;
 	}
 
@@ -70,8 +62,7 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	 * static
 	 */
 
-	protected static boolean isDisposed(Canvas canvas)
-	{
+	protected static boolean isDisposed(Canvas canvas) {
 		return (canvas == null) || canvas.isDisposed();
 	}
 
@@ -100,11 +91,10 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	 */
 
 	@Override
-	protected void build()
-	{
+	protected void build() {
 		super.build();
 
-		if(isHorizontalOrientation())
+		if (isHorizontalOrientation())
 			buildHorizontalOrientatedIndicator(isInverted(true));
 		else
 			buildVerticalOrientatedIndicator(isInverted(false));
@@ -119,15 +109,13 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	 */
 
 	@Override
-	public N getValue()
-	{
+	public N getValue() {
 		return value;
 	}
 
 	@Override
-	public final void setValue(N value)
-	{
-		if(isEqual(value, this.value) || !isValueValid(value))
+	public final void setValue(N value) {
+		if (isEqual(value, this.value) || !isValueValid(value))
 			return;
 
 		this.value = value;
@@ -136,40 +124,34 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	}
 
 	@Override
-	public boolean isTransparent()
-	{
+	public boolean isTransparent() {
 		return transparent;
 	}
 
 	@Override
-	public void setTransparent(boolean enabled)
-	{
+	public void setTransparent(boolean enabled) {
 		transparent = enabled;
 	}
 
 	@Override
-	public void setOffColor(Color color)
-	{
+	public void setOffColor(Color color) {
 		offColor = (color != null) ? color : DARK_GRAY;
 		redraw();
 	}
 
 	@Override
-	public Color getOffColor()
-	{
+	public Color getOffColor() {
 		return offColor;
 	}
 
 	@Override
-	public void setForeground(Color color)
-	{
+	public void setForeground(Color color) {
 		onColor = (color != null) ? color : WHITE;
 		redraw();
 	}
 
 	@Override
-	public Color getForeground()
-	{
+	public Color getForeground() {
 		return onColor;
 	}
 
@@ -178,14 +160,12 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	 */
 
 	@Override
-	public void setVisible(boolean visible)
-	{
+	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
 
 	@Override
-	public boolean isVisible()
-	{
+	public boolean isVisible() {
 		return visible;
 	}
 
@@ -194,12 +174,11 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	 */
 
 	@Override
-	public void draw(GC gc, Color color)
-	{
-		if(gc == null || color == null || gc.isDisposed() || isEmpty(segments))
+	public void draw(GC gc, Color color) {
+		if (gc == null || color == null || gc.isDisposed() || isEmpty(segments))
 			return;
 
-		for(ISegment segment : segments)
+		for (ISegment segment : segments)
 			segment.draw(gc, color);
 	}
 
@@ -208,8 +187,7 @@ public abstract class AbstractSegmentIndicator<T extends ISegment, N> extends Ab
 	 */
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuilder buf = new StringBuilder(super.toString());
 
 		buf.append(", value=").append(value);
