@@ -1,6 +1,6 @@
 package cop.swt.widgets.comparators;
 
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNull;
 
 import java.util.Comparator;
 

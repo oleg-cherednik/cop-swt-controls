@@ -1,7 +1,7 @@
 package cop.swt.widgets.annotations.contents;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
 import static cop.swt.widgets.annotations.services.ImageTextViewService.*;
 
 import org.eclipse.core.runtime.Assert;

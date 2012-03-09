@@ -1,6 +1,6 @@
 package cop.swt.widgets;
 
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNull;
 import static org.eclipse.swt.SWT.Selection;
 
 import java.util.ArrayList;

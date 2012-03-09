@@ -1,9 +1,9 @@
 package cop.swt.widgets.calendar.viewers;
 
-import static cop.common.extensions.CalendarExtension.YEAR_MAX;
-import static cop.common.extensions.CalendarExtension.YEAR_MIN;
-import static cop.common.extensions.CalendarExtension.isYear;
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CalendarExt.YEAR_MAX;
+import static cop.extensions.CalendarExt.YEAR_MIN;
+import static cop.extensions.CalendarExt.isYear;
+import static cop.extensions.CommonExt.isNotNull;
 import static java.util.Calendar.YEAR;
 import static org.eclipse.swt.SWT.BORDER;
 

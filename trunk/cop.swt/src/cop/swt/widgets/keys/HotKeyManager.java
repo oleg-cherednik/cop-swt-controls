@@ -1,6 +1,6 @@
 package cop.swt.widgets.keys;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CommonExt.isNotNull;
 import static cop.swt.widgets.keys.HotKeyGroup.isControlKey;
 import static cop.swt.widgets.keys.HotKeyGroup.isMagicKey;
 import static cop.swt.widgets.keys.enums.KeyEnum.parseKeyEnum;

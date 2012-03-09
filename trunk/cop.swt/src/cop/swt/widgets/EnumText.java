@@ -5,19 +5,6 @@
  */
 package cop.swt.widgets;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.widgets.Composite;
-
-import cop.swt.widgets.numeric.arithmetic.IArithmeticStrategy;
 
 //public class EnumText extends AbstractNumericViewer<Integer>
 //{

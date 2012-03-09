@@ -7,8 +7,6 @@
  */
 package cop.swt.extensions;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
 import static org.eclipse.swt.SWT.COLOR_BLACK;
 import static org.eclipse.swt.SWT.COLOR_BLUE;
 import static org.eclipse.swt.SWT.COLOR_CYAN;
@@ -52,8 +50,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
-public final class ColorExtension
-{
+public final class ColorExtension {
 	private static final Map<RGB, Color> map = new HashMap<RGB, Color>();
 
 	public static final Color WHITE = getColor(COLOR_WHITE);
@@ -100,8 +97,7 @@ public final class ColorExtension
 	public static final Color TITLE_BACKGROUND_GRADIENT = getColor(COLOR_TITLE_BACKGROUND_GRADIENT);
 	public static final Color TITLE_INACTIVE_BACKGROUND_GRADIENT = getColor(COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT);
 
-	static
-	{
+	static {
 		map.put(WHITE.getRGB(), WHITE);
 		map.put(BLACK.getRGB(), BLACK);
 		map.put(RED.getRGB(), RED);
@@ -147,40 +143,34 @@ public final class ColorExtension
 		map.put(TITLE_INACTIVE_BACKGROUND_GRADIENT.getRGB(), TITLE_INACTIVE_BACKGROUND_GRADIENT);
 	}
 
-	private ColorExtension()
-	{}
+	private ColorExtension() {}
 
-	public static Color getColor(int color)
-	{
+	public static Color getColor(int color) {
 		return Display.getCurrent().getSystemColor(color);
 	}
 
-	public static Color getColor(RGB rgb)
-	{
-		if(isNull(rgb))
+	public static Color getColor(RGB rgb) {
+		if (rgb == null)
 			return null;
 
 		Color color = map.get(rgb);
 
-		if(isNull(color))
+		if (color == null)
 			map.put(rgb, color = new Color(Display.getCurrent(), rgb));
 
 		return color;
 	}
 
-	public static RGB getInvertedColor(RGB rgb)
-	{
-		return isNotNull(rgb) ? new RGB(255 - rgb.red, 255 - rgb.green, 255 - rgb.blue) : null;
+	public static RGB getInvertedColor(RGB rgb) {
+		return (rgb != null) ? new RGB(255 - rgb.red, 255 - rgb.green, 255 - rgb.blue) : null;
 	}
 
-	public static Color getInvertedColor(Color color)
-	{
-		return isNotNull(color) ? getColor(getInvertedColor(color.getRGB())) : null;
+	public static Color getInvertedColor(Color color) {
+		return (color != null) ? getColor(getInvertedColor(color.getRGB())) : null;
 	}
 
-	public static void dispose()
-	{
-		for(Color color : map.values())
+	public static void dispose() {
+		for (Color color : map.values())
 			color.dispose();
 
 		map.clear();

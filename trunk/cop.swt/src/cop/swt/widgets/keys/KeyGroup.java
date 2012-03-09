@@ -1,16 +1,16 @@
 package cop.swt.widgets.keys;
 
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CollectionExt.isNotEmpty;
+import static cop.extensions.CommonExt.isNotNull;
 import static cop.swt.widgets.keys.enums.KeyEnum.KEY_UNKNOWN;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import cop.common.extensions.ArrayExtension;
-import cop.common.extensions.CollectionExtension;
-import cop.common.extensions.StringExtension;
+import cop.extensions.ArrayExt;
+import cop.extensions.CollectionExt;
+import cop.extensions.StringExt;
 import cop.swt.widgets.interfaces.IClear;
 import cop.swt.widgets.keys.enums.KeyEnum;
 
@@ -30,7 +30,7 @@ public class KeyGroup implements IClear, Cloneable
 
 	public KeyGroup(KeyEnum... keys)
 	{
-		if(ArrayExtension.isEmpty(keys))
+		if(ArrayExt.isEmpty(keys))
 			return;
 
 		for(KeyEnum key : keys)
@@ -87,7 +87,7 @@ public class KeyGroup implements IClear, Cloneable
 
 	protected static final String getName(KeyEnum... keys)
 	{
-		if(ArrayExtension.isEmpty(keys))
+		if(ArrayExt.isEmpty(keys))
 			return "";
 
 		StringBuilder buf = new StringBuilder();
@@ -100,7 +100,7 @@ public class KeyGroup implements IClear, Cloneable
 
 	protected static final String getName(Set<KeyEnum> keys)
 	{
-		if(CollectionExtension.isEmpty(keys))
+		if(CollectionExt.isEmpty(keys))
 			return "";
 
 		StringBuilder buf = new StringBuilder();
@@ -116,7 +116,7 @@ public class KeyGroup implements IClear, Cloneable
 		if(buf.length() > 0)
 			buf.append("+");
 
-		buf.append(StringExtension.isEmpty(key.getKeyName()) ? key : key.getKeyName());
+		buf.append(StringExt.isEmpty(key.getKeyName()) ? key : key.getKeyName());
 	}
 
 	/*

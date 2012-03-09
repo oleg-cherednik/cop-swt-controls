@@ -1,10 +1,10 @@
 package cop.swt.widgets.viewers.descriptions;
 
-import static cop.common.beans.JavaBean.getPropertyName;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.ReflectionExtension.isBoolean;
-import static cop.common.extensions.ReflectionExtension.isLocalizable;
+import static cop.beans.JavaBean.getPropertyName;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.ReflectionExt.isBoolean;
+import static cop.i18.LocalizationExt.isLocalizable;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.Collator;
@@ -14,10 +14,9 @@ import java.util.Locale;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 
-import cop.common.extensions.ReflectionExtension;
-import cop.common.extensions.StringExtension;
-import cop.localization.interfaces.LocaleSupport;
-import cop.localization.interfaces.Localizable;
+import cop.extensions.ReflectionExt;
+import cop.extensions.StringExt;
+import cop.i18.LocaleSupport;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.interfaces.LabelSupport;
 
@@ -53,7 +52,7 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 		if(isNull(obj))
 			throw new NullPointerException("obj == null");
 
-		Class<?> type = ReflectionExtension.getType(obj, String.class);
+		Class<?> type = ReflectionExt.getType(obj, String.class);
 
 		if(type.isEnum())
 			return new EnumLabelDescription<T>(obj, locale);
@@ -92,7 +91,7 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 			throw new NullPointerException("obj == null");
 
 		this.obj = obj;
-		this.type = ReflectionExtension.getType(obj, DEF_TYPE);
+		this.type = ReflectionExt.getType(obj, DEF_TYPE);
 		// this.content = new ColumnContent(obj.getAnnotation(Column.class), locale);
 		this.locale = isNotNull(locale) ? locale : Locale.getDefault();
 
@@ -111,12 +110,12 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 
 	public Object invoke(T item) throws Exception
 	{
-		return ReflectionExtension.invoke(item, obj);
+		return ReflectionExt.invoke(item, obj);
 	}
 
 	public Object invoke(T item, Object... args) throws Exception
 	{
-		return ReflectionExtension.invoke(item, obj, args);
+		return ReflectionExt.invoke(item, obj, args);
 	}
 
 	protected Image getColumnImage(Object res)
@@ -126,7 +125,7 @@ public abstract class LabelDescription<T> implements LocaleSupport, LabelSupport
 
 	protected String getText(Object obj)
 	{
-		return StringExtension.getText(obj);
+		return StringExt.getText(obj);
 	}
 
 	private void setCollator(Locale locale)

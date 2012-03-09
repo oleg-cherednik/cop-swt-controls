@@ -1,7 +1,7 @@
 package cop.swt.widgets.numeric.arithmetic;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.StringExtension.isNumeric;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.StringExt.isNumeric;
 import static java.lang.Integer.parseInt;
 
 public final class IntegerArithmeticStrategy implements IArithmeticStrategy<Integer>

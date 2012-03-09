@@ -6,8 +6,7 @@
  */
 package cop.swt.widgets.annotations.services;
 
-import static cop.common.extensions.ReflectionExtension.getType;
-import static cop.common.extensions.ReflectionExtension.*;
+import static cop.extensions.ReflectionExt.*;
 
 import java.lang.reflect.AccessibleObject;
 

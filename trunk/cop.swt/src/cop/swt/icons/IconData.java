@@ -1,6 +1,6 @@
 package cop.swt.icons;
 
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.StringExt.isNotEmpty;
 
 import org.eclipse.core.runtime.Assert;
 

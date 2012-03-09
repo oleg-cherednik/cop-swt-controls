@@ -1,8 +1,8 @@
 package cop.swt.widgets.menu.items.basics;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.StringExt.isNotEmpty;
 import static cop.swt.widgets.keys.HotKey.EMPTY_HOT_KEY;
 import static org.eclipse.swt.SWT.Selection;
 

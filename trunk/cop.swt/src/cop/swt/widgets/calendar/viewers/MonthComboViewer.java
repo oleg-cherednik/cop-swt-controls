@@ -1,9 +1,9 @@
 package cop.swt.widgets.calendar.viewers;
 
-import static cop.common.extensions.CalendarExtension.getMonths;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.NumericExtension.isInRangeMinMax;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.CalendarExt.getMonths;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.NumericExt.isInRangeMinMax;
+import static cop.extensions.StringExt.isNotEmpty;
 import static java.util.Calendar.DECEMBER;
 import static java.util.Calendar.JANUARY;
 import static java.util.Calendar.MONTH;

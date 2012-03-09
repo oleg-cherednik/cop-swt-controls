@@ -6,31 +6,27 @@ import static org.eclipse.swt.SWT.UP;
 
 import java.util.Locale;
 
-import cop.swt.extensions.LocalizationExtension;
+import cop.i18.LocaleStore;
 import cop.swt.widgets.menu.interfaces.MenuItemKey;
 
-public enum SortDirectionEnum implements MenuItemKey
-{
+public enum SortDirectionEnum implements MenuItemKey {
 	SORT_OFF(NONE),
 	SORT_ASC(UP),
 	SORT_DESC(DOWN);
 
 	private int swt;
 
-	private SortDirectionEnum(int direction)
-	{
+	private SortDirectionEnum(int direction) {
 		this.swt = direction;
 	}
 
-	public int getSwtDirection()
-	{
+	public int getSwtDirection() {
 		return swt;
 	}
 
-	public static SortDirectionEnum parseSwtDirection(int swt)
-	{
-		for(SortDirectionEnum value : values())
-			if(value.swt == swt)
+	public static SortDirectionEnum parseSwtDirection(int swt) {
+		for (SortDirectionEnum value : values())
+			if (value.swt == swt)
 				return value;
 
 		return SORT_OFF;
@@ -41,15 +37,13 @@ public enum SortDirectionEnum implements MenuItemKey
 	 */
 
 	@Override
-	public String i18n()
-	{
-		return LocalizationExtension.i18n(this, name());
+	public String i18n() {
+		return LocaleStore._i18n(this, name());
 	}
 
 	@Override
-	public String i18n(Locale locale)
-	{
-		return LocalizationExtension.i18n(this, name(), locale);
+	public String i18n(Locale locale) {
+		return LocaleStore._i18n(this, name(), locale);
 	}
 
 	/*
@@ -57,8 +51,7 @@ public enum SortDirectionEnum implements MenuItemKey
 	 */
 
 	@Override
-	public String getKey()
-	{
+	public String getKey() {
 		return name();
 	}
 }

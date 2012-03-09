@@ -1,7 +1,7 @@
 package cop.swt.widgets.dirty;
 
-import static cop.common.extensions.CommonExtension.isEqual;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isEqual;
+import static cop.extensions.CommonExt.isNull;
 
 import cop.swt.widgets.numeric.AbstractNumeric;
 

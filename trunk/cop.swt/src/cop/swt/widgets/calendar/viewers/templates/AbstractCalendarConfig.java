@@ -1,8 +1,8 @@
 package cop.swt.widgets.calendar.viewers.templates;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.StringExt.isNotEmpty;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;

@@ -1,8 +1,8 @@
 package cop.swt.widgets.viewers.model;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CollectionExt.isEmpty;
+import static cop.extensions.CollectionExt.isNotEmpty;
+import static cop.extensions.CommonExt.isNull;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.ADD;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.REMOVE;
 import static cop.swt.widgets.viewers.model.enums.ModificationTypeEnum.UPDATE;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
 
-import cop.common.extensions.CollectionExtension;
+import cop.extensions.CollectionExt;
 import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 
 public class ListModel<T> extends AbstractViewerModel<T>
@@ -80,7 +80,7 @@ public class ListModel<T> extends AbstractViewerModel<T>
 
 	public void swap(int index1, int index2)
 	{
-		if(CollectionExtension.swap(items, index1, index2))
+		if(CollectionExt.swap(items, index1, index2))
 			modelChanged();
 	}
 

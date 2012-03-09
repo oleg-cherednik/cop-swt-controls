@@ -1,12 +1,12 @@
 package cop.swt.widgets.viewers.descriptions;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CommonExt.isNotNull;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 
-import cop.localization.interfaces.EditLocalizable;
-import cop.localization.interfaces.Localizable;
+import cop.i18.EditLocalizable;
+import cop.i18.Localizable;
 
 public class LocalizableString<T> extends StringLabelDescription<T>
 {

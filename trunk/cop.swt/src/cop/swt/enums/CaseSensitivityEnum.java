@@ -1,6 +1,6 @@
 package cop.swt.enums;
 
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.StringExt.isNotEmpty;
 
 public enum CaseSensitivityEnum
 {

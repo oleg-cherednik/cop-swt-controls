@@ -1,12 +1,13 @@
 package cop.swt.icons;
 
-import static cop.common.extensions.ArrayExtension.isEmpty;
-import static cop.common.extensions.CollectionExtension.isNotEmpty;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.CollectionExt.isNotEmpty;
+import static cop.extensions.CommonExt.isNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import cop.extensions.StringExt;
 
 public class IconImage
 {
@@ -27,7 +28,7 @@ public class IconImage
 
 	public void addImages(IconSizeEnum size, String path)
 	{
-		if(isNotNull(size) && isNotEmpty(path))
+		if(isNotNull(size) && StringExt.isNotEmpty(path))
 			images.put(size, path);
 	}
 

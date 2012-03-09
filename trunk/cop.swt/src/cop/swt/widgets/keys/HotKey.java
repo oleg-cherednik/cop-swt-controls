@@ -7,7 +7,7 @@ import static cop.swt.widgets.keys.enums.KeyEnum.KEY_UP;
 import java.util.HashMap;
 import java.util.Map;
 
-import cop.common.extensions.ArrayExtension;
+import cop.extensions.ArrayExt;
 import cop.swt.widgets.keys.enums.KeyEnum;
 
 public final class HotKey extends HotKeyGroup
@@ -27,7 +27,7 @@ public final class HotKey extends HotKeyGroup
 
 	public static HotKey createHotKey(KeyEnum... keys)
 	{
-		if(ArrayExtension.isEmpty(keys))
+		if(ArrayExt.isEmpty(keys))
 			return EMPTY_HOT_KEY;
 
 		String name = getName(keys);

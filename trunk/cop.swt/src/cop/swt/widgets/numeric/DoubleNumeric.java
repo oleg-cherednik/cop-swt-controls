@@ -4,13 +4,13 @@
  */
 package cop.swt.widgets.numeric;
 
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.NumericExtension.countDigits;
-import static cop.common.extensions.NumericExtension.isGreaterOrEqual;
-import static cop.common.extensions.NumericExtension.isInRangeMinMax;
-import static cop.common.extensions.NumericExtension.isLess;
-import static cop.common.extensions.NumericExtension.isLessOrEqual;
-import static cop.common.extensions.StringExtension.replace;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.NumericExt.countDigits;
+import static cop.extensions.NumericExt.isGreaterOrEqual;
+import static cop.extensions.NumericExt.isInRangeMinMax;
+import static cop.extensions.NumericExt.isLess;
+import static cop.extensions.NumericExt.isLessOrEqual;
+import static cop.extensions.StringExt.replace;
 import static cop.swt.widgets.keys.listeners.KeyListenerSet.isDecimalSeparator;
 import static java.lang.Math.abs;
 import static java.text.NumberFormat.getInstance;
@@ -30,7 +30,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import cop.common.extensions.StringExtension;
+import cop.extensions.StringExt;
 import cop.swt.widgets.keys.enums.KeyEnum;
 import cop.swt.widgets.numeric.arithmetic.DoubleArithmeticStrategy;
 import cop.swt.widgets.numeric.arithmetic.IArithmeticStrategy;
@@ -168,7 +168,7 @@ public class DoubleNumeric extends AbstractNumeric<Double>
 				String str = replace(text, e.text, e.start, e.end);
 				Double minimum = getMinimum();
 
-				if(StringExtension.isEmpty(str))
+				if(StringExt.isEmpty(str))
 					e.doit = true;
 				else if(str.equals("" + decimalSeparator))
 					e.doit = true;

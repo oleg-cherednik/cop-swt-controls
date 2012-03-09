@@ -1,7 +1,7 @@
 package cop.swt.widgets.keys.enums;
 
 import static cop.algorithms.search.LinearSearch.linearSearch;
-import static cop.common.extensions.CommonExtension.isNotNull;
+import static cop.extensions.CommonExt.isNotNull;
 
 import org.eclipse.core.runtime.Assert;
 

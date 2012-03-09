@@ -1,9 +1,9 @@
 package cop.swt.widgets.calendar;
 
-import static cop.common.extensions.CalendarExtension.isYear;
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.common.extensions.StringExtension.replace;
+import static cop.extensions.CalendarExt.isYear;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.StringExt.isEmpty;
+import static cop.extensions.StringExt.replace;
 import static cop.swt.widgets.calendar.viewers.templates.AbstractCalendarConfig.applyTemplate;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Calendar.MONTH;
@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 import cop.swt.widgets.MultiTouchButton;
 import cop.swt.widgets.calendar.interfaces.IDateViewer;
 import cop.swt.widgets.calendar.viewers.DayViewer;

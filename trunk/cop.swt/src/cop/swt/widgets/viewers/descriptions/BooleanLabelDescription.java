@@ -1,6 +1,6 @@
 package cop.swt.widgets.viewers.descriptions;
 
-import static cop.common.extensions.CompareExtension.compareNumbers;
+import static cop.extensions.CompareExt.compareNumbers;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;

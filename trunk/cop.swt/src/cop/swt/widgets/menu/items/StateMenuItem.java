@@ -7,7 +7,7 @@ import java.util.Locale;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Listener;
 
-import cop.common.extensions.StringExtension;
+import cop.extensions.StringExt;
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.keys.HotKey;
 import cop.swt.widgets.menu.interfaces.IMenuItemModifier;
@@ -44,7 +44,7 @@ public class StateMenuItem extends AbstractPushMenuItem
 	@Override
 	protected String _getKey()
 	{
-		return StringExtension.getText(itemModifier.getKey(), super._getKey());
+		return StringExt.getText(itemModifier.getKey(), super._getKey());
 	}
 
 	/*
@@ -54,7 +54,7 @@ public class StateMenuItem extends AbstractPushMenuItem
 	@Override
 	public String getText(Locale locale)
 	{
-		return StringExtension.getText(itemModifier.getText(locale), super._getKey());
+		return StringExt.getText(itemModifier.getText(locale), super._getKey());
 	}
 
 	@Override

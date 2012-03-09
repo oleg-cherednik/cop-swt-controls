@@ -1,7 +1,7 @@
 package cop.swt.widgets.dirty;
 
-import static cop.common.extensions.CollectionExtension.isEmpty;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CollectionExt.isEmpty;
+import static cop.extensions.CommonExt.isNull;
 
 import java.util.LinkedList;
 import java.util.List;

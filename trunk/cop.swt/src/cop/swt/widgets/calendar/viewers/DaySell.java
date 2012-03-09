@@ -1,7 +1,7 @@
 package cop.swt.widgets.calendar.viewers;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static org.eclipse.swt.SWT.CENTER;
 import static org.eclipse.swt.SWT.FILL;
