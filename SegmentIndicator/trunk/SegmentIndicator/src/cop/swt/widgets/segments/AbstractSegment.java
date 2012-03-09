@@ -1,69 +1,58 @@
 package cop.swt.widgets.segments;
 
-import static org.eclipse.swt.SWT.DEFAULT;
-import static org.eclipse.swt.SWT.NONE;
-
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.segments.interfaces.ISegment;
 import cop.swt.widgets.segments.interfaces.Scaleable;
 
-public abstract class AbstractSegment implements ISegment, Scaleable
-{
+public abstract class AbstractSegment implements ISegment, Scaleable {
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
+	protected int orientation;
 
 	private int scale = 1;
-	private int orientation;
 
-	protected AbstractSegment(int orientation)
-	{
+	protected AbstractSegment(int orientation) {
 		setOrientation(orientation);
 		setScale(DEF_SCALE);
 	}
 
-	public int getOrientation()
-	{
+	public int getOrientation() {
 		return orientation;
 	}
 
-	public void setOrientation(int orientation)
-	{
-		if(this.orientation == orientation)
+	public void setOrientation(int orientation) {
+		if (this.orientation == orientation)
 			return;
 
-		if(orientation == NONE || orientation == DEFAULT)
+		if (orientation == SWT.NONE || orientation == SWT.DEFAULT)
 			this.orientation = getDefaultOrientation();
 		else
 			this.orientation = orientation;
 	}
 
-	protected void build()
-	{
+	protected void build() {
 		width = getWidth();
 		height = getHeight();
 	}
 
-	protected int getDefaultWidth()
-	{
+	protected int getDefaultWidth() {
 		return (scale <= 1) ? BASE_LENGTH : (BASE_LENGTH * (2 << (scale - 2)));
 	}
 
-	protected int getDefaultHeight()
-	{
+	protected int getDefaultHeight() {
 		return (scale <= 1) ? 2 : (3 + (scale - 2) * 2);
 	}
 
-	protected int getWidth()
-	{
+	protected int getWidth() {
 		return isHorizontalOrientation() ? getDefaultWidth() : getDefaultHeight();
 	}
 
-	protected int getHeight()
-	{
+	protected int getHeight() {
 		return isHorizontalOrientation() ? getDefaultHeight() : getDefaultWidth();
 	}
 
@@ -80,15 +69,13 @@ public abstract class AbstractSegment implements ISegment, Scaleable
 	 */
 
 	@Override
-	public int getScale()
-	{
+	public int getScale() {
 		return scale;
 	}
 
 	@Override
-	public void setScale(int scale)
-	{
-		if(this.scale == scale)
+	public void setScale(int scale) {
+		if (this.scale == scale)
 			return;
 
 		this.scale = (scale <= DEF_SCALE) ? DEF_SCALE : scale;
@@ -100,9 +87,8 @@ public abstract class AbstractSegment implements ISegment, Scaleable
 	 */
 
 	@Override
-	public void setPosition(int x, int y)
-	{
-		if(this.x == x && this.y == y)
+	public void setPosition(int x, int y) {
+		if (this.x == x && this.y == y)
 			return;
 
 		this.x = x;
@@ -112,9 +98,8 @@ public abstract class AbstractSegment implements ISegment, Scaleable
 	}
 
 	@Override
-	public void setBounds(int x, int y, int scale)
-	{
-		if(this.x == x && this.y == y && this.scale == scale)
+	public void setBounds(int x, int y, int scale) {
+		if (this.x == x && this.y == y && this.scale == scale)
 			return;
 
 		this.x = x;
@@ -125,14 +110,12 @@ public abstract class AbstractSegment implements ISegment, Scaleable
 	}
 
 	@Override
-	public Rectangle getBounds()
-	{
+	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
 	}
 
 	@Override
-	public Point getSize()
-	{
+	public Point getSize() {
 		return new Point(width, height);
 	}
 
@@ -141,8 +124,7 @@ public abstract class AbstractSegment implements ISegment, Scaleable
 	 */
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuilder buf = new StringBuilder();
 
 		buf.append("height=").append(height);

@@ -74,7 +74,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 	@Override
 	protected boolean isInverted(boolean horizontal) {
-		return horizontal ? isBitSet(getOrientation(), DOWN) : isBitSet(getOrientation(), LEFT);
+		return horizontal ? isBitSet(orientation, DOWN) : isBitSet(orientation, LEFT);
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public abstract class SegmentContainer<T> extends AbstractSegmentIndicator<Segme
 
 	@Override
 	protected boolean isHorizontalOrientation() {
-		return isAnyBitSet(getOrientation(), HORIZONTAL_ORIENTATION);
+		return isAnyBitSet(orientation, HORIZONTAL_ORIENTATION);
 	}
 
 	@Override

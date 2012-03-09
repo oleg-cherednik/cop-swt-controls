@@ -141,7 +141,7 @@ public abstract class SegmentIndicator extends AbstractSegmentIndicator<SimpleSe
 	@Override
 	protected boolean isHorizontalOrientation()
 	{
-		return isAnyBitSet(getOrientation(), HORIZONTAL_ORIENTATION);
+		return isAnyBitSet(orientation, HORIZONTAL_ORIENTATION);
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public abstract class SegmentIndicator extends AbstractSegmentIndicator<SimpleSe
 	@Override
 	protected boolean isInverted(boolean horizontal)
 	{
-		return horizontal ? isBitSet(getOrientation(), LEFT) : isBitSet(getOrientation(), DOWN);
+		return horizontal ? isBitSet(orientation, LEFT) : isBitSet(orientation, DOWN);
 	}
 
 	@Override

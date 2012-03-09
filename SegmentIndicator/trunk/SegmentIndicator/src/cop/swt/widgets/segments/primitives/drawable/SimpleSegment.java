@@ -46,7 +46,7 @@ public abstract class SimpleSegment extends AbstractSegment {
 	}
 
 	protected int[] getPointArray() {
-		return basicShape.getShape(x, y, width, height, getOrientation());
+		return basicShape.getShape(x, y, width, height, orientation);
 	}
 
 	/*
@@ -55,7 +55,7 @@ public abstract class SimpleSegment extends AbstractSegment {
 
 	@Override
 	protected boolean isHorizontalOrientation() {
-		return isAnyBitSet(getOrientation(), HORIZONTAL_ORIENTATION);
+		return isAnyBitSet(orientation, HORIZONTAL_ORIENTATION);
 	}
 
 	@Override
