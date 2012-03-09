@@ -7,7 +7,7 @@
  */
 package cop.swt.widgets.viewers.html.example.news;
 
-import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.extensions.StringExt.isEmpty;
 import static cop.swt.widgets.viewers.html.css.CssId.createCssId;
 import static cop.swt.widgets.viewers.html.css.enums.CssFontSizeEnum.PT;
 import static cop.swt.widgets.viewers.html.css.enums.CssFontStyleEnum.ITALIC;
