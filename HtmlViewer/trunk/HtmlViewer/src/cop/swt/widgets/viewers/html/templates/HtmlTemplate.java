@@ -7,10 +7,9 @@
  */
 package cop.swt.widgets.viewers.html.templates;
 
-import static cop.common.extensions.StringExtension.isEmpty;
-
 import java.util.StringTokenizer;
 
+import cop.swt.widgets.viewers.html.HtmlContext;
 import cop.swt.widgets.viewers.html.HtmlTag;
 
 /**
@@ -30,13 +29,13 @@ public abstract class HtmlTemplate<T> implements IHtmlTemplate<T> {
 	}
 
 	protected HtmlTemplate(String macroDelimeter, HtmlTag partDelimeter) {
-		this.macroDelimeter = isEmpty(macroDelimeter) ? MACRO_DELIMETER : macroDelimeter;
+		this.macroDelimeter = HtmlContext.isEmpty(macroDelimeter) ? MACRO_DELIMETER : macroDelimeter;
 		this.partDelimeter = (partDelimeter == null) ? PART_DELIMETER : partDelimeter;
 		this.template = getTemplate();
 	}
 
 	protected final String getMacro(String macro) {
-		return isEmpty(macro) ? "" : (macroDelimeter + macro + macroDelimeter);
+		return HtmlContext.isEmpty(macro) ? "" : (macroDelimeter + macro + macroDelimeter);
 	}
 
 	protected abstract String getTemplate();
@@ -54,7 +53,7 @@ public abstract class HtmlTemplate<T> implements IHtmlTemplate<T> {
 
 	@Override
 	public final String getHtml(T obj) {
-		if (obj == null || isEmpty(template))
+		if (obj == null || HtmlContext.isEmpty(template))
 			return "";
 
 		StringTokenizer st = new StringTokenizer(template, macroDelimeter);

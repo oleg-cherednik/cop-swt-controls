@@ -8,7 +8,6 @@
 package cop.swt.widgets.viewers.html;
 
 import static cop.swt.widgets.viewers.html.HtmlExtension.printBuffer;
-import cop.common.extensions.StringExtension;
 import cop.swt.widgets.viewers.html.css.CssContext;
 import cop.swt.widgets.viewers.html.interfaces.IAppendable;
 
@@ -43,7 +42,7 @@ public class HtmlContext implements IAppendable {
 
 	@Override
 	public boolean isEmpty() {
-		return style.isEmpty() && StringExtension.isEmpty(styleId);
+		return style.isEmpty() && isEmpty(styleId);
 	}
 
 	@Override
@@ -51,10 +50,10 @@ public class HtmlContext implements IAppendable {
 		if (buf == null || isEmpty())
 			return buf;
 
-		if (!StringExtension.isEmpty(styleId))
+		if (!isEmpty(styleId))
 			buf.append("id=\"" + styleId + "\"");
 		if (!style.isEmpty())
-			style.append(StringExtension.isEmpty(styleId) ? buf : buf.append(" "));
+			style.append(isEmpty(styleId) ? buf : buf.append(" "));
 
 		return buf;
 	}
@@ -66,5 +65,13 @@ public class HtmlContext implements IAppendable {
 	@Override
 	public String toString() {
 		return printBuffer(this);
+	}
+
+	/*
+	 * static
+	 */
+
+	public static boolean isEmpty(String str) {
+		return str == null || str.trim().isEmpty();
 	}
 }

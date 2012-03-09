@@ -7,7 +7,6 @@
  */
 package cop.swt.widgets.viewers.html;
 
-import static cop.common.extensions.BitExtension.clearBits;
 import static org.eclipse.swt.SWT.H_SCROLL;
 import static org.eclipse.swt.SWT.V_SCROLL;
 
@@ -101,4 +100,19 @@ public abstract class HtmlViewer<T> {
 	public abstract void print(T html);
 
 	public abstract void println(T html);
+
+	/*
+	 * static
+	 */
+
+	/**
+	 * Clear selected bit(s) in giving value
+	 * 
+	 * @param value value
+	 * @param bit bit or bit set to clear in the value
+	 * @return <code>value</code> with cleared selected bits
+	 */
+	private static int clearBits(int value, int bits) {
+		return value & ~bits;
+	}
 }

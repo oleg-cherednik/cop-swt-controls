@@ -7,7 +7,6 @@
  */
 package cop.swt.widgets.viewers.html;
 
-import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.swt.widgets.viewers.html.HtmlTag.HTML_TAG_CLOSE;
 import static cop.swt.widgets.viewers.html.HtmlTag.HTML_TAG_END;
 import static cop.swt.widgets.viewers.html.HtmlTag.HTML_TAG_OPEN;
@@ -42,7 +41,7 @@ public final class HtmlExtension {
 	}
 
 	public static StringBuilder openTag(StringBuilder buf, String tag, HtmlContext context) {
-		if (buf == null || isEmpty(tag))
+		if (buf == null || HtmlContext.isEmpty(tag))
 			return buf;
 
 		buf.append(HTML_TAG_OPEN);

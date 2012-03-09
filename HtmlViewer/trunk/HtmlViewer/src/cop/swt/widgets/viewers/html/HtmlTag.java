@@ -7,7 +7,6 @@
  */
 package cop.swt.widgets.viewers.html;
 
-import static cop.common.extensions.StringExtension.isEmpty;
 import static cop.swt.widgets.viewers.html.HtmlExtension.closeTag;
 import static cop.swt.widgets.viewers.html.HtmlExtension.openTag;
 
@@ -39,7 +38,7 @@ public final class HtmlTag {
 	private final String name;
 
 	public static HtmlTag create(String name) {
-		if (isEmpty(name))
+		if (HtmlContext.isEmpty(name))
 			return null;
 
 		HtmlTag tag = map.get(name);
@@ -55,7 +54,7 @@ public final class HtmlTag {
 	}
 
 	public StringBuilder append(StringBuilder buf, String content, HtmlContext context) {
-		if (buf != null && !isEmpty(content))
+		if (buf != null && !HtmlContext.isEmpty(content))
 			open(buf, context).append(content).append(close());
 
 		return buf;
