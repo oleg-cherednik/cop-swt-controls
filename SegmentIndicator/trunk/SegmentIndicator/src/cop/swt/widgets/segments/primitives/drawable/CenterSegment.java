@@ -8,7 +8,7 @@ public final class CenterSegment extends DrawableSegment {
 	}
 
 	CenterSegment(int orientation) {
-		super(orientation);
+		super(RombusShape.create(), orientation);
 	}
 
 	/*
@@ -18,10 +18,5 @@ public final class CenterSegment extends DrawableSegment {
 	@Override
 	protected int getDefaultHeight() {
 		return (getScale() < 2) ? 1 : (1 + (getScale() - 1) * 2);
-	}
-
-	@Override
-	protected int[] getPointArray() {
-		return RombusShape.create().getShape(x, y, width, height, getOrientation());
 	}
 }

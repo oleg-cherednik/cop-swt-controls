@@ -1,6 +1,7 @@
 package cop.swt.widgets.segments.primitives.drawable;
 
-import static org.eclipse.swt.SWT.RIGHT;
+import org.eclipse.swt.SWT;
+
 import cop.swt.widgets.segments.primitives.TriangleShape;
 
 public final class LeftSegment extends DrawableSegment {
@@ -13,15 +14,6 @@ public final class LeftSegment extends DrawableSegment {
 	}
 
 	LeftSegment() {
-		super(RIGHT);
-	}
-
-	/*
-	 * SimpleSegment
-	 */
-
-	@Override
-	protected int[] getPointArray() {
-		return TriangleShape.create().getShape(x, y, width, height, getOrientation());
+		super(TriangleShape.create(), SWT.RIGHT);
 	}
 }

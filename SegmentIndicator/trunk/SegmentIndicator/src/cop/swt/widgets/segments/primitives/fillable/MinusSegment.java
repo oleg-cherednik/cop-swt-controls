@@ -1,11 +1,12 @@
 package cop.swt.widgets.segments.primitives.fillable;
 
-import static org.eclipse.swt.SWT.HORIZONTAL;
+import org.eclipse.swt.SWT;
+
 import cop.swt.widgets.segments.primitives.RectangleShape;
 
 public final class MinusSegment extends FillableSegment {
 	public MinusSegment() {
-		super(HORIZONTAL);
+		super(RectangleShape.create(), SWT.HORIZONTAL);
 	}
 
 	/*
@@ -20,14 +21,5 @@ public final class MinusSegment extends FillableSegment {
 	@Override
 	protected int getDefaultHeight() {
 		return getScale();
-	}
-
-	/*
-	 * SimpleSegment
-	 */
-
-	@Override
-	protected int[] getPointArray() {
-		return RectangleShape.create().getShape(x, y, width, height);
 	}
 }

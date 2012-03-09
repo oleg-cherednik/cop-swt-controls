@@ -10,13 +10,12 @@ package cop.swt.widgets.segments.primitives.drawable;
 import static cop.common.extensions.ArrayExtension.EMPTY_INT_ARR;
 import static cop.common.extensions.ArrayExtension.isEmpty;
 import static cop.common.extensions.BitExt.isAnyBitSet;
-import static org.eclipse.swt.SWT.DOWN;
-import static org.eclipse.swt.SWT.HORIZONTAL;
-import static org.eclipse.swt.SWT.UP;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 
 import cop.swt.widgets.segments.AbstractSegment;
+import cop.swt.widgets.segments.primitives.BasicShape;
 
 /**
  * Basic class for simple that can't be divided into more smaller segments.
@@ -24,49 +23,48 @@ import cop.swt.widgets.segments.AbstractSegment;
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 22.10.2010
  */
-public abstract class SimpleSegment extends AbstractSegment
-{
-	protected static final int DEFAULT_ORIENTATION = HORIZONTAL | UP;
-	protected static final int HORIZONTAL_ORIENTATION = UP | DOWN | HORIZONTAL;
+public abstract class SimpleSegment extends AbstractSegment {
+	protected static final int DEFAULT_ORIENTATION = SWT.HORIZONTAL | SWT.UP;
+	protected static final int HORIZONTAL_ORIENTATION = SWT.UP | SWT.DOWN | SWT.HORIZONTAL;
+
+	private final BasicShape basicShape;
 
 	private int[] points;
 
-	protected SimpleSegment()
-	{
-		this(DEFAULT_ORIENTATION);
+	protected SimpleSegment(BasicShape basicShape) {
+		this(basicShape, DEFAULT_ORIENTATION);
 	}
 
-	protected SimpleSegment(int orientation)
-	{
+	protected SimpleSegment(BasicShape basicShape, int orientation) {
 		super(orientation);
+
+		this.basicShape = basicShape;
 	}
 
-	protected int[] getPoints()
-	{
+	protected int[] getPoints() {
 		return points;
 	}
 
-	protected abstract int[] getPointArray();
+	protected int[] getPointArray() {
+		return basicShape.getShape(x, y, width, height, getOrientation());
+	}
 
 	/*
 	 * AbstractSegment
 	 */
 
 	@Override
-	protected boolean isHorizontalOrientation()
-	{
+	protected boolean isHorizontalOrientation() {
 		return isAnyBitSet(getOrientation(), HORIZONTAL_ORIENTATION);
 	}
 
 	@Override
-	protected int getDefaultOrientation()
-	{
+	protected int getDefaultOrientation() {
 		return DEFAULT_ORIENTATION;
 	}
 
 	@Override
-	protected final void build()
-	{
+	protected final void build() {
 		super.build();
 		points = getPointArray();
 	}
@@ -76,23 +74,20 @@ public abstract class SimpleSegment extends AbstractSegment
 	 */
 
 	@Override
-	public int[] getShape()
-	{
+	public int[] getShape() {
 		return isEmpty(points) ? EMPTY_INT_ARR : points.clone();
 	}
 
 	@Override
-	public int[] getShape(Rectangle rect)
-	{
-		if(rect == null || isEmpty(points))
+	public int[] getShape(Rectangle rect) {
+		if (rect == null || isEmpty(points))
 			return EMPTY_INT_ARR;
 
 		int[] arr = new int[points.length];
 		int len = 0;
 
-		for(int i = 0, size = points.length; i < size; i += 2)
-		{
-			if(!rect.contains(points[i], points[i + 1]))
+		for (int i = 0, size = points.length; i < size; i += 2) {
+			if (!rect.contains(points[i], points[i + 1]))
 				continue;
 
 			arr[len++] = points[i];

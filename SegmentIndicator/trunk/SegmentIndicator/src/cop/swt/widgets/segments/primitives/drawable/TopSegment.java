@@ -13,15 +13,6 @@ public final class TopSegment extends DrawableSegment {
 	}
 
 	TopSegment() {
-		super(DOWN);
-	}
-
-	/*
-	 * SimpleSegment
-	 */
-
-	@Override
-	protected int[] getPointArray() {
-		return TriangleShape.create().getShape(x, y, width, height, getOrientation());
+		super(TriangleShape.create(), DOWN);
 	}
 }
