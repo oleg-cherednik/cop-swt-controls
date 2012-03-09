@@ -7,7 +7,7 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.CompareExtension.compareStrings;
+import static cop.extensions.CompareExt.compareStrings;
 
 import java.lang.reflect.AccessibleObject;
 

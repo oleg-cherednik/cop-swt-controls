@@ -4,13 +4,13 @@
  */
 package cop.swt.widgets.annotations.services;
 
-import static cop.common.beans.JavaBean.getPropertyNameByMethodName;
-import static cop.common.beans.JavaBean.getSetterMethodNameByGetterMethodName;
-import static cop.common.extensions.AnnotationExtension.getAnnotatedFields;
-import static cop.common.extensions.AnnotationExtension.getAnnotatedMethods;
-import static cop.common.extensions.ArrayExtension.isNotEmpty;
-import static cop.common.extensions.CollectionExtension.removeDuplicatesAndSort;
-import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.beans.JavaBean.getPropertyNameByMethodName;
+import static cop.beans.JavaBean.getSetterMethodNameByGetterMethodName;
+import static cop.extensions.AnnotationExt.getAnnotatedFields;
+import static cop.extensions.AnnotationExt.getAnnotatedMethods;
+import static cop.extensions.ArrayExt.isEmpty;
+import static cop.extensions.CollectionExt.removeDuplicatesAndSort;
+import static cop.extensions.StringExt.isEmpty;
 import static org.eclipse.swt.SWT.LEFT;
 
 import java.lang.reflect.Field;
@@ -145,7 +145,7 @@ public final class ColumnService
 	{
 		Assert.isNotNull(types);
 
-		if(isNotEmpty(types))
+		if(!isEmpty(types))
 			throw new AnnotationDeclarationException("Method annotatated with @Column must not have arguments");
 	}
 

@@ -1,7 +1,7 @@
 package cop.swt.widgets.annotations.contents;
 
-import static cop.common.extensions.CommonExtension.isNotNull;
-import static cop.common.extensions.CommonExtension.isNull;
+import static cop.extensions.CommonExt.isNotNull;
+import static cop.extensions.CommonExt.isNull;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_ALIGNMENT;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_EMPTYABLE;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_HIDEABLE;
@@ -26,7 +26,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.widgets.TableColumn;
 
-import cop.localization.interfaces.LocaleSupport;
+import cop.i18.LocaleSupport;
 import cop.swt.widgets.annotations.Column;
 
 public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport

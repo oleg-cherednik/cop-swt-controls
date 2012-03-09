@@ -7,8 +7,8 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.CompareExtension.compareNumbers;
-import static cop.common.extensions.ReflectionExtension.isBoolean;
+import static cop.extensions.CompareExt.compareNumbers;
+import static cop.extensions.ReflectionExt.isBoolean;
 
 import java.lang.reflect.AccessibleObject;
 
@@ -20,42 +20,29 @@ import org.eclipse.swt.widgets.Composite;
 
 import cop.swt.images.ImageProvider;
 import cop.swt.widgets.annotations.contents.ImageTextViewContent;
-import cop.swt.widgets.annotations.exceptions.AnnotationDeclarationException;
 import cop.swt.widgets.annotations.services.ImageTextViewService;
-import cop.swt.widgets.enums.ImageTextViewEnum;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
  * @author <a href="mailto:abba-best@mail.ru">Cherednik, Oleg</a>
  * @since 03.09.2010
  */
-public class BooleanColumn<T> extends AbstractColumnSettings<T>
-{
+public class BooleanColumn<T> extends AbstractColumnSettings<T> {
 	public static final String CHECKED_MARKER = "checked";
 	public static final String UNCHECKED_MARKER = "unchecked";
 
 	private final ImageProvider imageProvider;
 	private final ImageTextViewContent viewContent;
 
-	protected BooleanColumn(AccessibleObject obj, ColumnContext context)
-	{
+	protected BooleanColumn(AccessibleObject obj, ColumnContext context) {
 		super(obj, context);
 
 		this.imageProvider = context.getImageProvider();
 		this.viewContent = getImageTextViewContent(obj);
 	}
 
-	private ImageTextViewContent getImageTextViewContent(AccessibleObject obj)
-	{
-		try
-		{
-			return ImageTextViewService.getImageTextViewContent(obj);
-		}
-		catch(AnnotationDeclarationException e)
-		{
-			ImageTextViewEnum view = ImageTextViewService.DEF_IMAGETEXTVIEW;
-			return new ImageTextViewContent((imageProvider != null) ? view : ImageTextViewEnum.TEXT_ONLY);
-		}
+	private static ImageTextViewContent getImageTextViewContent(AccessibleObject obj) {
+		return ImageTextViewService.getImageTextViewContent(obj);
 	}
 
 	/*
@@ -63,14 +50,10 @@ public class BooleanColumn<T> extends AbstractColumnSettings<T>
 	 */
 
 	@Override
-	public int compare(T item1, T item2)
-	{
-		try
-		{
+	public int compare(T item1, T item2) {
+		try {
 			return compareNumbers(Boolean.TYPE, getValue(item1), getValue(item2));
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
 		}
@@ -81,21 +64,19 @@ public class BooleanColumn<T> extends AbstractColumnSettings<T>
 	 */
 
 	@Override
-	public CellEditor getCellEditor(Composite parent)
-	{
-		if(editor == null)
+	public CellEditor getCellEditor(Composite parent) {
+		if (editor == null)
 			editor = new CheckboxCellEditor(parent, SWT.CHECK | SWT.READ_ONLY);
 		return editor;
 	}
 
 	@Override
-	protected Image getColumnImage(Object res)
-	{
+	protected Image getColumnImage(Object res) {
 		switch(viewContent.getView())
 		{
 		case IMAGE_ONLY:
 		case IMAGE_AND_TEXT:
-			if(imageProvider == null)
+			if (imageProvider == null)
 				return null;
 			return imageProvider.getImage((Boolean)res ? CHECKED_MARKER : UNCHECKED_MARKER);
 		default:
@@ -104,8 +85,7 @@ public class BooleanColumn<T> extends AbstractColumnSettings<T>
 	}
 
 	@Override
-	protected String getText(Object obj)
-	{
+	protected String getText(Object obj) {
 		switch(viewContent.getView())
 		{
 		case TEXT_ONLY:
@@ -117,9 +97,8 @@ public class BooleanColumn<T> extends AbstractColumnSettings<T>
 	}
 
 	@Override
-	protected void check()
-	{
-		if(!isBoolean(type))
+	protected void check() {
+		if (!isBoolean(type))
 			throw new IllegalArgumentException("Given object is not Boolean");
 	}
 }

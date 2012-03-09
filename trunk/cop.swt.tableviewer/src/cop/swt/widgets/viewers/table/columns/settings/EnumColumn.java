@@ -8,9 +8,8 @@
 package cop.swt.widgets.viewers.table.columns.settings;
 
 import static cop.algorithms.search.LinearSearch.linearSearch;
-import static cop.common.extensions.ArrayExtension.convertToStringArray;
-import static cop.common.extensions.CompareExtension.compareNumbers;
-import static cop.swt.widgets.annotations.services.i18nService.getTranslations;
+import static cop.extensions.ArrayExt.convertToStringArray;
+import static cop.extensions.CompareExt.compareNumbers;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
@@ -20,6 +19,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import cop.i18.annotations.i18nService;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
@@ -43,7 +43,7 @@ public class EnumColumn<T> extends AbstractColumnSettings<T>
 	{
 		try
 		{
-			i18n = getTranslations(type, locale);
+			i18n = i18nService.getTranslations(type, locale);
 		}
 		catch(Exception e)
 		{

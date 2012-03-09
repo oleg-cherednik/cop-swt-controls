@@ -7,13 +7,13 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.CompareExtension.compareStrings;
-import static cop.common.extensions.ReflectionExtension.isLocalizable;
+import static cop.extensions.CompareExt.compareStrings;
+import static cop.i18.LocalizationExt.isLocalizable;
 
 import java.lang.reflect.AccessibleObject;
 
-import cop.localization.interfaces.EditLocalizable;
-import cop.localization.interfaces.Localizable;
+import cop.i18.EditLocalizable;
+import cop.i18.Localizable;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**

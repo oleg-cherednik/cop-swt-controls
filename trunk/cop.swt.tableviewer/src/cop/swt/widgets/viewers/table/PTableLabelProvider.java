@@ -1,7 +1,7 @@
 package cop.swt.widgets.viewers.table;
 
-import static cop.common.extensions.CommonExtension.isNull;
-import static cop.common.extensions.StringExtension.isEmpty;
+import static cop.extensions.CommonExt.isNull;
+import static cop.extensions.StringExt.isEmpty;
 import static cop.swt.extensions.ColorExtension.YELLOW;
 
 import java.util.ArrayList;

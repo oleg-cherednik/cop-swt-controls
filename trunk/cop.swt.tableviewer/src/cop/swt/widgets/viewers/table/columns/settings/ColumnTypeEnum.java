@@ -7,11 +7,11 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.ReflectionExtension.getType;
-import static cop.common.extensions.ReflectionExtension.isBoolean;
-import static cop.common.extensions.ReflectionExtension.isInteger;
-import static cop.common.extensions.ReflectionExtension.isLocalizable;
-import static cop.common.extensions.ReflectionExtension.isNumeric;
+import static cop.extensions.ReflectionExt.getType;
+import static cop.extensions.ReflectionExt.isBoolean;
+import static cop.extensions.ReflectionExt.isInteger;
+import static cop.i18.LocalizationExt.isLocalizable;
+import static cop.extensions.ReflectionExt.isNumeric;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_TYPE;
 import static cop.swt.widgets.annotations.services.CurrencyService.isCurrency;
 import static cop.swt.widgets.annotations.services.PercentService.isPercent;

@@ -7,8 +7,8 @@
  */
 package cop.swt.widgets.viewers.table.columns.settings;
 
-import static cop.common.extensions.CompareExtension.compareNumbers;
-import static cop.common.extensions.ReflectionExtension.getNumberValue;
+import static cop.extensions.CompareExt.compareNumbers;
+import static cop.extensions.ReflectionExt.getNumberValue;
 
 import java.lang.reflect.AccessibleObject;
 import java.text.NumberFormat;
