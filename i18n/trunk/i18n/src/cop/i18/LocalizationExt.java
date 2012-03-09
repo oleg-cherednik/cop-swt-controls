@@ -7,8 +7,11 @@
  */
 package cop.i18;
 
+import java.lang.reflect.AccessibleObject;
 import java.util.Locale;
 import java.util.Map;
+
+import cop.extensions.ReflectionExt;
 
 /**
  * @author Oleg Cherednik
@@ -55,6 +58,20 @@ public final class LocalizationExt {
 			res[i] = objs[i].i18n(locale);
 
 		return res;
+	}
+
+	public static boolean isLocalizable(AccessibleObject obj) {
+		Class<?> type = ReflectionExt.getType(obj);
+
+		if (type == null)
+			return false;
+
+		try {
+			type.asSubclass(Localizable.class);
+			return true;
+		} catch (Exception e) {}
+
+		return false;
 	}
 
 	private static boolean isEmpty(Map<?, ?> map) {

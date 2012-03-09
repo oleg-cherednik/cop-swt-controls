@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import cop.extensions.StringExt;
 import cop.i18.exceptions.KeyDuplicationException;
 
 /**
@@ -59,7 +60,7 @@ public final class LocaleStore {
 	}
 
 	public String i18n(Object obj, String key, Locale locale) {
-		if (obj == null || isEmpty(key) || locale == null)
+		if (obj == null || StringExt.isEmpty(key) || locale == null)
 			return "unknown";
 
 		try {
@@ -119,9 +120,5 @@ public final class LocaleStore {
 
 	public static String _i18n(Object obj, String key, Locale locale) {
 		return MAP.get(obj.getClass().getClassLoader().hashCode()).getStore().i18n(obj, key, locale);
-	}
-
-	private static boolean isEmpty(String str) {
-		return str == null || str.trim().isEmpty();
 	}
 }
