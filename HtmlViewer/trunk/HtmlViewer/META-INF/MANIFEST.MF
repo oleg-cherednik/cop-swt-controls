@@ -5,7 +5,8 @@ Bundle-SymbolicName: cop.swt.htmlviewer
 Bundle-Version: 1.1
 Bundle-Activator: plugin.cop.swt.widgets.viewers.html.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui;bundle-version="3.6.1"
+ org.eclipse.ui;bundle-version="3.6.1",
+ cop.extensions;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: cop.swt.widgets.viewers.html,

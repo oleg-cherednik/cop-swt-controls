@@ -13,6 +13,8 @@ import static cop.swt.widgets.viewers.html.HtmlExtension.openTag;
 import java.util.HashMap;
 import java.util.Map;
 
+import cop.extensions.StringExt;
+
 /**
  * @author Oleg Cherednik
  * @since 05.01.2011
@@ -38,7 +40,7 @@ public final class HtmlTag {
 	private final String name;
 
 	public static HtmlTag create(String name) {
-		if (HtmlContext.isEmpty(name))
+		if (StringExt.isEmpty(name))
 			return null;
 
 		HtmlTag tag = map.get(name);
@@ -54,7 +56,7 @@ public final class HtmlTag {
 	}
 
 	public StringBuilder append(StringBuilder buf, String content, HtmlContext context) {
-		if (buf != null && !HtmlContext.isEmpty(content))
+		if (buf != null && !StringExt.isEmpty(content))
 			open(buf, context).append(content).append(close());
 
 		return buf;

@@ -16,6 +16,7 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 
+import cop.extensions.BitExt;
 import cop.swt.widgets.viewers.html.document.HtmlDocument;
 
 /**
@@ -36,7 +37,7 @@ public abstract class HtmlViewer<T> {
 	}
 
 	protected static int checkStyle(int style) {
-		return clearBits(style, H_SCROLL | V_SCROLL);
+		return BitExt.clearBits(style, H_SCROLL | V_SCROLL);
 	}
 
 	public void clear() {
@@ -100,19 +101,4 @@ public abstract class HtmlViewer<T> {
 	public abstract void print(T html);
 
 	public abstract void println(T html);
-
-	/*
-	 * static
-	 */
-
-	/**
-	 * Clear selected bit(s) in giving value
-	 * 
-	 * @param value value
-	 * @param bit bit or bit set to clear in the value
-	 * @return <code>value</code> with cleared selected bits
-	 */
-	private static int clearBits(int value, int bits) {
-		return value & ~bits;
-	}
 }

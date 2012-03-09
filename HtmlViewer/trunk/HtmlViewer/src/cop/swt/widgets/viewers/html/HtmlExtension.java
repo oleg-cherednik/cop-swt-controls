@@ -13,6 +13,7 @@ import static cop.swt.widgets.viewers.html.HtmlTag.HTML_TAG_OPEN;
 
 import java.io.IOException;
 
+import cop.extensions.StringExt;
 import cop.swt.widgets.viewers.html.enums.HtmlColorEnum;
 import cop.swt.widgets.viewers.html.interfaces.IAppendable;
 
@@ -41,7 +42,7 @@ public final class HtmlExtension {
 	}
 
 	public static StringBuilder openTag(StringBuilder buf, String tag, HtmlContext context) {
-		if (buf == null || HtmlContext.isEmpty(tag))
+		if (buf == null || StringExt.isEmpty(tag))
 			return buf;
 
 		buf.append(HTML_TAG_OPEN);

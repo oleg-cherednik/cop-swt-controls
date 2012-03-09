@@ -66,8 +66,6 @@ public class CssSet implements IAppendable {
 
 	@Override
 	public String toString() {
-		String str = printBuffer(this);
-		System.out.println(str);
-		return str;
+		return printBuffer(this);
 	}
 }

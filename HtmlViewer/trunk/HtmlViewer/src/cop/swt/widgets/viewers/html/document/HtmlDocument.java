@@ -7,7 +7,7 @@
  */
 package cop.swt.widgets.viewers.html.document;
 
-import cop.swt.widgets.viewers.html.HtmlContext;
+import cop.extensions.StringExt;
 import cop.swt.widgets.viewers.html.HtmlTag;
 import cop.swt.widgets.viewers.html.css.CssStyleSet;
 
@@ -44,7 +44,7 @@ public class HtmlDocument {
 	}
 
 	private static String createHeadPart(String title, CssStyleSet styles) {
-		if (HtmlContext.isEmpty(title) && (styles == null || styles.isEmpty()))
+		if (StringExt.isEmpty(title) && (styles == null || styles.isEmpty()))
 			return null;
 
 		StringBuilder buf = new StringBuilder(255);
@@ -58,7 +58,7 @@ public class HtmlDocument {
 	}
 
 	private static void addTitlePart(StringBuilder buf, String title) {
-		if (!HtmlContext.isEmpty(title))
+		if (!StringExt.isEmpty(title))
 			buf.append("\n").append(HTML_PART_TITLE.open()).append(title).append(HTML_PART_TITLE.close());
 	}
 
@@ -88,7 +88,7 @@ public class HtmlDocument {
 	}
 
 	protected void addHeadPart(StringBuilder buf) {
-		if (!HtmlContext.isEmpty(partHead))
+		if (!StringExt.isEmpty(partHead))
 			buf.append("\n").append(partHead);
 	}
 
