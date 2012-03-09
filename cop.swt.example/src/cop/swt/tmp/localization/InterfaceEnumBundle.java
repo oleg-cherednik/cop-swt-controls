@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import cop.localization.interfaces.Localizable;
-import cop.swt.extensions.LocalizationExtension;
+import cop.i18.Localizable;
+import cop.i18.LocalizationExt;
 
 public enum InterfaceEnumBundle implements Localizable
 {
@@ -24,7 +24,7 @@ public enum InterfaceEnumBundle implements Localizable
 		map.put(Locale.US, en_US);
 		map.put(Locale.UK, en_UK);
 		map.put(Locale.GERMANY, de_DE);
-		map.put(LocalizationExtension.RU, ru_RU);
+		map.put(LocalizationExt.RU, ru_RU);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public enum InterfaceEnumBundle implements Localizable
 	@Override
 	public String i18n(Locale locale)
 	{
-		return LocalizationExtension.i18n(map, locale, name());
+		return LocalizationExt.i18n(map, locale, name());
 	}
 
 }

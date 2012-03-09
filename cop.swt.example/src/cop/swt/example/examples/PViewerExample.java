@@ -1,7 +1,6 @@
 package cop.swt.example.examples;
 
-import static cop.common.extensions.StringExtension.isEmpty;
-import static cop.common.extensions.StringExtension.isNotEmpty;
+import static cop.extensions.StringExt.isEmpty;
 import static cop.swt.extensions.ColorExtension.BLACK;
 import static cop.swt.extensions.ColorExtension.BLUE;
 import static cop.swt.extensions.ColorExtension.CYAN;
@@ -27,7 +26,6 @@ import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_COPY;
 import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_DELETE;
 import static cop.swt.widgets.menu.enums.MenuItemEnum.MI_PROPERTIES;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +35,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -60,14 +57,13 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.internal.util.BundleUtility;
-import org.osgi.framework.Bundle;
 
 import plugin.cop.swt.Activator;
-import cop.common.extensions.NumericExtension;
-import cop.localization.interfaces.LocaleSupport;
+import cop.extensions.NumericExt;
+import cop.extensions.StringExt;
+import cop.i18.LocaleSupport;
+import cop.i18.LocalizationExt;
 import cop.swt.extensions.ColorExtension;
-import cop.swt.extensions.LocalizationExtension;
 import cop.swt.images.ImageProvider;
 import cop.swt.tmp.ActionTO;
 import cop.swt.tmp.MarketTO;
@@ -81,7 +77,6 @@ import cop.swt.widgets.viewers.model.enums.ModificationTypeEnum;
 import cop.swt.widgets.viewers.model.interfaces.ViewerModel;
 import cop.swt.widgets.viewers.table.PTableViewer;
 import cop.swt.widgets.viewers.table.TableViewerConfig;
-import cop.swt.widgets.viewers.table.columns.ColumnContext;
 import cop.swt.widgets.viewers.table.columns.settings.BooleanColumn;
 import cop.swt.widgets.viewers.table.columns.settings.ColumnSettings;
 import cop.swt.widgets.viewers.table.interfaces.TableColumnListener;
@@ -104,7 +99,7 @@ public class PViewerExample implements IExample, LocaleSupport
 	private PListViewer<ActionTO> list;
 	private Text searchText;
 	private Combo localesCombo;
-	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RU };
+	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExt.RU };
 	private ListModel<ActionTO> modelA, modelB;
 	private List<ActionTO> actions;
 	private Button removeItemButton;
@@ -132,12 +127,12 @@ public class PViewerExample implements IExample, LocaleSupport
 
 	private static int getNumber()
 	{
-		return (int)NumericExtension.getValueInNewRange(Math.random(), 0, 1, 0, 100);
+		return (int)NumericExt.getValueInNewRange(Math.random(), 0, 1, 0, 100);
 	}
 
 	private static double getPrice()
 	{
-		return NumericExtension.getValueInNewRange(Math.random(), 0, 1, 0, 10000);
+		return NumericExt.getValueInNewRange(Math.random(), 0, 1, 0, 10000);
 	}
 
 	private static double getPercent()
@@ -150,7 +145,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		if(Math.random() < 0.2)
 			return null;
 
-		return NumericExtension.getValueInNewRange(Math.random(), 0, 1, 0, 100000);
+		return NumericExt.getValueInNewRange(Math.random(), 0, 1, 0, 100000);
 	}
 
 	private List<LocaleSupport> localeObjects = new ArrayList<LocaleSupport>();
@@ -402,7 +397,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		localesCombo = new Combo(group, SWT.DROP_DOWN | SWT.READ_ONLY);
 
 		for(Locale locale : locales)
-			if(isNotEmpty(locale.getCountry()))
+			if(!StringExt.isEmpty(locale.getCountry()))
 				localesCombo.add(locale.getDisplayName());
 
 		localesCombo.addSelectionListener(onChangeLocale);
@@ -861,7 +856,7 @@ public class PViewerExample implements IExample, LocaleSupport
 		}
 	};
 
-	private Composite createComposite(Composite parent)
+	private static Composite createComposite(Composite parent)
 	{
 		Composite composite = new Composite(parent, SWT.NONE);
 
@@ -944,36 +939,37 @@ class ImageProviderImpl implements ImageProvider
 			return images.get(key);
 
 		String path = paths.getProperty(key);
-		Image image = isNotEmpty(path) ? Activator.getImageDescriptor(path).createImage() : null;
+		Image image = isEmpty(path) ? null : Activator.getImageDescriptor(path).createImage();
 		images.put(key, image);
 
 		return image;
 	}
 
-	@SuppressWarnings("restriction")
 	private static URL getURL(String imageFilePath)
 	{
-		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
-
-		if(!BundleUtility.isReady(bundle))
-		{
-			return null;
-		}
-
-		// look for the image (this will check both the plugin and fragment folders
-		URL fullPathString = BundleUtility.find(bundle, imageFilePath);
-		if(fullPathString == null)
-		{
-			try
-			{
-				fullPathString = new URL(imageFilePath);
-			}
-			catch(MalformedURLException e)
-			{
-				return null;
-			}
-		}
-
-		return fullPathString;
+//		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
+//
+//		if(!BundleUtility.isReady(bundle))
+//		{
+//			return null;
+//		}
+//
+//		// look for the image (this will check both the plugin and fragment folders
+//		URL fullPathString = BundleUtility.find(bundle, imageFilePath);
+//		if(fullPathString == null)
+//		{
+//			try
+//			{
+//				fullPathString = new URL(imageFilePath);
+//			}
+//			catch(MalformedURLException e)
+//			{
+//				return null;
+//			}
+//		}
+//
+//		return fullPathString;
+		
+		return null;
 	}
 }

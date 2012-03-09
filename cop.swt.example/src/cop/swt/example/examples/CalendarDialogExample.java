@@ -1,7 +1,5 @@
 package cop.swt.example.examples;
 
-import static cop.common.extensions.StringExtension.isNotEmpty;
-
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -21,7 +19,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import cop.swt.extensions.LocalizationExtension;
+import cop.extensions.StringExt;
+import cop.i18.LocalizationExt;
 import cop.swt.extensions.ColorExtension;
 import cop.swt.widgets.calendar.CalendarViewer;
 import cop.swt.widgets.calendar.viewers.templates.DefaultCalendarConfig;
@@ -31,7 +30,7 @@ public class CalendarDialogExample implements IExample
 {
 	private CalendarViewer swtcal;
 	private Combo localesCombo;
-	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExtension.RU,
+	private Locale[] locales = new Locale[] { Locale.US, Locale.UK, Locale.GERMANY, LocalizationExt.RU,
 	                new Locale("en", "RU") };
 
 	private Button button;
@@ -47,7 +46,7 @@ public class CalendarDialogExample implements IExample
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 
 		createLocaleCombo(parent, toolkit);
-		swtcal = new CalendarViewer(parent, SWT.BORDER, LocalizationExtension.RU, new DefaultCalendarConfig());
+		swtcal = new CalendarViewer(parent, SWT.BORDER, LocalizationExt.RU, new DefaultCalendarConfig());
 
 		//swtcal.addModifyListener(onDoubleSelectNewDay);
 
@@ -78,13 +77,13 @@ public class CalendarDialogExample implements IExample
 		localesCombo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 
 		for(Locale locale : locales)
-			if(isNotEmpty(locale.getCountry()))
+			if(!StringExt.isEmpty(locale.getCountry()))
 				localesCombo.add(locale.getDisplayName());
 
 		localesCombo.addSelectionListener(onChangeLocale);
 	}
 
-	private Composite createComposite(Composite parent)
+	private static Composite createComposite(Composite parent)
 	{
 		Composite composite = new Composite(parent, SWT.NONE);
 
