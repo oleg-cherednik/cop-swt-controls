@@ -10,7 +10,7 @@ package cop.swt.widgets.viewers.table.columns.settings;
 import static cop.extensions.ReflectionExt.getType;
 import static cop.extensions.ReflectionExt.isBoolean;
 import static cop.extensions.ReflectionExt.isInteger;
-import static cop.i18.LocalizationExt.isLocalizable;
+import static cop.i18n.LocalizationExt.isLocalizable;
 import static cop.extensions.ReflectionExt.isNumeric;
 import static cop.swt.widgets.annotations.services.ColumnService.DEF_TYPE;
 import static cop.swt.widgets.annotations.services.CurrencyService.isCurrency;

@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
-import cop.i18.LocaleSupport;
+import cop.i18n.LocaleSupport;
 import cop.swt.widgets.annotations.contents.ColumnContent;
 import cop.swt.widgets.viewers.table.PTableViewer;
 

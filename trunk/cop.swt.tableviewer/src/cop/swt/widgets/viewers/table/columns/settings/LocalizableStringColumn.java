@@ -8,12 +8,12 @@
 package cop.swt.widgets.viewers.table.columns.settings;
 
 import static cop.extensions.CompareExt.compareStrings;
-import static cop.i18.LocalizationExt.isLocalizable;
+import static cop.i18n.LocalizationExt.isLocalizable;
 
 import java.lang.reflect.AccessibleObject;
 
-import cop.i18.EditLocalizable;
-import cop.i18.Localizable;
+import cop.i18n.EditLocalizable;
+import cop.i18n.Localizable;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**
