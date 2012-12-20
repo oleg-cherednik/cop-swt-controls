@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import cop.i18.annotations.i18nService;
+import cop.i18n.annotations.i18nService;
 import cop.swt.widgets.viewers.table.columns.ColumnContext;
 
 /**

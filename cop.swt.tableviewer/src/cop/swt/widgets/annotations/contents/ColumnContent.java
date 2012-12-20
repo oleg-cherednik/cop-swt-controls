@@ -26,7 +26,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.widgets.TableColumn;
 
-import cop.i18.LocaleSupport;
+import cop.i18n.LocaleSupport;
 import cop.swt.widgets.annotations.Column;
 
 public class ColumnContent implements Comparable<ColumnContent>, LocaleSupport

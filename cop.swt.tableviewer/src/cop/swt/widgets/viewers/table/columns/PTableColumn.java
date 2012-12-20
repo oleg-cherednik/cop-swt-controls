@@ -28,9 +28,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import cop.extensions.StringExt;
-import cop.i18.LocaleSupport;
-import cop.i18.annotations.i18nService;
-import cop.i18.exceptions.i18nDeclarationException;
+import cop.i18n.LocaleSupport;
+import cop.i18n.annotations.i18nService;
+import cop.i18n.exceptions.i18nDeclarationException;
 import cop.swt.widgets.enums.SortDirectionEnum;
 import cop.swt.widgets.interfaces.Editable;
 import cop.swt.widgets.interfaces.Refreshable;
