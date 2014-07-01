@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Extensions
-Bundle-SymbolicName: cop.extensions
-Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: cop.extensions;singleton:=true
+Bundle-Version: 1.0
 Bundle-Activator: plugin.cop.extensions.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
